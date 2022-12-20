@@ -1,4 +1,7 @@
 import os
+
+import numpy as np
+
 import P as P
 from matplotlib.pyplot import imread
 
@@ -34,7 +37,7 @@ def load_pics(ch):
     # UNIQUE PICTURES FOR A CERTAIN OBJECT (SHIP is the parent structure)
     PATH = './images/processed/'
     _, folder_names0, _ = os.walk(PATH).__next__()
-    for folder_name0 in folder_names0:  # ships
+    for folder_name0 in folder_names0:  # shs
         if folder_name0 not in ch['sh']:
             continue
 
@@ -44,18 +47,28 @@ def load_pics(ch):
         # pics['ships'][folder_name]['smokrs'] = {}
         # pics['ships'][folder_name]['expls'] = {}
         # pics['ships'][folder_name]['spls'] = {}
-        folder_names1 = ['fs']
+        folder_names1 = ['fs', 'srs']
+        pics['sh'][folder_name0]['fs'] = {}
+        pics['sh'][folder_name0]['srs'] = {}
         for folder_name1 in folder_names1:
-            # _, _, file_names = os.walk(PATH + '/' + folder_name).__next__()
             _, _, file_names = os.walk(PATH + '/' + folder_name0 + '/' + folder_name1).__next__()
-            pics['sh'][folder_name0] = {folder_name1: {}}
             for file_name in file_names:
-                adf = '/home/johan/PycharmProjects/N4/images/processed/0/f/0_f_1.png'
-                aa = PATH + folder_name0 + '/' + folder_name1 + '/' + file_name
-                # pics['sh'][folder_name1][file_name[:-4]] = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
-                pics['sh'][folder_name0][folder_name1][file_name[:-4]] = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
+                if folder_name1 == 'fs':
+                    pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
+                    pic = np.flipud(pic)
+                    for i in range(P.NUM_FS):
+                        pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
 
-                # elif len(name_split) > 1 and name_split[1] == 's' and P.A_SAILS:
+                elif folder_name1 == 'srs':
+                    pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
+                    pic = np.flipud(pic)
+                    for i in range(P.NUM_SRS):
+                        pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
+                else:
+                    pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
+                    pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
+
+                    # elif len(name_split) > 1 and name_split[1] == 's' and P.A_SAILS:
                 #     # aa = imread(PATH + '/' + folder_name + '/' + file_name)
                 #     pics['sh'][folder_name]['sails'][file_name[:-4]] = imread(PATH + '/' + folder_name + '/' + file_name)
                 # elif len(name_split) > 1 and len(name_split) < 4 and name_split[1] == 'a' and P.A_SMOKAS:

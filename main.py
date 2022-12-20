@@ -40,9 +40,8 @@ shs = g.gen_shs(ax0, im_ax)
 if P.A_FIRE:
     shs = g.gen_fs(ax0, im_ax, shs)
 
-# if P.A_SR:
-#     shs = g.gen_sr(ax0, im_ax, shs)
-
+if P.A_SR:
+    shs = g.gen_srs(ax0, im_ax, shs)
 
 
 '''VIEWER ==========================================='''
@@ -62,11 +61,11 @@ def animate(i):
             if i in sh.sh_gi.fs_gi['init_frames']:
                 f = sh.find_free_obj(type='f')
                 if f != None and f.id not in f.gi['fs_hardcoded']:
+                    prints += "  adding f"
                     exceeds_frame_max, how_many = f.check_frame_max(i, f.gi['frames_tot'])
                     if exceeds_frame_max == True:
-                        # prints += "  smoka exceeds max"
                         f.frames_tot = how_many
-                        # continue
+
                     f.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
                     sh.f_latest_drawn_id = f.id
                     f.init_child_obj(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
@@ -79,8 +78,7 @@ def animate(i):
                             sp.init_child_obj(i, sp.f.gi['frames_tot'], dynamic=False)
 
                 else:
-                    # pass
-                    prints += "  no free smoka"
+                    prints += "  no free f"
 
             for f_id, f in sh.fs.items():
 
@@ -95,6 +93,7 @@ def animate(i):
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, f, ax0, im_ax)
                         im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])
+                        # im_ax[f.index_im_ax].set_alpha(0.2)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
                         # continue  # CANT continue because sp also has to be removed
@@ -122,7 +121,40 @@ def animate(i):
                                 decrement_all_index_im_ax(index_removed, shs)
                                 continue
 
+        if P.A_SR:
+            if i in sh.sh_gi.srs_gi['init_frames']:
+                sr = sh.find_free_obj(type='sr')
+                if sr != None and sr.id not in sr.gi['sr_hardcoded']:
+                    prints += "  adding sr"
+                    exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
+                    if exceeds_frame_max == True:
+                        # prints += "  smoka exceeds max"
+                        sr.frames_tot = how_many
+                        # continue
+                    sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
+                    sh.sr_latest_drawn_id = sr.id
+                    sr.init_child_obj(i, sr.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    # f.gen_dyn_extent_alpha()
 
+                else:
+                    prints += "  no free sr"
+
+        for sr_id, sr in sh.srs.items():
+
+            if sr.drawn != 0:  # the 4 from above is needed only the very first iteration it becomes visible
+                sr.set_clock(i)
+
+                drawBool, index_removed = sr.ani_update_step(ax0, im_ax)
+                if drawBool == 0:  # dont draw
+                    continue
+                elif drawBool == 1:
+                    # warp_affine_and_color(i, ax0, im_ax, f, ch)  # parent obj required for sail
+                    # print(im_ax[f.index_im_ax].get_alpha())
+                    mpl_affine(i, sr, ax0, im_ax)
+                    im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
+                    # im_ax[sr.index_im_ax].set_alpha(1)
+                elif drawBool == 2:  # remove
+                    decrement_all_index_im_ax(index_removed, shs)
 
         print(prints)
                     # im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])

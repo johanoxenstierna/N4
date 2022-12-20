@@ -53,11 +53,17 @@ def warp_affine_and_color(ii, ax, im_ax, g_obj, ch, parent_obj=None):
 def mpl_affine(ii, g_obj, ax0, im_ax):
 
 	""""""
-
-	M = mtransforms.Affine2D().\
-			scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]).\
-			rotate(g_obj.rotation[g_obj.clock]).\
-			translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
+	if g_obj.id[2] == 'f':  # legacy
+		M = mtransforms.Affine2D().\
+				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]).\
+				rotate(g_obj.rotation[g_obj.clock]).\
+				translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
+	else:
+		M = mtransforms.Affine2D(). \
+				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+				translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
+	# scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+	# translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
 
 	g_obj.ax1.set_transform(M)
 
@@ -87,6 +93,10 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 						sp.index_im_ax -= 1
 
 
+		for sr in sh.srs.values():
+			if sr.index_im_ax != None:
+				if sr.index_im_ax > index_removed:
+					sr.index_im_ax -= 1
 
 		# for smokr in sh.smokrs.values():
 		# 	if smokr.index_im_ax != None:

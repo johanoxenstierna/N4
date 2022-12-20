@@ -5,6 +5,7 @@ from src.init_infos import init_infos
 import P as P
 from src.layers.sh import Sh
 from src.layers.f import F
+from src.layers.sr import Sr
 from src.layers.sp import Sp
 
 
@@ -53,22 +54,28 @@ class GenLayers:
     def gen_fs(_s, ax, im_ax, shs):
 
         """Frs"""
-
         for sh_id, sh in shs.items():
-            for type_key in _s.pics['sh'][sh_id]:
-                type_pics = _s.pics['sh'][sh_id][type_key]
-                for pic_key, pic in type_pics.items():
-                    f = F(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                    for id_int in range(1):
-                        sp = Sp(f, id_int)
-                        f.sps[sp.id] = sp
+            fs_pics = _s.pics['sh'][sh_id]['fs']
+            for pic_key, pic in fs_pics.items():
+                f = F(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                for id_int in range(50):
+                    sp = Sp(f, id_int)
+                    f.sps[sp.id] = sp
 
-                    sh.fs[pic_key] = f
+                sh.fs[pic_key] = f
 
         return shs
 
-    def gen_sas(_s, ax, im_ax, shs):
-        pass
+    def gen_srs(_s, ax, im_ax, shs):
+        """Srs"""
+        for sh_id, sh in shs.items():
+            sr_pics = _s.pics['sh'][sh_id]['srs']
+            for pic_key, pic in sr_pics.items():
+                sr = Sr(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+
+                sh.srs[pic_key] = sr
+
+        return shs
 
     def gen_sails(_s, ax, im_ax, ships):
         """ax im_ax stuff not only in animate()"""

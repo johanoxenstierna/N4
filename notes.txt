@@ -1,8 +1,9 @@
 
 t:
 13
+10:00
 
-micro_breaks=2
+micro_breaks=0
 
 log:
 3 - migrate from N2

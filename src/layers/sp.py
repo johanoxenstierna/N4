@@ -34,7 +34,7 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
                                     frames_tot=frames_tot_and_d)
 
-        _s.xy = shift_projectile(_s.xy_t, origin=(_s.gi['origin'][0] + _s.gi['offset_x'], _s.gi['origin'][1] + _s.gi['offset_y']), frames_to_discard=frames_to_discard)
+        _s.xy = shift_projectile(_s.xy_t, origin=(_s.gi['ld_ss'][0][0] + _s.gi['offset_x'], _s.gi['ld_ss'][0][1] + _s.gi['offset_y']), frames_to_discard=frames_to_discard)
 
         _s.alphas = np.linspace(0.5, 0.0, num=_s.f.gi['frames_tot'])
 

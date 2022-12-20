@@ -26,11 +26,8 @@ PR_MOVE_BLACK = 0  # what to pre-compute (doesn't affect rendering time that muc
 PR_ZIGZAG = 0
 
 GLOBAL_ALPHA_DARKENING = [[]]  # TODO: THIS USED BY SMOKRS ETC.
-NUM_WAVES = 8  # NUM per pic!!!
-NUM_SMOKAS = 7  # CHECK THAT THESE ARE INITED SEQUENTIALLY (to avoid same smoka repeating)
-NUM_SMOKRS = 5
-NUM_EXPLS = 1  # capability for >1 there but might not be needed
-NUM_SPLS = 3  # capability for >1 there but might not be needed
+NUM_SRS = 40
+NUM_FS = 10
 
 WAVES_STEPS_P_CYCLE = 90  #
 SAIL_STEPS_P_CYCLE = 360  # 120 # (6 sec)

@@ -29,11 +29,11 @@ theta = np.pi/2
 t_flight = 2*u*np.sin(theta)/g
 t = np.linspace(0, t_flight, 100)
 x = u*np.cos(theta)*t
-x = x[20:]
-y = u*np.sin(theta)*t - 0.5*g*t**2
-y_shift = y[20]
-y = y[20:]
-y -= y_shift
+# x = x[20:]
+y = u*np.sin(theta)*2*t - 0.5*g*t**2
+# y_shift = y[20]
+# y = y[20:]
+# y -= y_shift
 
 fig, ax = plt.subplots()
 ax.imshow(md, zorder=1, alpha=1, origin='upper')

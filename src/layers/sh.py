@@ -16,6 +16,7 @@ class Sh(AbstractLayer):
         _s.sh_gi = sh_gi  # IMPORTANT replaces _s.gi = ship_info
         _s.pic = pic  # NOT SCALED
         _s.fs = {}
+        _s.srs = {}
         _s.f_latest_drawn_id = "99_99_99_99"
         _s.zorder = sh_gi.zorder
 
@@ -101,8 +102,8 @@ class Sh(AbstractLayer):
         _di = None
         if type == 'f':
             _di = _s.fs
-        elif type == 'smokr':
-            _di = _s.smokrs
+        elif type == 'sr':
+            _di = _s.srs
         elif type == 'smoka':
             _di = _s.smokas
         elif type == 'spl':

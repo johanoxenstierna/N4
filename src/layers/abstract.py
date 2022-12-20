@@ -22,7 +22,7 @@ class AbstractLayer:
         _s.ab_cur = [1.0, 1.0]  # this is the product of ab's through time (needed for static darkening e.g. smokes)
         # OBS THIS WONT WORK SINCE SMOKRS ARE SHARED BETWEEN SHIPS. SO IF SMOKR IS CHANGED IN ONE SHIP THEYRE SCREWED FOR ALL TIME
         # SOLUTION: USE SMOKAS
-        _s.frames_num = None  # number of frames to animate for
+        # _s.frames_num = None  # number of frames to animate for
         _s.frame_ss = None
         # _s.frame_ss_start_offset = None
         _s.index_im_ax = None
@@ -65,7 +65,7 @@ class AbstractLayer:
             _s.index_im_ax = len(im_ax)
             # im_ax[_s.ship_info['id']] = ax.imshow(_s.pic, zorder=1, alpha=1)
             if sp == False:
-                _s.pic = np.flipud(_s.pic)  # this ONLY flips the img_t
+                # _s.pic = np.flipud(_s.pic)  # this ONLY flips the img_t
                 im_ax.append(ax0.imshow(_s.pic, zorder=_s.zorder, alpha=1, origin='lower'))  #, extent=[0, 14, 0, 19]))
                 # aaa = ax0.imshow(_s.pic, zorder=_s.zorder, alpha=1, origin='upper', extent=[0, 14, 0, 19])
                 # trans_data = ax0.transData

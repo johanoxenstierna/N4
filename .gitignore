@@ -1,6 +1,10 @@
 ./vids/*
 vids/*
 images/not_used*
+
+# remove once established
+images/processed
+
 .idea
 .idea/*
 src/__pycache__*
