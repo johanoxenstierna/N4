@@ -4,7 +4,7 @@ import random
 from copy import deepcopy
 from src.gen_extent_triangles import *
 from src.gen_trig_fun import gen_scale_lds
-
+import matplotlib.transforms as mtransforms
 import P
 
 
@@ -47,7 +47,7 @@ class AbstractLayer:
         else:  # NEEDED BCS OTHERWISE _s.drawn just stays on 3
             _s.drawn = 0
 
-    def ani_update_step(_s, ax, im_ax, sp=False):
+    def ani_update_step(_s, ax0, im_ax, sp=False):
         """
         Based on the drawn condition, draw, remove
         If it's drawn, return True (used in animation loop)
@@ -61,14 +61,23 @@ class AbstractLayer:
 
         if _s.drawn == 0:  # not drawn,
             return 0, None
-        elif _s.drawn == 1: # start and continue
+        elif _s.drawn == 1: # start
             _s.index_im_ax = len(im_ax)
             # im_ax[_s.ship_info['id']] = ax.imshow(_s.pic, zorder=1, alpha=1)
             if sp == False:
-                im_ax.append(ax.imshow(_s.pic, zorder=_s.zorder, alpha=1))
+                _s.pic = np.flipud(_s.pic)  # this ONLY flips the img_t
+                im_ax.append(ax0.imshow(_s.pic, zorder=_s.zorder, alpha=1, origin='lower'))  #, extent=[0, 14, 0, 19]))
+                # aaa = ax0.imshow(_s.pic, zorder=_s.zorder, alpha=1, origin='upper', extent=[0, 14, 0, 19])
+                # trans_data = ax0.transData
+                # M = mtransforms.Affine2D().scale(random.randint(1, 5), random.randint(1, 5))
+                # M = mtransforms.Affine2D().scale(random.randint(1, 5), random.randint(1, 5))
+                # im_ax[_s.index_im_ax].set_transform(M)
+                # im_ax[-1].set_extent([100, 200, 100, 50])
             else:  # sp
-                im_ax.append(ax.plot(_s.xy[:, 0], _s.xy[:, 1], zorder=_s.zorder,
+                im_ax.append(ax0.plot(_s.xy[:, 0], _s.xy[:, 1], zorder=_s.zorder,
                                      alpha=_s.alphas[_s.clock], color=(_s.R[0], _s.G[0], _s.B[0]))[0])
+
+            _s.ax1 = im_ax[_s.index_im_ax]
             return 1, None
         elif _s.drawn == 2:  # continue drawing
             return 1, None
@@ -76,6 +85,7 @@ class AbstractLayer:
             try:
                 im_ax[_s.index_im_ax].remove()  # might save CPU-time
                 im_ax.pop(_s.index_im_ax)  # OBS OBS!!! MAKES im_ax shorter hence all items after index_im_ax now WRONG
+                _s.ax1 = None
             except:
                 raise Exception("ani_update_step CANT REMOVE AX")
             index_removed = _s.index_im_ax

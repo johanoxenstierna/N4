@@ -1,3 +1,9 @@
+"""
+Sh are needed because it might be useful to
+have different settings for different fs
+
+"""
+
 import numpy as np
 import random
 random.seed(7)  # ONLY HERE
@@ -23,16 +29,19 @@ with open('./src/chronicle.json', 'r') as f:
 Writer = animation.writers['ffmpeg']
 writer = Writer(fps=FPS, metadata=dict(artist='Me'), bitrate=1200)
 
-fig, ax = plt.subplots(figsize=(10, 6))   # pic  214 181
+fig, ax0 = plt.subplots(figsize=(10, 6))   # pic  214 181
 
 im_ax = []
 g = gen_layers.GenLayers(ch)
-g.gen_backgr(ax, im_ax)
+g.gen_backgr(ax0, im_ax)
 
-shs = g.gen_shs(ax, im_ax)
+shs = g.gen_shs(ax0, im_ax)
 
 if P.A_FIRE:
-    shs = g.gen_fs(ax, im_ax, shs)
+    shs = g.gen_fs(ax0, im_ax, shs)
+
+# if P.A_SR:
+#     shs = g.gen_sr(ax0, im_ax, shs)
 
 
 
@@ -53,62 +62,67 @@ def animate(i):
             if i in sh.sh_gi.fs_gi['init_frames']:
                 f = sh.find_free_obj(type='f')
                 if f != None and f.id not in f.gi['fs_hardcoded']:
-                    exceeds_frame_max, how_many = f.check_frame_max(i, f.NUM_FRAMES_F)
+                    exceeds_frame_max, how_many = f.check_frame_max(i, f.gi['frames_tot'])
                     if exceeds_frame_max == True:
                         # prints += "  smoka exceeds max"
-                        f.NUM_FRAMES_F = how_many
+                        f.frames_tot = how_many
                         # continue
                     f.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
                     sh.f_latest_drawn_id = f.id
-                    f.init_child_obj(i, f.NUM_FRAMES_F, dynamic=False)  # uses AbstractSSS
+                    f.init_child_obj(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
                     # f.gen_dyn_extent_alpha()
 
                     if P.A_SP:
                         for sp_key, sp in f.sps.items():
 
                             # sp.drawn = 1
-                            sp.init_child_obj(i, sp.NUM_FRAMES_F, dynamic=False)
+                            sp.init_child_obj(i, sp.f.gi['frames_tot'], dynamic=False)
 
                 else:
-                    pass
-                    # prints += "  no free smoka"
+                    # pass
+                    prints += "  no free smoka"
 
             for f_id, f in sh.fs.items():
+
                 if f.drawn != 0:  # the 4 from above is needed only the very first iteration it becomes visible
                     f.set_clock(i)
-                    drawBool, index_removed = f.ani_update_step(ax, im_ax)
-                    if drawBool == 0:
-                        continue
-                    elif drawBool == 2:
-                        decrement_all_index_im_ax(index_removed, shs)
-                        continue
 
-                    # warp_affine_and_color(i, ax, im_ax, f, ch)  # parent obj required for sail
+                    drawBool, index_removed = f.ani_update_step(ax0, im_ax)
+                    if drawBool == 0:  # dont draw
+                        continue
+                    elif drawBool == 1:
+                        # warp_affine_and_color(i, ax0, im_ax, f, ch)  # parent obj required for sail
+                        # print(im_ax[f.index_im_ax].get_alpha())
+                        mpl_affine(i, f, ax0, im_ax)
+                        im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])
+                    elif drawBool == 2:  # remove
+                        decrement_all_index_im_ax(index_removed, shs)
+                        # continue  # CANT continue because sp also has to be removed
 
                     if P.A_SP:
                         for sp_id, sp in f.sps.items():
-                        # sp = f.sps['sp_test']
                             sp.set_clock(i)
-                            drawBool, index_removed = sp.ani_update_step(ax, im_ax, sp=True)
+                            drawBool, index_removed = sp.ani_update_step(ax0, im_ax, sp=True)
                             if drawBool == 0:
                                 continue
+                            elif drawBool == 1:
+                                # try:
+                                if sp.clock < 4:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
+                                    im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
+                                else:
+                                    im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
+                                                                   sp.xy[sp.clock - 3:sp.clock, 1])
+
+                                im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
+                                im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
+                                #
+                                # except:
+                                #     adf = 6
                             elif drawBool == 2:
                                 decrement_all_index_im_ax(index_removed, shs)
                                 continue
 
-                            try:
-                                if sp.clock < 4:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
-                                    # print(1)
-                                    im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
-                                else:
-                                    # print(2)
-                                    im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock-3:sp.clock, 0], sp.xy[sp.clock-3:sp.clock, 1])
 
-                                im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
-                                im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
-
-                            except:
-                                adf = 6
 
         print(prints)
                     # im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])

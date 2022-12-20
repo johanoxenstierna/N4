@@ -19,7 +19,7 @@ def load_pics(ch):
     if P.MAP_SIZE == 's0':
         # pics['backgr_d'] = imread('./images/processed/navarino_s0d.png')  # 482, 187
         # pics['backgr_d'] = imread('./images/processed/temp.png')  # 482, 187
-        pics['backgr_d'] = imread('./images/processed/mdoom_small.png')  # 482, 187
+        pics['backgr_d'] = imread('./images/processed/mdoom3_small.png')  # 482, 187
         aadf = 6
     # else:
     #     pics['backgr'] = imread('./images/raw/backgr.png')  # 482, 187
@@ -33,38 +33,45 @@ def load_pics(ch):
 
     # UNIQUE PICTURES FOR A CERTAIN OBJECT (SHIP is the parent structure)
     PATH = './images/processed/'
-    _, folder_names, _ = os.walk(PATH).__next__()
-    for folder_name in folder_names:  # ships
-        if folder_name not in ch['sh']:
+    _, folder_names0, _ = os.walk(PATH).__next__()
+    for folder_name0 in folder_names0:  # ships
+        if folder_name0 not in ch['sh']:
             continue
 
-        pics['sh'][folder_name] = {}
+        pics['sh'][folder_name0] = {}
         # pics['ships'][folder_name]['sails'] = {}
         # pics['ships'][folder_name]['smokas'] = {}
         # pics['ships'][folder_name]['smokrs'] = {}
         # pics['ships'][folder_name]['expls'] = {}
         # pics['ships'][folder_name]['spls'] = {}
-        _, _, file_names = os.walk(PATH + '/' + folder_name).__next__()
-        for file_name in file_names:
+        folder_names1 = ['fs']
+        for folder_name1 in folder_names1:
+            # _, _, file_names = os.walk(PATH + '/' + folder_name).__next__()
+            _, _, file_names = os.walk(PATH + '/' + folder_name0 + '/' + folder_name1).__next__()
+            pics['sh'][folder_name0] = {folder_name1: {}}
+            for file_name in file_names:
+                adf = '/home/johan/PycharmProjects/N4/images/processed/0/f/0_f_1.png'
+                aa = PATH + folder_name0 + '/' + folder_name1 + '/' + file_name
+                # pics['sh'][folder_name1][file_name[:-4]] = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
+                pics['sh'][folder_name0][folder_name1][file_name[:-4]] = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
 
-            # name_split = file_name.split('_')
-            # if len(name_split) < 2:  # SHIP LOADED HERE
-            pics['sh'][folder_name][file_name[:-4]] = imread(PATH + '/' + folder_name + '/' + file_name)  # without .png
-            # elif len(name_split) > 1 and name_split[1] == 's' and P.A_SAILS:
-            #     # aa = imread(PATH + '/' + folder_name + '/' + file_name)
-            #     pics['sh'][folder_name]['sails'][file_name[:-4]] = imread(PATH + '/' + folder_name + '/' + file_name)
-            # elif len(name_split) > 1 and len(name_split) < 4 and name_split[1] == 'a' and P.A_SMOKAS:
-            #
-            #     # Only 1 copy of hardcoded smokas used
-            #     aa = ch['ships'][folder_name]['smokas_hardcoded']['ids']
-            #     if file_name[:-4] in ch['ships'][folder_name]['smokas_hardcoded']['ids']:
-            #         pics['ships'][folder_name]['smokas'][file_name[:-4]] = \
-            #             imread(PATH + '/' + folder_name + '/' + file_name)
-            #     else:  # several copies
-            #         for i in range(P.NUM_SMOKAS):
-            #             # aa = imread(PATH + '/' + folder_name + '/' + file_name)
-            #             pics['ships'][folder_name]['smokas'][file_name[:-4] + '_' + str(i)] = \
-            #                 imread(PATH + '/' + folder_name + '/' + file_name)
+                # elif len(name_split) > 1 and name_split[1] == 's' and P.A_SAILS:
+                #     # aa = imread(PATH + '/' + folder_name + '/' + file_name)
+                #     pics['sh'][folder_name]['sails'][file_name[:-4]] = imread(PATH + '/' + folder_name + '/' + file_name)
+                # elif len(name_split) > 1 and len(name_split) < 4 and name_split[1] == 'a' and P.A_SMOKAS:
+                #
+                #     # Only 1 copy of hardcoded smokas used
+                #     aa = ch['ships'][folder_name]['smokas_hardcoded']['ids']
+                #     if file_name[:-4] in ch['ships'][folder_name]['smokas_hardcoded']['ids']:
+                #         pics['ships'][folder_name]['smokas'][file_name[:-4]] = \
+                #             imread(PATH + '/' + folder_name + '/' + file_name)
+                #     else:  # several copies
+                #         for i in range(P.NUM_SMOKAS):
+                #             # aa = imread(PATH + '/' + folder_name + '/' + file_name)
+                #             pics['ships'][folder_name]['smokas'][file_name[:-4] + '_' + str(i)] = \
+                #                 imread(PATH + '/' + folder_name + '/' + file_name)
+
+            adf = 5
 
     # PATH = './images/processed/waves/'
     # _, _, file_names = os.walk(PATH).__next__()

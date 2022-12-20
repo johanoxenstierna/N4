@@ -13,6 +13,7 @@ def shift(y_sought, y):
 
 g = 9.8
 
+
 # try:
 #     u = float(input('Enter initial velocity (m/s): '))
 #     theta = float(input('Enter angle (deg): '))
@@ -20,7 +21,7 @@ g = 9.8
 #     print('Invalid input.')
 # else:
 #     theta = np.deg2rad(theta)
-md = imread('./images/processed/mdoom_small.png')  # 482, 187
+md = imread('./images/processed/mdoom3_small.png')  # 482, 187
 
 u = 20
 theta = np.pi/2
@@ -28,9 +29,12 @@ theta = np.pi/2
 t_flight = 2*u*np.sin(theta)/g
 t = np.linspace(0, t_flight, 100)
 x = u*np.cos(theta)*t
+x = x[20:]
 y = u*np.sin(theta)*t - 0.5*g*t**2
-# y = shift(0, y)
-# y += 50
+y_shift = y[20]
+y = y[20:]
+y -= y_shift
+
 fig, ax = plt.subplots()
 ax.imshow(md, zorder=1, alpha=1, origin='upper')
 # ax.invert_yaxis()

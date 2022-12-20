@@ -3,18 +3,17 @@ MAP_SIZE = 's0'  # 214, 181
 # MAP_SIZE = 'small'  # 488, 185
 # MAP_SIZE = 'big'  # 1280 720  # also check ship info (copy-paste)
 FRAMES_START = 0
-FRAMES_STOP = 1000  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
-if MAP_SIZE == 'small':
+FRAMES_STOP = None  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
+if MAP_SIZE == 's0':
     FRAMES_START = 0
-    FRAMES_STOP = 200
+    FRAMES_STOP = 500
 FRAMES_TOT = FRAMES_STOP - FRAMES_START
 
 # A (what to animate) ========
 A_AFFINE_TRANSFORM = 0  # compulsary probably at least for ships
 A_SAILS = 0
 A_SAIL_HEIGHTS_TROUGHS_TRANSFORM = 0
-A_SMOKAS = 0
-A_SMOKRS = 0
+A_SR = 1  # smokr
 A_WAVES = 0
 A_FIRE = 1  # use set extent
 A_SP = 1  # sparks

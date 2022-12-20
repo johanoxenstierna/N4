@@ -1,5 +1,6 @@
-./vids
-./images/notUsed
+./vids/*
+vids/*
+images/not_used*
 .idea
 .idea/*
 src/__pycache__*

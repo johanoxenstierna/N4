@@ -131,17 +131,20 @@ if __name__ == '__main__':
 	'''
 
 	# # # # WAVE alpha NOT EXPL! ALpha 1 in beg cuz it starts real small ============
-	X = np.arange(1, 201)
+	X = np.arange(1, 150)
 	# # # Y = _normal(X, mean=len(X) // 2, var=len(X) // 4, y_range=[0, 0.15])  # alpha
 	# Y = ([_sigmoid(x, grad_magn_inv=-len(X) / 12, x_shift=-4, y_magn=22, y_shift=0) for x in X])  # expl alpha
 	# Y = np.asarray([_sigmoid(x, grad_magn_inv=-len(X) / 10, x_shift=-2, y_magn=40, y_shift=0) for x in X])  # expl alpha
 	# Y = np.asarray([_sigmoid(x, grad_magn_inv=-len(X) / 12, x_shift=-4, y_magn=22, y_shift=0) for x in X])  # expl alpha
 	# aa = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 10, x_shift=-2, y_magn=40, y_shift=0) for x in X]))
 	# adf = 5
+
+	Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 30, x_shift=-1, y_magn=1., y_shift=0) for x in X]))  # F
 	# External: Test for sigmoid for probability
+
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=-len(X) / 10, x_shift=1, y_magn=20, y_shift=0) for x in X]))
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=len(X)/10, x_shift=5, y_magn=4, y_shift=0.05) for x in X]))
-	Y = np.asarray(([_sigmoid(x, grad_magn_inv=-2, x_shift=1, y_magn=1, y_shift=0) for x in X]))
+
 	# Y = [x/sum(Y) for x in Y]
 	# # gg = np.sum(Y)
 	# gg = 5

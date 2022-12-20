@@ -5,6 +5,7 @@ import random
 import P
 from scipy.stats import multivariate_normal
 from src.trig_functions import min_max_normalization
+import matplotlib.transforms as mtransforms
 
 def warp_affine_and_color(ii, ax, im_ax, g_obj, ch, parent_obj=None):
 	"""
@@ -41,7 +42,24 @@ def warp_affine_and_color(ii, ax, im_ax, g_obj, ch, parent_obj=None):
 	dst = cv2.warpAffine(pic_c, M, (int(g_obj.tri_ext['max_ri']), int(g_obj.tri_ext['max_do'])))
 	img = np.zeros((g_obj.mask_do, g_obj.mask_ri, 4))
 	img[img.shape[0] - dst.shape[0]:, img.shape[1] - dst.shape[1]:, :] = dst
-	im_ax.insert(g_obj.index_im_ax, ax.imshow(img, zorder=g_obj.zorder, alpha=1))
+
+	im_ax.insert(g_obj.index_im_ax, ax.imshow(img, zorder=g_obj.zorder, alpha=1, origin='upper'))
+	g_obj.ax1 = im_ax[g_obj.index_im_ax]
+
+	# M = mtransforms.Affine2D().translate(1, 1)
+	# M = mtransforms.Affine2D().scale(2, 2)
+	# im_ax[g_obj.index_im_ax].set_transform(M)
+
+def mpl_affine(ii, g_obj, ax0, im_ax):
+
+	""""""
+
+	M = mtransforms.Affine2D().\
+			scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]).\
+			rotate(g_obj.rotation[g_obj.clock]).\
+			translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
+
+	g_obj.ax1.set_transform(M)
 
 
 def decrement_all_index_im_ax(index_removed, shs, waves=None):

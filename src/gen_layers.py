@@ -8,7 +8,6 @@ from src.layers.f import F
 from src.layers.sp import Sp
 
 
-
 class GenLayers:
 
     """
@@ -28,7 +27,9 @@ class GenLayers:
         im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
         # im_ax.append(ax.imshow(_s.pics['frame'], zorder=99999))
         if P.MAP_SIZE == 's0':
+            # pass
             ax.axis([0, 254, 133, 0])
+            # ax.axis([-30, 254, 133, -30])
             # ax.axis([0, 214, 0, 181])
             # ax.axis([0, 214, 181, 0])
             # ax.axis([0, 571, 0, 500])
@@ -54,17 +55,20 @@ class GenLayers:
         """Frs"""
 
         for sh_id, sh in shs.items():
+            for type_key in _s.pics['sh'][sh_id]:
+                type_pics = _s.pics['sh'][sh_id][type_key]
+                for pic_key, pic in type_pics.items():
+                    f = F(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    for id_int in range(1):
+                        sp = Sp(f, id_int)
+                        f.sps[sp.id] = sp
 
-            for f_key, f_pic in _s.pics['sh'][sh_id].items():
-
-                f = F(id=f_key, pic=f_pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                for id_int in range(20):
-                    sp = Sp(f, id_int)
-                    f.sps[sp.id] = sp
-
-                sh.fs[f_key] = f
+                    sh.fs[pic_key] = f
 
         return shs
+
+    def gen_sas(_s, ax, im_ax, shs):
+        pass
 
     def gen_sails(_s, ax, im_ax, ships):
         """ax im_ax stuff not only in animate()"""
