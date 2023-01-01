@@ -5,7 +5,7 @@ import numpy as np
 import P as P
 from matplotlib.pyplot import imread
 
-def load_pics(ch):
+def load_pics():
     """LOADS BGR
     ch needed to see if smoka_hardcoded is used """
 
@@ -38,8 +38,6 @@ def load_pics(ch):
     PATH = './images/processed/'
     _, folder_names0, _ = os.walk(PATH).__next__()
     for folder_name0 in folder_names0:  # shs
-        if folder_name0 not in ch['sh']:
-            continue
 
         pics['sh'][folder_name0] = {}
         # pics['ships'][folder_name]['sails'] = {}
@@ -47,11 +45,16 @@ def load_pics(ch):
         # pics['ships'][folder_name]['smokrs'] = {}
         # pics['ships'][folder_name]['expls'] = {}
         # pics['ships'][folder_name]['spls'] = {}
-        folder_names1 = ['fs', 'srs']
+        folder_names1 = ['fs', 'srs', 'rs']
         pics['sh'][folder_name0]['fs'] = {}
         pics['sh'][folder_name0]['srs'] = {}
+        pics['sh'][folder_name0]['rs'] = {}
         for folder_name1 in folder_names1:
-            _, _, file_names = os.walk(PATH + '/' + folder_name0 + '/' + folder_name1).__next__()
+            try:
+                _, _, file_names = os.walk(PATH + '/' + folder_name0 + '/' + folder_name1).__next__()
+            except:
+                print(folder_name1 + " does not exist for " + folder_name0)
+                continue
             for file_name in file_names:
                 if folder_name1 == 'fs':
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
@@ -64,6 +67,12 @@ def load_pics(ch):
                     pic = np.flipud(pic)
                     for i in range(P.NUM_SRS):
                         pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
+                elif folder_name1 == 'rs':
+                    pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
+                    pic = np.flipud(pic)
+                    for i in range(P.NUM_RS):
+                        pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
+                    pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
                 else:
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
@@ -86,7 +95,10 @@ def load_pics(ch):
 
             adf = 5
 
-    # PATH = './images/processed/waves/'
+    return pics
+
+
+# PATH = './images/processed/waves/'
     # _, _, file_names = os.walk(PATH).__next__()
     # if P.A_WAVES:
     #     for file_name in file_names:
@@ -132,15 +144,3 @@ def load_pics(ch):
     #     for ship_id, ship in pics['ships'].items():
     #         for i in range(P.NUM_SMOKRS):
     #             ship['smokrs'][file_name[:-4] + '_' + str(i)] = pic
-
-    aa = 5
-    #
-    # PATH = './images/processed/xtra/'
-    # _, _, file_names = os.walk(PATH).__next__()
-    # for file_name in file_names:
-    #     pics['xtra'][file_name[:-4]] = imread(PATH + file_name)  # without .png
-
-
-    # pics['sails']['sail_3_0_20_68'] = imread('./images_mut/sails/sail_3_0_20_68.png')
-    # pics['sails']['sail_3_1_53_79'] = imread('./images_mut/sails/sail_3_1_53_79.png')
-    return pics

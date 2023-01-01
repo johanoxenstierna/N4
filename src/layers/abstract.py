@@ -116,13 +116,13 @@ class AbstractSSS:
         frame_num = _s.gi['frame_ss'][1] - _s.gi['frame_ss'][0]  # same as in gen_extent
         assert(_s.gi['frame_ss'][1] < P.FRAMES_STOP)
 
-        if _s.sh.sh_gi.extent != 'static':
+        if _s.sh.gi.extent != 'static':
             ssas = _s.sh.scale_vector[_s.sh.clock]  # scale_sh_at_start
 
-        if dynamic == True:
-            _s.gi['ld_ss'] = _s.get_ld_ss(ssas)
-            if _s.gi['scale_ss'] == "abstractSS":
-                _s.gen_scale_vector(frame_num, ssas)  # includes gen_ss (if there is ss its already in info)
+        # if dynamic == True:
+        #     _s.gi['ld_ss'] = _s.get_ld_ss(ssas)
+        #     if _s.gi['scale_ss'] == "abstractSS":
+        #         _s.gen_scale_vector(frame_num, ssas)  # includes gen_ss (if there is ss its already in info)
 
     def get_ld_ss(_s, ssas):
         """

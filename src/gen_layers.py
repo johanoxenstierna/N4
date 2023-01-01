@@ -1,5 +1,6 @@
 import os
 import json
+import numpy as np
 from src.load_pics import load_pics
 from src.init_infos import init_infos
 import P as P
@@ -7,6 +8,7 @@ from src.layers.sh import Sh
 from src.layers.f import F
 from src.layers.sr import Sr
 from src.layers.sp import Sp
+from src.layers.r import R
 
 
 class GenLayers:
@@ -18,11 +20,11 @@ class GenLayers:
     or other.
     """
 
-    def __init__(_s, ch):
-        _s.pics = load_pics(ch)
-        _s.sh_gis = init_infos(ch, PATH='./sh_info/')
+    def __init__(_s):
+        _s.pics = load_pics()
+        _s.sh_gis = init_infos()
         _s.PATH_IMAGES = './images/processed/'
-        _s.ch = ch
+        # _s.ch = ch
 
     def gen_backgr(_s, ax, im_ax):
         im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
@@ -47,33 +49,64 @@ class GenLayers:
         shs = {}
         for sh_id in P.SHS_TO_SHOW:  # number_id
             sh_gi = _s.sh_gis[sh_id]
-            shs[sh_id] = Sh(pic=None, sh_gi=sh_gi)  # No pic CURRENTLY
+            shs[sh_id] = Sh(pic=None, gi=sh_gi)  # No pic CURRENTLY
 
         return shs
 
     def gen_fs(_s, ax, im_ax, shs):
 
-        """Frs"""
+        """FS"""
         for sh_id, sh in shs.items():
-            fs_pics = _s.pics['sh'][sh_id]['fs']
-            for pic_key, pic in fs_pics.items():
-                f = F(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                for id_int in range(50):
-                    sp = Sp(f, id_int)
-                    f.sps[sp.id] = sp
+            if 'fs' in sh.gi.child_names:
+                fs_pics = _s.pics['sh'][sh_id]['fs']
+                sp_id_int = 0  # since there may be multiple f
+                for pic_key, pic in fs_pics.items():
+                    f = F(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
 
-                sh.fs[pic_key] = f
+                    '''sps always generated, but they will not be animated
+                    if A_SPS set to 0'''
+                    # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
+                    num_sp_f = P.NUM_SPS_F
+                    for _ in range(num_sp_f):
+                        sp_id_int += 1
+                        sp = Sp(sh, sp_id_int)
+                        sh.sps[sp.id] = sp
+
+                    sh.fs[pic_key] = f
+
+        return shs
+
+    def gen_sps(_s, ax, im_ax, shs):
+        """OBS children of fs NOT GENERATED HERE"""
+        for sh_id, sh in shs.items():
+            if 'sps' in sh.gi.child_names:
+                # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
+                num_sps = P.NUM_SPS
+                for id_int in range(num_sps):
+                    sp = Sp(sh, id_int)
+                    sh.sps[sp.id] = sp
 
         return shs
 
     def gen_srs(_s, ax, im_ax, shs):
         """Srs"""
         for sh_id, sh in shs.items():
-            sr_pics = _s.pics['sh'][sh_id]['srs']
-            for pic_key, pic in sr_pics.items():
-                sr = Sr(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+            if 'srs' in sh.gi.child_names:
+                sr_pics = _s.pics['sh'][sh_id]['srs']
+                for pic_key, pic in sr_pics.items():
+                    sr = Sr(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    sh.srs[pic_key] = sr
+        return shs
 
-                sh.srs[pic_key] = sr
+    def gen_rs(_s, ax, im_ax, shs):
+        """Srs"""
+        for sh_id, sh in shs.items():
+            if 'rs' in sh.gi.child_names:
+                rs_pics = _s.pics['sh'][sh_id]['rs']
+                for pic_key, pic in rs_pics.items():
+                    r = R(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+
+                    sh.rs[pic_key] = r
 
         return shs
 

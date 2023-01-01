@@ -1,5 +1,6 @@
 import numpy as np
 from copy import deepcopy
+import math
 # from src.trig_functions import _normal
 
 
@@ -163,7 +164,8 @@ def gen_triangles(extent_t, extent, gi, pic):
             tri_ext['max_do_i'] = i
 
     # SHIFT TRIANGLES
-    tris_s = shift_triangles(deepcopy(tris), gi, extent_t, tri_ext)
+    # tris_s = shift_triangles(deepcopy(tris), gi, extent_t, tri_ext)
+    tris_s = shift_triangles_N4(deepcopy(tris), gi, extent_t, tri_ext)
 
     ## 3. BUILD MASK SHAPE: If ===================================
     if tri_ext['max_le'] <= max(gi['ld_ss'][0][0], gi['ld_ss'][1][0]):  # ld_ss is a bit weird (first start/stop, then ld)
@@ -172,6 +174,7 @@ def gen_triangles(extent_t, extent, gi, pic):
     else:
         mask_ri = int(tri_ext['max_ri'])  # no right shifting
 
+    # HERE
     if tri_ext['max_do'] <= max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]):
         diff = max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]) - tri_ext['max_do']
         mask_do = int(tri_ext['max_do'] + diff)
@@ -249,6 +252,68 @@ def shift_triangles(tris, gi, extent_t, tri_ext):
     return tris
 
 
+def shift_triangles_N4(tris, gi, extent_t, tri_ext):
+    # SHIFT TRIS DOWN (ONLY COVERS 1/2 SCENARIOS)
+    shift_do = extent_t[0, 3] - extent_t[-1, 3]  # INCLUDES SCALING!
+    if shift_do > 0:  #
+        if tri_ext['max_do'] + shift_do > max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]):
+            shift_do = abs(gi['ld_ss'][1][1] - gi['ld_ss'][0][
+                1])  # this means all tris need to be shifted down (base stays at tl 0, 0)
+        for i in range(0, len(tris)):
+            tri = tris[i]
+            tri[0, 1] += shift_do
+            tri[1, 1] += shift_do
+            tri[2, 1] += shift_do
+
+        tri_ext['min_do'] = np.min([tri[1][1] for tri in tris])
+        tri_ext['max_do'] = np.max([tri[0][1] for tri in tris])
+    else:
+        # if tri_ext['max_do'] + shift_do > max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]):
+        #     shift_do = abs(gi['ld_ss'][1][1] - gi['ld_ss'][0][
+        #         1])  # this means all tris need to be shifted down (base stays at tl 0, 0)
+        shift_do = tri_ext['min_do']
+        for i in range(0, len(tris)):  # just flipped shift_do
+            tri = tris[i]
+            tri[0, 1] += -shift_do
+            tri[1, 1] += -shift_do
+            tri[2, 1] += -shift_do
+
+        tri_ext['min_do'] = np.min([tri[1][1] for tri in tris])
+        tri_ext['max_do'] = np.max([tri[0][1] for tri in tris])
+
+    # SHIFT TRIS TO LEFT IF MAX TRI RI EXTENT GOES BEYOND ABSOLUTE BORDER
+    shift_hor = 0
+    if tri_ext['max_ri'] > gi['max_ri']:  # e.g. case 5: shift left by 100
+        shift_hor = gi['max_ri'] - tri_ext['max_ri']
+
+    # SHIFT TRIS TO RIGHT IF MIN_LE IS NEGATIVE (I.E. INVISIBLE) WHILE MI LE IS ALWAYS POSITIVE (ALWAYS VISIBLE)
+    elif tri_ext['min_le'] < 0 and min(gi['ld_ss'][0][0], gi['ld_ss'][0][1]) > 0:
+        shift_hor = abs(tri_ext['min_le'])  # just to make them positive
+
+    for i in range(0, len(tris)):
+        tri = tris[i]
+        tri[0, 0] += shift_hor
+        tri[1, 0] += shift_hor
+        tri[2, 0] += shift_hor
+    tri_ext['min_le'] += shift_hor
+    tri_ext['max_le'] += shift_hor
+    tri_ext['max_ri'] += shift_hor
+
+    # if tri_max_ri + shift_ri > max(gi['ld_start'][0], gi['ld_end'][0]):
+    #     shift_ri = gi['ld_end'][0] - gi['ld_start'][0] - tri_max_ri
+
+    # # PROB NEEDS FIXING (WORKS EXCEPT CASE 8)
+    # if tri_ext['max_ri'] > max(gi['ld_start'][0], gi['ld_end'][0]):  # triangles want to go too far right
+    #     shift_le = -abs(gi['ld_end'][0] - gi['ld_start'][0])
+    #     for i in range(0, len(tris)):
+    #         tri = tris[i]
+    #         tri[0, 0] += shift_le
+    #         tri[1, 0] += shift_le
+    #         tri[2, 0] += shift_le
+
+    return tris
+
+
 def gen_extent_normal():
     """
     Only used for spl currently, i.e. for objects that are stationary but grows and shrinks according
@@ -258,5 +323,74 @@ def gen_extent_normal():
     """
 
     pass
+
+
+def convert_xy_to_extent(xy, scale_vector, gi, pic):
+    '''Cannot use xy_t because it has been shifted partly discarded'''
+
+    # frame_num = gi['frame_ss'][1] - gi['frame_ss'][0]  # ALWAYS
+
+    extent = np.zeros((gi['frames_tot'], 4))  # left, right, bottom, top borders
+    extent_t = np.zeros((gi['frames_tot'], 4))  # left, right, bottom, top borders
+
+    min_ri = np.min(xy[:, 0])
+    min_do = np.min(xy[:, 1])
+
+    w = pic.shape[1]
+    h = pic.shape[0]
+
+    for i in range(len(xy)):
+        extent[i] = [xy[i][0], xy[i][0] + w * scale_vector[i], xy[i][1], xy[i][1] - h * scale_vector[i]]
+
+    for i in range(len(xy)):
+        extent_t[i, 0] = extent[i, 0] - min_ri
+        extent_t[i, 1] = extent[i, 1] - min_ri
+        extent_t[i, 2] = extent[i, 2] - min_do
+        extent_t[i, 3] = extent[i, 3] - min_do
+
+
+
+    return extent, extent_t
+
+
+def rotate_tris(tris, tri_ext, rotation_v):
+
+    max_ri = -99999999999
+    max_do = -99999999999
+
+    for i, tri in enumerate(tris):
+        tri_mid_x = tri[1, 0]
+        tri_mid_y = (tri[1, 1] + tri[0, 1]) / 2
+
+        for j in range(3):
+
+            xy = list(tri[j, :])
+            xy_new = rotate_point(origin=(tri_mid_x, tri_mid_y), point=xy, angle=rotation_v[i])
+            tri[j, 0] = xy_new[0]
+            tri[j, 1] = xy_new[1]
+
+            if xy_new[0] > max_ri:
+                max_ri = xy_new[0]
+            if xy_new[1] > max_do:
+                max_do = xy_new[1]
+
+    tri_ext['max_ri'] = max_ri
+    tri_ext['max_do'] = max_do
+
+    return tris, tri_ext
+
+
+def rotate_point(origin, point, angle):
+    """
+    Rotate a point counterclockwise by a given angle around a given origin.
+
+    The angle should be given in radians.
+    """
+    ox, oy = origin
+    px, py = point
+
+    qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
+    qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
+    return qx, qy
 
 

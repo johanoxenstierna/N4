@@ -10,15 +10,17 @@ import random
 
 class Sh(AbstractLayer):
 
-    def __init__(_s, pic, sh_gi):
+    def __init__(_s, pic, gi):
         super().__init__()
-        _s.id = sh_gi.id
-        _s.sh_gi = sh_gi  # IMPORTANT replaces _s.gi = ship_info
+        _s.id = gi.id
+        _s.gi = gi  # IMPORTANT replaces _s.gi = ship_info
         _s.pic = pic  # NOT SCALED
         _s.fs = {}
         _s.srs = {}
+        _s.rs = {}
+        _s.sps = {}  # only used by some insts
         _s.f_latest_drawn_id = "99_99_99_99"
-        _s.zorder = sh_gi.zorder
+        _s.zorder = gi.zorder
 
 
         # zigzag = ()
@@ -104,10 +106,8 @@ class Sh(AbstractLayer):
             _di = _s.fs
         elif type == 'sr':
             _di = _s.srs
-        elif type == 'smoka':
-            _di = _s.smokas
-        elif type == 'spl':
-            _di = _s.spls
+        elif type == 'r':
+            _di = _s.rs
         li_ids = list(_di.keys())
 
         random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA

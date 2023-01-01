@@ -18,7 +18,7 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.sh = sh
         _s.pic = pic  # NOT SCALED
 
-        _s.gi = deepcopy(sh.sh_gi.srs_gi)
+        _s.gi = deepcopy(sh.gi.srs_gi)
         _s.zorder = _s.gi['zorder']
 
         AbstractSSS.__init__(_s, sh, id)
@@ -27,16 +27,14 @@ class Sr(AbstractLayer, AbstractSSS):
         frames_tot_and_d = _s.gi['frames_tot'] + frames_to_discard
 
         _s.xy_t = simple_projectile(v=_s.gi['v_loc'], theta=_s.gi['theta_loc'],
-                                    frames_tot=frames_tot_and_d, rc=2)
+                                    frames_tot=frames_tot_and_d, rc=1.3)
+        _s.gi = _s.finish_info(_s.gi)
 
-        _s.xy = shift_projectile(_s.xy_t, origin=(_s.gi['ld_ss'][0][0] + _s.gi['ld_offset_ss'][0][0],
-                                                  _s.gi['ld_ss'][0][1] + _s.gi['ld_offset_ss'][0][1]),
-                                 frames_to_discard=frames_to_discard)
+        origin_ = (_s.gi['ld'][0] + _s.gi['ld_offset'][0], _s.gi['ld'][1] + _s.gi['ld_offset'][1])
+        _s.xy = shift_projectile(_s.xy_t, origin=origin_, frames_to_discard=frames_to_discard)
 
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
         fun_plot = 'sr'  # smokr but fun plot is same
-
-        _s.gi = _s.finish_info(_s.gi)
 
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
         _s.scale_vector = np.linspace(0.001, 2., num=_s.gi['frames_tot'])
@@ -55,7 +53,12 @@ class Sr(AbstractLayer, AbstractSSS):
         a parent layer at a certain frame. But not always.
         """
 
-        # fs_gi['max_ri'] = np.max(_s.extent[:, 1])
+        _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
+        theta = np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
+        _s.gi['theta'] = theta
+        _s.gi['r_f_d'] = np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale'])
+        _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
+                              np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
         return fs_gi
 

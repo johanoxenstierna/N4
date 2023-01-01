@@ -16,8 +16,9 @@ class F(AbstractLayer, AbstractSSS):
         _s.sh = sh
         _s.pic = pic  # NOT SCALED
 
-        _s.gi = deepcopy(sh.sh_gi.fs_gi)
-        _s.sps_gi = _s.gen_sps_gi()
+        _s.gi = deepcopy(sh.gi.fs_gi)
+        # _s.sps_gi = _s.gen_sps_gi()
+        _s.sps_gi = sh.gi.sps_gi
         _s.zorder = _s.gi['zorder']
 
         AbstractSSS.__init__(_s, sh, id)
@@ -36,8 +37,9 @@ class F(AbstractLayer, AbstractSSS):
 
         # _s.gi = _s.finish_info(_s.gi)
 
-        _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='f')
-        _s.rotation = np.linspace(0.01, 1, num=len(_s.scale_vector))
+        # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='f')
+        _s.scale_vector = np.linspace(0.01, 1.3, _s.gi['frames_tot'])
+        _s.rotation_v = np.linspace(0.01, -0.3, num=len(_s.scale_vector))
         aa = 5
         # _s.tri_base, _s.tris, _s.tri_ext, _s.mask_ri, _s.mask_do = \
         #     gen_triangles(_s.extent_t, _s.extent, _s.gi, _s.pic)
@@ -66,15 +68,22 @@ class F(AbstractLayer, AbstractSSS):
         return fs_gi
 
     def gen_sps_gi(_s):
+        pass
         """
+
         THESE ARE AVERAGES
         r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
         climb up the projectile (before shifting)
         """
-        sps_gi = {'v_loc': 12, 'v_scale': 10,
-                  'theta_loc': -0.2, 'theta_scale': 0.14,
-                  'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
-                  'ld_ss': _s.sh.sh_gi.ld_ss,
-                  'offset_x_loc': 0, 'offset_x_scale': 0.03,
-                  'offset_y_loc': 0, 'offset_y_scale': 0.02}
-        return sps_gi
+        # sps_gi = {'v_loc': 26, 'v_scale': 8,
+        #           'num_loc': P.NUM_SPS, 'num_scale': P.NUM_SPS / 2,
+        #           'theta_loc': -0.3, 'theta_scale': 0.2,
+        #           'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
+        #           'ld': _s.sh.gi.ld,
+        #           'ld_offset_loc': [0, 1],
+        #           'ld_offset_scale': [0, 0.1],
+        #           'R_ss': [0.9, 1], 'R_scale': 0,
+        #           'G_ss': [0.6, 0], 'G_scale': 0.1,
+        #           'B_ss': [0.0001, 0], 'B_scale': 0,  # good to prevent neg numbers here
+        #           }
+        # return sps_gi

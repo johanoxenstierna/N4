@@ -7,7 +7,7 @@ from scipy.stats import multivariate_normal
 from src.trig_functions import min_max_normalization
 import matplotlib.transforms as mtransforms
 
-def warp_affine_and_color(ii, ax, im_ax, g_obj, ch, parent_obj=None):
+def warp_affine_and_color(ii, ax, im_ax, g_obj):
 	"""
 	color has to be done here too to avoid multiple removing popping
 	ax and im_ax are needed since the ax is removed from im_ax
@@ -26,44 +26,66 @@ def warp_affine_and_color(ii, ax, im_ax, g_obj, ch, parent_obj=None):
 	except:
 		raise Exception("g_obj clock problem  id: " + str(g_obj.id))
 	pic_c = g_obj.pic.copy()  # pic with base scale always used.
-	if P.A_STATIC_ALPHA_DARKENING:  # and parent_obj != None:
-		static_alpha_darkening(pic_c, ii, g_obj)  # OBS ALSO overwrites the static image AND changes pic copy
-	if P.A_FIRING_BRIGHTNESS:
-		if g_obj.__class__.__name__ == 'Smoke':
-			if g_obj.hardcoded != True:  # for now?
-				pic_c = fire_brightness(pic_c, ii, g_obj)
-		else:
-			pic_c = fire_brightness(pic_c, ii, g_obj)
-
-	if P.A_SAIL_HEIGHTS_TROUGHS_TRANSFORM and g_obj.__class__.__name__ == 'Sail':
-		g_obj.apply_heights_troughs_transform(pic_c, ii)  # changes the pic copy
+	# if P.A_STATIC_ALPHA_DARKENING:  # and parent_obj != None:
+	# 	static_alpha_darkening(pic_c, ii, g_obj)  # OBS ALSO overwrites the static image AND changes pic copy
+	# if P.A_FIRING_BRIGHTNESS:
+	# 	if g_obj.__class__.__name__ == 'Smoke':
+	# 		if g_obj.hardcoded != True:  # for now?
+	# 			pic_c = fire_brightness(pic_c, ii, g_obj)
+	# 	else:
+	# 		pic_c = fire_brightness(pic_c, ii, g_obj)
+	#
+	# if P.A_SAIL_HEIGHTS_TROUGHS_TRANSFORM and g_obj.__class__.__name__ == 'Sail':
+	# 	g_obj.apply_heights_troughs_transform(pic_c, ii)  # changes the pic copy
 
 	M = cv2.getAffineTransform(t0, t1)
-	dst = cv2.warpAffine(pic_c, M, (int(g_obj.tri_ext['max_ri']), int(g_obj.tri_ext['max_do'])))
-	img = np.zeros((g_obj.mask_do, g_obj.mask_ri, 4))
-	img[img.shape[0] - dst.shape[0]:, img.shape[1] - dst.shape[1]:, :] = dst
+	dst = cv2.warpAffine(pic_c, M, (int(g_obj.tri_ext['max_ri']), int(g_obj.tri_ext['max_do'])+0))
+	# dst = cv2.warpAffine(pic_c, M, (152, 89))
 
-	im_ax.insert(g_obj.index_im_ax, ax.imshow(img, zorder=g_obj.zorder, alpha=1, origin='upper'))
+	# center = (dst.shape[1] // 2, dst.shape[0] // 2)
+	# # center = (g_obj.tri_ext['max_ri'], g_obj.tri_ext['max_do'])
+	# angle = g_obj.rotation[g_obj.clock]
+	# scale = 1
+	# rot_mat = cv2.getRotationMatrix2D(center, angle, scale)
+	# dst = cv2.warpAffine(pic_c, rot_mat, (int(g_obj.tri_ext['max_ri']), int(g_obj.tri_ext['max_do']) + 0))
+
+	img = np.zeros((g_obj.mask_do, g_obj.mask_ri, 4))  # new image inited
+	img[img.shape[0] - dst.shape[0]:, img.shape[1] - dst.shape[1]:, :] = dst  # lower right is filled
+
+	im_ax.insert(g_obj.index_im_ax, ax.imshow(img, zorder=g_obj.zorder, alpha=1))
 	g_obj.ax1 = im_ax[g_obj.index_im_ax]
 
-	# M = mtransforms.Affine2D().translate(1, 1)
-	# M = mtransforms.Affine2D().scale(2, 2)
-	# im_ax[g_obj.index_im_ax].set_transform(M)
+# M = mtransforms.Affine2D().translate(1, 1)
+# M = mtransforms.Affine2D().scale(2, 2)
+# im_ax[g_obj.index_im_ax].set_transform(M)
 
 def mpl_affine(ii, g_obj, ax0, im_ax):
 
 	""""""
 	if g_obj.id[2] == 'f':  # legacy
-		M = mtransforms.Affine2D().\
-				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]).\
-				rotate(g_obj.rotation[g_obj.clock]).\
-				translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
-	else:
+		M = mtransforms.Affine2D(). \
+				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+				rotate(g_obj.rotation_v[g_obj.clock]). \
+				translate(g_obj.gi['ld'][0], g_obj.gi['ld'][1]) + ax0.transData
+	elif g_obj.id[2:4] == 'sr':
 		M = mtransforms.Affine2D(). \
 				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
 				translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
-	# scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
-	# translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
+	elif g_obj.id[2] == 'r':
+		M = mtransforms.Affine2D(). \
+				rotate_around(4, 6, g_obj.rotation_v[g_obj.clock]). \
+				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+				translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
+
+	#
+	# rotate_around(4, 6, g_obj.rotation[g_obj.clock]). \
+
+		# M = mtransforms.Affine2D(). \
+		# 		rotate(g_obj.rotation[g_obj.clock]). \
+		# 		scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+		# 		translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
+# scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+# translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
 
 	g_obj.ax1.set_transform(M)
 
@@ -87,10 +109,10 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 				if f.index_im_ax > index_removed:
 					f.index_im_ax -= 1
 
-			for sp_key, sp in f.sps.items():
-				if sp.index_im_ax != None:
-					if sp.index_im_ax > index_removed:
-						sp.index_im_ax -= 1
+		for sp_key, sp in sh.sps.items():
+			if sp.index_im_ax != None:
+				if sp.index_im_ax > index_removed:
+					sp.index_im_ax -= 1
 
 
 		for sr in sh.srs.values():
@@ -98,23 +120,28 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 				if sr.index_im_ax > index_removed:
 					sr.index_im_ax -= 1
 
-		# for smokr in sh.smokrs.values():
-		# 	if smokr.index_im_ax != None:
-		# 		if smokr.index_im_ax > index_removed:
-		# 			smokr.index_im_ax -= 1
-		# for expl in sh.expls.values():
-		# 	if expl.index_im_ax != None:
-		# 		if expl.index_im_ax > index_removed:
-		# 			expl.index_im_ax -= 1
-		# for spl in ship.spls.values():
-		# 	if spl.index_im_ax != None:
-		# 		if spl.index_im_ax > index_removed:
-		# 			spl.index_im_ax -= 1
+		for r in sh.rs.values():
+			if r.index_im_ax != None:
+				if r.index_im_ax > index_removed:
+					r.index_im_ax -= 1
 
-	# for wave in waves.values():
-	# 	if wave.index_im_ax != None:
-	# 		if wave.index_im_ax > index_removed:
-	# 			wave.index_im_ax -= 1
+# for smokr in sh.smokrs.values():
+# 	if smokr.index_im_ax != None:
+# 		if smokr.index_im_ax > index_removed:
+# 			smokr.index_im_ax -= 1
+# for expl in sh.expls.values():
+# 	if expl.index_im_ax != None:
+# 		if expl.index_im_ax > index_removed:
+# 			expl.index_im_ax -= 1
+# for spl in ship.spls.values():
+# 	if spl.index_im_ax != None:
+# 		if spl.index_im_ax > index_removed:
+# 			spl.index_im_ax -= 1
+
+# for wave in waves.values():
+# 	if wave.index_im_ax != None:
+# 		if wave.index_im_ax > index_removed:
+# 			wave.index_im_ax -= 1
 
 
 def static_alpha_darkening(pic, ii, g_obj):
@@ -188,47 +215,47 @@ def hardcoded_adjustments(g_obj, ii):
 
 
 
-	# if g_obj.__class__.__name__ == 'Smoke':
-	# 	if ii == 13:
-	# 		adf = 5
-	# 	if g_obj.hardcoded == True:  # OBS SMOKRS HAVE BE CHANGED GLOBALLY (NOT POSSIBLE OTHERWISE)
-	# 		return pic  # no static darkenign for hardcoded smokas (the ones that are not launched randomly
-	# 	if g_obj.drawn == 1:  # STATIC DARKN ONLY WHEN PIC IS FIRST DRAWN
-	# 		pass  # TODO REPLACE WITH GLOBAL ALPHA DARKENING PARAMETER IN P
+# if g_obj.__class__.__name__ == 'Smoke':
+# 	if ii == 13:
+# 		adf = 5
+# 	if g_obj.hardcoded == True:  # OBS SMOKRS HAVE BE CHANGED GLOBALLY (NOT POSSIBLE OTHERWISE)
+# 		return pic  # no static darkenign for hardcoded smokas (the ones that are not launched randomly
+# 	if g_obj.drawn == 1:  # STATIC DARKN ONLY WHEN PIC IS FIRST DRAWN
+# 		pass  # TODO REPLACE WITH GLOBAL ALPHA DARKENING PARAMETER IN P
 
-			# REPLACED WITH ab_cur
-			# ship_ab_at_clock_prev = g_obj.ship.gi['alpha_and_bright'][0]  # this is needed since ship_ab_at_clock is incremented after the first ii hit.
-			# for i in range(1, len(g_obj.ship.gi['alpha_and_bright'])):  # finds previous alpha_and_bright
-			# 	if ii <= g_obj.ship.gi['alpha_and_bright'][i][0]:
-			# 		break
-			# 	else:
-			# 		ship_ab_at_clock_prev = g_obj.ship.gi['alpha_and_bright'][i]
+# REPLACED WITH ab_cur
+# ship_ab_at_clock_prev = g_obj.ship.gi['alpha_and_bright'][0]  # this is needed since ship_ab_at_clock is incremented after the first ii hit.
+# for i in range(1, len(g_obj.ship.gi['alpha_and_bright'])):  # finds previous alpha_and_bright
+# 	if ii <= g_obj.ship.gi['alpha_and_bright'][i][0]:
+# 		break
+# 	else:
+# 		ship_ab_at_clock_prev = g_obj.ship.gi['alpha_and_bright'][i]
 
-			# g_obj.pic[:, :, 0] = g_obj.pic[:, :, 0]  # * ship_ab_at_clock[2]
-			# g_obj.pic[:, :, 1] = g_obj.pic[:, :, 1] * g_obj.ship.ab_cur[1]
-			# g_obj.pic[:, :, 2] = g_obj.pic[:, :, 2] * g_obj.ship.ab_cur[1]
-			# g_obj.pic[:, :, 3] = g_obj.pic[:, :, 3] * g_obj.ship.ab_cur[0]
+# g_obj.pic[:, :, 0] = g_obj.pic[:, :, 0]  # * ship_ab_at_clock[2]
+# g_obj.pic[:, :, 1] = g_obj.pic[:, :, 1] * g_obj.ship.ab_cur[1]
+# g_obj.pic[:, :, 2] = g_obj.pic[:, :, 2] * g_obj.ship.ab_cur[1]
+# g_obj.pic[:, :, 3] = g_obj.pic[:, :, 3] * g_obj.ship.ab_cur[0]
 
-	# HSV (perhaps not needed)
-	# img = ship_pic
-	# hsv = cv2.cvtColor(pic, cv2.COLOR_BGR2HSV)
-	# h, s, v = cv2.split(hsv)
-	# v += value
-	# final_hsv = cv2.merge((h, s, v))
-	# img2 = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
-	# img[:, :, 0:3] = img2
-	#
-	# # think this is just the operation to sort out alpha
-	# idx0 = np.argwhere(img[:, :, 0:3] < 0.0)
-	# idx1 = np.argwhere(img[:, :, 0:3] > 1.0)
-	#
-	# for row, col, ch in idx0:
-	# 	img[row, col, ch] = 0.0
-	#
-	# for row, col, ch in idx1:
-	# 	img[row, col, ch] = 1.0
+# HSV (perhaps not needed)
+# img = ship_pic
+# hsv = cv2.cvtColor(pic, cv2.COLOR_BGR2HSV)
+# h, s, v = cv2.split(hsv)
+# v += value
+# final_hsv = cv2.merge((h, s, v))
+# img2 = cv2.cvtColor(final_hsv, cv2.COLOR_HSV2BGR)
+# img[:, :, 0:3] = img2
+#
+# # think this is just the operation to sort out alpha
+# idx0 = np.argwhere(img[:, :, 0:3] < 0.0)
+# idx1 = np.argwhere(img[:, :, 0:3] > 1.0)
+#
+# for row, col, ch in idx0:
+# 	img[row, col, ch] = 0.0
+#
+# for row, col, ch in idx1:
+# 	img[row, col, ch] = 1.0
 
-	# return pic
+# return pic
 
 
 def fire_brightness(pic, ii, g_obj):
@@ -243,7 +270,7 @@ def fire_brightness(pic, ii, g_obj):
 		type = 'mvn'  # multivariate normal
 	else:
 		gi_ship = g_obj.ship.gi
-		# expls = g_obj.ship.expls
+	# expls = g_obj.ship.expls
 
 	# FIRING UPDATES = ===================
 	if ii not in gi_ship['firing_frames'] or g_obj.__class__.__name__ not in ['Ship', 'Sail', 'Wave', 'Spl', 'Expl', 'Smoke']:
@@ -284,9 +311,9 @@ def fire_brightness(pic, ii, g_obj):
 		# Select ld for mean
 		ld = gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_ss'][0].copy()  # OMG actually gets overwritten
 		ld[0] += random.randint(-gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][0],
-		                       gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][0])
+								gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][0])
 		ld[1] += random.randint(-gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][1],
-		                       gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][1])
+								gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][1])
 		left_top = ld
 		left_top[1] = pic.shape[0] + ld[1]
 
