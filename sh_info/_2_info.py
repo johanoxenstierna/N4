@@ -14,15 +14,15 @@ class Sh_2_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, init_frames):
+    def __init__(_s):
         super().__init__()
         _s.id = '2'
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]
         _s.zorder = 10
-        _s.init_frames = init_frames
-        _s.ld = [120, 55]
+        # _s.init_frames =
+        _s.ld = [120, 50]
         _s.child_names = ['sps']
         # _s.fs_gi, fs_init_frames = _s.gen_fs_gi()  # OBS: sp_gi generated in f class. There is no info class for f.
         # _s.srs_gi = _s.gen_srs_gi(fs_init_frames)  # OBS: sp_gi generated in f class. There is no info class for f.
@@ -37,19 +37,23 @@ class Sh_2_info(ShInfoAbstract):
         climb up the projectile (before shifting)
         """
         sps_gi = {
-            'frames_tot': 50,
-            'init_frames': _s.init_frames,
-            'v_loc': 26, 'v_scale': 8,
-            'num_loc': P.NUM_SPS, 'num_scale': P.NUM_SPS / 2,
-            'theta_loc': -0.3, 'theta_scale': 0.2,
-            'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
+            'frames_tot': 200,
+            'init_frames': [20],  # maybe add assert here
+            'v_loc': 25, 'v_scale': 4.,
+            'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
+            'theta_loc': 0.15, 'theta_scale': 0.01,
+            'r_f_d_loc': 0.99, 'r_f_d_scale': 0.1,
+            'r_f_d_type': None,  # which part of r_f_d to use
             'ld': _s.ld,
-            'ld_offset_loc': [0, 1],
+            'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 0.1],
-            'R_ss': [0.9, 1], 'R_scale': 0,
-            'G_ss': [0.6, 0], 'G_scale': 0.1,
-            'B_ss': [0.0001, 0], 'B_scale': 0,  # good to prevent neg numbers here
+            'R_ss': [0.6, 0.3], 'R_scale': 0.2,
+            'G_ss': [0.3, 0.2], 'G_scale': 0.1,
+            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
         }
+        # 160, 77, 36  -> 76, 42, 28
+
+
         return sps_gi
 
     # def gen_fs_gi(_s):

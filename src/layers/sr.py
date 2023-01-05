@@ -23,15 +23,15 @@ class Sr(AbstractLayer, AbstractSSS):
 
         AbstractSSS.__init__(_s, sh, id)
 
-        frames_to_discard = int(_s.gi['frames_tot'] * _s.gi['r_f_d_loc'])
-        frames_tot_and_d = _s.gi['frames_tot'] + frames_to_discard
+        frames_to_d = int(_s.gi['frames_tot'] * _s.gi['r_f_d_loc'])
+        frames_tot_and_d = _s.gi['frames_tot'] + frames_to_d
 
         _s.xy_t = simple_projectile(v=_s.gi['v_loc'], theta=_s.gi['theta_loc'],
                                     frames_tot=frames_tot_and_d, rc=1.3)
         _s.gi = _s.finish_info(_s.gi)
 
         origin_ = (_s.gi['ld'][0] + _s.gi['ld_offset'][0], _s.gi['ld'][1] + _s.gi['ld_offset'][1])
-        _s.xy = shift_projectile(_s.xy_t, origin=origin_, frames_to_discard=frames_to_discard)
+        _s.xy = shift_projectile(_s.xy_t, origin=origin_, flip_it=True, frames_tot_d=frames_to_d, r_f_d_type='after')
 
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
         fun_plot = 'sr'  # smokr but fun plot is same

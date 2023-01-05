@@ -101,6 +101,8 @@ class Sh(AbstractLayer):
 
     def find_free_obj(_s, type):
 
+        """HERE NEED TO ADD CASE THAT RETURNS ALL SPS FOR A GIVEN PARENT"""
+
         _di = None
         if type == 'f':
             _di = _s.fs
@@ -108,6 +110,8 @@ class Sh(AbstractLayer):
             _di = _s.srs
         elif type == 'r':
             _di = _s.rs
+        elif type == 'sp':
+            _di = _s.sps
         li_ids = list(_di.keys())
 
         random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
@@ -122,7 +126,6 @@ class Sh(AbstractLayer):
                         continue
                 return obj
 
-        # SPECIAL SMOKA CASE. MAY BECOME DEPRECATED IF ALL SHIPS GET SEVERAL SMOKAS
         if type == 'f':  # if return above has not happened it means that none has been found (e.g. if only 1 type available)
             for key in li_ids:
                 obj = _di[key]

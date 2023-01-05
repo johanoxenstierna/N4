@@ -100,20 +100,21 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 		if sh.index_im_ax != None:
 			if sh.index_im_ax > index_removed:
 				sh.index_im_ax -= 1
-		# for sail in sh.sails.values():
-		# 	if sail.index_im_ax != None:
-		# 		if sail.index_im_ax > index_removed:
-		# 			sail.index_im_ax -= 1
 		for f in sh.fs.values():
 			if f.index_im_ax != None:
 				if f.index_im_ax > index_removed:
 					f.index_im_ax -= 1
 
-		for sp_key, sp in sh.sps.items():
-			if sp.index_im_ax != None:
-				if sp.index_im_ax > index_removed:
-					sp.index_im_ax -= 1
+			for sp_key, sp in f.sps.items():
+				if sp.index_im_ax != None:
+					if sp.index_im_ax > index_removed:
+						sp.index_im_ax -= 1
 
+		# DANGER: THIS SEEMS TO MESS UP ABOVE: SOLUTION: ALWAYS HAVE SP AS CHILD OF SR
+		# for sp_key, sp in sh.sps.items():
+		# 	if sp.index_im_ax != None:
+		# 		if sp.index_im_ax > index_removed:
+		# 			sp.index_im_ax -= 1
 
 		for sr in sh.srs.values():
 			if sr.index_im_ax != None:

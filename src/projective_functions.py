@@ -29,24 +29,34 @@ def simple_projectile(v, theta, frames_tot, rc=1):
     return xy
 
 
-def shift_projectile(xy_t, origin=None, frames_to_discard=None):
+def shift_projectile(xy_t, origin=None, frames_tot_d=None, flip_it=False, r_f_d_type=''):
     """shifts it to desired xy
-    y is flipped because 0 y is at top"""
+    y is flipped because 0 y is at top and if flip_it=True
+    """
 
     xy = copy.deepcopy(xy_t)
 
     '''
     y0: First it needs to be flipped bcs all values are pos to start with, but it needs to be neg.  
     '''
-    xy[:, 1] *= -1  # flip it. Now all neg
+    if flip_it == True:
+        xy[:, 1] *= -1  # flip it. Now all neg
 
     '''Shift start y to upper portion of curve. 
     Find delta to t origin
     OBS OBS OBS: This is currently only set up for right motion'''
 
-    xy = xy[frames_to_discard:, :]
-    x_shift_r_f_d = xy[0, 0]  # TODO: change for left motion
-    y_shift_r_f_d = xy[0, 1]
+    if r_f_d_type == 'before':
+        xy = xy[:frames_tot_d, :]
+    elif r_f_d_type == 'after':
+        xy = xy[frames_tot_d:, :]
+    else:
+        raise Exception("ASDf")
+    try:
+        x_shift_r_f_d = xy[0, 0]  # TODO: change for left motion
+        y_shift_r_f_d = xy[0, 1]
+    except:
+        adf = 4
 
     '''x'''
     xy[:, 0] += origin[0] - x_shift_r_f_d  # x

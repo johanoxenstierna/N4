@@ -41,8 +41,8 @@ shs = g.gen_shs(ax0, im_ax)
 if P.A_FS:
     shs = g.gen_fs(ax0, im_ax, shs)
 
-# if P.A_SPS:
-#     shs = g.gen_sps(ax0, im_ax, shs)
+if P.A_SPS:
+    shs = g.gen_sps(ax0, im_ax, shs)
 
 if P.A_SRS:
     shs = g.gen_srs(ax0, im_ax, shs)
@@ -65,6 +65,9 @@ def animate(i):
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
 
+        if i == 59:
+            dadf = 5
+
         if P.A_FS and 'fs' in sh.gi.child_names:
             if i in sh.gi.fs_gi['init_frames']:
                 f = sh.find_free_obj(type='f')
@@ -79,11 +82,14 @@ def animate(i):
                     f.init_child_obj(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
                     # f.gen_dyn_extent_alpha()
 
-                    '''Prob has to be let go'''
-                    # if P.A_SPS:
-                    #     for sp_key, sp in sh.sps.items():
-                    #         prints += "  adding sp"
-                    #         sp.init_child_obj(i, sh.gi.sps_gi['frames_tot'], dynamic=False)
+                    # '''Prob has to be let go'''
+                    if P.A_SPS:
+                        for sp_key, sp in f.sps.items():
+                            # if sp.f is not None:
+                            #     if sp.f.id == f.id:
+                            sp.drawn = 1
+                            prints += "  adding sp"
+                            sp.init_child_obj(i, sp.gi['frames_tot'], dynamic=False)
 
                         # adf = 5
                 else:
@@ -103,21 +109,64 @@ def animate(i):
                         mpl_affine(i, f, ax0, im_ax)
                         im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])
                         # im_ax[f.index_im_ax].set_alpha(0.2)
+
                     elif drawBool == 2:  # remove
+                        prints += "  removing f"
                         decrement_all_index_im_ax(index_removed, shs)
+
                         # continue  # CANT continue because sp also has to be removed
 
-        if P.A_SPS:
+                for sp_id, sp in f.sps.items():
+                    if sp.drawn != 0:
+                        sp.set_clock(i)
+                        drawBoolSP, index_removed = sp.ani_update_step(ax0, im_ax, sp=True)
+                        if drawBoolSP == 0:
+                            continue
+                        elif drawBoolSP == 1:
+                            # try:
+                            if sp.clock < 4:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
+                                im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
+                            else:
+                                try:
+                                    im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
+                                                                   sp.xy[sp.clock - 3:sp.clock, 1])
+                                    im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
+                                except:
+                                    adf = 5
+
+
+                            im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
+                            # im_ax[sp.index_im_ax].set_alpha(1)
+                            #
+                            # except:
+                            #     adf = 6
+                        elif drawBoolSP == 2:
+                            prints += "  removing sp"
+                            decrement_all_index_im_ax(index_removed, shs)
+                            # continue
+
+        if P.A_SPS and 'sps' in sh.gi.child_names:
 
             if i in sh.gi.sps_gi['init_frames']:
+                # sp = sh.find_free_obj(type='sp')  #
+                # if sp != None:
+                #     # for sp_key, sp in sh.sps.items():
+                #     prints += "  adding sp"
+                #     sp.drawn = 1
+                #     sp.init_child_obj(i, sh.gi.sps_gi['frames_tot'], dynamic=False)
+                # else:
+                #     prints += "  no free sp"
 
                 for sp_key, sp in sh.sps.items():
-                    prints += "  adding sp"
+                    # if sp.f is not None:
+                    #     if sp.f.id == f.id:
                     sp.drawn = 1
-                    sp.init_child_obj(i, sh.gi.sps_gi['frames_tot'], dynamic=False)
+                    prints += "  adding sp"
+                    # sp.init_child_obj(i, sp.gi['frames_tot'], dynamic=False)
+                    sp.init_child_obj(i, len(sp.xy), dynamic=False)
 
             for sp_id, sp in sh.sps.items():
-                if sp.drawn != 0:
+                if sp.drawn != 0 and sp.f == None:
                     sp.set_clock(i)
                     drawBool, index_removed = sp.ani_update_step(ax0, im_ax, sp=True)
                     if drawBool == 0:
@@ -131,10 +180,13 @@ def animate(i):
                                                            sp.xy[sp.clock - 3:sp.clock, 1])
 
                         im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
+                        # try:
                         im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
-                        #
                         # except:
-                        #     adf = 6
+                            # adf = 5
+
+                        asdf = 5
+
                     elif drawBool == 2:
                         decrement_all_index_im_ax(index_removed, shs)
                         continue
@@ -206,8 +258,8 @@ def animate(i):
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, r, ax0, im_ax)
                         # im_ax[r.index_im_ax].set_color((r.R[r.clock], r.G[r.clock], r.B[r.clock]))
-                        im_ax[r.index_im_ax].set(interpolation_stage='rgba', cmap='jet')
-                        # im_ax[r.index_im_ax].set_alpha(1.)
+                        # im_ax[r.index_im_ax].set(interpolation_stage='rgba', cmap='jet')
+                        im_ax[r.index_im_ax].set_alpha(1.)
                         im_ax[r.index_im_ax].set_zorder(100)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
@@ -253,7 +305,7 @@ print("len of vid: " + str(sec_vid) + " s" + "    " + str(min_vid) + " min")
 
 start_t = time.time()
 ani = animation.FuncAnimation(fig, animate, frames=range(P.FRAMES_START, P.FRAMES_STOP),
-                              blit=True, interval=1, init_func=init,
+                              blit=True, interval=10, init_func=init,
                               repeat=False)  # interval only affects live ani. blitting seems to make it crash
 
 if WRITE == 0:

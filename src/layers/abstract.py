@@ -39,10 +39,10 @@ class AbstractLayer:
         if i == _s.frame_ss[0]:
             _s.drawn = 1
         elif i > _s.frame_ss[0] and i < _s.frame_ss[1]:
-            _s.drawn = 2  # needed bcs ani_update_step will create a new im_ax otherwise
+            _s.drawn = 2  # continue. needed bcs ani_update_step will create a new im_ax otherwise
             _s.clock += 1
         elif i == _s.frame_ss[1]:
-            _s.drawn = 3
+            _s.drawn = 3  # end drawing
             _s.clock = 0  # ONLY PLACE WHERE RESET
         else:  # NEEDED BCS OTHERWISE _s.drawn just stays on 3
             _s.drawn = 0

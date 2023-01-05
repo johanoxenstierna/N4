@@ -69,8 +69,9 @@ class GenLayers:
                     num_sp_f = P.NUM_SPS_F
                     for _ in range(num_sp_f):
                         sp_id_int += 1
-                        sp = Sp(sh, sp_id_int)
+                        sp = Sp(sh, sp_id_int, f)
                         sh.sps[sp.id] = sp
+                        f.sps[sp.id] = sp  # why not use both
 
                     sh.fs[pic_key] = f
 
@@ -81,7 +82,7 @@ class GenLayers:
         for sh_id, sh in shs.items():
             if 'sps' in sh.gi.child_names:
                 # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
-                num_sps = P.NUM_SPS
+                num_sps = P.NUM_SPS_SH
                 for id_int in range(num_sps):
                     sp = Sp(sh, id_int)
                     sh.sps[sp.id] = sp
