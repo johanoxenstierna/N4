@@ -37,7 +37,7 @@ class Sr(AbstractLayer, AbstractSSS):
         fun_plot = 'sr'  # smokr but fun plot is same
 
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
-        _s.scale_vector = np.linspace(0.001, 2., num=_s.gi['frames_tot'])
+        _s.scale_vector = np.linspace(0.001, 2.5, num=_s.gi['frames_tot'])
         _s.rotation = np.linspace(0.01, 1, num=len(_s.scale_vector))
 
         _s.alpha = gen_alpha(_s.gi, fun_plot=fun_plot, frames_tot=_s.gi['frames_tot'])

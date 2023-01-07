@@ -14,7 +14,7 @@ class Sh_2_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s):
+    def __init__(_s, pulse):
         super().__init__()
         _s.id = '2'
         _s.extent = "static"
@@ -30,19 +30,20 @@ class Sh_2_info(ShInfoAbstract):
         _s.sps_gi = _s.gen_sps_gi()
 
     def gen_sps_gi(_s):
-        """
 
+        """
         THESE ARE AVERAGES
         r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
         climb up the projectile (before shifting)
         """
+
         sps_gi = {
-            'frames_tot': 200,
-            'init_frames': [20],  # maybe add assert here
-            'v_loc': 25, 'v_scale': 4.,
+            'frames_tot': 100,
+            'init_frames': [20, 122, 230],  # maybe add assert here
+            'v_loc': 20, 'v_scale': 3.,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': 0.15, 'theta_scale': 0.01,
-            'r_f_d_loc': 0.99, 'r_f_d_scale': 0.1,
+            'theta_loc': 0.05, 'theta_scale': 0.02,
+            'r_f_d_loc': 0.8, 'r_f_d_scale': 0.2,
             'r_f_d_type': None,  # which part of r_f_d to use
             'ld': _s.ld,
             'ld_offset_loc': [0, 0],

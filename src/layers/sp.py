@@ -18,7 +18,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.id = sh.id + "_f" + "_sp_" + str(id_int)
             _s.f = f
             _s.gi = deepcopy(f.sps_gi)
-            _s.gi['frames_tot'] = f.gi['frames_tot']
+            _s.gi['frames_tot'] = 150
             _flip_it = True
             _s.gi['r_f_d_type'] = 'after'  # after is what is kept
         else:
@@ -30,6 +30,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.gi['r_f_d_type'] = 'after'  # after means what is kept
 
         _s.finish_info()
+        _s.zorder = 100
 
         # _s.frames_tot = f.gi['frames_tot']
 
@@ -49,6 +50,10 @@ class Sp(AbstractLayer, AbstractSSS):
                                  r_f_d_type=_s.gi['r_f_d_type'])
 
         _s.alphas = np.linspace(0.6, 0.0, num=len(_s.xy))
+        assert(len(_s.alphas) == len(_s.xy))
+        assert(_s.gi['frames_tot'] == len(_s.alphas))
+
+        adf = 5
 
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.fs_gi, pic=_s.pic)
         # fun_plot = 'smoka'  # smokr but fun plot is same
@@ -90,13 +95,13 @@ class Sp(AbstractLayer, AbstractSSS):
         G_start = max(0, G_start)
         B_start = max(0, B_start)
 
-        _s.R = np.linspace(R_start, _s.gi['R_ss'][1], num=_s.sh.gi.frames_tot)
-        _s.G = np.linspace(G_start, _s.gi['G_ss'][1], num=_s.sh.gi.frames_tot)
-        _s.B = np.linspace(B_start, _s.gi['B_ss'][1], num=_s.sh.gi.frames_tot)
+        _s.R = np.linspace(R_start, _s.gi['R_ss'][1], num=_s.gi['frames_tot'])
+        _s.G = np.linspace(G_start, _s.gi['G_ss'][1], num=_s.gi['frames_tot'])
+        _s.B = np.linspace(B_start, _s.gi['B_ss'][1], num=_s.gi['frames_tot'])
 
         try:
             assert(min(_s.R) > 0)
             assert(min(_s.G) > 0)
             assert(min(_s.B) > 0)
         except:
-            adf = 5
+            raise Exception("ADf")

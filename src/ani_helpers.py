@@ -105,16 +105,19 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 				if f.index_im_ax > index_removed:
 					f.index_im_ax -= 1
 
-			for sp_key, sp in f.sps.items():
+			for sp_key, sp in f.sps.items():  # OBS THIS MEANS sps must have same or fewer frames than f
 				if sp.index_im_ax != None:
 					if sp.index_im_ax > index_removed:
 						sp.index_im_ax -= 1
 
-		# DANGER: THIS SEEMS TO MESS UP ABOVE: SOLUTION: ALWAYS HAVE SP AS CHILD OF SR
-		# for sp_key, sp in sh.sps.items():
-		# 	if sp.index_im_ax != None:
-		# 		if sp.index_im_ax > index_removed:
-		# 			sp.index_im_ax -= 1
+		'''
+		HUGE BUG HERE
+		DANGER: THIS SEEMS TO MESS UP ABOVE: SOLUTION: ALWAYS HAVE SP AS CHILD OF SR
+		'''
+		for sp_key, sp in sh.sps.items():
+			if sp.index_im_ax != None and sp.f == None:
+				if sp.index_im_ax > index_removed:
+					sp.index_im_ax -= 1
 
 		for sr in sh.srs.values():
 			if sr.index_im_ax != None:

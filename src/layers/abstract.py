@@ -110,8 +110,12 @@ class AbstractSSS:
         # _s.pic = pic  # shouldnt be needed here
 
     def init_child_obj(_s, ii, NUM_FRAMES, dynamic=False):
-        """OBS USED BY Smokes and Spl, which are children to ship. Generates frame_ss, scale_ss"""
-        _s.gi['frame_ss'] = [ii, ii + NUM_FRAMES]  # OVERWRITES
+        """
+        OBS USED BY Smokes and Spl, which are children to ship. Generates frame_ss, scale_ss
+        OBS UPDATE: frame_ss reduced by 1 in length to make sure index not exceeded
+        """
+
+        _s.gi['frame_ss'] = [ii, ii + NUM_FRAMES - 10]    # OVERWRITES
         _s.frame_ss = _s.gi['frame_ss']  # THIS IS GLOBAL i (hence useless for e.g. ship.extent)
         frame_num = _s.gi['frame_ss'][1] - _s.gi['frame_ss'][0]  # same as in gen_extent
         assert(_s.gi['frame_ss'][1] < P.FRAMES_STOP)

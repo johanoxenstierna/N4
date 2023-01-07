@@ -49,7 +49,7 @@ class Sh_1_info(ShInfoAbstract):
         srs_gi['v_scale'] = 20
         srs_gi['theta_loc'] = -0.3  # radians!
         srs_gi['theta_scale'] = 0.2
-        srs_gi['r_f_d_loc'] = 0.001
+        srs_gi['r_f_d_loc'] = 0.05
         srs_gi['r_f_d_scale'] = 0.00
 
         return srs_gi

@@ -19,11 +19,11 @@ def gen_alpha(gi, fun_plot, frames_tot=None, y_range=None, plot=False):
 		# alpha = np.full(X.shape, fill_value=0.99)
 		# alpha = np.linspace(0.5, 1.0, num=len(X))
 		# alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
-		alpha = _gamma(X, mean=2, var=20, y_range=[0.01, 1])
+		alpha = _gamma(X, mean=2, var=20, y_range=[0.01, 0.2])
 	elif fun_plot == 'r':
 		'''Has to end at 0 alpha because these include fire smokhs'''
 		# alpha = np.full(X.shape, fill_value=0.99)
-		alpha = np.linspace(1.0, 0.5, num=len(X))
+		alpha = np.linspace(0.5, 0.3, num=len(X))
 		# alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 		# alpha = _gamma(X, mean=1, var=80, y_range=[0.01, 0.7])
 		aa= 5
@@ -32,7 +32,7 @@ def gen_alpha(gi, fun_plot, frames_tot=None, y_range=None, plot=False):
 		# alpha = np.full(X.shape, fill_value=0.99)
 		# alpha = np.linspace(1, 0, num=len(X))
 		# alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 6, x_shift=-2, y_magn=1., y_shift=0) for x in X]))
-		alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 10, x_shift=-2, y_magn=1., y_shift=0) for x in X]))
+		alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-2, y_magn=1., y_shift=0) for x in X]))
 		# alpha = _gamma(X, mean=3, var=20, y_range=[0.01, 1])
 		aa = 5
 	elif fun_plot == 'spl':

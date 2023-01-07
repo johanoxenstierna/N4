@@ -75,6 +75,7 @@ def animate(i):
                     prints += "  adding f"
                     exceeds_frame_max, how_many = f.check_frame_max(i, f.gi['frames_tot'])
                     if exceeds_frame_max == True:
+                        print("EXCEEDS MAX\n")
                         f.frames_tot = how_many
 
                     f.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
@@ -87,6 +88,7 @@ def animate(i):
                         for sp_key, sp in f.sps.items():
                             # if sp.f is not None:
                             #     if sp.f.id == f.id:
+                            assert(sp.f != None)
                             sp.drawn = 1
                             prints += "  adding sp"
                             sp.init_child_obj(i, sp.gi['frames_tot'], dynamic=False)
@@ -108,7 +110,7 @@ def animate(i):
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, f, ax0, im_ax)
                         im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])
-                        # im_ax[f.index_im_ax].set_alpha(0.2)
+                        # im_ax[f.index_im_ax].set_alpha(0.01)
 
                     elif drawBool == 2:  # remove
                         prints += "  removing f"
@@ -117,6 +119,7 @@ def animate(i):
                         # continue  # CANT continue because sp also has to be removed
 
                 for sp_id, sp in f.sps.items():
+                    assert(sp.f != None)
                     if sp.drawn != 0:
                         sp.set_clock(i)
                         drawBoolSP, index_removed = sp.ani_update_step(ax0, im_ax, sp=True)
@@ -132,10 +135,13 @@ def animate(i):
                                                                    sp.xy[sp.clock - 3:sp.clock, 1])
                                     im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
                                 except:
-                                    adf = 5
+                                    raise Exception("Adf")
 
+                            try:
+                                im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
+                            except:
+                                asdf = 5
 
-                            im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
                             # im_ax[sp.index_im_ax].set_alpha(1)
                             #
                             # except:
@@ -158,6 +164,7 @@ def animate(i):
                 #     prints += "  no free sp"
 
                 for sp_key, sp in sh.sps.items():
+                    assert(sp.f == None)
                     # if sp.f is not None:
                     #     if sp.f.id == f.id:
                     sp.drawn = 1

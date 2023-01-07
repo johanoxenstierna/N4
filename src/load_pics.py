@@ -71,8 +71,9 @@ def load_pics():
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pic = np.flipud(pic)
                     for i in range(P.NUM_RS):
+                        _path_debug = 'sh' + '/' + folder_name0 + '/' + file_name[:-4] + '_' + str(i)
                         pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
-                    pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
+                    # pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
                 else:
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic

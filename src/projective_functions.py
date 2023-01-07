@@ -51,12 +51,12 @@ def shift_projectile(xy_t, origin=None, frames_tot_d=None, flip_it=False, r_f_d_
     elif r_f_d_type == 'after':
         xy = xy[frames_tot_d:, :]
     else:
-        raise Exception("ASDf")
+        raise Exception("r_f_d_type needs setting")
     try:
         x_shift_r_f_d = xy[0, 0]  # TODO: change for left motion
         y_shift_r_f_d = xy[0, 1]
     except:
-        adf = 4
+        raise Exception("adf")
 
     '''x'''
     xy[:, 0] += origin[0] - x_shift_r_f_d  # x
