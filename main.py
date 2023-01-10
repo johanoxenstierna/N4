@@ -42,7 +42,7 @@ if P.A_FS:
     shs = g.gen_fs(ax0, im_ax, shs)
 
 if P.A_SPS:
-    shs = g.gen_sps(ax0, im_ax, shs)
+    shs = g.gen_sps(ax0, im_ax, shs)  # OBS children of fs NOT GENERATED HERE
 
 if P.A_SRS:
     shs = g.gen_srs(ax0, im_ax, shs)
@@ -89,6 +89,7 @@ def animate(i):
                             # if sp.f is not None:
                             #     if sp.f.id == f.id:
                             assert(sp.f != None)
+                            sp.dyn_gen(i)
                             sp.drawn = 1
                             prints += "  adding sp"
                             sp.init_child_obj(i, sp.gi['frames_tot'], dynamic=False)
@@ -118,7 +119,7 @@ def animate(i):
 
                         # continue  # CANT continue because sp also has to be removed
 
-                for sp_id, sp in f.sps.items():
+                for sp_id, sp in f.sps.items():  # CHILD OF f
                     assert(sp.f != None)
                     if sp.drawn != 0:
                         sp.set_clock(i)
@@ -154,22 +155,16 @@ def animate(i):
         if P.A_SPS and 'sps' in sh.gi.child_names:
 
             if i in sh.gi.sps_gi['init_frames']:
-                # sp = sh.find_free_obj(type='sp')  #
-                # if sp != None:
-                #     # for sp_key, sp in sh.sps.items():
-                #     prints += "  adding sp"
-                #     sp.drawn = 1
-                #     sp.init_child_obj(i, sh.gi.sps_gi['frames_tot'], dynamic=False)
-                # else:
-                #     prints += "  no free sp"
+
+                # sh.finish_sps_info()
 
                 for sp_key, sp in sh.sps.items():
                     assert(sp.f == None)
-                    # if sp.f is not None:
-                    #     if sp.f.id == f.id:
+
                     sp.drawn = 1
                     prints += "  adding sp"
                     # sp.init_child_obj(i, sp.gi['frames_tot'], dynamic=False)
+                    sp.dyn_gen(i)
                     sp.init_child_obj(i, len(sp.xy), dynamic=False)
 
             for sp_id, sp in sh.sps.items():
@@ -187,11 +182,7 @@ def animate(i):
                                                            sp.xy[sp.clock - 3:sp.clock, 1])
 
                         im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
-                        # try:
                         im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
-                        # except:
-                            # adf = 5
-
                         asdf = 5
 
                     elif drawBool == 2:

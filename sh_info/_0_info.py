@@ -43,7 +43,7 @@ class Sh_0_info(ShInfoAbstract):
         # init_frames.sort()
         fs_gi['init_frames'] = pulse
         # fs_gi['frames_tot'] = random.randint(170, 220)
-        fs_gi['frames_tot'] = 50  # MUST BE HIGHTER THAN SP.FRAMES_TOT
+        fs_gi['frames_tot'] = 151  # MUST BE HIGHTER THAN SP.FRAMES_TOT
         # fs_gi['ld_offset_ss'] = [[30, -15], [10, -15]]
         # fs_gi['ld_offset_rand_ss'] = [[10, 5], [5, 5]]
         # fs_gi['scale_ss'] = [0, 12.0]

@@ -14,44 +14,46 @@ class Sp(AbstractLayer, AbstractSSS):
         AbstractLayer.__init__(_s)
 
         _s.sh = sh
+        _s.id = sh.id + "_f" + "_sp_" + str(id_int)
         if f != None:
             _s.id = sh.id + "_f" + "_sp_" + str(id_int)
             _s.f = f
-            _s.gi = deepcopy(f.sps_gi)
-            _s.gi['frames_tot'] = 150
-            _flip_it = True
-            _s.gi['r_f_d_type'] = 'after'  # after is what is kept
+        #     _s.gi = deepcopy(f.sps_gi)
+        #     _s.gi['frames_tot'] = 150
+        #     assert(_s.gi['frames_tot'] < _s.f.gi['frames_tot'])
+        #     _s._flip_it = True
+        #     _s.gi['r_f_d_type'] = 'after'  # after is what is kept
         else:
             _s.f = None
             _s.id = sh.id + "_sp_" + str(id_int)
-            _s.gi = deepcopy(sh.gi.sps_gi)  # could take it directly from sh but this is simpler
-            _s.gi['frames_tot'] = sh.gi.sps_gi['frames_tot']
-            _flip_it = True
-            _s.gi['r_f_d_type'] = 'after'  # after means what is kept
-
-        _s.finish_info()
-        _s.zorder = 100
+        #     _s.gi = deepcopy(sh.gi.sps_gi)  # could take it directly from sh but this is simpler
+        #     _s.gi['frames_tot'] = sh.gi.sps_gi['frames_tot']
+        #     _s._flip_it = True
+        #     _s.gi['r_f_d_type'] = 'after'  # after means what is kept
 
         # _s.frames_tot = f.gi['frames_tot']
 
         AbstractSSS.__init__(_s, sh, _s.id)
-
-        '''OBS frames_tot is same as f. But projectile needs to be generated with more frames'''
-        frames_tot_d = int(_s.gi['frames_tot'] * _s.gi['r_f_d'])
-        frames_tot_and_d = _s.gi['frames_tot'] + frames_tot_d
-
-        _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
-                                    frames_tot=frames_tot_and_d)
-
-        _s.xy = shift_projectile(_s.xy_t, origin=(_s.gi['ld'][0] + _s.gi['ld_offset'][0],
-                                                  _s.gi['ld'][1] + _s.gi['ld_offset'][1]),
-                                 frames_tot_d=frames_tot_d,
-                                 flip_it=_flip_it,
-                                 r_f_d_type=_s.gi['r_f_d_type'])
-
-        _s.alphas = np.linspace(0.6, 0.0, num=len(_s.xy))
-        assert(len(_s.alphas) == len(_s.xy))
-        assert(_s.gi['frames_tot'] == len(_s.alphas))
+        # # MOVED THIS TO DYN
+        # _s.finish_info()
+        # _s.zorder = 100
+        #
+        # '''OBS frames_tot is same as f. But projectile needs to be generated with more frames'''
+        # frames_tot_d = int(_s.gi['frames_tot'] * _s.gi['r_f_d'])
+        # frames_tot_and_d = _s.gi['frames_tot'] + frames_tot_d
+        #
+        # _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
+        #                             frames_tot=frames_tot_and_d)
+        #
+        # _s.xy = shift_projectile(_s.xy_t, origin=(_s.gi['ld'][0] + _s.gi['ld_offset'][0],
+        #                                           _s.gi['ld'][1] + _s.gi['ld_offset'][1]),
+        #                          frames_tot_d=frames_tot_d,
+        #                          flip_it=_flip_it,
+        #                          r_f_d_type=_s.gi['r_f_d_type'])
+        #
+        # _s.alphas = np.linspace(0.6, 0.0, num=len(_s.xy))
+        # assert(len(_s.alphas) == len(_s.xy))
+        # assert(_s.gi['frames_tot'] == len(_s.alphas))
 
         adf = 5
 
@@ -71,13 +73,13 @@ class Sp(AbstractLayer, AbstractSSS):
         return scale_ss
 
     def finish_info(_s):
+
         """This is written manually and adds/changes things in gi.
         Usually this function is run dynamically depending on coordinates of
         a parent layer at a certain frame. But not always.
         """
 
         # _s.gi['max_ri'] = np.max(_s.extent[:, 1])
-
         _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
         theta = np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
         _s.gi['theta'] = theta
@@ -91,9 +93,9 @@ class Sp(AbstractLayer, AbstractSSS):
         G_start = min(1, np.random.normal(loc=_s.gi['G_ss'][0], scale=_s.gi['G_scale']))
         B_start = min(1, np.random.normal(loc=_s.gi['B_ss'][0], scale=_s.gi['B_scale']))
 
-        R_start = max(0, R_start)
-        G_start = max(0, G_start)
-        B_start = max(0, B_start)
+        R_start = max(0.01, R_start)
+        G_start = max(0.01, G_start)
+        B_start = max(0.01, B_start)
 
         _s.R = np.linspace(R_start, _s.gi['R_ss'][1], num=_s.gi['frames_tot'])
         _s.G = np.linspace(G_start, _s.gi['G_ss'][1], num=_s.gi['frames_tot'])
@@ -104,4 +106,50 @@ class Sp(AbstractLayer, AbstractSSS):
             assert(min(_s.G) > 0)
             assert(min(_s.B) > 0)
         except:
-            raise Exception("ADf")
+            raise Exception("R G B not within range")
+
+    def dyn_gen(_s, i):
+
+        """
+        Basically everything moved from init to here.
+        """
+
+        if _s.f != None:
+            _s.gi = deepcopy(_s.f.sps_gi)
+            _s.gi['frames_tot'] = 150
+            assert (_s.gi['frames_tot'] < _s.f.gi['frames_tot'])
+            _s._flip_it = True
+            _s.gi['r_f_d_type'] = 'after'  # after is what is kept
+        else:  # sh sps
+            '''Use mod here or smthn'''
+            if i == 20:
+                _s.gi = deepcopy(_s.sh.gi.sps_gi)  # could take it directly from sh but this is simpler
+            elif i == 122:
+                _s.gi = deepcopy(_s.sh.gi.sps_gi2)
+            elif i == 230:
+                _s.gi = deepcopy(_s.sh.gi.sps_gi)
+
+            _s.gi['frames_tot'] = _s.sh.gi.sps_gi['frames_tot']
+            _s._flip_it = True
+            _s.gi['r_f_d_type'] = 'after'  # after means what is kept
+
+        _s.finish_info()
+        _s.zorder = 100
+
+        '''OBS frames_tot is same as f. But projectile needs to be generated with more frames'''
+        frames_tot_d = int(_s.gi['frames_tot'] * _s.gi['r_f_d'])
+        frames_tot_and_d = _s.gi['frames_tot'] + frames_tot_d
+
+        _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
+                                    frames_tot=frames_tot_and_d)
+
+        _s.xy = shift_projectile(_s.xy_t, origin=(_s.gi['ld'][0] + _s.gi['ld_offset'][0],
+                                                  _s.gi['ld'][1] + _s.gi['ld_offset'][1]),
+                                 frames_tot_d=frames_tot_d,
+                                 flip_it=_s._flip_it,
+                                 r_f_d_type=_s.gi['r_f_d_type'])
+
+        _s.alphas = np.linspace(0.6, 0.0, num=len(_s.xy))
+        assert (len(_s.alphas) == len(_s.xy))
+        assert (_s.gi['frames_tot'] == len(_s.alphas))
+

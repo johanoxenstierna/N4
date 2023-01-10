@@ -28,6 +28,7 @@ class Sh_2_info(ShInfoAbstract):
         # _s.srs_gi = _s.gen_srs_gi(fs_init_frames)  # OBS: sp_gi generated in f class. There is no info class for f.
         # _s.rs_gi = _s.gen_rs_gi(fs_init_frames)  # OBS: sp_gi generated in f class. There is no info class for f.
         _s.sps_gi = _s.gen_sps_gi()
+        _s.sps_gi2 = _s.gen_sps_gi2()
 
     def gen_sps_gi(_s):
 
@@ -40,14 +41,44 @@ class Sh_2_info(ShInfoAbstract):
         sps_gi = {
             'frames_tot': 100,
             'init_frames': [20, 122, 230],  # maybe add assert here
-            'v_loc': 20, 'v_scale': 3.,
+            # 'init_frames_'
+            'v_loc': 24, 'v_scale': 6,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': 0.05, 'theta_scale': 0.02,
-            'r_f_d_loc': 0.8, 'r_f_d_scale': 0.2,
+            'theta_loc': 0.04, 'theta_scale': 0.01,
+            'r_f_d_loc': 0.7, 'r_f_d_scale': 0.02,
             'r_f_d_type': None,  # which part of r_f_d to use
             'ld': _s.ld,
             'ld_offset_loc': [0, 0],
-            'ld_offset_scale': [0, 0.1],
+            'ld_offset_scale': [0, 0.0],
+            'R_ss': [0.6, 0.3], 'R_scale': 0.2,
+            'G_ss': [0.3, 0.2], 'G_scale': 0.1,
+            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+        }
+        # 160, 77, 36  -> 76, 42, 28
+
+
+        return sps_gi
+
+    def gen_sps_gi2(_s):
+
+        """
+        THESE ARE AVERAGES
+        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
+        climb up the projectile (before shifting)
+        """
+
+        sps_gi = {
+            'frames_tot': 100,
+            'init_frames': [20, 122, 230],  # maybe add assert here
+            # 'init_frames_'
+            'v_loc': 24, 'v_scale': 6,
+            'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
+            'theta_loc': -0.04, 'theta_scale': 0.01,
+            'r_f_d_loc': 0.7, 'r_f_d_scale': 0.02,
+            'r_f_d_type': None,  # which part of r_f_d to use
+            'ld': _s.ld,
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [0, 0],
             'R_ss': [0.6, 0.3], 'R_scale': 0.2,
             'G_ss': [0.3, 0.2], 'G_scale': 0.1,
             'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here

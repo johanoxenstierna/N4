@@ -134,3 +134,14 @@ class Sh(AbstractLayer):
 
         return None  # no object found
 
+    def finish_sps_info(_s):
+        """
+        This is for the case when sps is child of sp.
+        When relaunching a new set of sps it makes sense to do so with a
+        new set of gi args.
+        """
+
+        for sp in _s.sps.items():
+
+            pass
+

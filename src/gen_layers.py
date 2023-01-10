@@ -2,7 +2,7 @@ import os
 import json
 import numpy as np
 from src.load_pics import load_pics
-from src.init_infos import init_infos
+from src.genesis import init_infos
 import P as P
 from src.layers.sh import Sh
 from src.layers.f import F

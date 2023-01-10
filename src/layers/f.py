@@ -67,23 +67,23 @@ class F(AbstractLayer, AbstractSSS):
 
         return fs_gi
 
-    def gen_sps_gi(_s):
-        pass
-        """
-
-        THESE ARE AVERAGES
-        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
-        climb up the projectile (before shifting)
-        """
-        # sps_gi = {'v_loc': 26, 'v_scale': 8,
-        #           'num_loc': P.NUM_SPS, 'num_scale': P.NUM_SPS / 2,
-        #           'theta_loc': -0.3, 'theta_scale': 0.2,
-        #           'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
-        #           'ld': _s.sh.gi.ld,
-        #           'ld_offset_loc': [0, 1],
-        #           'ld_offset_scale': [0, 0.1],
-        #           'R_ss': [0.9, 1], 'R_scale': 0,
-        #           'G_ss': [0.6, 0], 'G_scale': 0.1,
-        #           'B_ss': [0.0001, 0], 'B_scale': 0,  # good to prevent neg numbers here
-        #           }
-        # return sps_gi
+    # def gen_sps_gi(_s):
+    #     pass
+    #     """
+    #
+    #     THESE ARE AVERAGES
+    #     r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
+    #     climb up the projectile (before shifting)
+    #     """
+    #     # sps_gi = {'v_loc': 26, 'v_scale': 8,
+    #     #           'num_loc': P.NUM_SPS, 'num_scale': P.NUM_SPS / 2,
+    #     #           'theta_loc': -0.3, 'theta_scale': 0.2,
+    #     #           'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
+    #     #           'ld': _s.sh.gi.ld,
+    #     #           'ld_offset_loc': [0, 1],
+    #     #           'ld_offset_scale': [0, 0.1],
+    #     #           'R_ss': [0.9, 1], 'R_scale': 0,
+    #     #           'G_ss': [0.6, 0], 'G_scale': 0.1,
+    #     #           'B_ss': [0.0001, 0], 'B_scale': 0,  # good to prevent neg numbers here
+    #     #           }
+    #     # return sps_gi

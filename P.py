@@ -6,7 +6,7 @@ FRAMES_START = 0
 FRAMES_STOP = None  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
 if MAP_SIZE == 's0':
     FRAMES_START = 0
-    FRAMES_STOP = 400
+    FRAMES_STOP = 600
 FRAMES_TOT = FRAMES_STOP - FRAMES_START
 
 # A (what to animate) ========
@@ -20,10 +20,10 @@ PR_MOVE_BLACK = 0  # what to pre-compute (doesn't affect rendering time that muc
 PR_ZIGZAG = 0
 
 GLOBAL_ALPHA_DARKENING = [[]]  # TODO: THIS USED BY SMOKRS ETC.
-NUM_SPS_SH = 1  # per sh.  NUMBER LAUNCH ON SAME FRAME
-NUM_SPS_F = 1  # per f  NUMBER LAUNCH DIFFERERNT FRAMES
+NUM_SPS_SH = 180  # per sh.  NUMBER LAUNCH ON SAME FRAME
+NUM_SPS_F = 10  # per f  NUMBER LAUNCH DIFFERERNT FRAMES
 NUM_SRS = 20
-NUM_FS = 1
+NUM_FS = 2
 NUM_RS = 5
 
 WAVES_STEPS_P_CYCLE = 90  #
@@ -34,8 +34,8 @@ WS_STEPS = 40  # 2s  wave front of ship
 # SPL_FRAME_OFFSET = 25  # not good design-wise
 EXPL_CYCLES = 8  # how often broadsides happen (HAS TO BE MOVED INTO SHIP INFO)
 
-# SHS_TO_SHOW = ['0', '1', '2']  # , '6', '7']#, '1'] #, '2', '3']
-SHS_TO_SHOW = ['0']  # , '6', '7']#, '1'] #, '2', '3']
+SHS_TO_SHOW = ['0', '1', '2']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['2']  # , '6', '7']#, '1'] #, '2', '3']
 # SHIPS_TO_SHOW = ['0', '2', '3', '4'] #, '3', '4']
 # SHIPS_TO_SHOW = ['0']
 SMOKRS_LEFT = ['3']  # this is checked TOGETHER with smokr info in ship_info
