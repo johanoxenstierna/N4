@@ -71,7 +71,7 @@ class Sh_0_info(ShInfoAbstract):
         # srs_gi['init_frames'] = [x + 30 for x in srs_gi['init_frames']]
 
         # fs_gi['frames_tot'] = random.randint(170, 220)
-        srs_gi['frames_tot'] = 100
+        srs_gi['frames_tot'] = 300
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
         srs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1]]  # -6 TUNED WITH affine2D.translate!!!
         srs_gi['ld_offset_loc'] = [2, 0]  # OBS there is no ss, only start!
@@ -99,15 +99,15 @@ class Sh_0_info(ShInfoAbstract):
         assert (rs_gi['init_frames'][-1] + rs_gi['frames_tot'] < P.FRAMES_STOP)
         rs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1] - 0]  # -6 TUNED WITH affine2D.translate!!!
         rs_gi['ld_offset_loc'] = [-1, 2]  # OBS there is no ss, only start!
-        rs_gi['ld_offset_scale'] = [0.2, 0.3]  # OBS there is no ss, only start!
+        rs_gi['ld_offset_scale'] = [0.2, 0.05]  # OBS there is no ss, only start!
         rs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         rs_gi['rs_hardcoded'] = {}
-        rs_gi['v_loc'] = 20  # rc=2
-        rs_gi['v_scale'] = 10
-        rs_gi['theta_loc'] = -np.pi/2 + 0.05  # radians!
+        rs_gi['v_loc'] = 70  # rc=2
+        rs_gi['v_scale'] = 22
+        rs_gi['theta_loc'] = -np.pi/2 + 0.8  # radians!
         rs_gi['theta_scale'] = 0.02
-        rs_gi['r_f_d_loc'] = 0.4
-        rs_gi['r_f_d_scale'] = 0.1
+        rs_gi['r_f_d_loc'] = 0.1
+        rs_gi['r_f_d_scale'] = 0.02
 
         return rs_gi
 
@@ -123,7 +123,7 @@ class Sh_0_info(ShInfoAbstract):
             'v_loc': 20, 'v_scale': 5,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': -0.2, 'theta_scale': 0.3,
-            'r_f_d_loc': 0.3, 'r_f_d_scale': 0.05,
+            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.05,
             'ld': _s.ld,
             'ld_offset_loc': [0, 1],
             'ld_offset_scale': [0, 0.1],

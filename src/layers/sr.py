@@ -40,6 +40,7 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.scale_vector = np.linspace(0.001, 2.5, num=_s.gi['frames_tot'])
         _s.rotation = np.linspace(0.01, 1, num=len(_s.scale_vector))
 
+        '''CHANGE ALPHA TO NORMAL'''
         _s.alpha = gen_alpha(_s.gi, fun_plot=fun_plot, frames_tot=_s.gi['frames_tot'])
 
     def gen_scale_vector(_s):

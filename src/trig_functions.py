@@ -63,6 +63,24 @@ def _sigmoid(x, grad_magn_inv=None, x_shift=None, y_magn=None, y_shift=None):
 	return (1 / (math.exp(-x / grad_magn_inv + x_shift) + y_magn)) + y_shift  # finfin
 
 
+def _xy_projectile(X, v, theta):
+
+
+	# xy = np.zeros((100, 2))  # MIDPOINT
+
+	G = 9.8
+
+	t_flight = 0.1 * v * np.sin(theta) / G
+	t = np.linspace(0, t_flight, len(X))
+
+	x = v * np.cos(theta) * t
+	y = v * np.sin(theta) * 1 * t - 0.5 * G * t ** 2
+
+	ax.plot(X, x, '-', color='blue')
+	ax.plot(X, y, '-', color='red')
+	adf = 5
+
+
 def sin_exp_experiment(X):
 	"""Extension of cph. Firing frames is a combination of a number of normal distributions with specified nums and
 	means in firing_info. """
@@ -131,7 +149,7 @@ if __name__ == '__main__':
 	'''
 
 	# # # # WAVE alpha NOT EXPL! ALpha 1 in beg cuz it starts real small ============
-	X = np.arange(1, 150)
+	X = np.arange(1, 100)
 	# # # Y = _normal(X, mean=len(X) // 2, var=len(X) // 4, y_range=[0, 0.15])  # alpha
 	# Y = ([_sigmoid(x, grad_magn_inv=-len(X) / 12, x_shift=-4, y_magn=22, y_shift=0) for x in X])  # expl alpha
 	# Y = np.asarray([_sigmoid(x, grad_magn_inv=-len(X) / 10, x_shift=-2, y_magn=40, y_shift=0) for x in X])  # expl alpha
@@ -140,7 +158,8 @@ if __name__ == '__main__':
 	# adf = 5
 
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 30, x_shift=-1, y_magn=1., y_shift=0) for x in X]))  # F
-	Y = _gamma(X, mean=2, var=20, y_range=[0.01, 1])
+	# Y = _gamma(X, mean=2, var=20, y_range=[0.01, 1])
+	_xy_projectile(X, v=20, theta=0.2)
 	# External: Test for sigmoid for probability
 
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=-len(X) / 10, x_shift=1, y_magn=20, y_shift=0) for x in X]))
@@ -182,7 +201,8 @@ if __name__ == '__main__':
 	# Y = np.random.multivariate_normal((20, 20), [[1, 0], [0, 1]], size=(40, 40))
 	# Y = chi2.pdf(X / 2, 4)
 
-	ax.plot(X, Y, '-')
+	'''EXECUTE'''
+	# ax.plot(X, Y, '-')
 	# plt.xlim([-5, NUM])
 	# plt.ylim([-2.5, 2.5])
 

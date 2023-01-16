@@ -30,7 +30,7 @@ class R(AbstractLayer, AbstractSSS):
 
         ### HERE: USE pic SHAPE TO CONTROL VELOCITY LOC
         _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
-                                    frames_tot=frames_tot_and_d, rc=1)  # OBS upside down!!!!
+                                    frames_tot=frames_tot_and_d, rc=1, _type='r')  # OBS upside down!!!!
 
         # _s.xy_t = np.linspace([10, 50], [80, 10], num=frames_tot_and_d)  #
         _s.R = np.linspace(0.9, 1, num=_s.gi['frames_tot'])
@@ -61,6 +61,8 @@ class R(AbstractLayer, AbstractSSS):
         # _s.tris, _s.tri_ext = rotate_tris(_s.tris, _s.tri_ext, _s.rotation_v)
 
         _s.alpha = gen_alpha(_s.gi, fun_plot=fun_plot, frames_tot=_s.gi['frames_tot'])
+        '''CHANGE ALPHA TO NORMAL'''
+
         assert(len(_s.alpha) == _s.gi['frames_tot'])
 
         fg = 5
@@ -85,7 +87,7 @@ class R(AbstractLayer, AbstractSSS):
         scale_loc_stop = scale_loc_start + random.uniform(-0.099, 0.1)
         _s.gi['scale_loc_ss'] = [scale_loc_start, scale_loc_stop]
         _s.gi['theta'] = theta
-        _s.gi['r_f_d'] = np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale'])
+        _s.gi['r_f_d'] = max(0.01, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         # _s.gi['ld_offset'] = _s.gi['ld_offset_loc']
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
@@ -102,16 +104,16 @@ class R(AbstractLayer, AbstractSSS):
         # _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
         #                       np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
-    def gen_sps_gi(_s):
-        """
-        THESE ARE AVERAGES
-        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
-        climb up the projectile (before shifting)
-        """
-        sps_gi = {'v_loc': 12, 'v_scale': 10,
-                  'theta_loc': -0.2, 'theta_scale': 0.08,
-                  'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
-                  'origin': (120, 50),
-                  'offset_x_loc': 0, 'offset_x_scale': 0.03,
-                  'offset_y_loc': 0, 'offset_y_scale': 0.02}
-        return sps_gi
+    # def gen_sps_gi(_s):
+    #     """
+    #     THESE ARE AVERAGES
+    #     r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
+    #     climb up the projectile (before shifting)
+    #     """
+    #     sps_gi = {'v_loc': 12, 'v_scale': 10,
+    #               'theta_loc': -0.2, 'theta_scale': 0.08,
+    #               'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
+    #               'origin': (120, 50),
+    #               'offset_x_loc': 0, 'offset_x_scale': 0.03,
+    #               'offset_y_loc': 0, 'offset_y_scale': 0.02}
+    #     return sps_gi

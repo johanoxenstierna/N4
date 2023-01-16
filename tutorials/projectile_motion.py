@@ -24,20 +24,21 @@ g = 9.8
 md = imread('./images/processed/mdoom3_small.png')  # 482, 187
 
 u = 20
-theta = -np.pi/4
+theta = np.pi/4
 
 t_flight = 2*u*np.sin(theta)/g
 t = np.linspace(0, t_flight, 100)
 x = u*np.cos(theta)*t
-# x = x[20:]
-y = u*np.sin(theta)*1*t - 0.5*g*t**2
+y = u*np.sin(theta)*2*t - 0.5*g*t**2
+# x = u*np.linspace(0, 2, num=len(y))
+
 # y_shift = y[20]
 # y = y[20:]
 # y -= y_shift
 
 fig, ax = plt.subplots()
 ax.imshow(md, zorder=1, alpha=1, origin='upper')
-# ax.invert_yaxis()
+ax.invert_yaxis()
 # ax.axis([0, 254, 0, 133])
 line, = ax.plot(x, y, color='yellow')
 

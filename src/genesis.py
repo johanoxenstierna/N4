@@ -10,7 +10,7 @@ def init_infos():
     '''Creates instance of each info and stores in dict'''
     infos = {}
 
-    pulse = random.sample(range(1, 200), 10)
+    pulse = random.sample(range(1, 200), 20)
     pulse.sort()
 
     _0 = _0_info.Sh_0_info(pulse)

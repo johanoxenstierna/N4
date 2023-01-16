@@ -1,12 +1,10 @@
 """the centre of the flame"""
 
-
-
-
 from sh_info.shInfoAbstract import ShInfoAbstract
 import P as P
 import random
 import numpy as np
+import copy
 
 class Sh_2_info(ShInfoAbstract):
     """
@@ -23,14 +21,27 @@ class Sh_2_info(ShInfoAbstract):
         _s.zorder = 10
         # _s.init_frames =
         _s.ld = [120, 50]
-        _s.child_names = ['sps']
+        _s.child_names = ['sps', 'ls']
         # _s.fs_gi, fs_init_frames = _s.gen_fs_gi()  # OBS: sp_gi generated in f class. There is no info class for f.
         # _s.srs_gi = _s.gen_srs_gi(fs_init_frames)  # OBS: sp_gi generated in f class. There is no info class for f.
         # _s.rs_gi = _s.gen_rs_gi(fs_init_frames)  # OBS: sp_gi generated in f class. There is no info class for f.
-        _s.sps_gi = _s.gen_sps_gi()
-        _s.sps_gi2 = _s.gen_sps_gi2()
 
-    def gen_sps_gi(_s):
+        _s.l_gi = _s.gen_l_gi()
+
+        _s.sps_gi0 = _s.gen_sps_gi0()
+        _s.sps_gi0['init_frames'] = [10, 50, 100, 250]  # THIS CAUSES IT
+        assert(10 + _s.sps_gi0['frames_tot'] + 100 < P.FRAMES_STOP)
+
+        _s.sps_gi2 = _s.gen_sps_gi2()
+        _s.sps_gi2['init_frames'] = [30, 100, 150]
+        assert(40 + _s.sps_gi2['frames_tot'] + 100 < P.FRAMES_STOP)
+
+        _s.sps_init_frames = _s.sps_gi0['init_frames'] + _s.sps_gi2['init_frames']
+
+        # _s.sps_gi = copy.deepcopy(_s.sps_gi0)
+        # _s.sps_gi['init_frames'] = [10, 40, 222, 300]
+
+    def gen_sps_gi0(_s):
 
         """
         THESE ARE AVERAGES
@@ -39,20 +50,21 @@ class Sh_2_info(ShInfoAbstract):
         """
 
         sps_gi = {
-            'frames_tot': 100,
-            'init_frames': [20, 122, 230],  # maybe add assert here
+            'gi_id': '0',
+            'frames_tot': 200,
+            # 'init_frames': [20, 222],  # WHAT HAPPENS IF NEW START EARLY IS THAT OLD ONES DONT GET TIME TO REMOVE THEMSELVES
             # 'init_frames_'
-            'v_loc': 24, 'v_scale': 6,
+            'v_loc': 70, 'v_scale': 16,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': 0.04, 'theta_scale': 0.01,
-            'r_f_d_loc': 0.7, 'r_f_d_scale': 0.02,
+            'theta_loc': 0.8, 'theta_scale': 0.03,
+            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.02,
             'r_f_d_type': None,  # which part of r_f_d to use
             'ld': _s.ld,
-            'ld_offset_loc': [0, 0],
+            'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 0.0],
-            'R_ss': [0.6, 0.3], 'R_scale': 0.2,
-            'G_ss': [0.3, 0.2], 'G_scale': 0.1,
-            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+            'R_ss': [0.5, 0.8], 'R_scale': 0.2,
+            'G_ss': [0.35, 0.2], 'G_scale': 0.1,
+            'B_ss': [0.15, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
         }
         # 160, 77, 36  -> 76, 42, 28
 
@@ -68,25 +80,39 @@ class Sh_2_info(ShInfoAbstract):
         """
 
         sps_gi = {
-            'frames_tot': 100,
-            'init_frames': [20, 122, 230],  # maybe add assert here
+            'gi_id': '2',
+            'frames_tot': 230,
+            # 'init_frames': [20, 222],  # WHAT HAPPENS IF NEW START EARLY IS THAT OLD ONES DONT GET TIME TO REMOVE THEMSELVES
             # 'init_frames_'
-            'v_loc': 24, 'v_scale': 6,
+            'v_loc': 80, 'v_scale': 10,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': -0.04, 'theta_scale': 0.01,
-            'r_f_d_loc': 0.7, 'r_f_d_scale': 0.02,
+            'theta_loc': 0.8, 'theta_scale': 0.07,
+            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': None,  # which part of r_f_d to use
             'ld': _s.ld,
-            'ld_offset_loc': [0, 0],
+            'ld_offset_loc': [-4, 5],
             'ld_offset_scale': [0, 0],
-            'R_ss': [0.6, 0.3], 'R_scale': 0.2,
+            'R_ss': [0.7, 1], 'R_scale': 0.2,
             'G_ss': [0.3, 0.2], 'G_scale': 0.1,
             'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
         }
         # 160, 77, 36  -> 76, 42, 28
 
-
         return sps_gi
+
+    def gen_l_gi(_s):
+
+        """
+
+        """
+
+        l_gi = {}
+
+
+        return l_gi
+
+
+
 
     # def gen_fs_gi(_s):
     #     """

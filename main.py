@@ -50,6 +50,10 @@ if P.A_SRS:
 if P.A_RS:
     shs = g.gen_rs(ax0, im_ax, shs)
 
+if P.A_LS:
+    shs = g.gen_ls(ax0, im_ax, shs)
+
+
 
 '''VIEWER ==========================================='''
 
@@ -152,20 +156,44 @@ def animate(i):
                             decrement_all_index_im_ax(index_removed, shs)
                             # continue
 
-        if P.A_SPS and 'sps' in sh.gi.child_names:
+        if P.A_SPS and 'sps' in sh.gi.child_names:  # SH sps
+            '''NOT f'''
+            if i == 20:
+                adf = 5
+            if i in sh.gi.sps_init_frames:
+                '''This sets an init frame for the sp IN THE FUTURE'''
 
-            if i in sh.gi.sps_gi['init_frames']:
+                # HERE EXTEND THIS TO LOOP
+                # for _ in range(len(sh.sps)):
+                for _ in range(30):
+                    sp = sh.find_free_obj(type='sp')
 
-                # sh.finish_sps_info()
+                    '''SINCE OBJECT HASNT BEEN DRAWN YET IT IS
+                    STILL FREE. PERHAPS DONT LOOP OVER ALL SPS, 
+                    '''
+                    if sp != None:
+                        assert (sp.f == None)
 
-                for sp_key, sp in sh.sps.items():
-                    assert(sp.f == None)
+                        if i in sh.gi.sps_gi0['init_frames']:
+                            prints += "  adding sp0"
+                            sp.dyn_gen(i, _type='sh0')  # THIS UPDATES gi AND sets init_frame
+                        elif i in sh.gi.sps_gi2['init_frames']:
+                            prints += "  adding sp2"
+                            sp.dyn_gen(i, _type='sh2')
+                    else:
+                        prints += "  couldnt add sp"
 
+            # HERE FRAME_SS IS THE SAME FOR EVERY SP HERE
+            for sp_id, sp in sh.sps.items():
+
+                try:
+                    _ = sp.init_frame
+                except:
+                    sp.init_frame = -999
+
+                if sp.init_frame == i:  # only for sh sp
                     sp.drawn = 1
-                    prints += "  adding sp"
-                    # sp.init_child_obj(i, sp.gi['frames_tot'], dynamic=False)
-                    sp.dyn_gen(i)
-                    sp.init_child_obj(i, len(sp.xy), dynamic=False)
+                    sp.init_child_obj(i, len(sp.xy), dynamic=False)  # THIS SETS FRAME_SS
 
             for sp_id, sp in sh.sps.items():
                 if sp.drawn != 0 and sp.f == None:
@@ -180,10 +208,12 @@ def animate(i):
                         else:
                             im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
                                                            sp.xy[sp.clock - 3:sp.clock, 1])
-
+                        # try:
                         im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
+                        # except:
+                        #     adf =5
                         im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
-                        asdf = 5
+                        # im_ax[sp.index_im_ax].set_alpha(1)
 
                     elif drawBool == 2:
                         decrement_all_index_im_ax(index_removed, shs)
@@ -303,7 +333,7 @@ print("len of vid: " + str(sec_vid) + " s" + "    " + str(min_vid) + " min")
 
 start_t = time.time()
 ani = animation.FuncAnimation(fig, animate, frames=range(P.FRAMES_START, P.FRAMES_STOP),
-                              blit=True, interval=10, init_func=init,
+                              blit=True, interval=1, init_func=init,
                               repeat=False)  # interval only affects live ani. blitting seems to make it crash
 
 if WRITE == 0:

@@ -1,12 +1,13 @@
 
 t:
-19
+35
 
 micro_breaks=0
 
 log:
 3 - migrate from N2
 8 - many h for conception (avoiding navarino)
+35 - lava not done yet.
 
 OBS below are just short things not yet added to Desktop/N4_local
 

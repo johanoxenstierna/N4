@@ -75,7 +75,7 @@ class AbstractLayer:
                 # im_ax[-1].set_extent([100, 200, 100, 50])
             else:  # sp
                 im_ax.append(ax0.plot(_s.xy[:, 0], _s.xy[:, 1], zorder=_s.zorder,
-                                     alpha=_s.alphas[_s.clock], color=(_s.R[0], _s.G[0], _s.B[0]))[0])
+                                     alpha=0, color=(_s.R[0], _s.G[0], _s.B[0]))[0])
 
             _s.ax1 = im_ax[_s.index_im_ax]
             return 1, None
@@ -114,8 +114,8 @@ class AbstractSSS:
         OBS USED BY Smokes and Spl, which are children to ship. Generates frame_ss, scale_ss
         OBS UPDATE: frame_ss reduced by 1 in length to make sure index not exceeded
         """
-
-        _s.gi['frame_ss'] = [ii, ii + NUM_FRAMES - 10]    # OVERWRITES
+        assert(ii + NUM_FRAMES)
+        _s.gi['frame_ss'] = [ii, ii + NUM_FRAMES]    # OVERWRITES
         _s.frame_ss = _s.gi['frame_ss']  # THIS IS GLOBAL i (hence useless for e.g. ship.extent)
         frame_num = _s.gi['frame_ss'][1] - _s.gi['frame_ss'][0]  # same as in gen_extent
         assert(_s.gi['frame_ss'][1] < P.FRAMES_STOP)

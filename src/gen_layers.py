@@ -9,6 +9,7 @@ from src.layers.f import F
 from src.layers.sr import Sr
 from src.layers.sp import Sp
 from src.layers.r import R
+from src.layers.l import L
 
 
 class GenLayers:
@@ -108,6 +109,18 @@ class GenLayers:
                     r = R(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
 
                     sh.rs[pic_key] = r
+
+        return shs
+
+    def gen_ls(_s, ax, im_ax, shs):
+        """Srs"""
+        for sh_id, sh in shs.items():
+            if 'ls' in sh.gi.child_names:
+                ls_pics = _s.pics['sh'][sh_id]['ls']
+                for pic_key, pic in ls_pics.items():  # IF REPEATS OF PIC THEN ADD IN LOOP HERE
+                    l = L(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+
+                    sh.rs[pic_key] = l
 
         return shs
 
