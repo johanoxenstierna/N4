@@ -119,8 +119,7 @@ class GenLayers:
                 ls_pics = _s.pics['sh'][sh_id]['ls']
                 for pic_key, pic in ls_pics.items():  # IF REPEATS OF PIC THEN ADD IN LOOP HERE
                     l = L(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-
-                    sh.rs[pic_key] = l
+                    sh.ls[pic_key] = l
 
         return shs
 

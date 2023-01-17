@@ -76,6 +76,10 @@ def mpl_affine(ii, g_obj, ax0, im_ax):
 				rotate_around(4, 6, g_obj.rotation_v[g_obj.clock]). \
 				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
 				translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
+	# elif g_obj.id[2] == 'l':
+	# 	M = mtransforms.Affine2D(). \
+	# 			scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+	# 			translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
 
 	#
 	# rotate_around(4, 6, g_obj.rotation[g_obj.clock]). \
@@ -128,6 +132,11 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 			if r.index_im_ax != None:
 				if r.index_im_ax > index_removed:
 					r.index_im_ax -= 1
+
+		for l in sh.ls.values():
+			if l.index_im_ax != None:
+				if l.index_im_ax > index_removed:
+					l.index_im_ax -= 1
 
 # for smokr in sh.smokrs.values():
 # 	if smokr.index_im_ax != None:

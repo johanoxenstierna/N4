@@ -98,7 +98,7 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['r_f_d'] = max(0.001, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
-        _s.zorder = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 0)
+        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 0)
 
         '''Colors'''
         R_start = min(1, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
@@ -166,7 +166,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.gi['r_f_d_type'] = 'after'  # after means what is kept
 
         _s.finish_info()
-        _s.zorder = 100
+        # _s.zorder = 100
 
         if _s.id == '2_sp0_89': # HERE CHECK SHIFT_PROJECTILE
             adf = 5
@@ -198,7 +198,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.alphas = np.linspace(0.6, 0.0, num=_s.gi['frames_tot'])
         else:
             '''CHANGE ALPHA TO NORMAL'''
-            _s.alphas = gen_alpha(_s.gi, fun_plot='sp2', frames_tot=_s.gi['frames_tot'])
+            _s.alphas = gen_alpha(_s.gi, fun_plot='sp2', frames_tot=_s.gi['frames_tot'], y_range=[0, 0.5])
 
         # _s.alphas = np.sin(list(range(0, int(_s.gi['frames_tot'] / 2 * np.pi))))
         if _s.alphas[0] > 0.3:

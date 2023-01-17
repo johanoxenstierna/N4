@@ -12,28 +12,26 @@ class Sh_2_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse):
+    def __init__(_s, pulse2):
         super().__init__()
         _s.id = '2'
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]
         _s.zorder = 10
-        # _s.init_frames =
+
         _s.ld = [120, 50]
         _s.child_names = ['sps', 'ls']
-        # _s.fs_gi, fs_init_frames = _s.gen_fs_gi()  # OBS: sp_gi generated in f class. There is no info class for f.
-        # _s.srs_gi = _s.gen_srs_gi(fs_init_frames)  # OBS: sp_gi generated in f class. There is no info class for f.
-        # _s.rs_gi = _s.gen_rs_gi(fs_init_frames)  # OBS: sp_gi generated in f class. There is no info class for f.
 
-        _s.l_gi = _s.gen_l_gi()
-
+        _s.ls_gi = _s.gen_ls_gi(pulse2)
         _s.sps_gi0 = _s.gen_sps_gi0()
-        _s.sps_gi0['init_frames'] = [10, 50, 100, 250]  # THIS CAUSES IT
+
+        # TODO distribute these between them based on pulse2
+        _s.sps_gi0['init_frames'] = [10, 50, 70, 100, 250]  # THIS CAUSES IT
         assert(10 + _s.sps_gi0['frames_tot'] + 100 < P.FRAMES_STOP)
 
         _s.sps_gi2 = _s.gen_sps_gi2()
-        _s.sps_gi2['init_frames'] = [30, 100, 150]
+        _s.sps_gi2['init_frames'] = [30, 100, 150, 200]
         assert(40 + _s.sps_gi2['frames_tot'] + 100 < P.FRAMES_STOP)
 
         _s.sps_init_frames = _s.sps_gi0['init_frames'] + _s.sps_gi2['init_frames']
@@ -100,14 +98,31 @@ class Sh_2_info(ShInfoAbstract):
 
         return sps_gi
 
-    def gen_l_gi(_s):
+    def gen_ls_gi(_s, pulse2):
 
         """
 
         """
 
         l_gi = {}
+        # l_gi['init_frames'] = [x for x in pulse2]
+        l_gi['init_frames'] = [10, 50, 100, 150, 200, 250]
+        l_gi['frames_tot'] = 200
+        l_gi['ld'] = [_s.ld[0], _s.ld[1] + 2]  # -6 TUNED WITH affine2D.translate!!!
+        l_gi['ld_offset_start_loc'] = [0, 0]  # OBS there is no ss, only start!
+        l_gi['ld_offset_start_scale'] = [0, 0]  # OBS there is no ss, only start!
+        l_gi['ld_offset_end_loc'] = [-35, 40]  # OBS there is no ss, only start!
+        l_gi['ld_offset_end_scale'] = [2, 1]  # OBS there is no ss, only start!
 
+        l_gi['frame_ss'] = _s.frame_ss  # simpler with this
+        l_gi['sr_hardcoded'] = {}
+        l_gi['v_loc'] = 30  # rc=2
+        l_gi['v_scale'] = 20
+        l_gi['theta_loc'] = -0.3  # radians!
+        l_gi['theta_scale'] = 0.2
+        l_gi['r_f_d_loc'] = 0.05
+        l_gi['r_f_d_scale'] = 0.00
+        l_gi['zorder'] = 4
 
         return l_gi
 

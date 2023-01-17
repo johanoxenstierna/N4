@@ -54,11 +54,8 @@ if P.A_LS:
     shs = g.gen_ls(ax0, im_ax, shs)
 
 
-
 '''VIEWER ==========================================='''
-
 brkpoint = 4
-
 
 def init():
     return im_ax
@@ -165,7 +162,7 @@ def animate(i):
 
                 # HERE EXTEND THIS TO LOOP
                 # for _ in range(len(sh.sps)):
-                for _ in range(30):
+                for _ in range(50):
                     sp = sh.find_free_obj(type='sp')
 
                     '''SINCE OBJECT HASNT BEEN DRAWN YET IT IS
@@ -287,42 +284,51 @@ def animate(i):
                         mpl_affine(i, r, ax0, im_ax)
                         # im_ax[r.index_im_ax].set_color((r.R[r.clock], r.G[r.clock], r.B[r.clock]))
                         # im_ax[r.index_im_ax].set(interpolation_stage='rgba', cmap='jet')
-                        im_ax[r.index_im_ax].set_alpha(1.)
+                        im_ax[r.index_im_ax].set_alpha(r.alpha[r.clock])
                         im_ax[r.index_im_ax].set_zorder(100)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 
-        # if P.A_SPS and 'sps' in sh.gi.child_names:
-        #     if i in sh.gi.sps_gi['init_frames']:
-        #         for sp_key, sp in sh.sps.items():
-        #             sp.init_child_obj(i, sh.gi.sps_gi['frames_tot'], dynamic=False)
+        if P.A_LS and 'ls' in sh.gi.child_names:
+            if i in sh.gi.ls_gi['init_frames']:
+                l = sh.find_free_obj(type='l')
+                if l != None:
+                    prints += "  adding l"
+                    exceeds_frame_max, how_many = l.check_frame_max(i, l.gi['frames_tot'])
+                    if exceeds_frame_max == True:
+                        # prints += "  smoka exceeds max"
+                        l.frames_tot = how_many
+                        # continue
+                    l.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
+                    # sh.rs_latest_drawn_id = r.id
+                    l.init_child_obj(i, l.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    # f.gen_dyn_extent_alpha()
 
-            # if P.A_SPS:
-            #     for sp_id, sp in f.sps.items():
-            #         sp.set_clock(i)
-            #         drawBool, index_removed = sp.ani_update_step(ax0, im_ax, sp=True)
-            #         if drawBool == 0:
-            #             continue
-            #         elif drawBool == 1:
-            #             # try:
-            #             if sp.clock < 4:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
-            #                 im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
-            #             else:
-            #                 im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
-            #                                                sp.xy[sp.clock - 3:sp.clock, 1])
-            #
-            #             im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
-            #             im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
-            #             #
-            #             # except:
-            #             #     adf = 6
-            #         elif drawBool == 2:
-            #             decrement_all_index_im_ax(index_removed, shs)
-            #             continue
+                else:
+                    prints += "  no free ls"
+
+            for l_id, l in sh.ls.items():
+
+                if l.drawn != 0:  # the 4 from above is needed only the very first iteration it becomes visible
+                    l.set_clock(i)
+
+                    drawBool, index_removed = l.ani_update_step(ax0, im_ax)
+                    if drawBool == 0:  # dont draw
+                        continue
+                    elif drawBool == 1:
+                        # warp_affine_and_color(i, ax0, im_ax, r)  # parent obj required for sail
+                        im_ax[l.index_im_ax].set_extent(l.extent[l.clock])  # parent obj required for sail
+                        # print(im_ax[f.index_im_ax].get_alpha())
+                        # mpl_affine(i, l, ax0, im_ax)
+                        # im_ax[r.index_im_ax].set_color((r.R[r.clock], r.G[r.clock], r.B[r.clock]))
+                        # im_ax[r.index_im_ax].set(interpolation_stage='rgba', cmap='jet')
+                        im_ax[l.index_im_ax].set_alpha(l.alpha[l.clock])
+                        # im_ax[l.index_im_ax].set_alpha(1)
+                        im_ax[l.index_im_ax].set_zorder(100)
+                    elif drawBool == 2:  # remove
+                        decrement_all_index_im_ax(index_removed, shs)
 
         print(prints)
-                    # im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])
-                    # im_ax[smoka.index_im_ax].set_zorder(smoka.zorder)  # SET IN ANI_UPDATE_STEP
 
     return im_ax  # if run live, it runs until window is closed
 

@@ -19,7 +19,7 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.pic = pic  # NOT SCALED
 
         _s.gi = deepcopy(sh.gi.srs_gi)
-        _s.zorder = _s.gi['zorder']
+        # _s.zorder = _s.gi['zorder']
 
         AbstractSSS.__init__(_s, sh, id)
 
@@ -28,7 +28,7 @@ class Sr(AbstractLayer, AbstractSSS):
 
         _s.xy_t = simple_projectile(v=_s.gi['v_loc'], theta=_s.gi['theta_loc'],
                                     frames_tot=frames_tot_and_d, rc=1.3)
-        _s.gi = _s.finish_info(_s.gi)
+        _s.finish_info()
 
         origin_ = (_s.gi['ld'][0] + _s.gi['ld_offset'][0], _s.gi['ld'][1] + _s.gi['ld_offset'][1])
         _s.xy = shift_projectile(_s.xy_t, origin=origin_, flip_it=True, frames_tot_d=frames_to_d, r_f_d_type='after')
@@ -43,12 +43,7 @@ class Sr(AbstractLayer, AbstractSSS):
         '''CHANGE ALPHA TO NORMAL'''
         _s.alpha = gen_alpha(_s.gi, fun_plot=fun_plot, frames_tot=_s.gi['frames_tot'])
 
-    def gen_scale_vector(_s):
-
-        scale_ss = []
-        return scale_ss
-
-    def finish_info(_s, fs_gi):
+    def finish_info(_s):
         """This is written manually and adds/changes things in gi.
         Usually this function is run dynamically depending on coordinates of
         a parent layer at a certain frame. But not always.
@@ -61,7 +56,6 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
-        return fs_gi
 
     def gen_sps_gi(_s):
         """

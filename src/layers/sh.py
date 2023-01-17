@@ -18,10 +18,10 @@ class Sh(AbstractLayer):
         _s.fs = {}
         _s.srs = {}
         _s.rs = {}
+        _s.ls = {}
         _s.sps = {}  # only used by some insts
         _s.f_latest_drawn_id = "99_99_99_99"
         _s.zorder = gi.zorder
-
 
         # zigzag = ()
         # if P.PR_ZIGZAG:
@@ -112,6 +112,8 @@ class Sh(AbstractLayer):
             _di = _s.rs
         elif type == 'sp':
             _di = _s.sps
+        elif type == 'l':
+            _di = _s.ls
         li_ids = list(_di.keys())
 
         random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA

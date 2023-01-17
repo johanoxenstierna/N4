@@ -66,7 +66,7 @@ class AbstractLayer:
             # im_ax[_s.ship_info['id']] = ax.imshow(_s.pic, zorder=1, alpha=1)
             if sp == False:
                 # _s.pic = np.flipud(_s.pic)  # this ONLY flips the img_t
-                im_ax.append(ax0.imshow(_s.pic, zorder=_s.zorder, alpha=1, origin='lower'))  #, extent=[0, 14, 0, 19]))
+                im_ax.append(ax0.imshow(_s.pic, zorder=_s.gi['zorder'], alpha=1, origin='lower'))  #, extent=[0, 14, 0, 19]))
                 # aaa = ax0.imshow(_s.pic, zorder=_s.zorder, alpha=1, origin='upper', extent=[0, 14, 0, 19])
                 # trans_data = ax0.transData
                 # M = mtransforms.Affine2D().scale(random.randint(1, 5), random.randint(1, 5))
@@ -74,7 +74,7 @@ class AbstractLayer:
                 # im_ax[_s.index_im_ax].set_transform(M)
                 # im_ax[-1].set_extent([100, 200, 100, 50])
             else:  # sp
-                im_ax.append(ax0.plot(_s.xy[:, 0], _s.xy[:, 1], zorder=_s.zorder,
+                im_ax.append(ax0.plot(_s.xy[:, 0], _s.xy[:, 1], zorder=_s.gi['zorder'],
                                      alpha=0, color=(_s.R[0], _s.G[0], _s.B[0]))[0])
 
             _s.ax1 = im_ax[_s.index_im_ax]

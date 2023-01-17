@@ -78,8 +78,9 @@ def load_pics():
                 elif folder_name1 == 'ls':
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pic = np.flipud(pic)
-                    _path_debug = 'sh' + '/' + folder_name0 + '/' + file_name[:-4]
-                    pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
+                    for i in range(P.NUM_LS):
+                        _path_debug = 'sh' + '/' + folder_name0 + '/' + file_name[:-4]
+                        pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
                 else:
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic

@@ -12,6 +12,8 @@ def init_infos():
 
     pulse = random.sample(range(1, 200), 20)
     pulse.sort()
+    pulse2 = random.sample(range(1, 200), 10)
+    pulse2.sort()
 
     _0 = _0_info.Sh_0_info(pulse)
     infos[_0.id] = _0
@@ -21,7 +23,7 @@ def init_infos():
         infos[_1.id] = _1
 
     if '2' in P.SHS_TO_SHOW:
-        _2 = _2_info.Sh_2_info(pulse)
+        _2 = _2_info.Sh_2_info(pulse2)
         infos[_2.id] = _2
 
     return infos

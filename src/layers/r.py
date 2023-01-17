@@ -20,7 +20,7 @@ class R(AbstractLayer, AbstractSSS):
         _s.pic = pic  # NOT SCALED
 
         _s.gi = deepcopy(sh.gi.rs_gi)
-        _s.zorder = _s.gi['zorder']
+        # _s.zorder = _s.gi['zorder']
 
         AbstractSSS.__init__(_s, sh, id)
 
@@ -91,7 +91,6 @@ class R(AbstractLayer, AbstractSSS):
         # _s.gi['ld_offset'] = _s.gi['ld_offset_loc']
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
-        # _s.gi['r_f_d']
 
         '''Since its going both up and down, total y dist must be computed'''
         _s.gi['total_y_dist'] = None
