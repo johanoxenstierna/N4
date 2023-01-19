@@ -51,6 +51,7 @@ class Sh_1_info(ShInfoAbstract):
         srs_gi['theta_scale'] = 0.2
         srs_gi['r_f_d_loc'] = 0.05
         srs_gi['r_f_d_scale'] = 0.00
+        srs_gi['up_down'] = 'up'
 
         return srs_gi
 

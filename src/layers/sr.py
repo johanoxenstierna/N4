@@ -31,7 +31,7 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.finish_info()
 
         origin_ = (_s.gi['ld'][0] + _s.gi['ld_offset'][0], _s.gi['ld'][1] + _s.gi['ld_offset'][1])
-        _s.xy = shift_projectile(_s.xy_t, origin=origin_, flip_it=True, frames_tot_d=frames_to_d, r_f_d_type='after')
+        _s.xy = shift_projectile(_s.xy_t, origin=origin_, up_down=_s.gi['up_down'], frames_tot_d=frames_to_d, r_f_d_type='after')
 
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
         fun_plot = 'sr'  # smokr but fun plot is same
@@ -55,7 +55,6 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.gi['r_f_d'] = np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale'])
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
-
 
     def gen_sps_gi(_s):
         """

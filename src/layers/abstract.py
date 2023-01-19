@@ -66,7 +66,7 @@ class AbstractLayer:
             # im_ax[_s.ship_info['id']] = ax.imshow(_s.pic, zorder=1, alpha=1)
             if sp == False:
                 # _s.pic = np.flipud(_s.pic)  # this ONLY flips the img_t
-                im_ax.append(ax0.imshow(_s.pic, zorder=_s.gi['zorder'], alpha=1, origin='lower'))  #, extent=[0, 14, 0, 19]))
+                im_ax.append(ax0.imshow(_s.pic, zorder=_s.gi['zorder'], alpha=1, origin='lower', filternorm=False))  #, extent=[0, 14, 0, 19]))
                 # aaa = ax0.imshow(_s.pic, zorder=_s.zorder, alpha=1, origin='upper', extent=[0, 14, 0, 19])
                 # trans_data = ax0.transData
                 # M = mtransforms.Affine2D().scale(random.randint(1, 5), random.randint(1, 5))
@@ -109,19 +109,20 @@ class AbstractSSS:
         _s.id = id
         # _s.pic = pic  # shouldnt be needed here
 
-    def init_child_obj(_s, ii, NUM_FRAMES, dynamic=False):
+    def set_frame_ss(_s, ii, NUM_FRAMES, dynamic=False):
         """
         OBS USED BY Smokes and Spl, which are children to ship. Generates frame_ss, scale_ss
         OBS UPDATE: frame_ss reduced by 1 in length to make sure index not exceeded
         """
+
         assert(ii + NUM_FRAMES)
         _s.gi['frame_ss'] = [ii, ii + NUM_FRAMES]    # OVERWRITES
         _s.frame_ss = _s.gi['frame_ss']  # THIS IS GLOBAL i (hence useless for e.g. ship.extent)
-        frame_num = _s.gi['frame_ss'][1] - _s.gi['frame_ss'][0]  # same as in gen_extent
+        # frame_num = _s.gi['frame_ss'][1] - _s.gi['frame_ss'][0]  # same as in gen_extent
         assert(_s.gi['frame_ss'][1] < P.FRAMES_STOP)
 
-        if _s.sh.gi.extent != 'static':
-            ssas = _s.sh.scale_vector[_s.sh.clock]  # scale_sh_at_start
+        # if _s.sh.gi.extent != 'static':
+        #     ssas = _s.sh.scale_vector[_s.sh.clock]  # scale_sh_at_start
 
         # if dynamic == True:
         #     _s.gi['ld_ss'] = _s.get_ld_ss(ssas)

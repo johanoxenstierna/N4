@@ -10,6 +10,7 @@ from src.layers.sr import Sr
 from src.layers.sp import Sp
 from src.layers.r import R
 from src.layers.l import L
+from src.layers.c import C
 
 
 class GenLayers:
@@ -28,7 +29,8 @@ class GenLayers:
         # _s.ch = ch
 
     def gen_backgr(_s, ax, im_ax):
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
+
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.1))
         # im_ax.append(ax.imshow(_s.pics['frame'], zorder=99999))
         if P.MAP_SIZE == 's0':
             # pass
@@ -113,7 +115,9 @@ class GenLayers:
         return shs
 
     def gen_ls(_s, ax, im_ax, shs):
+
         """Srs"""
+
         for sh_id, sh in shs.items():
             if 'ls' in sh.gi.child_names:
                 ls_pics = _s.pics['sh'][sh_id]['ls']
@@ -123,77 +127,90 @@ class GenLayers:
 
         return shs
 
-    def gen_sails(_s, ax, im_ax, ships):
-        """ax im_ax stuff not only in animate()"""
+    def gen_cs(_s, ax, im_ax, shs):
+        for sh_id, sh in shs.items():
+            if 'cs' in sh.gi.child_names:
+                cs_pics = _s.pics['sh'][sh_id]['cs']
+                for pic_key, pic in cs_pics.items():
+                    c = C(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    sh.cs[pic_key] = c
+                adf = 5
 
-        for ship_id in ships:  # ships is a key-val dict
+        return shs
 
-            _, _, file_names = os.walk(_s.PATH_IMAGES + '/sh/' + ship_id).__next__()
 
-            for file_name in file_names:
-                name_split = file_name.split('_')
-                if len(name_split) > 1 and name_split[1] == 's' and len(name_split) < 4 and \
-                        file_name[:-4] in ships[ship_id].gi['xtras']:
-                    sail = Sail(file_name[:-4],
-                                _s.pics['ships'][ship_id]['sails'][file_name[:-4]],
-                                ships[ship_id])
-                    # ships[ship_id].add_sail(sail)
-                    ships[ship_id].sails[sail.id] = sail
-        return ships
 
-    def gen_smokas(_s, ax, im_ax, ships, ch):
-        """
-        OBS difference to waves is that here one object is created
-        ch needed to trigger when smoke to launch
-        """
-        for ship_id in ships:  # ships is a key-val dict
-
-            for smoka_id, smoka_pic in _s.pics['ships'][ship_id]['smokas'].items():
-
-                smoka = Smoke(smoka_id, smoka_pic, ships[ship_id], ch, type='a')
-                ships[ship_id].smokas[smoka.id] = smoka
-
-        return ships
-
-    def gen_smokrs(_s, ax, im_ax, ships, ch, type='both'):
-        """
-        OBS difference to waves is that here one object is created
-        ch needed to trigger when smoke to launch
-        """
-        for ship_id in ships:  # ships is a key-val dict
-
-            for smokr_id, smokr_pic in _s.pics['ships'][ship_id]['smokrs'].items():
-                smokr = Smoke(smokr_id, smokr_pic, ships[ship_id], ch, type='r')
-                ships[ship_id].smokrs[smokr.id] = smokr
-
-        return ships
-
-    def gen_expls(_s, ax, im_ax, ships, ch):
-        """
-        Each ship gets multiple expls
-        """
-        for ship_id in ships:
-            for expl_id, expl_pic in _s.pics['ships'][ship_id]['expls'].items():
-                expl = Expl(expl_id, expl_pic, ships[ship_id], ch)
-                ships[ship_id].expls[expl.id] = expl
-
-        return ships
-
-    def gen_spls(_s, ax, im_ax, ships, ch):
-
-        for ship_id in ships:
-            for spl_id, spl_pic in _s.pics['ships'][ship_id]['spls'].items():
-                spl = Spl(spl_id, spl_pic, ships[ship_id], ch)
-                ships[ship_id].spls[spl.id] = spl
-
-        return ships
-
-    def gen_waves(_s, ax, im_ax):
-        waves = {}
-        for wave_id, wave_pic in _s.pics['waves'].items():
-            wave = Wave(wave_id, _s.pics['waves'][wave_id])
-            waves[wave_id] = wave
-        return waves
+    # def gen_sails(_s, ax, im_ax, ships):
+    #     """ax im_ax stuff not only in animate()"""
+    #
+    #     for ship_id in ships:  # ships is a key-val dict
+    #
+    #         _, _, file_names = os.walk(_s.PATH_IMAGES + '/sh/' + ship_id).__next__()
+    #
+    #         for file_name in file_names:
+    #             name_split = file_name.split('_')
+    #             if len(name_split) > 1 and name_split[1] == 's' and len(name_split) < 4 and \
+    #                     file_name[:-4] in ships[ship_id].gi['xtras']:
+    #                 sail = Sail(file_name[:-4],
+    #                             _s.pics['ships'][ship_id]['sails'][file_name[:-4]],
+    #                             ships[ship_id])
+    #                 # ships[ship_id].add_sail(sail)
+    #                 ships[ship_id].sails[sail.id] = sail
+    #     return ships
+    #
+    # def gen_smokas(_s, ax, im_ax, ships, ch):
+    #     """
+    #     OBS difference to waves is that here one object is created
+    #     ch needed to trigger when smoke to launch
+    #     """
+    #     for ship_id in ships:  # ships is a key-val dict
+    #
+    #         for smoka_id, smoka_pic in _s.pics['ships'][ship_id]['smokas'].items():
+    #
+    #             smoka = Smoke(smoka_id, smoka_pic, ships[ship_id], ch, type='a')
+    #             ships[ship_id].smokas[smoka.id] = smoka
+    #
+    #     return ships
+    #
+    # def gen_smokrs(_s, ax, im_ax, ships, ch, type='both'):
+    #     """
+    #     OBS difference to waves is that here one object is created
+    #     ch needed to trigger when smoke to launch
+    #     """
+    #     for ship_id in ships:  # ships is a key-val dict
+    #
+    #         for smokr_id, smokr_pic in _s.pics['ships'][ship_id]['smokrs'].items():
+    #             smokr = Smoke(smokr_id, smokr_pic, ships[ship_id], ch, type='r')
+    #             ships[ship_id].smokrs[smokr.id] = smokr
+    #
+    #     return ships
+    #
+    # def gen_expls(_s, ax, im_ax, ships, ch):
+    #     """
+    #     Each ship gets multiple expls
+    #     """
+    #     for ship_id in ships:
+    #         for expl_id, expl_pic in _s.pics['ships'][ship_id]['expls'].items():
+    #             expl = Expl(expl_id, expl_pic, ships[ship_id], ch)
+    #             ships[ship_id].expls[expl.id] = expl
+    #
+    #     return ships
+    #
+    # def gen_spls(_s, ax, im_ax, ships, ch):
+    #
+    #     for ship_id in ships:
+    #         for spl_id, spl_pic in _s.pics['ships'][ship_id]['spls'].items():
+    #             spl = Spl(spl_id, spl_pic, ships[ship_id], ch)
+    #             ships[ship_id].spls[spl.id] = spl
+    #
+    #     return ships
+    #
+    # def gen_waves(_s, ax, im_ax):
+    #     waves = {}
+    #     for wave_id, wave_pic in _s.pics['waves'].items():
+    #         wave = Wave(wave_id, _s.pics['waves'][wave_id])
+    #         waves[wave_id] = wave
+    #     return waves
 #
 # def gen_layers(ax, FRAMES_START, FRAMES_STOP, chronicle):
 #     waves = {}

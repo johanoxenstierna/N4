@@ -53,6 +53,9 @@ if P.A_RS:
 if P.A_LS:
     shs = g.gen_ls(ax0, im_ax, shs)
 
+if P.A_CS:
+    shs = g.gen_cs(ax0, im_ax, shs)
+
 
 '''VIEWER ==========================================='''
 brkpoint = 4
@@ -66,8 +69,12 @@ def animate(i):
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
 
-        if i == 59:
-            dadf = 5
+        if i == 5:
+            '''Here the all stationary objects are added.'''
+
+            '''ls'''
+            # for l_id, l in sh.ls.items():
+            #     aaa = 5
 
         if P.A_FS and 'fs' in sh.gi.child_names:
             if i in sh.gi.fs_gi['init_frames']:
@@ -77,11 +84,11 @@ def animate(i):
                     exceeds_frame_max, how_many = f.check_frame_max(i, f.gi['frames_tot'])
                     if exceeds_frame_max == True:
                         print("EXCEEDS MAX\n")
-                        f.frames_tot = how_many
+                        f.gi['frames_tot'] = how_many
 
                     f.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
                     sh.f_latest_drawn_id = f.id
-                    f.init_child_obj(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    f.set_frame_ss(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
                     # f.gen_dyn_extent_alpha()
 
                     # '''Prob has to be let go'''
@@ -93,7 +100,7 @@ def animate(i):
                             sp.dyn_gen(i)
                             sp.drawn = 1
                             prints += "  adding sp"
-                            sp.init_child_obj(i, sp.gi['frames_tot'], dynamic=False)
+                            sp.set_frame_ss(i, sp.gi['frames_tot'], dynamic=False)
 
                         # adf = 5
                 else:
@@ -155,22 +162,17 @@ def animate(i):
 
         if P.A_SPS and 'sps' in sh.gi.child_names:  # SH sps
             '''NOT f'''
-            if i == 20:
-                adf = 5
             if i in sh.gi.sps_init_frames:
-                '''This sets an init frame for the sp IN THE FUTURE'''
+                '''
+                This sets an init frame for the sp IN THE FUTURE
+                Tries 50 times to find a free sp and if it finds one it gets drawn
+                according to gi conditions. 
+                '''
 
-                # HERE EXTEND THIS TO LOOP
-                # for _ in range(len(sh.sps)):
-                for _ in range(50):
+                for _ in range(sh.gi.num_sp_at_init_frame):
                     sp = sh.find_free_obj(type='sp')
-
-                    '''SINCE OBJECT HASNT BEEN DRAWN YET IT IS
-                    STILL FREE. PERHAPS DONT LOOP OVER ALL SPS, 
-                    '''
                     if sp != None:
                         assert (sp.f == None)
-
                         if i in sh.gi.sps_gi0['init_frames']:
                             prints += "  adding sp0"
                             sp.dyn_gen(i, _type='sh0')  # THIS UPDATES gi AND sets init_frame
@@ -190,7 +192,7 @@ def animate(i):
 
                 if sp.init_frame == i:  # only for sh sp
                     sp.drawn = 1
-                    sp.init_child_obj(i, len(sp.xy), dynamic=False)  # THIS SETS FRAME_SS
+                    sp.set_frame_ss(i, len(sp.xy), dynamic=False)  # THIS SETS FRAME_SS
 
             for sp_id, sp in sh.sps.items():
                 if sp.drawn != 0 and sp.f == None:
@@ -223,12 +225,10 @@ def animate(i):
                     prints += "  adding sr"
                     exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
                     if exceeds_frame_max == True:
-                        # prints += "  smoka exceeds max"
-                        sr.frames_tot = how_many
-                        # continue
+                        sr.gi['frames_tot'] = how_many
                     sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
                     sh.sr_latest_drawn_id = sr.id
-                    sr.init_child_obj(i, sr.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    sr.set_frame_ss(i, sr.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
                     # f.gen_dyn_extent_alpha()
 
                 else:
@@ -258,16 +258,11 @@ def animate(i):
                     prints += "  adding r"
                     exceeds_frame_max, how_many = r.check_frame_max(i, r.gi['frames_tot'])
                     if exceeds_frame_max == True:
-                        # prints += "  smoka exceeds max"
-                        r.frames_tot = how_many
-                        # continue
+                        r.gi['frames_tot'] = how_many
                     r.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
-                    # sh.rs_latest_drawn_id = r.id
-                    r.init_child_obj(i, r.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
-                    # f.gen_dyn_extent_alpha()
-
+                    r.set_frame_ss(i, r.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
                 else:
-                    prints += "  no free sr"
+                    prints += "  no free r"
 
             for r_id, r in sh.rs.items():
 
@@ -291,42 +286,80 @@ def animate(i):
 
         if P.A_LS and 'ls' in sh.gi.child_names:
             if i in sh.gi.ls_gi['init_frames']:
-                l = sh.find_free_obj(type='l')
+                l = sh.find_free_obj(type='l')  # starts with 0, then 1
                 if l != None:
                     prints += "  adding l"
                     exceeds_frame_max, how_many = l.check_frame_max(i, l.gi['frames_tot'])
                     if exceeds_frame_max == True:
-                        # prints += "  smoka exceeds max"
                         l.frames_tot = how_many
-                        # continue
                     l.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
-                    # sh.rs_latest_drawn_id = r.id
-                    l.init_child_obj(i, l.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
-                    # f.gen_dyn_extent_alpha()
 
+                    '''Have to use i - 1 because otherwise l.set_clock() will return 1, i.e. start drawing in loop below'''
+                    l.set_frame_ss(i - 1, l.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+
+                    '''This stuff taken from below loop'''
+                    # l.set_clock(i)
+                    _, _ = l.ani_update_step(ax0, im_ax)
+                    im_ax[l.index_im_ax].set_extent(l.extent)
                 else:
                     prints += "  no free ls"
 
             for l_id, l in sh.ls.items():
 
                 if l.drawn != 0:  # the 4 from above is needed only the very first iteration it becomes visible
+
                     l.set_clock(i)
 
                     drawBool, index_removed = l.ani_update_step(ax0, im_ax)
                     if drawBool == 0:  # dont draw
                         continue
                     elif drawBool == 1:
-                        # warp_affine_and_color(i, ax0, im_ax, r)  # parent obj required for sail
-                        im_ax[l.index_im_ax].set_extent(l.extent[l.clock])  # parent obj required for sail
-                        # print(im_ax[f.index_im_ax].get_alpha())
-                        # mpl_affine(i, l, ax0, im_ax)
-                        # im_ax[r.index_im_ax].set_color((r.R[r.clock], r.G[r.clock], r.B[r.clock]))
-                        # im_ax[r.index_im_ax].set(interpolation_stage='rgba', cmap='jet')
                         im_ax[l.index_im_ax].set_alpha(l.alpha[l.clock])
                         # im_ax[l.index_im_ax].set_alpha(1)
-                        im_ax[l.index_im_ax].set_zorder(100)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
+
+        if P.A_CS and 'cs' in sh.gi.child_names:
+
+            for c_id, c in sh.cs.items():
+
+                if i == c.gi['init_frame']:
+                    prints += "  adding c"
+                    c.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
+                    c.set_frame_ss(i - 1, c.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    c.frame_ss1 = [c.frame_ss[1], c.frame_ss[1] + c.gi['frames_tot1']]
+                    _, _ = c.ani_update_step(ax0, im_ax)  # imshow
+                    im_ax[c.index_im_ax].set_extent(c.extent_k)
+
+            for c_id, c in sh.cs.items():
+
+                '''perhaps 2 cases: 
+                First ck, then cd. '''
+
+                if c.drawn != 0:  # the 4 from above is needed only the very first iteration it becomes visible
+
+                    c.set_clock(i)
+
+                    if i == c.frame_ss1[0]:  # start moving it
+                        c.frame_ss = c.frame_ss1
+                        c.drawn = 1  # because set_clock will have set it to 3 that frame
+
+                    drawBool, index_removed = c.ani_update_step(ax0, im_ax)
+                    if drawBool == 0:  # dont draw
+                        continue
+                    elif drawBool == 1:
+                        '''two cases'''
+                        if i < c.frame_ss1[0]:
+                            pass  # it has already been drawn
+                        else:
+                            im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
+                    elif drawBool == 2:  # remove
+                        '''two cases'''
+                        if i == c.frame_ss1[0]:  # start moving it
+                            c.frame_ss = c.frame_ss1
+                            c.drawn = 1
+                        else:
+                            decrement_all_index_im_ax(index_removed, shs)
 
         print(prints)
 

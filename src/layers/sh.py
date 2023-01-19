@@ -19,6 +19,7 @@ class Sh(AbstractLayer):
         _s.srs = {}
         _s.rs = {}
         _s.ls = {}
+        _s.cs = {}
         _s.sps = {}  # only used by some insts
         _s.f_latest_drawn_id = "99_99_99_99"
         _s.zorder = gi.zorder
@@ -116,7 +117,8 @@ class Sh(AbstractLayer):
             _di = _s.ls
         li_ids = list(_di.keys())
 
-        random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
+        if type != 'l':  # l needs to be sequential
+            random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
         # flag_found = False # only used by smoka
         for key in li_ids:
             obj = _di[key]

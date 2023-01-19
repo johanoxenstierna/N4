@@ -52,7 +52,7 @@ def warp_affine_and_color(ii, ax, im_ax, g_obj):
 	img = np.zeros((g_obj.mask_do, g_obj.mask_ri, 4))  # new image inited
 	img[img.shape[0] - dst.shape[0]:, img.shape[1] - dst.shape[1]:, :] = dst  # lower right is filled
 
-	im_ax.insert(g_obj.index_im_ax, ax.imshow(img, zorder=g_obj.zorder, alpha=1))
+	im_ax.insert(g_obj.index_im_ax, ax.imshow(img, zorder=g_obj.gi['zorder'], alpha=1))
 	g_obj.ax1 = im_ax[g_obj.index_im_ax]
 
 # M = mtransforms.Affine2D().translate(1, 1)
@@ -74,22 +74,8 @@ def mpl_affine(ii, g_obj, ax0, im_ax):
 	elif g_obj.id[2] == 'r':
 		M = mtransforms.Affine2D(). \
 				rotate_around(4, 6, g_obj.rotation_v[g_obj.clock]). \
-				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+				scale(g_obj.scale, -g_obj.scale). \
 				translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
-	# elif g_obj.id[2] == 'l':
-	# 	M = mtransforms.Affine2D(). \
-	# 			scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
-	# 			translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
-
-	#
-	# rotate_around(4, 6, g_obj.rotation[g_obj.clock]). \
-
-		# M = mtransforms.Affine2D(). \
-		# 		rotate(g_obj.rotation[g_obj.clock]). \
-		# 		scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
-		# 		translate(g_obj.xy[g_obj.clock][0], g_obj.xy[g_obj.clock][1]) + ax0.transData
-# scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
-# translate(g_obj.gi['ld_ss'][0][0], g_obj.gi['ld_ss'][0][1]) + ax0.transData
 
 	g_obj.ax1.set_transform(M)
 
@@ -137,6 +123,11 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 			if l.index_im_ax != None:
 				if l.index_im_ax > index_removed:
 					l.index_im_ax -= 1
+
+		for c in sh.cs.values():
+			if c.index_im_ax != None:
+				if c.index_im_ax > index_removed:
+					c.index_im_ax -= 1
 
 # for smokr in sh.smokrs.values():
 # 	if smokr.index_im_ax != None:

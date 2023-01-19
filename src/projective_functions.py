@@ -22,7 +22,7 @@ def simple_projectile(v, theta, frames_tot, rc=1, _type=None):
     t = np.linspace(0, t_flight, frames_tot)
 
     # TEST W DIFF FUNCS ===================
-    if _type in ['sh', 'r']:
+    if _type in ['sp_sh', 'r_down']:
         t_flight = 0.05 * v * np.sin(theta) / G
         t = np.linspace(0, t_flight, frames_tot)
     # ======================================
@@ -35,7 +35,7 @@ def simple_projectile(v, theta, frames_tot, rc=1, _type=None):
     # x = -v * t  * 0.2 * np.sin(theta)
     # y = -v * t  * 0.3 * np.cos(theta)
 
-    if _type in ['sh', 'r']:
+    if _type in ['sp_sh', 'r_down']:
         x = v * np.cos(theta) * t
         y = -v * np.sin(theta) * rc * t - 0.5 * G * t ** 2
 
@@ -50,7 +50,7 @@ def simple_projectile(v, theta, frames_tot, rc=1, _type=None):
     return xy
 
 
-def shift_projectile(xy_t, origin=None, frames_tot_d=None, flip_it=False, r_f_d_type=''):
+def shift_projectile(xy_t, origin=None, frames_tot_d=None, up_down=None, r_f_d_type=''):
     """shifts it to desired xy
     y is flipped because 0 y is at top and if flip_it=True
     """
@@ -60,7 +60,7 @@ def shift_projectile(xy_t, origin=None, frames_tot_d=None, flip_it=False, r_f_d_
     '''
     y0: First it needs to be flipped bcs all values are pos to start with, but it needs to be neg.  
     '''
-    if flip_it == True:
+    if up_down == 'up' or up_down == 'down':
         xy[:, 1] *= -1  # flip it. Now all neg
 
     '''Shift start y to upper portion of curve. 

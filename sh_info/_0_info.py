@@ -85,15 +85,19 @@ class Sh_0_info(ShInfoAbstract):
         srs_gi['theta_scale'] = 0.3
         srs_gi['r_f_d_loc'] = 0.001
         srs_gi['r_f_d_scale'] = 0.00
+        srs_gi['up_down'] = 'up'
+        srs_gi['alpha_plot'] = 'sr'
 
         return srs_gi
 
     def gen_rs_gi(_s, init_frames, _type=None):
         rs_gi = {}
-        rs_gi['zorder'] = 3
-        # rs_gi['init_frames'] = random.sample(range(1, 60), 60)
-        rs_gi['init_frames'] = list(range(3, 63))  # TODO: This should be generated same frame
-        rs_gi['frames_tot'] = 300
+
+        rs_gi['init_frames'] = random.sample(range(1, 300), 50)
+        rs_gi['init_frames'].sort()
+
+        # rs_gi['init_frames'] = list(range(3, 63))  # TODO: This should be generated same frame
+        rs_gi['frames_tot'] = 200
         # rs_gi['frames_tot'] = 300
 
         assert (rs_gi['init_frames'][-1] + rs_gi['frames_tot'] < P.FRAMES_STOP)
@@ -102,12 +106,21 @@ class Sh_0_info(ShInfoAbstract):
         rs_gi['ld_offset_scale'] = [0.2, 0.05]  # OBS there is no ss, only start!
         rs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         rs_gi['rs_hardcoded'] = {}
-        rs_gi['v_loc'] = 70  # rc=2
-        rs_gi['v_scale'] = 22
-        rs_gi['theta_loc'] = -np.pi/2 + 0.8  # radians!
-        rs_gi['theta_scale'] = 0.02
-        rs_gi['r_f_d_loc'] = 0.1
-        rs_gi['r_f_d_scale'] = 0.02
+        rs_gi['v_loc'] = 20  # rc=2
+        rs_gi['v_scale'] = 5
+        rs_gi['theta_loc'] = np.pi/2 - 0.1  # radians!
+        rs_gi['theta_scale'] = 0.1
+        rs_gi['r_f_d_loc'] = 0.7
+        rs_gi['r_f_d_scale'] = 0.05
+        rs_gi['scale_loc'] = 0.1
+        rs_gi['scale_scale'] = 0.05
+
+        rs_gi['up_down'] = 'up'
+        rs_gi['alpha_plot'] = 'r_up'
+        rs_gi['zorder'] = 3
+
+        # temp cv2 test
+        # rs_gi['ld_ss'] = [[_s.ld[0], _s.ld[1]], ]
 
         return rs_gi
 
@@ -118,8 +131,7 @@ class Sh_0_info(ShInfoAbstract):
         """
         sps_gi = {
             'init_frames': init_frames,
-            # 'frame_ss': [10, 30],
-            'frames_tot': None,
+            'frames_tot': 150,
             'v_loc': 20, 'v_scale': 5,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': -0.2, 'theta_scale': 0.3,
@@ -130,8 +142,7 @@ class Sh_0_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0,
             'G_ss': [0.5, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
+            'up_down': 'up'
         }
-
-
 
         return sps_gi

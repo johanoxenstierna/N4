@@ -20,18 +20,29 @@ def gen_alpha(gi, fun_plot, frames_tot=None, y_range=None, plot=False):
 		# alpha = np.linspace(0.5, 1.0, num=len(X))
 		# alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 		alpha = _gamma(X, mean=2, var=20, y_range=[0.01, 0.8])
-	elif fun_plot == 'r':
+	elif fun_plot == 'r_down':
 		'''Has to end at 0 alpha because these include fire smokhs'''
 		# alpha = np.full(X.shape, fill_value=0.99)
-		alpha = np.linspace(0.9, 0.1, num=len(X))
+		alpha0 = np.linspace(0.9, 0.7, num=len(X))
 		# alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 		# alpha = _gamma(X, mean=1, var=80, y_range=[0.01, 0.7])
-		aa= 5
-	elif fun_plot == 'l':
-		alpha = _normal(X, mean=len(X)//2, var=len(X)//2, y_range=y_range)  # THIS IS WAVE ALPHA
+		alpha1 = (np.sin(X / 7) + 1) / 2
+		alpha = alpha0 + 0.2 * alpha1
+		alpha = min_max_normalization(alpha, y_range=[0, 1])
+	elif fun_plot == 'r_up':
+		'''Has to end at 0 alpha because these include fire smokhs'''
+		# alpha = np.full(X.shape, fill_value=0.99)
+		alpha0 = np.linspace(0.8, 0.5, num=len(X))
+		# alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
+		# alpha = _gamma(X, mean=1, var=80, y_range=[0.01, 0.7])
 		# alpha1 = (np.sin(X / 7) + 1) / 2
-		# alpha = alpha0 + 0.2 * alpha1
-		alpha = min_max_normalization(alpha, y_range=[0, 0.2])
+		alpha = alpha0
+		# alpha = min_max_normalization(alpha, y_range=[0, 0.7])
+	elif fun_plot == 'l':
+		alpha0 = _normal(X, mean=len(X)//2, var=len(X)//2, y_range=y_range)  # THIS IS WAVE ALPHA
+		alpha1 = (np.sin(X / 7) + 1) / 2
+		alpha = alpha0 + 0.001 * alpha1
+		alpha = min_max_normalization(alpha, y_range=[0, 0.7])
 
 	elif fun_plot == 'f':
 		'''Has to end at 0 alpha because these include fire smokhs'''
