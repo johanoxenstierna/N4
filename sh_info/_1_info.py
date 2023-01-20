@@ -9,7 +9,7 @@ class Sh_1_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, init_frames):
+    def __init__(_s, init_frames, top_point):
         super().__init__()
         _s.id = '1'
         _s.extent = "static"
@@ -17,10 +17,10 @@ class Sh_1_info(ShInfoAbstract):
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]
         _s.init_frames = init_frames
-        # _s.ld_ss = [[100, 120], [100, 120]]
-        _s.ld = [121, 48]
+        # _s.ld = [121, 48]
+        _s.ld = [top_point[0], top_point[1]]
         _s.srs_gi = _s.gen_srs_gi()  # OBS: sp_gi generated in f class. There is no info class for f.
-        _s.zorder = 5
+        # _s.zorder = 5
 
     def gen_srs_gi(_s):
         """

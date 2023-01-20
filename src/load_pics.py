@@ -22,8 +22,9 @@ def load_pics():
     if P.MAP_SIZE == 's0':
         # pics['backgr_d'] = imread('./images/processed/navarino_s0d.png')  # 482, 187
         # pics['backgr_d'] = imread('./images/processed/temp.png')  # 482, 187
-        pics['backgr_d'] = imread('./images/processed/mdoom3_small.png')  # 482, 187
-        aadf = 6
+        pics['backgr_d'] = imread('./images/processed/mdoom4_small.png')  # 482, 187
+        pics['volc'] = imread('./images/processed/volc4_small.png')  # 482, 187
+        pics['volc'] = np.flipud(pics['volc'])
     # else:
     #     pics['backgr'] = imread('./images/raw/backgr.png')  # 482, 187
     #     pics['frame'] = imread('./images/processed/frame.png')  # 482, 187

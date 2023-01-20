@@ -47,7 +47,7 @@ class R(AbstractLayer, AbstractSSS):
         # _s.scale_vector = np.linspace(1, 1, num=_s.gi['frames_tot'])
         _s.scale = np.random.normal(loc=_s.gi['scale_loc'], scale=_s.gi['scale_scale'])
 
-        # _s.gi['max_ri'] = 200
+        # _s.gi['max_ri'] = np.max(_s.xy[:, 0])
         # _s.gi['ld_ss'] = [[_s.xy[0][0], _s.xy[0][1]], [_s.xy[-1][0], _s.xy[-1][1]]]
         # _s.extent, _s.extent_t = convert_xy_to_extent(_s.xy, _s.scale_vector, _s.gi, _s.pic)
         # # _s.gi['max_ri'] = np.max(_s.extent[:, 1])
@@ -60,8 +60,8 @@ class R(AbstractLayer, AbstractSSS):
 
         # _s.mask_ri += 50
         # _s.mask_do = 50
-        # _s.rotation = np.linspace(0.01, 5, num=len(_s.scale_vector))
-        _s.rotation_v = np.linspace(0.01, random.randint(2, 6), num=len(_s.xy))
+        # _s.rotation_v = np.linspace(0.01, 5, num=len(_s.scale_vector))
+        _s.rotation_v = np.linspace(0.01, 2, num=len(_s.xy))
         # _s.tris, _s.tri_ext = rotate_tris(_s.tris, _s.tri_ext, _s.rotation_v)
 
         _s.alpha = gen_alpha(_s.gi, fun_plot=_s.gi['alpha_plot'], frames_tot=_s.gi['frames_tot'])
@@ -83,7 +83,7 @@ class R(AbstractLayer, AbstractSSS):
         Usually this function is run dynamically depending on coordinates of
         a parent layer at a certain frame. But not always.
         """
-        _s.gi['zorder'] = random.randint(_s.gi['zorder'] - 1, _s.gi['zorder'] + 1)
+
         # _s.gi['zorder'] = 4
 
         # HERE USE PIC
@@ -100,6 +100,8 @@ class R(AbstractLayer, AbstractSSS):
 
         '''Since its going both up and down, total y dist must be computed'''
         _s.gi['total_y_dist'] = None
+
+        _s.gi['zorder'] = random.randint(_s.gi['zorder'] - 1, _s.gi['zorder'] + 1)
 
 
         # _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])

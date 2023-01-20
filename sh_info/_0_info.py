@@ -11,7 +11,7 @@ class Sh_0_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse):
+    def __init__(_s, pulse, top_point):
         super().__init__()
         _s.id = '0'
         _s.extent = "static"
@@ -19,7 +19,7 @@ class Sh_0_info(ShInfoAbstract):
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
         _s.zorder = 10
 
-        _s.ld = [120, 50]
+        _s.ld = top_point
         _s.child_names = ['fs', 'srs', 'rs']
         _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
@@ -94,6 +94,7 @@ class Sh_0_info(ShInfoAbstract):
         rs_gi = {}
 
         rs_gi['init_frames'] = random.sample(range(1, 300), 50)
+        # rs_gi['init_frames'] = [20]
         rs_gi['init_frames'].sort()
 
         # rs_gi['init_frames'] = list(range(3, 63))  # TODO: This should be generated same frame
@@ -117,7 +118,7 @@ class Sh_0_info(ShInfoAbstract):
 
         rs_gi['up_down'] = 'up'
         rs_gi['alpha_plot'] = 'r_up'
-        rs_gi['zorder'] = 3
+        rs_gi['zorder'] = 80
 
         # temp cv2 test
         # rs_gi['ld_ss'] = [[_s.ld[0], _s.ld[1]], ]

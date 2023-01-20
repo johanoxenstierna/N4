@@ -20,6 +20,7 @@ def gen_zig_zag(num_frames, cycles, max_delta_width):
 
 
 def gen_extent(gi, pic, scale_vector=(), lds_vec=(), zigzag=()):
+
     """
     gi=general info. Standardized format
     left right down up
@@ -330,8 +331,8 @@ def convert_xy_to_extent(xy, scale_vector, gi, pic):
 
     # frame_num = gi['frame_ss'][1] - gi['frame_ss'][0]  # ALWAYS
 
-    extent = np.zeros((gi['frames_tot'], 4))  # left, right, bottom, top borders
-    extent_t = np.zeros((gi['frames_tot'], 4))  # left, right, bottom, top borders
+    extent = np.zeros((len(xy), 4))  # left, right, bottom, top borders
+    extent_t = np.zeros((len(xy), 4))  # left, right, bottom, top borders
 
     min_ri = np.min(xy[:, 0])
     min_do = np.min(xy[:, 1])

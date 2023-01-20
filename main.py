@@ -321,15 +321,20 @@ def animate(i):
 
         if P.A_CS and 'cs' in sh.gi.child_names:
 
+            if i == 24:
+                adf = 5
+
             for c_id, c in sh.cs.items():
 
                 if i == c.gi['init_frame']:
                     prints += "  adding c"
                     c.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
+
+                    '''Have to use i - 1 because otherwise l.set_clock() will return 1, i.e. start drawing in loop below'''
                     c.set_frame_ss(i - 1, c.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
                     c.frame_ss1 = [c.frame_ss[1], c.frame_ss[1] + c.gi['frames_tot1']]
                     _, _ = c.ani_update_step(ax0, im_ax)  # imshow
-                    im_ax[c.index_im_ax].set_extent(c.extent_k)
+                    im_ax[c.index_im_ax].set_extent(c.extent_k)  # ONLY USES LD[0] and LD[1]
 
             for c_id, c in sh.cs.items():
 
@@ -341,8 +346,9 @@ def animate(i):
                     c.set_clock(i)
 
                     if i == c.frame_ss1[0]:  # start moving it
-                        c.frame_ss = c.frame_ss1
-                        c.drawn = 1  # because set_clock will have set it to 3 that frame
+                        c.frame_ss = c.frame_ss1  # replaces set_frame_ss
+                        c.drawn = 2  # because set_clock will have set it to 3 that frame
+                        c.pic = np.flipud(c.pic)  # needed cuz warp affine uses good pic
 
                     drawBool, index_removed = c.ani_update_step(ax0, im_ax)
                     if drawBool == 0:  # dont draw
@@ -350,14 +356,18 @@ def animate(i):
                     elif drawBool == 1:
                         '''two cases'''
                         if i < c.frame_ss1[0]:
-                            pass  # it has already been drawn
+                            # pass  # it has already been drawn
+                            pass
                         else:
-                            im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
+                            # im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
+                            warp_affine_and_color(c.clock, ax0, im_ax, c)  # parent obj required for sail
+                            im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
                     elif drawBool == 2:  # remove
                         '''two cases'''
                         if i == c.frame_ss1[0]:  # start moving it
                             c.frame_ss = c.frame_ss1
                             c.drawn = 1
+                            im_ax[c.index_im_ax].set_alpha(0)
                         else:
                             decrement_all_index_im_ax(index_removed, shs)
 

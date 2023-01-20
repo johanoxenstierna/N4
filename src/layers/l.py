@@ -36,7 +36,7 @@ class L(AbstractLayer, AbstractSSS):
 
         if id[4] == '0':
 
-            ld_start_x = -5
+            ld_start_x = -8
             ld_start_y = 7
 
             ld_offset_start = [ld_start_x, ld_start_y]

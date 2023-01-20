@@ -57,6 +57,8 @@ class AbstractLayer:
         0: don't draw
         1: draw (will result in warp_affine)
         2: ax has just been removed, so decrement all index_im_ax
+
+        TODO: _s.drawn and _s.drawBool one of them are clearly redundant.
         """
 
         if _s.drawn == 0:  # not drawn,

@@ -30,7 +30,10 @@ class GenLayers:
 
     def gen_backgr(_s, ax, im_ax):
 
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.1))
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
+        im_ax.append(ax.imshow(_s.pics['volc'], zorder=100, alpha=1,
+                               extent=[36, 36 + _s.pics['volc'].shape[1], 44, 44 + _s.pics['volc'].shape[0]]))
+        # im_ax[1].set_extent([])
         # im_ax.append(ax.imshow(_s.pics['frame'], zorder=99999))
         if P.MAP_SIZE == 's0':
             # pass

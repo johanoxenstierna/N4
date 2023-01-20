@@ -12,15 +12,15 @@ class Sh_2_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse2):
+    def __init__(_s, pulse2, top_point):
         super().__init__()
         _s.id = '2'
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]
-        _s.zorder = 10
 
-        _s.ld = [120, 50]
+
+        _s.ld = top_point
         _s.child_names = ['sps', 'ls', 'rs']
 
         _s.ls_gi = _s.gen_ls_gi(pulse2)
@@ -46,6 +46,8 @@ class Sh_2_info(ShInfoAbstract):
 
         if P.A_RS:
             _s.rs_gi = _s.gen_rs_gi(pulse2)
+
+        _s.zorder = 200
 
         # _s.sps_gi = copy.deepcopy(_s.sps_gi0)
         # _s.sps_gi['init_frames'] = [10, 40, 222, 300]
@@ -127,7 +129,7 @@ class Sh_2_info(ShInfoAbstract):
 
         l_gi = {}
         # l_gi['init_frames'] = [x for x in pulse2]
-        l_gi['init_frames'] = [50, 200]
+        l_gi['init_frames'] = [150, 200]
         l_gi['frames_tot'] = 300
         l_gi['ld'] = [_s.ld[0], _s.ld[1] + 2]  # -6 TUNED WITH affine2D.translate!!!
         l_gi['ld_offset_start_loc'] = [-0, 0]  # OBS there is no ss, only start!
@@ -146,13 +148,13 @@ class Sh_2_info(ShInfoAbstract):
         l_gi['theta_scale'] = 0.2
         l_gi['r_f_d_loc'] = 0.05
         l_gi['r_f_d_scale'] = 0.00
-        l_gi['zorder'] = 5
+        l_gi['zorder'] = 200
 
         return l_gi
 
     def gen_rs_gi(_s, init_frames, _type=None):
         rs_gi = {}
-        rs_gi['zorder'] = 3
+
         rs_gi['init_frames'] = random.sample(range(1, 300), 50)
         rs_gi['init_frames'].sort()
 
@@ -176,5 +178,6 @@ class Sh_2_info(ShInfoAbstract):
         rs_gi['scale_scale'] = 0.05
         rs_gi['up_down'] = 'down'
         rs_gi['alpha_plot'] = 'r_down'
+        rs_gi['zorder'] = 300
 
         return rs_gi

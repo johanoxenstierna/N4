@@ -22,7 +22,7 @@ class Sh(AbstractLayer):
         _s.cs = {}
         _s.sps = {}  # only used by some insts
         _s.f_latest_drawn_id = "99_99_99_99"
-        _s.zorder = gi.zorder
+        # _s.zorder = gi.zorder
 
         # zigzag = ()
         # if P.PR_ZIGZAG:

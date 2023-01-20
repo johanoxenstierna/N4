@@ -42,12 +42,14 @@ def warp_affine_and_color(ii, ax, im_ax, g_obj):
 	dst = cv2.warpAffine(pic_c, M, (int(g_obj.tri_ext['max_ri']), int(g_obj.tri_ext['max_do'])+0))
 	# dst = cv2.warpAffine(pic_c, M, (152, 89))
 
-	# center = (dst.shape[1] // 2, dst.shape[0] // 2)
+	# DOESNT WORK, use rotate_tris =======
+	# center = (5, 5) #(pic_c.shape[1] // 2, pic_c.shape[0] // 2)
 	# # center = (g_obj.tri_ext['max_ri'], g_obj.tri_ext['max_do'])
-	# angle = g_obj.rotation[g_obj.clock]
+	# angle = g_obj.rotation_v[g_obj.clock]
 	# scale = 1
-	# rot_mat = cv2.getRotationMatrix2D(center, angle, scale)
-	# dst = cv2.warpAffine(pic_c, rot_mat, (int(g_obj.tri_ext['max_ri']), int(g_obj.tri_ext['max_do']) + 0))
+	# rot_mat = cv2.getRotationMatrix2D(center, angle, scale)  # DOESNT WORK. USE rotate_tris
+	# M = rot_mat
+	# dst = cv2.warpAffine(pic_c, M, (int(g_obj.tri_ext['max_ri']), int(g_obj.tri_ext['max_do']) + 0))
 
 	img = np.zeros((g_obj.mask_do, g_obj.mask_ri, 4))  # new image inited
 	img[img.shape[0] - dst.shape[0]:, img.shape[1] - dst.shape[1]:, :] = dst  # lower right is filled
