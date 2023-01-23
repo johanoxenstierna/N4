@@ -44,6 +44,9 @@ if P.A_FS:
 if P.A_SPS:
     shs = g.gen_sps(ax0, im_ax, shs)  # OBS children of fs NOT GENERATED HERE
 
+if P.A_CS:  # gen before srs so that landing known.
+    shs = g.gen_cs(ax0, im_ax, shs)
+
 if P.A_SRS:
     shs = g.gen_srs(ax0, im_ax, shs)
 
@@ -52,9 +55,6 @@ if P.A_RS:
 
 if P.A_LS:
     shs = g.gen_ls(ax0, im_ax, shs)
-
-if P.A_CS:
-    shs = g.gen_cs(ax0, im_ax, shs)
 
 
 '''VIEWER ==========================================='''
@@ -65,6 +65,11 @@ def init():
 
 
 def animate(i):
+
+    if i == 20:
+        im_ax[2].set_alpha(0.3)
+    if i == 21:
+        im_ax[2].set_alpha(0)
 
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
@@ -161,14 +166,15 @@ def animate(i):
                             # continue
 
         if P.A_SPS and 'sps' in sh.gi.child_names:  # SH sps
-            '''NOT f'''
+            '''NOT f. OBS MULTIPLE DRAWS AT SAME FRAME ALLOWED HERE
+            THIS IS NOT THERE FOR OTHERS'''
             if i in sh.gi.sps_init_frames:
                 '''
+                DECIDE WHICH GI TO USE
                 This sets an init frame for the sp IN THE FUTURE
                 Tries 50 times to find a free sp and if it finds one it gets drawn
                 according to gi conditions. 
                 '''
-
                 for _ in range(sh.gi.num_sp_at_init_frame):
                     sp = sh.find_free_obj(type='sp')
                     if sp != None:
@@ -182,7 +188,7 @@ def animate(i):
                     else:
                         prints += "  couldnt add sp"
 
-            # HERE FRAME_SS IS THE SAME FOR EVERY SP HERE
+            # DECIDE FRAME_SS. HERE FRAME_SS IS THE SAME FOR EVERY SP HERE
             for sp_id, sp in sh.sps.items():
 
                 try:
@@ -194,6 +200,7 @@ def animate(i):
                     sp.drawn = 1
                     sp.set_frame_ss(i, len(sp.xy), dynamic=False)  # THIS SETS FRAME_SS
 
+            # USUAL SET_DATA
             for sp_id, sp in sh.sps.items():
                 if sp.drawn != 0 and sp.f == None:
                     sp.set_clock(i)
@@ -219,9 +226,17 @@ def animate(i):
                         continue
 
         if P.A_SRS and 'srs' in sh.gi.child_names:
+
             if i in sh.gi.srs_gi['init_frames']:
                 sr = sh.find_free_obj(type='sr')
+
+                #   NEED FULL ON DYN_GEN IF TRAIL SR NEEDED
+
                 if sr != None and sr.id not in sr.gi['sr_hardcoded']:
+                    if sh.id == '3':
+                        pass
+                        # sr.gi['ld'] = [random.randint(-1, 5),
+                        #                random.randint(5, 50)]  # update gi with starting position
                     prints += "  adding sr"
                     exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
                     if exceeds_frame_max == True:
@@ -320,9 +335,6 @@ def animate(i):
                         decrement_all_index_im_ax(index_removed, shs)
 
         if P.A_CS and 'cs' in sh.gi.child_names:
-
-            if i == 24:
-                adf = 5
 
             for c_id, c in sh.cs.items():
 

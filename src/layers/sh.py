@@ -117,7 +117,7 @@ class Sh(AbstractLayer):
             _di = _s.ls
         li_ids = list(_di.keys())
 
-        if type != 'l':  # l needs to be sequential
+        if type not in ['l', 'sr']:  # l needs to be sequential
             random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
         # flag_found = False # only used by smoka
         for key in li_ids:

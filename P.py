@@ -20,11 +20,11 @@ A_CS = 1
 PR_MOVE_BLACK = 0  # what to pre-compute (doesn't affect rendering time that much)
 PR_ZIGZAG = 0
 
-NUM_SPS_SH = 200  # per sh. sp ARE SHARED
-NUM_SPS_F = 25  # per f  NUMBER LAUNCH DIFFERERNT FRAMES
-NUM_SRS = 30
-NUM_FS = 30
-NUM_RS = 15  # upper bound
+NUM_SPS_SH = 3  # per sh. sp ARE SHARED
+NUM_SPS_F = 5  # per f  NUMBER LAUNCH DIFFERERNT FRAMES
+NUM_SRS = 50
+NUM_FS = 2
+NUM_RS = 5  # upper bound
 # NUM_LS = 20
 
 WAVES_STEPS_P_CYCLE = 90  #
@@ -32,5 +32,5 @@ SAIL_STEPS_P_CYCLE = 360  # 120 # (6 sec)
 SAIL_CYCLES = 3
 WS_STEPS = 40  # 2s  wave front of sh
 
-SHS_TO_SHOW = ['0', '1', '2', '3']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['2']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['0', '1', '2', '3']  # , '6', '7']#, '1'] #, '2', '3']
+SHS_TO_SHOW = ['3']  # , '6', '7']#, '1'] #, '2', '3']

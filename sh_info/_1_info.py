@@ -35,9 +35,9 @@ class Sh_1_info(ShInfoAbstract):
 
         # srs_gi['init_frames'] = init_frames
         srs_gi['init_frames'] = [x + 30 for x in _s.init_frames]
-        srs_gi['zorder'] = 4
+
         # fs_gi['frames_tot'] = random.randint(170, 220)
-        srs_gi['frames_tot'] = 300
+        srs_gi['frames_tot'] = 200
         assert(srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
         srs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1]]  # -6 TUNED WITH affine2D.translate!!!
         srs_gi['ld_offset_loc'] = [0, 1]  # OBS there is no ss, only start!
@@ -52,6 +52,7 @@ class Sh_1_info(ShInfoAbstract):
         srs_gi['r_f_d_loc'] = 0.05
         srs_gi['r_f_d_scale'] = 0.00
         srs_gi['up_down'] = 'up'
+        srs_gi['zorder'] = 1000
 
         return srs_gi
 

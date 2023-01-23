@@ -1,6 +1,6 @@
 
 t:
-50
+57
 
 micro_breaks=0
 

@@ -61,7 +61,8 @@ def gen_alpha(gi, fun_plot, frames_tot=None, y_range=None, plot=False):
 		else:
 			# alpha = _gamma(X, mean=int(len(X)/60), var=int(len(X)/8), y_range=[0.0, 0.5])  # same as extent. mean=5 gives mean=100 if len == 200
 			alpha = _normal(X, mean=len(X) // 2, var=len(X) // 4, y_range=y_range)  # THIS IS WAVE ALPHA
-
+	elif fun_plot == 'c':
+		alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 20, x_shift=-18, y_magn=1., y_shift=0) for x in X]))
 	return alpha
 
 

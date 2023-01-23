@@ -10,7 +10,8 @@ def init_infos():
     '''Creates instance of each info and stores in dict'''
     infos = {}
 
-    top_point = [112, 45]
+    top_point = [112, 43]
+    top_point2 = [108, 52]
     pulse = random.sample(range(1, 200), 20)
     pulse.sort()
     pulse2 = random.sample(range(50, 200), 20)
@@ -29,7 +30,7 @@ def init_infos():
         infos[_2.id] = _2
 
     if '3' in P.SHS_TO_SHOW and P.A_CS:
-        _3 = _3_info.Sh_3_info(pulse2, top_point)
+        _3 = _3_info.Sh_3_info(pulse, top_point2)
         infos[_3.id] = _3
 
     return infos

@@ -7,6 +7,7 @@ import numpy as np
 import copy
 
 class Sh_2_info(ShInfoAbstract):
+
     """
     Basically this is the json replacement (also chronicle to some extent).
     Just very basic stuff

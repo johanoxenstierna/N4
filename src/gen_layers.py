@@ -30,9 +30,14 @@ class GenLayers:
 
     def gen_backgr(_s, ax, im_ax):
 
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
-        im_ax.append(ax.imshow(_s.pics['volc'], zorder=100, alpha=1,
-                               extent=[36, 36 + _s.pics['volc'].shape[1], 44, 44 + _s.pics['volc'].shape[0]]))
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.01))
+
+        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.01,
+                               extent=[36, 36 + _s.pics['volc_d'].shape[1], 44, 44 + _s.pics['volc_d'].shape[0]]))
+        im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
+                               extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
+
+
         # im_ax[1].set_extent([])
         # im_ax.append(ax.imshow(_s.pics['frame'], zorder=99999))
         if P.MAP_SIZE == 's0':
@@ -95,13 +100,24 @@ class GenLayers:
 
         return shs
 
+    def gen_cs(_s, ax, im_ax, shs):
+        for sh_id, sh in shs.items():
+            if 'cs' in sh.gi.child_names:
+                cs_pics = _s.pics['sh'][sh_id]['cs']
+                for pic_key, pic in cs_pics.items():
+                    c = C(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    sh.cs[pic_key] = c
+                adf = 5
+
+        return shs
+
     def gen_srs(_s, ax, im_ax, shs):
         """Srs"""
         for sh_id, sh in shs.items():
             if 'srs' in sh.gi.child_names:
                 sr_pics = _s.pics['sh'][sh_id]['srs']
                 for pic_key, pic in sr_pics.items():
-                    sr = Sr(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    sr = Sr(id=pic_key, pic=pic, sh=sh, num_sr=len(sr_pics))  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
                     sh.srs[pic_key] = sr
         return shs
 
@@ -129,18 +145,6 @@ class GenLayers:
                     sh.ls[pic_key] = l
 
         return shs
-
-    def gen_cs(_s, ax, im_ax, shs):
-        for sh_id, sh in shs.items():
-            if 'cs' in sh.gi.child_names:
-                cs_pics = _s.pics['sh'][sh_id]['cs']
-                for pic_key, pic in cs_pics.items():
-                    c = C(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                    sh.cs[pic_key] = c
-                adf = 5
-
-        return shs
-
 
 
     # def gen_sails(_s, ax, im_ax, ships):

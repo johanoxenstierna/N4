@@ -167,21 +167,39 @@ def gen_triangles(extent_t, extent, gi, pic):
     # SHIFT TRIANGLES
     # tris_s = shift_triangles(deepcopy(tris), gi, extent_t, tri_ext)
     tris_s = shift_triangles_N4(deepcopy(tris), gi, extent_t, tri_ext)
-
+    # tris_s =tris
     ## 3. BUILD MASK SHAPE: If ===================================
-    if tri_ext['max_le'] <= max(gi['ld_ss'][0][0], gi['ld_ss'][1][0]):  # ld_ss is a bit weird (first start/stop, then ld)
-        diff = max(gi['ld_ss'][0][0], gi['ld_ss'][1][0]) - tri_ext['max_le']
-        mask_ri = int(tris_s[tri_ext['max_ri_i']][2][0] + diff)  # the tri with the max le, then use third point and its x
-    else:
-        mask_ri = int(tri_ext['max_ri'])  # no right shifting
+
+    if extent[-1, 1] > extent[0, 1]:  # MOVED TO RIGHT
+        mask_ri = int(extent[-1, 1])
+    elif extent[0, 1] > extent[-1, 1]:  # MOVED TO LEFT
+        mask_ri = int(extent[0, 1])
+
+    mask_ri += gi['extra_offset_x']
+
+    # if tri_ext['max_ri'] < extent[0, 1]:  # this means it has moved to right
+    #     diff = tri_ext['max_ri']
+    #     mask_ri = int(extent[0, 1] + diff)
+
+    # if tri_ext['max_le'] < max(gi['ld_ss'][0][0], gi['ld_ss'][1][0]):  # ld_ss is a bit weird (first start/stop, then ld)
+    #     diff = max(gi['ld_ss'][0][0], gi['ld_ss'][1][0]) - tri_ext['max_le']
+    #     mask_ri = int(tris_s[tri_ext['max_ri_i']][2][0] + diff)  # the tri with the max le, then use third point and its x
+    #     # mask_ri += extent[-1, 0]
+    # elif tri_ext['max_le'] > max(gi['ld_ss'][0][0], gi['ld_ss'][1][0]):
+    #     pass
+    # else:
+    #     mask_ri = int(tri_ext['max_ri'])  # no right shifting
 
     # HERE
-    if tri_ext['max_do'] <= max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]):
-        diff = max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]) - tri_ext['max_do']
-        mask_do = int(tri_ext['max_do'] + diff)
-    else:
-        mask_do = int(tri_ext['max_do'])
-
+    # if tri_ext['max_do'] <= max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]):
+    # if tri_ext['max_do'] <= extent[-1, 2]:
+    #     # diff = max(gi['ld_ss'][0][1], gi['ld_ss'][1][1]) - tri_ext['max_do']
+    #     diff = extent[-1, 2] - tri_ext['max_do']
+    #     mask_do = int(tri_ext['max_do'] + diff)
+    # else:
+    #     mask_do = int(tri_ext['max_do'])
+    #
+    mask_do = int(extent[-1, 2]) - 3
 
     # if tri_max_y < max(gi['ld_start'][1], gi['ld_end'][1]):
     #     # mask_y = int(tri_max_y + min(gi['ld_start'][1], gi['ld_end'][1]))
@@ -282,23 +300,25 @@ def shift_triangles_N4(tris, gi, extent_t, tri_ext):
         tri_ext['min_do'] = np.min([tri[1][1] for tri in tris])
         tri_ext['max_do'] = np.max([tri[0][1] for tri in tris])
 
-    # SHIFT TRIS TO LEFT IF MAX TRI RI EXTENT GOES BEYOND ABSOLUTE BORDER
-    shift_hor = 0
-    if tri_ext['max_ri'] > gi['max_ri']:  # e.g. case 5: shift left by 100
-        shift_hor = gi['max_ri'] - tri_ext['max_ri']
+    # # SHIFT TRIS TO LEFT IF MAX TRI RI EXTENT GOES BEYOND ABSOLUTE BORDER
+    # shift_hor = 0
+    # if tri_ext['max_ri'] > gi['max_ri']:  # e.g. case 5: shift left by 100
+    #     shift_hor = gi['max_ri'] - tri_ext['max_ri']
+    # # elif tri_ext['max_ri'] < gi['max_ri']:
+    # #     shift_hor = gi['max_ri'] + tri_ext['max_ri']
+    #
+    # # SHIFT TRIS TO RIGHT IF MIN_LE IS NEGATIVE (I.E. INVISIBLE) WHILE MI LE IS ALWAYS POSITIVE (ALWAYS VISIBLE)
+    # elif tri_ext['min_le'] < 0 and min(gi['ld_ss'][0][0], gi['ld_ss'][0][1]) > 0:
+    #     shift_hor = abs(tri_ext['min_le'])  # just to make them positive
 
-    # SHIFT TRIS TO RIGHT IF MIN_LE IS NEGATIVE (I.E. INVISIBLE) WHILE MI LE IS ALWAYS POSITIVE (ALWAYS VISIBLE)
-    elif tri_ext['min_le'] < 0 and min(gi['ld_ss'][0][0], gi['ld_ss'][0][1]) > 0:
-        shift_hor = abs(tri_ext['min_le'])  # just to make them positive
-
-    for i in range(0, len(tris)):
-        tri = tris[i]
-        tri[0, 0] += shift_hor
-        tri[1, 0] += shift_hor
-        tri[2, 0] += shift_hor
-    tri_ext['min_le'] += shift_hor
-    tri_ext['max_le'] += shift_hor
-    tri_ext['max_ri'] += shift_hor
+    # for i in range(0, len(tris)):
+    #     tri = tris[i]
+    #     tri[0, 0] += shift_hor
+    #     tri[1, 0] += shift_hor
+    #     tri[2, 0] += shift_hor
+    # tri_ext['min_le'] += shift_hor
+    # tri_ext['max_le'] += shift_hor
+    # tri_ext['max_ri'] += shift_hor
 
     # if tri_max_ri + shift_ri > max(gi['ld_start'][0], gi['ld_end'][0]):
     #     shift_ri = gi['ld_end'][0] - gi['ld_start'][0] - tri_max_ri

@@ -3,6 +3,7 @@
 
 import numpy as np
 from copy import deepcopy
+import random
 
 import P as P
 from src.gen_extent_triangles import *
@@ -12,13 +13,34 @@ from src.projective_functions import *
 
 class Sr(AbstractLayer, AbstractSSS):
 
-    def __init__(_s, id, pic, sh):
+    def __init__(_s, id, pic, sh, num_sr):
         AbstractLayer.__init__(_s)
         _s.id = id
         _s.sh = sh
         _s.pic = pic  # NOT SCALED
 
         _s.gi = deepcopy(sh.gi.srs_gi)
+
+        if id[0:6] == '3_sr_0':
+            _s.gi = deepcopy(sh.gi.srs_gi0)
+            if '3_c_0' in sh.cs:
+                '''Normally ld is put in gi, but since ld must depend on a last c coordinate, 
+                it cannot be done earlier. OBS this is not about init frames '''
+
+                # loc_in_extent =
+
+                # ld_i = random.randint(0, len(sh.cs['3_c_0'].extent))
+                # _s.gi['ld'] = [sh.cs['3_c_0'].extent[int(id[7] * 2), 0],
+                #                sh.cs['3_c_0'].extent[int(id[7] * 2), 2]
+                #                ]  # update gi with starting position
+
+                _s.gi['ld'] = [sh.cs['3_c_0'].extent[-3, 0],
+                               sh.cs['3_c_0'].extent[-3, 2]
+                               ]  # update gi with starting position
+
+                # _s.gi['ld'] = [random.randint(50, 250),
+                #                random.randint(20, 50)]  # update gi with starting position
+
         # _s.zorder = _s.gi['zorder']
 
         AbstractSSS.__init__(_s, sh, id)
@@ -38,6 +60,8 @@ class Sr(AbstractLayer, AbstractSSS):
 
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
         _s.scale_vector = np.linspace(0.001, 2.5, num=_s.gi['frames_tot'])
+        if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
+            _s.scale_vector = np.linspace(0.05, 1, num=_s.gi['frames_tot'])
         _s.rotation = np.linspace(0.01, 1, num=len(_s.scale_vector))
 
         '''CHANGE ALPHA TO NORMAL'''

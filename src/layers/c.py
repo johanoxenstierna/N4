@@ -51,21 +51,24 @@ class C(AbstractLayer, AbstractSSS):
         _s.tri_base, _s.tris, _s.tri_ext, _s.mask_ri, _s.mask_do = \
                 gen_triangles(_s.extent_t, _s.extent, _s.gi, _s.pic)
 
-        if _s.extent[0, 2] < _s.extent[-1, 2]:  # this means r_f_d was used (object fell). SHOULD ALWAYS BE TRUE
-            r_f_d_span_y = _s.extent[-1, 2] - _s.extent[0, 2]
-            _s.mask_do += int(r_f_d_span_y) - 3
+        _s.mask_ri += 2
 
-        _s.mask_ri += 2  # TODO: BUG HERE NOT SURE HOW TO FIX.
+        # '''HINT: V AFFECTS THIS'''
+        # if _s.extent[0, 2] < _s.extent[-1, 2]:  # this means r_f_d was used (object fell). SHOULD ALWAYS BE TRUE
+        #     r_f_d_span_y = _s.extent[-1, 2] - _s.extent[0, 2]
+        #     _s.mask_do += int(r_f_d_span_y) - 0
+
+        # _s.mask_ri += 0  # TODO: BUG HERE NOT SURE HOW TO FIX.
 
         # _s.extent = _s.extent[0]
-        # _s.alpha = gen_alpha(_s.gi, fun_plot='l', frames_tot=_s.gi['frames_tot'], y_range=[0, 0.3])
-
+        _s.alpha = gen_alpha(_s.gi, fun_plot='c', frames_tot=_s.gi['frames_tot1'], y_range=[0, 1])
         # _s.alpha = np.full((_s.gi['frames_tot1'],), fill_value=1)  # OBS only set for frames_tot1
-        _s.alpha = np.linspace(1, 1, num=len(_s.extent))
+        # _s.alpha = np.linspace(1, 1, num=len(_s.extent))
 
         _s.rotation_v = np.linspace(0.00, -2, num=len(_s.alpha))
         _s.tris, _s.tri_ext = rotate_tris(_s.tris, _s.tri_ext, _s.rotation_v)
 
+        asdf = 5
 
     # def finish_info(_s, id):
     #     _s.gi['max_ri'] = np.max(_s.extent[:, 1])
