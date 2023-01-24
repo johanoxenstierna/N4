@@ -94,6 +94,21 @@ class AbstractLayer:
             _s.index_im_ax = None  # THIS IS NEEDED BUT NOT SURE WHY
             return 2, index_removed
 
+    def check_extents(_s):
+
+        attributes = list(_s.__dict__.keys())
+
+        '''Check extent'''
+        if 'extent' in attributes:
+            if np.min(_s.extent[:, 0]) < 0:
+                raise Exception("extent beyond pic borders. ID: " + _s.id)
+            elif np.max(_s.extent[:, 1]) > P.MAP_DIMS[0]:
+                raise Exception("extent beyond pic borders. ID: " + _s.id)
+            elif np.min(_s.extent[:, 2]) < 0:
+                raise Exception("extent beyond pic borders. ID: " + _s.id)
+            elif np.max(_s.extent[:, 3]) > P.MAP_DIMS[1]:
+                raise Exception("extent beyond pic borders. ID: " + _s.id)
+
 
 class AbstractSSS:
     """

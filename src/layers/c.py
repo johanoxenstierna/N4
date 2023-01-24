@@ -18,9 +18,8 @@ class C(AbstractLayer, AbstractSSS):
         AbstractLayer.__init__(_s)
         _s.id = id
 
-        '''TODO: Load gi based on pic id'''
-        if id[4] == '0':
-            _s.gi = sh.gi.cs_gi0
+        _s.gi = _s.load_gi(id, sh)
+
         _s.pic = pic
         _s.l_latest_drawn_id = "99_99_99_99"
         # _s.zorder = _s.gi['zorder']
@@ -68,7 +67,20 @@ class C(AbstractLayer, AbstractSSS):
         _s.rotation_v = np.linspace(0.00, -2, num=len(_s.alpha))
         _s.tris, _s.tri_ext = rotate_tris(_s.tris, _s.tri_ext, _s.rotation_v)
 
+        _s.check_extents()
         asdf = 5
+
+    def load_gi(_s, id, sh):
+        '''TODO: Load gi based on pic id'''
+        if id[4] == '0':
+            gi = sh.gi.cs_gi0
+        elif id[4] == '1':
+            gi = sh.gi.cs_gi1
+        elif id[4] == '2':
+            gi = sh.gi.cs_gi2
+
+        return gi
+
 
     # def finish_info(_s, id):
     #     _s.gi['max_ri'] = np.max(_s.extent[:, 1])

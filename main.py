@@ -47,7 +47,7 @@ if P.A_SPS:
 if P.A_CS:  # gen before srs so that landing known.
     shs = g.gen_cs(ax0, im_ax, shs)
 
-if P.A_SRS:
+if P.A_SRS:  #
     shs = g.gen_srs(ax0, im_ax, shs)
 
 if P.A_RS:
@@ -67,7 +67,7 @@ def init():
 def animate(i):
 
     if i == 20:
-        im_ax[2].set_alpha(0.3)
+        im_ax[2].set_alpha(0.1)
     if i == 21:
         im_ax[2].set_alpha(0)
 
@@ -102,7 +102,7 @@ def animate(i):
                             # if sp.f is not None:
                             #     if sp.f.id == f.id:
                             assert(sp.f != None)
-                            sp.dyn_gen(i)
+                            sp.dyn_gen(i)  # YES KEEP THIS: there are thousands of sp and pre-storing xy for all is a bit crazy.
                             sp.drawn = 1
                             prints += "  adding sp"
                             sp.set_frame_ss(i, sp.gi['frames_tot'], dynamic=False)
@@ -178,13 +178,13 @@ def animate(i):
                 for _ in range(sh.gi.num_sp_at_init_frame):
                     sp = sh.find_free_obj(type='sp')
                     if sp != None:
-                        assert (sp.f == None)
+                        assert (sp.f == None)  #
                         if i in sh.gi.sps_gi0['init_frames']:
                             prints += "  adding sp0"
-                            sp.dyn_gen(i, _type='sh0')  # THIS UPDATES gi AND sets init_frame
+                            sp.dyn_gen(i, gi=sh.gi.sps_gi0)  # THIS UPDATES gi AND sets init_frame
                         elif i in sh.gi.sps_gi2['init_frames']:
                             prints += "  adding sp2"
-                            sp.dyn_gen(i, _type='sh2')
+                            sp.dyn_gen(i, gi=sh.gi.sps_gi1)
                     else:
                         prints += "  couldnt add sp"
 
@@ -227,16 +227,19 @@ def animate(i):
 
         if P.A_SRS and 'srs' in sh.gi.child_names:
 
-            if i in sh.gi.srs_gi['init_frames']:
+            if i in sh.gi.srs_gi['init_frames']:  # means one of them has it
+
                 sr = sh.find_free_obj(type='sr')
 
-                #   NEED FULL ON DYN_GEN IF TRAIL SR NEEDED
+                if sr != None:
 
-                if sr != None and sr.id not in sr.gi['sr_hardcoded']:
-                    if sh.id == '3':
-                        pass
-                        # sr.gi['ld'] = [random.randint(-1, 5),
-                        #                random.randint(5, 50)]  # update gi with starting position
+                    if sr.id[0] == '3':  # dyn_gen needed!
+                        if i in sh.gi.srs_gi0['init_frames']:
+                            sr.dyn_gen(i, gi=sh.gi.srs_gi0)  # GENERATES GI AND EVERYTHING
+                        elif i in sh.gi.srs_gi1['init_frames']:
+                            sr.dyn_gen(i, gi=sh.gi.srs_gi1)  # GENERATES GI AND EVERYTHING
+                        else:
+                            raise Exception("adfadf")
                     prints += "  adding sr"
                     exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
                     if exceeds_frame_max == True:
@@ -244,7 +247,6 @@ def animate(i):
                     sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
                     sh.sr_latest_drawn_id = sr.id
                     sr.set_frame_ss(i, sr.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
-                    # f.gen_dyn_extent_alpha()
 
                 else:
                     prints += "  no free sr"
@@ -261,8 +263,8 @@ def animate(i):
                         # warp_affine_and_color(i, ax0, im_ax, f, ch)  # parent obj required for sail
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, sr, ax0, im_ax)
-                        im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
-                        # im_ax[sr.index_im_ax].set_alpha(1)
+                        # im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
+                        im_ax[sr.index_im_ax].set_alpha(0.05)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 
@@ -347,6 +349,7 @@ def animate(i):
                     c.frame_ss1 = [c.frame_ss[1], c.frame_ss[1] + c.gi['frames_tot1']]
                     _, _ = c.ani_update_step(ax0, im_ax)  # imshow
                     im_ax[c.index_im_ax].set_extent(c.extent_k)  # ONLY USES LD[0] and LD[1]
+                    im_ax[c.index_im_ax].set_alpha(0.1)  # ONLY USES LD[0] and LD[1]
 
             for c_id, c in sh.cs.items():
 
@@ -373,7 +376,8 @@ def animate(i):
                         else:
                             # im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
                             warp_affine_and_color(c.clock, ax0, im_ax, c)  # parent obj required for sail
-                            im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
+                            # im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
+                            im_ax[c.index_im_ax].set_alpha(0.2)
                     elif drawBool == 2:  # remove
                         '''two cases'''
                         if i == c.frame_ss1[0]:  # start moving it

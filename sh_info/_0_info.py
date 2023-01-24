@@ -131,7 +131,7 @@ class Sh_0_info(ShInfoAbstract):
         THEIR INIT FRAMES CAN BE SET BY F THOUGH.
         """
         sps_gi = {
-            'init_frames': init_frames,
+            'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 150,
             'v_loc': 20, 'v_scale': 5,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,

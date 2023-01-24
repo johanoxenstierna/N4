@@ -1,5 +1,6 @@
 
 MAP_SIZE = 's0'  # 214, 181
+MAP_DIMS = (133, 141)  # NEEDED FOR ASSERTIONS
 
 FRAMES_START = 0
 FRAMES_STOP = None  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
@@ -20,9 +21,10 @@ A_CS = 1
 PR_MOVE_BLACK = 0  # what to pre-compute (doesn't affect rendering time that much)
 PR_ZIGZAG = 0
 
-NUM_SPS_SH = 3  # per sh. sp ARE SHARED
+NUM_SPS_SH = 30  # per sh. sp ARE SHARED
 NUM_SPS_F = 5  # per f  NUMBER LAUNCH DIFFERERNT FRAMES
-NUM_SRS = 50
+NUM_SRS_SH = 50
+NUM_SRS_C = 10  # OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
 NUM_FS = 2
 NUM_RS = 5  # upper bound
 # NUM_LS = 20
@@ -33,4 +35,5 @@ SAIL_CYCLES = 3
 WS_STEPS = 40  # 2s  wave front of sh
 
 # SHS_TO_SHOW = ['0', '1', '2', '3']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['1', '3']  # , '6', '7']#, '1'] #, '2', '3']
 SHS_TO_SHOW = ['3']  # , '6', '7']#, '1'] #, '2', '3']

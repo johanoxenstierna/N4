@@ -2,6 +2,7 @@
 from sh_info.shInfoAbstract import ShInfoAbstract
 import P as P
 import random
+import numpy as np
 
 class Sh_1_info(ShInfoAbstract):
     """
@@ -45,10 +46,10 @@ class Sh_1_info(ShInfoAbstract):
         # srs_gi['ld_offset_rand'] = [10, 5], [5, 5]
         srs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         srs_gi['sr_hardcoded'] = {}
-        srs_gi['v_loc'] = 30  # rc=2
-        srs_gi['v_scale'] = 20
-        srs_gi['theta_loc'] = -0.3  # radians!
-        srs_gi['theta_scale'] = 0.2
+        srs_gi['v_loc'] = 13  # rc=2
+        srs_gi['v_scale'] = 4
+        srs_gi['theta_loc'] = 0.6 * 2 * np.pi  # radians!
+        srs_gi['theta_scale'] = 0.1
         srs_gi['r_f_d_loc'] = 0.05
         srs_gi['r_f_d_scale'] = 0.00
         srs_gi['up_down'] = 'up'

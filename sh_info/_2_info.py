@@ -20,7 +20,6 @@ class Sh_2_info(ShInfoAbstract):
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]
 
-
         _s.ld = top_point
         _s.child_names = ['sps', 'ls', 'rs']
 

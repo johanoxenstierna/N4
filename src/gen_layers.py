@@ -32,7 +32,7 @@ class GenLayers:
 
         im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.01))
 
-        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.01,
+        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.001,
                                extent=[36, 36 + _s.pics['volc_d'].shape[1], 44, 44 + _s.pics['volc_d'].shape[0]]))
         im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
                                extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
@@ -117,8 +117,9 @@ class GenLayers:
             if 'srs' in sh.gi.child_names:
                 sr_pics = _s.pics['sh'][sh_id]['srs']
                 for pic_key, pic in sr_pics.items():
+                # for i, pic in enumerate(sr_pics):
                     sr = Sr(id=pic_key, pic=pic, sh=sh, num_sr=len(sr_pics))  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                    sh.srs[pic_key] = sr
+                    sh.srs[sr.id] = sr
         return shs
 
     def gen_rs(_s, ax, im_ax, shs):

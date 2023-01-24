@@ -21,6 +21,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.id = sh.id + "_f" + "_sp_" + str(id_int)
             _s.f = f
             _s.gi = deepcopy(f.sps_gi)
+            # _s.dyn_gen()  # NO. It's just too many sp
         #     _s.gi['frames_tot'] = 150
         #     assert(_s.gi['frames_tot'] < _s.f.gi['frames_tot'])
         #     _s._flip_it = True
@@ -28,7 +29,7 @@ class Sp(AbstractLayer, AbstractSSS):
         else:
             _s.f = None
 
-            if random.random() < 0.5:
+            if random.random() < 0.5:  # TODO. should be in gi obviously.
                 _s._sps_type = '0'
             else:
                 _s._sps_type = '2'
@@ -42,14 +43,15 @@ class Sp(AbstractLayer, AbstractSSS):
         scale_ss = []
         return scale_ss
 
-    def dyn_gen(_s, i, _type=None):
+    def dyn_gen(_s, i, gi=None):
 
         """
         Basically everything moved from init to here.
         This can only be called when init frames are synced between
         """
 
-        if _s.f != None:
+        if gi == None:  # gi pre-computed
+            assert(_s.f != None)
             _s.gi = deepcopy(_s.f.sps_gi)
             # _s.gi['frames_tot'] = 150
             assert (_s.gi['frames_tot'] < _s.f.gi['frames_tot'])
@@ -57,27 +59,15 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.gi['r_f_d_type'] = 'after'  # after is what is kept
             # _s._up_down = 'down'
         else:  # sh sps
-            '''Has to be done. 
+            '''Has to be done for REPEATED sp. 
             Problem is that each sh only has a token amount of sps, so if re-generation is sought
             the gi has to be generated dynamically. 
             Use mod here or smthn. 
             Its init_frames start at sh.gi level, i.e. all of them 
             '''
             # if i in _s.sh.gi.sps_gi0['init_frames'] and _s._sps_type == '0':
-            if _type == 'sh0':
-                # assert(i in _s.gi['init_frames'])  # at this point this is the same gi as _s.sh.gi.sps_gi
-                _s.gi = deepcopy(_s.sh.gi.sps_gi0)  # could take it directly from sh but this is simpler
-                assert(i in _s.gi['init_frames'])
-                index_init_frames = _s.gi['init_frames'].index(i)
-                _s.init_frame = _s.gi['init_frames'][index_init_frames] + random.randint(0, _s.gi['init_frame_max_dist'])
-            elif _type == 'sh2':
-                # assert(i in _s.gi['init_frames'])
-                _s.gi = deepcopy(_s.sh.gi.sps_gi2)
-                assert(i in _s.gi['init_frames'])
-                index_init_frames = _s.gi['init_frames'].index(i)
-                _s.init_frame = _s.gi['init_frames'][index_init_frames] + random.randint(0, _s.gi['init_frame_max_dist'])
-
-            _s.gi['r_f_d_type'] = 'after'  # after means what is kept
+            _s.gi = gi
+            _s.init_frame = _s.set_init_frame()
 
         _s.finish_info()
         # _s.zorder = 100
@@ -119,6 +109,28 @@ class Sp(AbstractLayer, AbstractSSS):
             asdf = 5
         assert (len(_s.alphas) == len(_s.xy))
         assert (_s.gi['frames_tot'] == len(_s.alphas))
+
+    def set_init_frame(_s, _type, i):
+
+        # gi = None
+        # init_frame = None
+        #
+        # if _type == 'sh0':
+        #     assert(i in _s.sh.gi.sps_init_frames)  # at this point this is the same gi as _s.sh.gi.sps_gi
+        #     gi = deepcopy(_s.sh.gi.sps_gi0)  # could take it directly from sh but this is simpler
+        #     assert (i in gi['init_frames'])
+        #     index_init_frames = gi['init_frames'].index(i)
+        #     init_frame = gi['init_frames'][index_init_frames] + random.randint(0, gi['init_frame_max_dist'])
+        # elif _type == 'sh2':
+        #     # assert(i in _s.gi['init_frames'])
+        #     gi = deepcopy(_s.sh.gi.sps_gi2)
+        #     assert (i in gi['init_frames'])
+        index_init_frames = _s.gi['init_frames'].index(i)
+        init_frame = _s.gi['init_frames'][index_init_frames] + random.randint(0, _s.gi['init_frame_max_dist'])
+
+        # _s.gi['r_f_d_type'] = 'after'  # after means what is kept
+
+        return init_frame
 
     def finish_info(_s):
 

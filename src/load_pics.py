@@ -40,7 +40,8 @@ def load_pics():
 
     # UNIQUE PICTURES FOR A CERTAIN OBJECT (SHIP is the parent structure)
     PATH = './images/processed/'
-    _, folder_names0, _ = os.walk(PATH).__next__()
+    # _, folder_names0, _ = os.walk(PATH).__next__()
+    folder_names0 = P.SHS_TO_SHOW
     for folder_name0 in folder_names0:  # shs
 
         pics['sh'][folder_name0] = {}
@@ -69,10 +70,15 @@ def load_pics():
                         pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
 
                 elif folder_name1 == 'srs':
+                    '''Two cases. srs that are normal and srs that are associated to c'''
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pic = np.flipud(pic)
-                    for i in range(P.NUM_SRS):
-                        pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
+                    if folder_name0 != '3':
+                        for i in range(P.NUM_SRS_SH):
+                            pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
+                    else:
+                        for i in range(P.NUM_SRS_C):
+                            pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
                 elif folder_name1 == 'rs':
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pic = np.flipud(pic)
@@ -110,7 +116,16 @@ def load_pics():
                 #             pics['ships'][folder_name]['smokas'][file_name[:-4] + '_' + str(i)] = \
                 #                 imread(PATH + '/' + folder_name + '/' + file_name)
 
-            adf = 5
+        # NO SRS_SH AND SRS_C ARE DECOUPLED!
+        # '''GEN SRS FOR C. A PIC WITH SAME NUMBERING MUST EXIST.'''
+        # if '3' in pics['sh']:
+        #     c_keys = pics['sh']['3']['cs'].keys()
+        #     for c_key in c_keys:
+        #         sr_key0 = '3_sr_' + c_key[4:]  # this gives the c the sr will be dedicated to
+        #         pic_sr = imread(PATH + '3/srs/' + sr_key + '.png')  # without .png
+        #         for i in range(P.NUM_SRS_C):
+        #             pics['sh']['srs'][c_key + '_' + str(i)] = pic
+        adf = 5
 
     return pics
 
