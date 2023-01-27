@@ -175,7 +175,7 @@ def gen_triangles(extent_t, extent, gi, pic):
     elif extent[0, 1] > extent[-1, 1]:  # MOVED TO LEFT
         mask_ri = int(extent[0, 1])
 
-    mask_ri += gi['extra_offset_x']
+    # mask_ri += gi['extra_offset_x']
 
     # if tri_ext['max_ri'] < extent[0, 1]:  # this means it has moved to right
     #     diff = tri_ext['max_ri']
@@ -199,7 +199,7 @@ def gen_triangles(extent_t, extent, gi, pic):
     # else:
     #     mask_do = int(tri_ext['max_do'])
     #
-    mask_do = int(extent[-1, 2]) - 3
+    mask_do = int(extent[-1, 2])
 
     # if tri_max_y < max(gi['ld_start'][1], gi['ld_end'][1]):
     #     # mask_y = int(tri_max_y + min(gi['ld_start'][1], gi['ld_end'][1]))

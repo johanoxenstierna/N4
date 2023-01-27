@@ -153,6 +153,9 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 # 			wave.index_im_ax -= 1
 
 
+# def
+
+
 def static_alpha_darkening(pic, ii, g_obj):
 	"""
 	R   G   B   !   !   !

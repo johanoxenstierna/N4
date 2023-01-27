@@ -1,6 +1,6 @@
-
+DEBUG = 0  # if 1 then faster speed on objectsh
 MAP_SIZE = 's0'  # 214, 181
-MAP_DIMS = (133, 141)  # NEEDED FOR ASSERTIONS
+MAP_DIMS = (233, 141)  # NEEDED FOR ASSERTIONS
 
 FRAMES_START = 0
 FRAMES_STOP = None  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
@@ -12,7 +12,7 @@ FRAMES_TOT = FRAMES_STOP - FRAMES_START
 # A (what to animate) ========
 A_AFFINE_TRANSFORM = 0  # compulsary probably at least for sh
 A_SRS = 1  # smokr
-A_SPS = 1  # sparks  MUST BE 1 (being fixed though)
+A_SPS = 0  # sparks  MUST BE 1 (being fixed though)
 A_FS = 1  # fires
 A_RS = 1  # rocks
 A_LS = 1  # lava
@@ -24,7 +24,7 @@ PR_ZIGZAG = 0
 NUM_SPS_SH = 30  # per sh. sp ARE SHARED
 NUM_SPS_F = 5  # per f  NUMBER LAUNCH DIFFERERNT FRAMES
 NUM_SRS_SH = 50
-NUM_SRS_C = 10  # OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
+NUM_SRS_C = 27  # OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
 NUM_FS = 2
 NUM_RS = 5  # upper bound
 # NUM_LS = 20

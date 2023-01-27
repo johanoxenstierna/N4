@@ -3,7 +3,7 @@ import copy
 import numpy as np
 
 
-def simple_projectile(v, theta, frames_tot, rc=1, _type=None):
+def simple_projectile(v, theta, frames_tot, rc=1, up_down=None):
     """
     OBS this is for midpoint, i.e. SINGLE PIXEL
     See tutorial for using a patch to make it larger than single pixel
@@ -22,7 +22,7 @@ def simple_projectile(v, theta, frames_tot, rc=1, _type=None):
     t = np.linspace(0, t_flight, frames_tot)
 
     # TEST W DIFF FUNCS ===================
-    if _type in ['sp_sh', 'r_down']:
+    if up_down == 'down':
         t_flight = 0.05 * v * np.sin(theta) / G
         t = np.linspace(0, t_flight, frames_tot)
     # ======================================
@@ -35,7 +35,7 @@ def simple_projectile(v, theta, frames_tot, rc=1, _type=None):
     # x = -v * t  * 0.2 * np.sin(theta)
     # y = -v * t  * 0.3 * np.cos(theta)
 
-    if _type in ['sp_sh', 'r_down']:
+    if up_down == 'down':
         x = v * np.cos(theta) * t
         y = -v * np.sin(theta) * rc * t - 0.5 * G * t ** 2
 

@@ -67,7 +67,7 @@ class Sp(AbstractLayer, AbstractSSS):
             '''
             # if i in _s.sh.gi.sps_gi0['init_frames'] and _s._sps_type == '0':
             _s.gi = gi
-            _s.init_frame = _s.set_init_frame()
+            _s.init_frame = _s.set_init_frame(i)
 
         _s.finish_info()
         # _s.zorder = 100
@@ -83,12 +83,9 @@ class Sp(AbstractLayer, AbstractSSS):
 
         frames_tot_and_d = _s.gi['frames_tot'] + frames_tot_d
 
-        if _s.f != None:
-            _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
-                                        frames_tot=frames_tot_and_d, _type='sp_f')
-        else:
-            _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
-                                        frames_tot=frames_tot_and_d, _type='sp_sh')
+        # if _s.f != None:
+        _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
+                                    frames_tot=frames_tot_and_d, up_down=_s.gi['up_down'])
 
         _s.xy = shift_projectile(_s.xy_t, origin=(_s.gi['ld'][0] + _s.gi['ld_offset'][0],
                                                   _s.gi['ld'][1] + _s.gi['ld_offset'][1]),
@@ -110,7 +107,7 @@ class Sp(AbstractLayer, AbstractSSS):
         assert (len(_s.alphas) == len(_s.xy))
         assert (_s.gi['frames_tot'] == len(_s.alphas))
 
-    def set_init_frame(_s, _type, i):
+    def set_init_frame(_s, i):
 
         # gi = None
         # init_frame = None
@@ -146,7 +143,6 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['r_f_d'] = max(0.001, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
-
 
         '''Colors'''
         R_start = min(1, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))

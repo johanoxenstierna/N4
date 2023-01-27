@@ -19,7 +19,9 @@ def gen_alpha(gi, fun_plot, frames_tot=None, y_range=None, plot=False):
 		# alpha = np.full(X.shape, fill_value=0.99)
 		# alpha = np.linspace(0.5, 1.0, num=len(X))
 		# alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
-		alpha = _gamma(X, mean=2, var=20, y_range=[0.01, 0.8])
+		# alpha = _gamma(X, mean=2, var=20, y_range=[0.01, 0.8])
+		alpha = _normal(X, mean=100, var=50, y_range=[0.01, 0.3])
+		adf = 5
 	elif fun_plot == 'r_down':
 		'''Has to end at 0 alpha because these include fire smokhs'''
 		# alpha = np.full(X.shape, fill_value=0.99)
@@ -63,6 +65,7 @@ def gen_alpha(gi, fun_plot, frames_tot=None, y_range=None, plot=False):
 			alpha = _normal(X, mean=len(X) // 2, var=len(X) // 4, y_range=y_range)  # THIS IS WAVE ALPHA
 	elif fun_plot == 'c':
 		alpha = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 20, x_shift=-18, y_magn=1., y_shift=0) for x in X]))
+		afd = 5
 	return alpha
 
 

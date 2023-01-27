@@ -34,7 +34,7 @@ class Sr(AbstractLayer, AbstractSSS):
 
         AbstractSSS.__init__(_s, sh, id)
 
-        if _s.id[0] == '1':
+        if sh.id == '1':
             _s.dyn_gen()  # creates REPEATED srs. C-tied sr are dyn_gened in main
 
 
@@ -52,8 +52,11 @@ class Sr(AbstractLayer, AbstractSSS):
         frames_to_d = int(_s.gi['frames_tot'] * _s.gi['r_f_d'])
         frames_tot_and_d = _s.gi['frames_tot'] + frames_to_d
 
+        if _s.gi['v'] > 20:
+            adf = 5
+
         _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
-                                    frames_tot=frames_tot_and_d, rc=1.3)
+                                    frames_tot=frames_tot_and_d, rc=1, up_down=_s.gi['up_down'])
 
         origin_ = (_s.gi['ld'][0] + _s.gi['ld_offset'][0], _s.gi['ld'][1] + _s.gi['ld_offset'][1])
         _s.xy = shift_projectile(_s.xy_t, origin=origin_, up_down=_s.gi['up_down'], frames_tot_d=frames_to_d,
@@ -65,7 +68,7 @@ class Sr(AbstractLayer, AbstractSSS):
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
         _s.scale_vector = np.linspace(0.001, 2.5, num=_s.gi['frames_tot'])
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
-            _s.scale_vector = np.linspace(0.05, 1, num=_s.gi['frames_tot'])
+            _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
         _s.rotation = np.linspace(0.01, 1, num=len(_s.scale_vector))
 
         _s.alpha = gen_alpha(_s.gi, fun_plot=fun_plot, frames_tot=_s.gi['frames_tot'])
@@ -83,8 +86,10 @@ class Sr(AbstractLayer, AbstractSSS):
         a parent layer at a certain frame. But not always.
         """
 
+        if _s.gi['v_loc'] > 12:
+            adf = 5
         _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
-        theta = np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
+        theta = _s.gi['theta_loc']  # np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
         _s.gi['theta'] = theta
         _s.gi['r_f_d'] = np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale'])
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),

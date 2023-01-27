@@ -30,9 +30,9 @@ class GenLayers:
 
     def gen_backgr(_s, ax, im_ax):
 
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.01))
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
 
-        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.001,
+        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
                                extent=[36, 36 + _s.pics['volc_d'].shape[1], 44, 44 + _s.pics['volc_d'].shape[0]]))
         im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
                                extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
@@ -42,7 +42,7 @@ class GenLayers:
         # im_ax.append(ax.imshow(_s.pics['frame'], zorder=99999))
         if P.MAP_SIZE == 's0':
             # pass
-            ax.axis([0, 254, 133, 0])
+            ax.axis([0, P.MAP_DIMS[0], P.MAP_DIMS[1], 0])
             # ax.axis([-30, 254, 133, -30])
             # ax.axis([0, 214, 0, 181])
             # ax.axis([0, 214, 181, 0])

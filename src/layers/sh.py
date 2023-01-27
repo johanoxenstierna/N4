@@ -117,7 +117,7 @@ class Sh(AbstractLayer):
             _di = _s.ls
         li_ids = list(_di.keys())
 
-        if type not in ['l', 'sr']:  # l needs to be sequential
+        if type not in ['l']:  # l needs to be sequential
             random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
         # flag_found = False # only used by smoka
         for key in li_ids:
@@ -148,4 +148,38 @@ class Sh(AbstractLayer):
         for sp in _s.sps.items():
 
             pass
+
+    def dyn_gen_child(_s, i, sr):
+        if sr.__class__.__name__ != 'Sr':
+            raise Exception("child_type != sr")
+
+        if _s.id != '3':
+            raise Exception("Only done it for 3 so far.")
+
+        '''OBS SRS_GI NUMBERS CORRESPOND TO CS, BUT SRS PIC NUMBER DONT CORRESPOND TO ANYTHING'''
+
+        for sr_gi_id, sr_gi in _s.gi.srs_gi.items():
+            if i in sr_gi['init_frames']:
+                sr.dyn_gen(i, gi=sr_gi)  # GENERATES GI AND EVERYTHING
+
+                adf = 5
+
+        # if i in _s.gi.srs_gi0['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi0)  # GENERATES GI AND EVERYTHING
+        # elif i in _s.gi.srs_gi1['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi1)  # GENERATES GI AND EVERYTHING
+        # if i in _s.gi.srs_gi2['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi2)
+        # elif i in _s.gi.srs_gi3['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi3)
+        # elif i in _s.gi.srs_gi4['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi4)
+        # elif i in _s.gi.srs_gi5['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi5)
+        # elif i in _s.gi.srs_gi6['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi6)
+        # elif i in _s.gi.srs_gi7['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi7)
+        # else:
+        #     raise Exception("adfadf")
 

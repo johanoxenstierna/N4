@@ -184,7 +184,10 @@ def animate(i):
                             sp.dyn_gen(i, gi=sh.gi.sps_gi0)  # THIS UPDATES gi AND sets init_frame
                         elif i in sh.gi.sps_gi2['init_frames']:
                             prints += "  adding sp2"
-                            sp.dyn_gen(i, gi=sh.gi.sps_gi1)
+                            sp.dyn_gen(i, gi=sh.gi.sps_gi2)
+                        elif i in sh.gi.sps_gi10['init_frames']:
+                            prints += "  adding sp2"
+                            sp.dyn_gen(i, gi=sh.gi.sps_gi10)
                     else:
                         prints += "  couldnt add sp"
 
@@ -227,21 +230,20 @@ def animate(i):
 
         if P.A_SRS and 'srs' in sh.gi.child_names:
 
-            if i in sh.gi.srs_gi['init_frames']:  # means one of them has it
+            if i in sh.gi.srs_gi_init_frames:  # means one of them has it
 
                 sr = sh.find_free_obj(type='sr')
 
                 if sr != None:
 
                     if sr.id[0] == '3':  # dyn_gen needed!
-                        if i in sh.gi.srs_gi0['init_frames']:
-                            sr.dyn_gen(i, gi=sh.gi.srs_gi0)  # GENERATES GI AND EVERYTHING
-                        elif i in sh.gi.srs_gi1['init_frames']:
-                            sr.dyn_gen(i, gi=sh.gi.srs_gi1)  # GENERATES GI AND EVERYTHING
-                        else:
-                            raise Exception("adfadf")
+                        sh.dyn_gen_child(i, sr)
+
                     prints += "  adding sr"
-                    exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
+                    try:
+                        exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
+                    except:
+                        adf = 5
                     if exceeds_frame_max == True:
                         sr.gi['frames_tot'] = how_many
                     sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
@@ -263,8 +265,8 @@ def animate(i):
                         # warp_affine_and_color(i, ax0, im_ax, f, ch)  # parent obj required for sail
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, sr, ax0, im_ax)
-                        # im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
-                        im_ax[sr.index_im_ax].set_alpha(0.05)
+                        im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
+                        # im_ax[sr.index_im_ax].set_alpha(1)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 
@@ -349,7 +351,7 @@ def animate(i):
                     c.frame_ss1 = [c.frame_ss[1], c.frame_ss[1] + c.gi['frames_tot1']]
                     _, _ = c.ani_update_step(ax0, im_ax)  # imshow
                     im_ax[c.index_im_ax].set_extent(c.extent_k)  # ONLY USES LD[0] and LD[1]
-                    im_ax[c.index_im_ax].set_alpha(0.1)  # ONLY USES LD[0] and LD[1]
+                    # im_ax[c.index_im_ax].set_alpha(0.1)  # ONLY USES LD[0] and LD[1]
 
             for c_id, c in sh.cs.items():
 
@@ -376,8 +378,8 @@ def animate(i):
                         else:
                             # im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
                             warp_affine_and_color(c.clock, ax0, im_ax, c)  # parent obj required for sail
-                            # im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
-                            im_ax[c.index_im_ax].set_alpha(0.2)
+                            im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
+                            # im_ax[c.index_im_ax].set_alpha(0.2)
                     elif drawBool == 2:  # remove
                         '''two cases'''
                         if i == c.frame_ss1[0]:  # start moving it

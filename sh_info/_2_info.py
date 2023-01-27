@@ -72,7 +72,7 @@ class Sh_2_info(ShInfoAbstract):
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
             'theta_loc': 0.8, 'theta_scale': 0.03,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.02,
-            'r_f_d_type': None,  # which part of r_f_d to use
+            'r_f_d_type': 'after',  # which part of r_f_d to use
             'ld': _s.ld,
             'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 0.0],
@@ -103,7 +103,7 @@ class Sh_2_info(ShInfoAbstract):
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
             'theta_loc': 0.8, 'theta_scale': 0.07,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
-            'r_f_d_type': None,  # which part of r_f_d to use
+            'r_f_d_type': 'after',  # which part of r_f_d to use
             'ld': _s.ld,
             'ld_offset_loc': [-4, 5],
             'ld_offset_scale': [0, 0],
@@ -117,6 +117,7 @@ class Sh_2_info(ShInfoAbstract):
             'up_down': 'down'
 
         }
+
         # 160, 77, 36  -> 76, 42, 28
 
         return sps_gi
