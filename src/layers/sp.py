@@ -99,7 +99,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.alphas = np.linspace(0.6, 0.0, num=_s.gi['frames_tot'])
         else:
             '''CHANGE ALPHA TO NORMAL'''
-            _s.alphas = gen_alpha(_s.gi, fun_plot='sp2', frames_tot=_s.gi['frames_tot'], y_range=[0, 0.5])
+            _s.alphas = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.5])
 
         # _s.alphas = np.sin(list(range(0, int(_s.gi['frames_tot'] / 2 * np.pi))))
         if _s.alphas[0] > 0.3:
@@ -165,4 +165,13 @@ class Sp(AbstractLayer, AbstractSSS):
             raise Exception("R G B not within range")
 
         _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 0)
+
+        # OBS NEW FROM SR SUPER IMPORTANT:
+        if _s.id[0] == '3':
+            c_id = _s.gi['c_id']
+            if c_id not in _s.sh.cs.keys():
+                raise Exception("trying to dyn_gen an sp which is tied to a c that does not exist.")
+
+            '''This could be written to gi of sr'''
+            _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
 

@@ -30,9 +30,9 @@ class GenLayers:
 
     def gen_backgr(_s, ax, im_ax):
 
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.01))
 
-        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
+        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.05,
                                extent=[36, 36 + _s.pics['volc_d'].shape[1], 44, 44 + _s.pics['volc_d'].shape[0]]))
         im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
                                extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
@@ -141,10 +141,11 @@ class GenLayers:
         for sh_id, sh in shs.items():
             if 'ls' in sh.gi.child_names:
                 ls_pics = _s.pics['sh'][sh_id]['ls']
-                for pic_key, pic in ls_pics.items():  # IF REPEATS OF PIC THEN ADD IN LOOP HERE
-                    l = L(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                    sh.ls[pic_key] = l
-
+                ls_pics_keys = list(ls_pics.keys())
+                ls_pics_keys.sort()
+                for pic_key in ls_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE
+                    l = L(id=pic_key, pic=ls_pics[pic_key], sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    sh.ls.append(l)
         return shs
 
 

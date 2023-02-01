@@ -61,7 +61,7 @@ class C(AbstractLayer, AbstractSSS):
         # _s.mask_ri += 0  # TODO: BUG HERE NOT SURE HOW TO FIX.
 
         # _s.extent = _s.extent[0]
-        _s.alpha = gen_alpha(_s.gi, fun_plot='c', frames_tot=_s.gi['frames_tot1'], y_range=[0, 1])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot1'], y_range=[0, 1])
         # _s.alpha = np.full((_s.gi['frames_tot1'],), fill_value=1)  # OBS only set for frames_tot1
         # _s.alpha = np.linspace(1, 1, num=len(_s.extent))
 

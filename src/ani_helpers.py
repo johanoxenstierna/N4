@@ -124,7 +124,9 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 				if r.index_im_ax > index_removed:
 					r.index_im_ax -= 1
 
-		for l in sh.ls.values():
+		# for l in sh.ls.values():
+		# changed from dict to list
+		for l in sh.ls:
 			if l.index_im_ax != None:
 				if l.index_im_ax > index_removed:
 					l.index_im_ax -= 1

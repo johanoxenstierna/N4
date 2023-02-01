@@ -18,7 +18,7 @@ class Sh(AbstractLayer):
         _s.fs = {}
         _s.srs = {}
         _s.rs = {}
-        _s.ls = {}
+        _s.ls = []
         _s.cs = {}
         _s.sps = {}  # only used by some insts
         _s.f_latest_drawn_id = "99_99_99_99"
@@ -114,21 +114,27 @@ class Sh(AbstractLayer):
         elif type == 'sp':
             _di = _s.sps
         elif type == 'l':
-            _di = _s.ls
-        li_ids = list(_di.keys())
+            _list = _s.ls
 
-        if type not in ['l']:  # l needs to be sequential
+        if type != 'l':
+            li_ids = list(_di.keys())
             random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
-        # flag_found = False # only used by smoka
-        for key in li_ids:
-            obj = _di[key]
-            if obj.drawn == 0:  # object is not drawn
-                if type == 'f':
-                    id_split_smoka = obj.id.split('_')
-                    id_split_ship_latest_smoka = _s.f_latest_drawn_id.split('_')
-                    if id_split_smoka[2] == id_split_ship_latest_smoka[2]:
-                        continue
-                return obj
+
+            # flag_found = False # only used by smoka
+            for key in li_ids:
+                obj = _di[key]
+                if obj.drawn == 0:  # object is not drawn
+                    if type == 'f':
+                        id_split_smoka = obj.id.split('_')
+                        id_split_ship_latest_smoka = _s.f_latest_drawn_id.split('_')
+                        if id_split_smoka[2] == id_split_ship_latest_smoka[2]:
+                            continue
+                    return obj
+        else:
+            for obj in _list:
+                # obj = _list[i]
+                if obj.drawn == 0:
+                    return obj
 
         if type == 'f':  # if return above has not happened it means that none has been found (e.g. if only 1 type available)
             for key in li_ids:
@@ -149,18 +155,49 @@ class Sh(AbstractLayer):
 
             pass
 
-    def dyn_gen_child(_s, i, sr):
+    def dyn_gen_child_sr(_s, i, sr):
         if sr.__class__.__name__ != 'Sr':
             raise Exception("child_type != sr")
 
-        if _s.id != '3':
-            raise Exception("Only done it for 3 so far.")
+        # if _s.id != '3':
+        #     raise Exception("Only done it for 3 so far.")
 
         '''OBS SRS_GI NUMBERS CORRESPOND TO CS, BUT SRS PIC NUMBER DONT CORRESPOND TO ANYTHING'''
 
         for sr_gi_id, sr_gi in _s.gi.srs_gi.items():
             if i in sr_gi['init_frames']:
                 sr.dyn_gen(i, gi=sr_gi)  # GENERATES GI AND EVERYTHING
+
+                adf = 5
+
+        # if i in _s.gi.srs_gi0['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi0)  # GENERATES GI AND EVERYTHING
+        # elif i in _s.gi.srs_gi1['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi1)  # GENERATES GI AND EVERYTHING
+        # if i in _s.gi.srs_gi2['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi2)
+        # elif i in _s.gi.srs_gi3['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi3)
+        # elif i in _s.gi.srs_gi4['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi4)
+        # elif i in _s.gi.srs_gi5['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi5)
+        # elif i in _s.gi.srs_gi6['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi6)
+        # elif i in _s.gi.srs_gi7['init_frames']:
+        #     sr.dyn_gen(i, gi=_s.gi.srs_gi7)
+        # else:
+        #     raise Exception("adfadf")
+
+    def dyn_gen_child_sp(_s, i, sp):
+        if sp.__class__.__name__ != 'Sp':
+            raise Exception("child_type != sp")
+
+        '''OBS SRS_GI NUMBERS CORRESPOND TO CS, BUT SRS PIC NUMBER DONT CORRESPOND TO ANYTHING'''
+
+        for sp_gi_id, sp_gi in _s.gi.sps_gi.items():
+            if i in sp_gi['init_frames']:
+                sp.dyn_gen(i, gi=sp_gi)  # GENERATES GI AND EVERYTHING
 
                 adf = 5
 

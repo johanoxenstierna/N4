@@ -25,6 +25,10 @@ class Sh_0_info(ShInfoAbstract):
 
         if P.A_SRS == 1:
             _s.srs_gi = _s.gen_srs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
+            _s.srs_gi_init_frames = pulse
+            _s.srs_gi = {  # these numbers correspond to c!
+                '0': _s.srs_gi,
+            }
         if P.A_RS == 1:
             _s.rs_gi = _s.gen_rs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
         if P.A_SPS == 1:
@@ -79,14 +83,14 @@ class Sh_0_info(ShInfoAbstract):
         # srs_gi['ld_offset_rand'] = [10, 5], [5, 5]
         srs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         srs_gi['sr_hardcoded'] = {}
-        srs_gi['v_loc'] = 30  # rc=2
-        srs_gi['v_scale'] = 20
+        srs_gi['v_loc'] = 20  # rc=2
+        srs_gi['v_scale'] = 5
         srs_gi['theta_loc'] = -0.1  # radians!
         srs_gi['theta_scale'] = 0.3
         srs_gi['r_f_d_loc'] = 0.001
         srs_gi['r_f_d_scale'] = 0.00
         srs_gi['up_down'] = 'up'
-        srs_gi['alpha_plot'] = 'sr'
+        # srs_gi['alpha_plot'] = 'sr'
 
         return srs_gi
 
@@ -109,7 +113,7 @@ class Sh_0_info(ShInfoAbstract):
         rs_gi['rs_hardcoded'] = {}
         rs_gi['v_loc'] = 20  # rc=2
         rs_gi['v_scale'] = 5
-        rs_gi['theta_loc'] = np.pi/2 - 0.1  # radians!
+        rs_gi['theta_loc'] = np.pi/2 + 0.1  # radians!
         rs_gi['theta_scale'] = 0.1
         rs_gi['r_f_d_loc'] = 0.7
         rs_gi['r_f_d_scale'] = 0.05
@@ -133,9 +137,9 @@ class Sh_0_info(ShInfoAbstract):
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 150,
-            'v_loc': 20, 'v_scale': 5,
+            'v_loc': 24, 'v_scale': 5,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'theta_loc': -0.2, 'theta_scale': 0.3,
+            'theta_loc': 0.2, 'theta_scale': 0.3,
             'r_f_d_loc': 0.2, 'r_f_d_scale': 0.05,
             'ld': _s.ld,
             'ld_offset_loc': [0, 1],

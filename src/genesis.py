@@ -10,7 +10,7 @@ def init_infos():
     '''Creates instance of each info and stores in dict'''
     infos = {}
 
-    top_point = [112, 43]
+    top_point = [110, 50]
     top_point2 = [108, 52]
     pulse = random.sample(range(1, 200), 20)
     pulse.sort()

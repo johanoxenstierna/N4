@@ -19,7 +19,7 @@ from src.ani_helpers import *
 import P as P
 from src.chronicler import Chronicler
 
-WRITE = 0  # 5
+WRITE = 0  # 12
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 
@@ -168,26 +168,27 @@ def animate(i):
         if P.A_SPS and 'sps' in sh.gi.child_names:  # SH sps
             '''NOT f. OBS MULTIPLE DRAWS AT SAME FRAME ALLOWED HERE
             THIS IS NOT THERE FOR OTHERS'''
-            if i in sh.gi.sps_init_frames:
+            if i in sh.gi.sps_gi_init_frames:
                 '''
                 DECIDE WHICH GI TO USE
                 This sets an init frame for the sp IN THE FUTURE
                 Tries 50 times to find a free sp and if it finds one it gets drawn
                 according to gi conditions. 
                 '''
-                for _ in range(sh.gi.num_sp_at_init_frame):
+                for _ in range(P.NUM_SPS_C):
                     sp = sh.find_free_obj(type='sp')
                     if sp != None:
                         assert (sp.f == None)  #
-                        if i in sh.gi.sps_gi0['init_frames']:
-                            prints += "  adding sp0"
-                            sp.dyn_gen(i, gi=sh.gi.sps_gi0)  # THIS UPDATES gi AND sets init_frame
-                        elif i in sh.gi.sps_gi2['init_frames']:
-                            prints += "  adding sp2"
-                            sp.dyn_gen(i, gi=sh.gi.sps_gi2)
-                        elif i in sh.gi.sps_gi10['init_frames']:
-                            prints += "  adding sp2"
-                            sp.dyn_gen(i, gi=sh.gi.sps_gi10)
+                        sh.dyn_gen_child_sp(i, sp)
+                        # if i in sh.gi.sps_gi0['init_frames']:
+                        #     prints += "  adding sp0"
+                        #     sp.dyn_gen(i, gi=sh.gi.sps_gi0)  # THIS UPDATES gi AND sets init_frame
+                        # elif i in sh.gi.sps_gi2['init_frames']:
+                        #     prints += "  adding sp2"
+                        #     sp.dyn_gen(i, gi=sh.gi.sps_gi2)
+                        # elif i in sh.gi.sps_gi10['init_frames']:
+                        #     prints += "  adding sp2"
+                        #     sp.dyn_gen(i, gi=sh.gi.sps_gi10)
                     else:
                         prints += "  couldnt add sp"
 
@@ -236,14 +237,14 @@ def animate(i):
 
                 if sr != None:
 
-                    if sr.id[0] == '3':  # dyn_gen needed!
-                        sh.dyn_gen_child(i, sr)
+                    # if sr.id[0] == '3':  # dyn_gen needed!
+                    sh.dyn_gen_child_sr(i, sr)
 
                     prints += "  adding sr"
-                    try:
-                        exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
-                    except:
-                        adf = 5
+                    # try:
+                    exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
+                    # except:
+                    #     adf = 5
                     if exceeds_frame_max == True:
                         sr.gi['frames_tot'] = how_many
                     sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
@@ -323,7 +324,7 @@ def animate(i):
                 else:
                     prints += "  no free ls"
 
-            for l_id, l in sh.ls.items():
+            for l_id, l in enumerate(sh.ls):
 
                 if l.drawn != 0:  # the 4 from above is needed only the very first iteration it becomes visible
 
@@ -333,8 +334,8 @@ def animate(i):
                     if drawBool == 0:  # dont draw
                         continue
                     elif drawBool == 1:
-                        im_ax[l.index_im_ax].set_alpha(l.alpha[l.clock])
-                        # im_ax[l.index_im_ax].set_alpha(1)
+                        # im_ax[l.index_im_ax].set_alpha(l.alpha[l.clock])
+                        im_ax[l.index_im_ax].set_alpha(1)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 
@@ -351,7 +352,7 @@ def animate(i):
                     c.frame_ss1 = [c.frame_ss[1], c.frame_ss[1] + c.gi['frames_tot1']]
                     _, _ = c.ani_update_step(ax0, im_ax)  # imshow
                     im_ax[c.index_im_ax].set_extent(c.extent_k)  # ONLY USES LD[0] and LD[1]
-                    # im_ax[c.index_im_ax].set_alpha(0.1)  # ONLY USES LD[0] and LD[1]
+                    im_ax[c.index_im_ax].set_alpha(0.1)  # ONLY USES LD[0] and LD[1]
 
             for c_id, c in sh.cs.items():
 
@@ -378,8 +379,8 @@ def animate(i):
                         else:
                             # im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
                             warp_affine_and_color(c.clock, ax0, im_ax, c)  # parent obj required for sail
-                            im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
-                            # im_ax[c.index_im_ax].set_alpha(0.2)
+                            # im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
+                            im_ax[c.index_im_ax].set_alpha(0.1)
                     elif drawBool == 2:  # remove
                         '''two cases'''
                         if i == c.frame_ss1[0]:  # start moving it

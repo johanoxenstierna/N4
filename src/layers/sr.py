@@ -19,7 +19,7 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.sh = sh
         _s.pic = pic  # NOT SCALED
 
-        _s.gi = deepcopy(sh.gi.srs_gi)
+        _s.gi = deepcopy(sh.gi.srs_gi['0'])
 
         # PROBLEM: DONT KNOW WHICH GI TO LOAD.
         # if id[0] == '3':  # loads one of several gis
@@ -36,7 +36,6 @@ class Sr(AbstractLayer, AbstractSSS):
 
         if sh.id == '1':
             _s.dyn_gen()  # creates REPEATED srs. C-tied sr are dyn_gened in main
-
 
     def dyn_gen(_s, i=None, gi=None):
 
@@ -63,15 +62,16 @@ class Sr(AbstractLayer, AbstractSSS):
                                  r_f_d_type='after')
 
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
-        fun_plot = 'sr'  # smokr but fun plot is same
+        # fun_plot = 'sr'  # smokr but fun plot is same
 
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
-        _s.scale_vector = np.linspace(0.001, 2.5, num=_s.gi['frames_tot'])
+        _s.scale_vector = np.linspace(0.001, 1, num=_s.gi['frames_tot'])
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
             _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
+
         _s.rotation = np.linspace(0.01, 1, num=len(_s.scale_vector))
 
-        _s.alpha = gen_alpha(_s.gi, fun_plot=fun_plot, frames_tot=_s.gi['frames_tot'])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'])
 
     def set_init_frame(_s, i):
 
@@ -86,8 +86,6 @@ class Sr(AbstractLayer, AbstractSSS):
         a parent layer at a certain frame. But not always.
         """
 
-        if _s.gi['v_loc'] > 12:
-            adf = 5
         _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
         theta = _s.gi['theta_loc']  # np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
         _s.gi['theta'] = theta

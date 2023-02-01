@@ -29,7 +29,7 @@ class R(AbstractLayer, AbstractSSS):
 
         ### HERE: USE pic SHAPE TO CONTROL VELOCITY LOC
         _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
-                                    frames_tot=frames_tot_and_d, rc=1, _type='f_sp')  # OBS upside down!!!!
+                                    frames_tot=frames_tot_and_d, rc=1, up_down='up')  # OBS upside down!!!!
 
         # _s.xy_t = np.linspace([10, 50], [80, 10], num=frames_tot_and_d)  #
         _s.R = np.linspace(0.9, 1, num=_s.gi['frames_tot'])
@@ -64,7 +64,7 @@ class R(AbstractLayer, AbstractSSS):
         _s.rotation_v = np.linspace(0.01, 2, num=len(_s.xy))
         # _s.tris, _s.tri_ext = rotate_tris(_s.tris, _s.tri_ext, _s.rotation_v)
 
-        _s.alpha = gen_alpha(_s.gi, fun_plot=_s.gi['alpha_plot'], frames_tot=_s.gi['frames_tot'])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'])
         '''CHANGE ALPHA TO NORMAL'''
 
         assert(len(_s.alpha) == _s.gi['frames_tot'])

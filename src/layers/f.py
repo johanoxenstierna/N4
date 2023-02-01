@@ -45,7 +45,7 @@ class F(AbstractLayer, AbstractSSS):
         #     gen_triangles(_s.extent_t, _s.extent, _s.gi, _s.pic)
 
 
-        _s.alpha = gen_alpha(_s.gi, fun_plot=fun_plot, frames_tot=_s.gi['frames_tot'])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'])
 
         # _s.temp_x = np.linspace(200, 300, num=_s.gi['frames_tot'])
         # _s.temp_y = np.linspace(50, 50, num=_s.gi['frames_tot'])

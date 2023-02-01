@@ -130,9 +130,9 @@ class Sh_2_info(ShInfoAbstract):
 
         l_gi = {}
         # l_gi['init_frames'] = [x for x in pulse2]
-        l_gi['init_frames'] = [150, 200]
+        l_gi['init_frames'] = [30, 120, 150, 200]
         l_gi['frames_tot'] = 300
-        l_gi['ld'] = [_s.ld[0], _s.ld[1] + 2]  # -6 TUNED WITH affine2D.translate!!!
+        l_gi['ld'] = [_s.ld[0], _s.ld[1] + 10]  # -6 TUNED WITH affine2D.translate!!!
         l_gi['ld_offset_start_loc'] = [-0, 0]  # OBS there is no ss, only start!
         l_gi['ld_offset_start_scale'] = [0, 0]  # OBS there is no ss, only start!
         # l_gi['ld_offset_end_loc'] = [-35, 40]  # OBS there is no ss, only start!
