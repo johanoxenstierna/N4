@@ -19,9 +19,9 @@ class Sh_1_info(ShInfoAbstract):
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]
         _s.init_frames = init_frames
         # _s.ld = [121, 48]
-        _s.ld = [top_point[0] - 5, top_point[1] + 5]
+        _s.ld = [top_point[0] - 3, top_point[1] - 5]
         _s.srs_gi = {'0': _s.gen_srs_gi()}  # OBS: sp_gi generated in f class. There is no info class for f.
-        _s.srs_gi_init_frames = init_frames
+        _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
         # _s.zorder = 5
 
     def gen_srs_gi(_s):

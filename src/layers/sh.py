@@ -163,12 +163,14 @@ class Sh(AbstractLayer):
         #     raise Exception("Only done it for 3 so far.")
 
         '''OBS SRS_GI NUMBERS CORRESPOND TO CS, BUT SRS PIC NUMBER DONT CORRESPOND TO ANYTHING'''
-
+        fl_found = False
         for sr_gi_id, sr_gi in _s.gi.srs_gi.items():
             if i in sr_gi['init_frames']:
                 sr.dyn_gen(i, gi=sr_gi)  # GENERATES GI AND EVERYTHING
+                fl_found = True
 
-                adf = 5
+        if fl_found == False:
+            raise Exception("init frame not found but it should have been ")
 
         # if i in _s.gi.srs_gi0['init_frames']:
         #     sr.dyn_gen(i, gi=_s.gi.srs_gi0)  # GENERATES GI AND EVERYTHING

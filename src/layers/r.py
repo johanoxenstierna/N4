@@ -45,7 +45,7 @@ class R(AbstractLayer, AbstractSSS):
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
         # _s.scale_vector = np.linspace(_s.gi['scale_loc_ss'][0], _s.gi['scale_loc_ss'][1], num=_s.gi['frames_tot'])
         # _s.scale_vector = np.linspace(1, 1, num=_s.gi['frames_tot'])
-        _s.scale = np.random.normal(loc=_s.gi['scale_loc'], scale=_s.gi['scale_scale'])
+        _s.scale = max(0.07, np.random.normal(loc=_s.gi['scale_loc'], scale=_s.gi['scale_scale']))
 
         # _s.gi['max_ri'] = np.max(_s.xy[:, 0])
         # _s.gi['ld_ss'] = [[_s.xy[0][0], _s.xy[0][1]], [_s.xy[-1][0], _s.xy[-1][1]]]

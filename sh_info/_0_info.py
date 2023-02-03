@@ -118,7 +118,7 @@ class Sh_0_info(ShInfoAbstract):
         rs_gi['r_f_d_loc'] = 0.7
         rs_gi['r_f_d_scale'] = 0.05
         rs_gi['scale_loc'] = 0.1
-        rs_gi['scale_scale'] = 0.05
+        rs_gi['scale_scale'] = 0.08
 
         rs_gi['up_down'] = 'up'
         rs_gi['alpha_plot'] = 'r_up'
@@ -137,9 +137,9 @@ class Sh_0_info(ShInfoAbstract):
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 150,
-            'v_loc': 24, 'v_scale': 5,
+            'v_loc': 20, 'v_scale': 5,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'theta_loc': 0.2, 'theta_scale': 0.3,
+            'theta_loc': 1.2, 'theta_scale': 0.4,
             'r_f_d_loc': 0.2, 'r_f_d_scale': 0.05,
             'ld': _s.ld,
             'ld_offset_loc': [0, 1],

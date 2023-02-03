@@ -70,10 +70,6 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.init_frame = _s.set_init_frame(i)
 
         _s.finish_info()
-        # _s.zorder = 100
-
-        if _s.id == '2_sp0_89': # HERE CHECK SHIFT_PROJECTILE
-            adf = 5
 
         '''OBS frames_tot is same as f. But projectile needs to be generated with more frames'''
         if _s.gi['r_f_d_loc'] == 0:
@@ -137,8 +133,8 @@ class Sp(AbstractLayer, AbstractSSS):
         """
 
         # _s.gi['max_ri'] = np.max(_s.extent[:, 1])
-        _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
-        theta = np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
+        _s.gi['v'] = max(13, abs(np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])))
+        theta = np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])  # + np.pi / 2
         _s.gi['theta'] = theta
         _s.gi['r_f_d'] = max(0.001, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
@@ -164,13 +160,14 @@ class Sp(AbstractLayer, AbstractSSS):
         except:
             raise Exception("R G B not within range")
 
-        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 0)
+        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 16)
 
         # OBS NEW FROM SR SUPER IMPORTANT:
         if _s.id[0] == '3':
             c_id = _s.gi['c_id']
             if c_id not in _s.sh.cs.keys():
-                raise Exception("trying to dyn_gen an sp which is tied to a c that does not exist.")
+                raise Exception("trying to dyn_gen an sp which is tied to a c that does not exist. "
+                                "Check info file to see if c_id is set correctly. No pic to check for sp.")
 
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]

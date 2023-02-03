@@ -35,34 +35,18 @@ class L(AbstractLayer, AbstractSSS):
         _s.gi['scale_ss'] = [0.4, 0.4]
 
         if id[4] == '0':
-
-            # ld_start_x = -8
-            # ld_start_y = 7
-            #
-            # ld_offset_start = [ld_start_x, ld_start_y]
-            # ld_offset_end = [-6, 6]
-
-            ld_offset_start = [-8, 6]
-            ld_offset_end = [-8, 6]
-
-            # DOES NOT WORK. TOO CHOPPY.
-            # ld_offset_start = [
-            #     np.random.normal(loc=_s.gi['ld_offset_start_loc'][0], scale=_s.gi['ld_offset_start_scale'][0]),
-            #     np.random.normal(loc=_s.gi['ld_offset_start_loc'][1], scale=_s.gi['ld_offset_start_scale'][1])
-            # ]
-            # ld_offset_end = [
-            #     np.random.normal(loc=_s.gi['ld_offset_end_loc'][0], scale=_s.gi['ld_offset_end_scale'][0]),
-            #     np.random.normal(loc=_s.gi['ld_offset_end_loc'][1], scale=_s.gi['ld_offset_end_scale'][1])
-            # ]
+            ld_offset_start = [-4, 6]
+            ld_offset_end = [-4, 6]
         elif id[4] == '1':
-            ld_offset_start = [-10, 10]
-            ld_offset_end = [-10, 10]
+            ld_offset_start = [-10, 13]
+            ld_offset_end = [-10, 13]
         elif id[4] == '2':
-            ld_offset_start = [-30, 20]
-            ld_offset_end = [-30, 20]
+            ld_offset_start = [-30, 29]
+            ld_offset_end = [-30, 29]
         else:
-            ld_offset_start = [-30, 20]
-            ld_offset_end = [-30, 20]
+            a = 5
+            # ld_offset_start = [-30, 46]
+            # ld_offset_end = [-30, 46]
 
         _s.gi['ld_ss'] = [
             [_s.gi['ld'][0] + ld_offset_start[0], _s.gi['ld'][1] + ld_offset_start[1]],

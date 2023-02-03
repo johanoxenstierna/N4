@@ -32,17 +32,22 @@ class Sh_2_info(ShInfoAbstract):
             '''
             TODO distribute these between them based on pulse2. 
             TODO2: add num sp to generate (50 in main) whenever init frame hit
+            L needs to be generated based on these. 
             '''
 
             _s.sps_gi0 = _s.gen_sps_gi0()
-            _s.sps_gi0['init_frames'] = [10, 50, 70, 100, 250]  # THIS CAUSES IT
+            _s.sps_gi0['init_frames'] = [110, 150, 170, 200, 350]  # THIS CAUSES IT
             assert(10 + _s.sps_gi0['frames_tot'] + 100 < P.FRAMES_STOP)
 
             _s.sps_gi2 = _s.gen_sps_gi2()
-            _s.sps_gi2['init_frames'] = [30, 100, 150, 200]
+            _s.sps_gi2['init_frames'] = [130, 200, 250, 300]
             assert(40 + _s.sps_gi2['frames_tot'] + 100 < P.FRAMES_STOP)
 
-            _s.sps_init_frames = _s.sps_gi0['init_frames'] + _s.sps_gi2['init_frames']
+            _s.sps_gi_init_frames = _s.sps_gi0['init_frames'] + _s.sps_gi2['init_frames']
+
+            _s.sps_gi = {'0': _s.sps_gi0,
+                         '2': _s.sps_gi2
+                         }
 
         if P.A_RS:
             _s.rs_gi = _s.gen_rs_gi(pulse2)
@@ -70,7 +75,7 @@ class Sh_2_info(ShInfoAbstract):
             'init_frame_max_dist': 100,
             'v_loc': 70, 'v_scale': 16,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': 0.8, 'theta_scale': 0.03,
+            'theta_loc': -0.8, 'theta_scale': 0.03,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.02,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'ld': _s.ld,
@@ -101,7 +106,7 @@ class Sh_2_info(ShInfoAbstract):
             'init_frame_max_dist': 100,  # random num of frames in future from init frame
             'v_loc': 80, 'v_scale': 10,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': 0.8, 'theta_scale': 0.07,
+            'theta_loc': -0.8, 'theta_scale': 0.07,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'ld': _s.ld,
@@ -130,9 +135,9 @@ class Sh_2_info(ShInfoAbstract):
 
         l_gi = {}
         # l_gi['init_frames'] = [x for x in pulse2]
-        l_gi['init_frames'] = [30, 120, 150, 200]
+        l_gi['init_frames'] = [130, 220, 250, 300]  # THEY DO REPEAT. BUT NEED TO BE AVAILABLE
         l_gi['frames_tot'] = 300
-        l_gi['ld'] = [_s.ld[0], _s.ld[1] + 10]  # -6 TUNED WITH affine2D.translate!!!
+        l_gi['ld'] = [_s.ld[0] + 0, _s.ld[1] + 0]  # Look inside l -6 TUNED WITH affine2D.translate!!!
         l_gi['ld_offset_start_loc'] = [-0, 0]  # OBS there is no ss, only start!
         l_gi['ld_offset_start_scale'] = [0, 0]  # OBS there is no ss, only start!
         # l_gi['ld_offset_end_loc'] = [-35, 40]  # OBS there is no ss, only start!
@@ -149,7 +154,7 @@ class Sh_2_info(ShInfoAbstract):
         l_gi['theta_scale'] = 0.2
         l_gi['r_f_d_loc'] = 0.05
         l_gi['r_f_d_scale'] = 0.00
-        l_gi['zorder'] = 200
+        l_gi['zorder'] = 110
 
         return l_gi
 

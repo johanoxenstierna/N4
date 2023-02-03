@@ -103,6 +103,6 @@ class C(AbstractLayer, AbstractSSS):
         elif id_s == '10':
             gi = sh.gi.cs_gi10
         else:
-            raise Exception("asdf")
+            raise Exception("Probably have to sort out images/processed/" + id_s)
 
         return gi

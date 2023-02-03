@@ -30,9 +30,9 @@ class GenLayers:
 
     def gen_backgr(_s, ax, im_ax):
 
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.01))
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
 
-        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.05,
+        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
                                extent=[36, 36 + _s.pics['volc_d'].shape[1], 44, 44 + _s.pics['volc_d'].shape[0]]))
         im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
                                extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
@@ -94,6 +94,8 @@ class GenLayers:
             if 'sps' in sh.gi.child_names:
                 # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
                 num_sps = P.NUM_SPS_SH
+                if sh_id == '3':
+                    num_sps = P.NUM_SPS_C
                 for id_int in range(num_sps):
                     sp = Sp(sh, id_int)
                     sh.sps[sp.id] = sp
@@ -107,7 +109,6 @@ class GenLayers:
                 for pic_key, pic in cs_pics.items():
                     c = C(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
                     sh.cs[pic_key] = c
-                adf = 5
 
         return shs
 
@@ -143,7 +144,7 @@ class GenLayers:
                 ls_pics = _s.pics['sh'][sh_id]['ls']
                 ls_pics_keys = list(ls_pics.keys())
                 ls_pics_keys.sort()
-                for pic_key in ls_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE
+                for pic_key in ls_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE. CURRENTLY NOT USED
                     l = L(id=pic_key, pic=ls_pics[pic_key], sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
                     sh.ls.append(l)
         return shs

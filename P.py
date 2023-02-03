@@ -1,4 +1,4 @@
-DEBUG = 1  # if 1 then faster speed on objectsh
+DEBUG = 0  # if 1 then faster speed on objectsh
 MAP_SIZE = 's0'  # 214, 181
 MAP_DIMS = (233, 141)  # NEEDED FOR ASSERTIONS
 
@@ -21,14 +21,14 @@ A_CS = 1
 PR_MOVE_BLACK = 0  # what to pre-compute (doesn't affect rendering time that much)
 PR_ZIGZAG = 0
 
-NUM_SPS_SH = 15  # per sh. used by 1, 2
+NUM_SPS_SH = 150  # per sh. used by 1, 2
 NUM_SPS_F = 20  # used by 0
-NUM_SPS_C = 30  # used by 3: Num sp at 1 init frame!
+NUM_SPS_C = 100  # used by 3: Num sp at 1 init frame!
 
 NUM_SRS_SH = 100  # the upper ones. used by 1
-NUM_SRS_C = 1  # OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
+NUM_SRS_C = 100  # OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
 NUM_FS = 20
-NUM_RS = 15  # upper bound
+NUM_RS = 20  # upper bound
 # NUM_LS = 20
 
 WAVES_STEPS_P_CYCLE = 90  #
@@ -37,5 +37,5 @@ SAIL_CYCLES = 3
 WS_STEPS = 40  # 2s  wave front of sh
 
 # SHS_TO_SHOW = ['0', '1', '2', '3']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['1', '3']  # , '6', '7']#, '1'] #, '2', '3']
-SHS_TO_SHOW = ['3']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['1', '0']  # , '6', '7']#, '1'] #, '2', '3']
+SHS_TO_SHOW = ['0']  # , '6', '7']#, '1'] #, '2', '3']

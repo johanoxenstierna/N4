@@ -19,7 +19,7 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.sh = sh
         _s.pic = pic  # NOT SCALED
 
-        _s.gi = deepcopy(sh.gi.srs_gi['0'])
+        # _s.gi = deepcopy(sh.gi.srs_gi['0'])
 
         # PROBLEM: DONT KNOW WHICH GI TO LOAD.
         # if id[0] == '3':  # loads one of several gis
@@ -35,7 +35,7 @@ class Sr(AbstractLayer, AbstractSSS):
         AbstractSSS.__init__(_s, sh, id)
 
         if sh.id == '1':
-            _s.dyn_gen()  # creates REPEATED srs. C-tied sr are dyn_gened in main
+            _s.dyn_gen(gi=sh.gi.srs_gi['0'])  # creates REPEATED srs. C-tied sr are dyn_gened in main
 
     def dyn_gen(_s, i=None, gi=None):
 
@@ -43,6 +43,7 @@ class Sr(AbstractLayer, AbstractSSS):
             _s.gi = gi
         else:
             pass  # gi already created
+
         if i != None:  # only used by the non-repeatables
             _s.init_frame = _s.set_init_frame(i)
 
@@ -97,7 +98,8 @@ class Sr(AbstractLayer, AbstractSSS):
         if _s.id[0] == '3':
             c_id = _s.gi['c_id']
             if c_id not in _s.sh.cs.keys():
-                raise Exception("trying to dyn_gen an sr which is tied to a c that does not exist.")
+                raise Exception("trying to dyn_gen an sr which is tied to a c that does not exist. "
+                                "c_id: " + c_id + " sr_id: " + _s.id + ". Check that pic is in there.")
 
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]

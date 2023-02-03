@@ -180,15 +180,7 @@ def animate(i):
                     if sp != None:
                         assert (sp.f == None)  #
                         sh.dyn_gen_child_sp(i, sp)
-                        # if i in sh.gi.sps_gi0['init_frames']:
-                        #     prints += "  adding sp0"
-                        #     sp.dyn_gen(i, gi=sh.gi.sps_gi0)  # THIS UPDATES gi AND sets init_frame
-                        # elif i in sh.gi.sps_gi2['init_frames']:
-                        #     prints += "  adding sp2"
-                        #     sp.dyn_gen(i, gi=sh.gi.sps_gi2)
-                        # elif i in sh.gi.sps_gi10['init_frames']:
-                        #     prints += "  adding sp2"
-                        #     sp.dyn_gen(i, gi=sh.gi.sps_gi10)
+                        prints += "  adding sp"
                     else:
                         prints += "  couldnt add sp"
 
@@ -334,8 +326,8 @@ def animate(i):
                     if drawBool == 0:  # dont draw
                         continue
                     elif drawBool == 1:
-                        # im_ax[l.index_im_ax].set_alpha(l.alpha[l.clock])
-                        im_ax[l.index_im_ax].set_alpha(1)
+                        im_ax[l.index_im_ax].set_alpha(l.alpha[l.clock])
+                        # im_ax[l.index_im_ax].set_alpha(1)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 
@@ -352,7 +344,7 @@ def animate(i):
                     c.frame_ss1 = [c.frame_ss[1], c.frame_ss[1] + c.gi['frames_tot1']]
                     _, _ = c.ani_update_step(ax0, im_ax)  # imshow
                     im_ax[c.index_im_ax].set_extent(c.extent_k)  # ONLY USES LD[0] and LD[1]
-                    im_ax[c.index_im_ax].set_alpha(0.1)  # ONLY USES LD[0] and LD[1]
+                    # im_ax[c.index_im_ax].set_alpha(0.1)  # uncomment for invisibility
 
             for c_id, c in sh.cs.items():
 
@@ -379,8 +371,8 @@ def animate(i):
                         else:
                             # im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
                             warp_affine_and_color(c.clock, ax0, im_ax, c)  # parent obj required for sail
-                            # im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
-                            im_ax[c.index_im_ax].set_alpha(0.1)
+                            im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
+                            # im_ax[c.index_im_ax].set_alpha(0.1)
                     elif drawBool == 2:  # remove
                         '''two cases'''
                         if i == c.frame_ss1[0]:  # start moving it
