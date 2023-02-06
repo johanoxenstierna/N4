@@ -13,7 +13,7 @@ class Sh_2_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse2, top_point):
+    def __init__(_s, pulse, top_point):
         super().__init__()
         _s.id = '2'
         _s.extent = "static"
@@ -23,41 +23,47 @@ class Sh_2_info(ShInfoAbstract):
         _s.ld = top_point
         _s.child_names = ['sps', 'ls', 'rs']
 
-        _s.ls_gi = _s.gen_ls_gi(pulse2)
+        # l_init_frames = [130, 220, 250, 300]
+        l_init_frames = [10, 50, 200, 300]
+        _s.ls_gi = _s.gen_ls_gi(l_init_frames)
 
         _s.num_sp_at_init_frame = 50  # OBS this is a special parameter.
 
         if P.A_SPS:
 
             '''
-            TODO distribute these between them based on pulse2. 
+            TODO distribute these between them based on pulse. 
             TODO2: add num sp to generate (50 in main) whenever init frame hit
             L needs to be generated based on these. 
             '''
 
-            _s.sps_gi0 = _s.gen_sps_gi0()
-            _s.sps_gi0['init_frames'] = [110, 150, 170, 200, 350]  # THIS CAUSES IT
-            assert(10 + _s.sps_gi0['frames_tot'] + 100 < P.FRAMES_STOP)
+            init_frames = []
+            _s.sps_gi0, init_frames = _s.gen_sps_gi0(init_frames, l_init_frames[0])
+            # in_f
+            # _s.sps_gi0['init_frames'] = [110, 150, 170, 200, 350]  # THIS CAUSES IT
+            # assert(10 + _s.sps_gi0['frames_tot'] + 100 < P.FRAMES_STOP)
 
-            _s.sps_gi2 = _s.gen_sps_gi2()
-            _s.sps_gi2['init_frames'] = [130, 200, 250, 300]
-            assert(40 + _s.sps_gi2['frames_tot'] + 100 < P.FRAMES_STOP)
+            # _s.sps_gi2, init_frames = _s.gen_sps_gi2(init_frames, l_init_frames[1])
+            # _s.sps_gi2['init_frames'] = [130, 200, 250, 300]
+            # assert(40 + _s.sps_gi2['frames_tot'] + 100 < P.FRAMES_STOP)
 
-            _s.sps_gi_init_frames = _s.sps_gi0['init_frames'] + _s.sps_gi2['init_frames']
+            _s.sps_gi_init_frames = init_frames
 
-            _s.sps_gi = {'0': _s.sps_gi0,
-                         '2': _s.sps_gi2
-                         }
+            _s.sps_gi = {
+                '0': _s.sps_gi0
+                # '2': _s.sps_gi2
+            }
 
         if P.A_RS:
-            _s.rs_gi = _s.gen_rs_gi(pulse2)
+            rs_init_frames = random.sample(range(1, 300), 50)
+            _s.rs_gi = _s.gen_rs_gi(rs_init_frames)
 
-        _s.zorder = 200
+        _s.zorder = 130
 
         # _s.sps_gi = copy.deepcopy(_s.sps_gi0)
         # _s.sps_gi['init_frames'] = [10, 40, 222, 300]
 
-    def gen_sps_gi0(_s):
+    def gen_sps_gi0(_s, init_frames, l_init_frame):
 
         """
         top left one
@@ -69,29 +75,34 @@ class Sh_2_info(ShInfoAbstract):
 
         """
 
+        init_frame = max(10, l_init_frame - 50)
+        if init_frame in init_frames:
+            raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
+        else:
+            init_frames.append(init_frame)
+
         sps_gi = {
             'gi_id': '0',
+            'init_frames': [init_frame],
             'frames_tot': 200,
             'init_frame_max_dist': 100,
-            'v_loc': 70, 'v_scale': 16,
+            'v_loc': 100, 'v_scale': 16,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': -0.8, 'theta_scale': 0.03,
+            'theta_loc': -1.3, 'theta_scale': 0.03,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.02,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'ld': _s.ld,
             'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 0.0],
-            'R_ss': [0.5, 0.8], 'R_scale': 0.2,
+            'R_ss': [0.8, 1], 'R_scale': 0.2,
             'G_ss': [0.35, 0.2], 'G_scale': 0.1,
             'B_ss': [0.15, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
             'up_down': 'down'
         }
-        # 160, 77, 36  -> 76, 42, 28
 
+        return sps_gi, init_frames
 
-        return sps_gi
-
-    def gen_sps_gi2(_s):
+    def gen_sps_gi2(_s, init_frames, l_init_frame):
 
         """
         lower left one
@@ -100,11 +111,18 @@ class Sh_2_info(ShInfoAbstract):
         climb up the projectile (before shifting)
         """
 
+        init_frame = max(10, l_init_frame - 50)
+        if init_frame in init_frames:
+            raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
+        else:
+            init_frames.append(init_frame)
+
         sps_gi = {
             'gi_id': '2',
+            'init_frames': [init_frame],
             'frames_tot': 230,
             'init_frame_max_dist': 100,  # random num of frames in future from init frame
-            'v_loc': 80, 'v_scale': 10,
+            'v_loc': 100, 'v_scale': 10,
             'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
             'theta_loc': -0.8, 'theta_scale': 0.07,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
@@ -125,43 +143,41 @@ class Sh_2_info(ShInfoAbstract):
 
         # 160, 77, 36  -> 76, 42, 28
 
-        return sps_gi
+        return sps_gi, init_frames
 
-    def gen_ls_gi(_s, pulse2):
-
-        """
+    def gen_ls_gi(_s, l_init_frames):
 
         """
+        SHARED FOR THE SAME SH
+        """
+        # _s.gi['scale_ss'] = [0.4, 0.4]
 
-        l_gi = {}
+        l_gi = {
+            'init_frames': l_init_frames,
+            'frames_tot': 300,
+            'ld': [_s.ld[0], _s.ld[1]],  # top point
+            'frame_ss': _s.frame_ss,
+            'zorder': 120  # 3 is 110
+        }
         # l_gi['init_frames'] = [x for x in pulse2]
-        l_gi['init_frames'] = [130, 220, 250, 300]  # THEY DO REPEAT. BUT NEED TO BE AVAILABLE
-        l_gi['frames_tot'] = 300
-        l_gi['ld'] = [_s.ld[0] + 0, _s.ld[1] + 0]  # Look inside l -6 TUNED WITH affine2D.translate!!!
-        l_gi['ld_offset_start_loc'] = [-0, 0]  # OBS there is no ss, only start!
-        l_gi['ld_offset_start_scale'] = [0, 0]  # OBS there is no ss, only start!
-        # l_gi['ld_offset_end_loc'] = [-35, 40]  # OBS there is no ss, only start!
-        # l_gi['ld_offset_end_scale'] = [2, 1]  # OBS there is no ss, only start!
-
-        l_gi['ld_offset_end_loc'] = [0, 0]  # OBS there is no ss, only start!
-        l_gi['ld_offset_end_scale'] = [0, 0]  # OBS there is no ss, only start!
-
-        l_gi['frame_ss'] = _s.frame_ss  # simpler with this
-        l_gi['sr_hardcoded'] = {}
-        l_gi['v_loc'] = 30  # rc=2
-        l_gi['v_scale'] = 20
-        l_gi['theta_loc'] = -0.3  # radians!
-        l_gi['theta_scale'] = 0.2
-        l_gi['r_f_d_loc'] = 0.05
-        l_gi['r_f_d_scale'] = 0.00
-        l_gi['zorder'] = 110
+        # l_gi['init_frames'] = l_init_frames  # THEY DO REPEAT IN ORDER. BUT NEED TO BE AVAILABLE
+        # l_gi['frames_tot'] = 300
+        # l_gi['ld'] = [_s.ld[0] + 0, _s.ld[1] + 0]
+        # l_gi['frame_ss'] = _s.frame_ss  # simpler with this
+        # l_gi['v_loc'] = 30  # rc=2
+        # l_gi['v_scale'] = 20
+        # l_gi['theta_loc'] = -0.3  # radians!
+        # l_gi['theta_scale'] = 0.2
+        # l_gi['r_f_d_loc'] = 0.05
+        # l_gi['r_f_d_scale'] = 0.00
+        # l_gi['zorder'] = 110
 
         return l_gi
 
-    def gen_rs_gi(_s, init_frames, _type=None):
+    def gen_rs_gi(_s, rs_init_frames, _type=None):
         rs_gi = {}
 
-        rs_gi['init_frames'] = random.sample(range(1, 300), 50)
+        rs_gi['init_frames'] = rs_init_frames
         rs_gi['init_frames'].sort()
 
         # rs_gi['init_frames'] = list(range(3, 63))  # TODO: This should be generated same frame

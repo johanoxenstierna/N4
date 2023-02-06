@@ -33,9 +33,9 @@ class GenLayers:
         im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
 
         im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
-                               extent=[36, 36 + _s.pics['volc_d'].shape[1], 44, 44 + _s.pics['volc_d'].shape[0]]))
-        im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
-                               extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
+                               extent=[45, 45 + _s.pics['volc_d'].shape[1], 75, 75 + _s.pics['volc_d'].shape[0]]))
+        # im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
+        #                        extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
 
 
         # im_ax[1].set_extent([])
@@ -77,12 +77,14 @@ class GenLayers:
                     '''sps always generated, but they will not be animated
                     if A_SPS set to 0'''
                     # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
-                    num_sp_f = P.NUM_SPS_F
-                    for _ in range(num_sp_f):
-                        sp_id_int += 1
-                        sp = Sp(sh, sp_id_int, f)
-                        sh.sps[sp.id] = sp
-                        f.sps[sp.id] = sp  # why not use both
+
+                    if P.A_SPS:
+                        num_sp_f = P.NUM_SPS_F
+                        for _ in range(num_sp_f):
+                            sp_id_int += 1
+                            sp = Sp(sh, sp_id_int, f)
+                            sh.sps[sp.id] = sp
+                            f.sps[sp.id] = sp  # why not use both
 
                     sh.fs[pic_key] = f
 

@@ -165,7 +165,7 @@ if __name__ == '__main__':
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=-len(X) / 10, x_shift=1, y_magn=20, y_shift=0) for x in X]))
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=len(X)/10, x_shift=5, y_magn=4, y_shift=0.05) for x in X]))
 
-	Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 50, x_shift=-18, y_magn=1., y_shift=0) for x in X]))
+	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 50, x_shift=-18, y_magn=1., y_shift=0) for x in X]))
 
 	# Y = [x/sum(Y) for x in Y]
 	# # gg = np.sum(Y)
@@ -181,7 +181,7 @@ if __name__ == '__main__':
 
 	# # SPL extent =============
 	# X = np.arange(0, 50)
-	# # Y = _normal(X, mean=len(X) // 3, var=len(X) // 4, y_range=[0, 0.999])
+	Y = _normal(X, mean=1, var=5, y_range=[0, 0.999])
 	# a = 1.99
 	# x = np.linspace(gamma.ppf(0.01, a),
 	#                 gamma.ppf(0.99, a), 50)

@@ -66,10 +66,10 @@ def init():
 
 def animate(i):
 
-    if i == 20:
-        im_ax[2].set_alpha(0.1)
-    if i == 21:
-        im_ax[2].set_alpha(0)
+    # if i == 20:
+    #     im_ax[2].set_alpha(0.1)
+    # if i == 21:
+    #     im_ax[2].set_alpha(0)
 
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
@@ -175,12 +175,16 @@ def animate(i):
                 Tries 50 times to find a free sp and if it finds one it gets drawn
                 according to gi conditions. 
                 '''
-                for _ in range(P.NUM_SPS_C):
+
+                num = P.NUM_SPS_C  # '3'  (0 uses F)
+                if sh.id[0] in ['2', '4']:
+                    num = P.NUM_SPS_SH
+                prints += "  trying to add " + str(num) + "sp"
+                for _ in range(num):
                     sp = sh.find_free_obj(type='sp')
                     if sp != None:
                         assert (sp.f == None)  #
                         sh.dyn_gen_child_sp(i, sp)
-                        prints += "  adding sp"
                     else:
                         prints += "  couldnt add sp"
 
@@ -312,7 +316,7 @@ def animate(i):
                     '''This stuff taken from below loop'''
                     # l.set_clock(i)
                     _, _ = l.ani_update_step(ax0, im_ax)
-                    im_ax[l.index_im_ax].set_extent(l.extent)
+                    im_ax[l.index_im_ax].set_extent(l.gi['extent'])
                 else:
                     prints += "  no free ls"
 

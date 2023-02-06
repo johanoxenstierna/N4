@@ -17,7 +17,7 @@ class Sh_3_info(ShInfoAbstract):
         _s.id = '3'
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
-        _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
+        # _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
         _s.zorder = 110  # needed to set sp zorder using randint in dyn_gen
 
         _s.INIT_FRAME = 2  # used by all cs
@@ -26,13 +26,17 @@ class Sh_3_info(ShInfoAbstract):
         _s.child_names = ['cs', 'srs', 'sps']  # both cks and cds
 
         if P.A_CS:  # THEY ALL HAVE INDIVIDUAL GI'S
-            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=30, frames_tot1=150)
-            _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=70, frames_tot1=200)
-            _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=60, frames_tot1=200)
-            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=40, frames_tot1=200)
-            _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=30, frames_tot1=300)
-            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=20, frames_tot1=200)
-            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=10, frames_tot1=200)
+            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 30, frames_tot1=150)
+            _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200)
+            _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 60, frames_tot1=200)
+            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200)
+            _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300)
+            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200)
+            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 10, frames_tot1=300)
+            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=200)
+            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200)
+            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200)
+            _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200)
 
         if P.A_SRS:  # different gis here have nothing to do with pic, but rather with init frames
 
@@ -148,7 +152,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 18,
+            'v': 25,
             'theta': 2,
             'r_f_d': 0.2,
             'extra_offset_x': 0,
@@ -207,6 +211,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 100,  # rc=2
             'v_scale': 4,
+            'scale_ss': [0.01, 1],
             'theta_loc': -0.5,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
             'r_f_d_loc': 0.5,
@@ -255,7 +260,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi1(_s, frames_tot, frames_tot1):
 
-        ld = [_s.ld[0] - 45, _s.ld[1] + 40]
+        ld = [_s.ld[0] - 60, _s.ld[1] + 40]
 
         if P.DEBUG:
             frames_tot = 10
@@ -326,6 +331,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
+            'scale_ss': [0.01, 1],
             'theta_loc': -0.6, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'r_f_d_loc': 0.5,
@@ -368,7 +374,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi2(_s, frames_tot, frames_tot1):
 
-        ld = [_s.ld[0] - 30, _s.ld[1] + 25]
+        ld = [_s.ld[0] - 45, _s.ld[1] + 25]
 
         if P.DEBUG:
             frames_tot = 20
@@ -390,7 +396,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_x': 0,
             'extra_offset_y': 5,
             'up_down': 'up',
-            'rad_rot': 0.5,
+            'rad_rot': -0.5,
             'zorder': 110
         }
 
@@ -438,6 +444,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
+            'scale_ss': [0.01, 1],
             'theta_loc': -0.7, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'r_f_d_loc': 0.5,
@@ -480,7 +487,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi3(_s, frames_tot, frames_tot1):
 
-        ld = [_s.ld[0] - 20, _s.ld[1] + 15]
+        ld = [_s.ld[0] - 28, _s.ld[1] + 12]
 
         if P.DEBUG:
             frames_tot = 30
@@ -501,7 +508,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_x': 0,
             'extra_offset_y': 3,
             'up_down': 'up',
-            'rad_rot': 0.5,
+            'rad_rot': -0.5,
             'zorder': 90
         }
 
@@ -519,6 +526,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
+            'scale_ss': [0.01, 1],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'r_f_d_loc': 0.5,
@@ -561,7 +569,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi4(_s, frames_tot, frames_tot1):
 
-        ld = [_s.ld[0] - 10, _s.ld[1] + 10]
+        ld = [_s.ld[0] - 22, _s.ld[1] + 7]
 
         if P.DEBUG:
             frames_tot = 20
@@ -600,6 +608,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 200,  # rc=2
             'v_scale': 6,
+            'scale_ss': [0.01, 1],
             'theta_loc': -0.3,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
             'r_f_d_loc': 0.5,
@@ -642,7 +651,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi5(_s, frames_tot, frames_tot1):
 
-        ld = [_s.ld[0] - 5, _s.ld[1] + 5]
+        ld = [_s.ld[0] - 15, _s.ld[1] + 0]
 
         if P.DEBUG:
             frames_tot = 10
@@ -688,6 +697,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 4,
+            'scale_ss': [0.01, 1],
             'theta_loc': 1.2,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
             'r_f_d_loc': 0.5,
@@ -732,7 +742,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi6(_s, frames_tot, frames_tot1):
 
-        ld = [_s.ld[0] - 0, _s.ld[1] + 5]
+        ld = [_s.ld[0] - 10, _s.ld[1] - 7]
 
         if P.DEBUG:
             frames_tot = 10
@@ -771,6 +781,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
+            'scale_ss': [0.01, 1],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'r_f_d_loc': 0.5,
@@ -811,38 +822,118 @@ class Sh_3_info(ShInfoAbstract):
 
         return sps_gi, init_frames
 
+    def gen_cs_gi7(_s, frames_tot, frames_tot1):
+
+        ld = [_s.ld[0] - 30, _s.ld[1] + 10]
+
+        if P.DEBUG:
+            frames_tot = 10
+            frames_tot1 = 30
+
+        frame_ss = [_s.INIT_FRAME + frames_tot, _s.INIT_FRAME + frames_tot + frames_tot1]
+
+        gi = {
+            'init_frame': _s.INIT_FRAME,
+            'ld': ld,
+            'frames_tot': frames_tot,
+            'frames_tot1': frames_tot1,
+            'frame_ss': frame_ss,
+            'scale_ss': [1, 1],
+            'v': 25,
+            'theta': 1.7,
+            'r_f_d': 0.1,
+            'extra_offset_x': 0,
+            'extra_offset_y': 5,
+            'up_down': 'up',
+            'rad_rot': -0.5,
+            'zorder': 110
+        }
+
+        return gi
+
+    def gen_cs_gi8(_s, frames_tot, frames_tot1):
+
+        ld = [_s.ld[0] - 8, _s.ld[1] + 3]
+
+        if P.DEBUG:
+            frames_tot = 10
+            frames_tot1 = 30
+
+        frame_ss = [_s.INIT_FRAME + frames_tot, _s.INIT_FRAME + frames_tot + frames_tot1]
+
+        gi = {
+            'init_frame': _s.INIT_FRAME,
+            'ld': ld,
+            'frames_tot': frames_tot,
+            'frames_tot1': frames_tot1,
+            'frame_ss': frame_ss,
+            'scale_ss': [1, 1],
+            'v': 30,
+            'theta': 1.6,
+            'r_f_d': 0.4,
+            'extra_offset_x': 0,
+            'extra_offset_y': 5,
+            'up_down': 'up',
+            'rad_rot': -0.5,
+            'zorder': 90
+        }
+
+        return gi
+
+    def gen_cs_gi9(_s, frames_tot, frames_tot1):
+
+        ld = [_s.ld[0] + 0, _s.ld[1] + 10]
+
+        if P.DEBUG:
+            frames_tot = 10
+            frames_tot1 = 30
+
+        frame_ss = [_s.INIT_FRAME + frames_tot, _s.INIT_FRAME + frames_tot + frames_tot1]
+
+        gi = {
+            'init_frame': _s.INIT_FRAME,
+            'ld': ld,
+            'frames_tot': frames_tot,
+            'frames_tot1': frames_tot1,
+            'frame_ss': frame_ss,
+            'scale_ss': [1, 1],
+            'v': 20,
+            'theta': -1.8,
+            'r_f_d': 0.1,
+            'extra_offset_x': 0,
+            'extra_offset_y': 3,
+            'up_down': 'up',
+            'rad_rot': 0.8,
+            'zorder': 90
+        }
+
+        return gi
+
     def gen_cs_gi10(_s, frames_tot, frames_tot1):
-        gi = {}
+        ld = [_s.ld[0] + 15, _s.ld[1] + 6]
 
-        # gi['init_frame'] = 7
-        # gi['ld'] = [_s.ld[0] + 15, _s.ld[1] + 8]  # -6 TUNED WITH affine2D.translate!!!
-        # # gi['ld'] = [_s.ld[0] - 13, _s.ld[1] + 3]  # -6 TUNED WITH affine2D.translate!!!
-        #
-        # gi['frames_tot'] = 40
-        # gi['frames_tot1'] = 190
-        #
-        # if P.DEBUG:
-        #     gi['frames_tot'] = 10
-        #     gi['frames_tot1'] = 20
-        #
-        # '''OBS THIS HAS TO BE SECOND BEFORE SET_EXTENT, THEN SET TO FIRST'''
-        # gi['ld_ss'] = [[gi['ld'][0], gi['ld'][1]], [gi['ld'][0], gi['ld'][1]]]  # set extent needs this
-        # gi['frame_ss'] = [gi['init_frame'], gi['init_frame'] + gi['frames_tot']]
-        # gi['frame_ss'] = [gi['frame_ss'][1], gi['frame_ss'][1] + gi['frames_tot1']]
-        # # gi['frame_ss1'] = [gi['frame_ss'][1], gi['frame_ss'][1] + 30]
-        # gi['scale_ss'] = [1, 1]
-        #
-        # gi['v'] = 15
-        # gi['theta'] = -0.3 * 2 * np.pi   # 2pi/4 is straight up, 2pi/8 is 45% to right   pos=left, neg=right
-        # # gi['theta'] = np.pi + 0.001  # 2pi/4 is straight up, 2pi/8 is 45% to right
-        # gi['r_f_d'] = 0.01  # THIS MESSES UP START POS
-        # gi['extra_offset_x'] = -1
-        # gi['extra_offset_y'] = 3
-        # gi['up_down'] = 'up'
-        #
-        # gi['zorder'] = 120
+        if P.DEBUG:
+            frames_tot = 10
+            frames_tot1 = 30
 
-        '''cd'''
+        frame_ss = [_s.INIT_FRAME + frames_tot, _s.INIT_FRAME + frames_tot + frames_tot1]
+
+        gi = {
+            'init_frame': _s.INIT_FRAME,
+            'ld': ld,
+            'frames_tot': frames_tot,
+            'frames_tot1': frames_tot1,
+            'frame_ss': frame_ss,
+            'scale_ss': [1, 1],
+            'v': 20,
+            'theta': -1.8,
+            'r_f_d': 0.1,
+            'extra_offset_x': 0,
+            'extra_offset_y': 5,
+            'up_down': 'up',
+            'rad_rot': 0.5,
+            'zorder': 90
+        }
 
         return gi
 

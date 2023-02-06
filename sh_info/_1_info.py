@@ -39,16 +39,17 @@ class Sh_1_info(ShInfoAbstract):
         srs_gi['init_frames'] = [x + 30 for x in _s.init_frames]
 
         # fs_gi['frames_tot'] = random.randint(170, 220)
-        srs_gi['frames_tot'] = 200
+        srs_gi['frames_tot'] = 300
         assert(srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
         srs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1]]  # -6 TUNED WITH affine2D.translate!!!
         srs_gi['ld_offset_loc'] = [0, 1]  # OBS there is no ss, only start!
-        srs_gi['ld_offset_scale'] = [1, 1]  # OBS there is no ss, only start!
+        srs_gi['ld_offset_scale'] = [5, 5]  # OBS there is no ss, only start!
         # srs_gi['ld_offset_rand'] = [10, 5], [5, 5]
         srs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         srs_gi['sr_hardcoded'] = {}
-        srs_gi['v_loc'] = 16  # rc=2
+        srs_gi['v_loc'] = 30  # rc=2
         srs_gi['v_scale'] = 4
+        srs_gi['scale_ss'] = [0.01, 4]
         srs_gi['theta_loc'] = -0.6 * 2 * np.pi  # radians!
         srs_gi['theta_scale'] = 0.1
         srs_gi['r_f_d_loc'] = 0.05

@@ -66,7 +66,7 @@ class Sr(AbstractLayer, AbstractSSS):
         # fun_plot = 'sr'  # smokr but fun plot is same
 
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
-        _s.scale_vector = np.linspace(0.001, 1, num=_s.gi['frames_tot'])
+        _s.scale_vector = np.linspace(_s.gi['scale_ss'][0], _s.gi['scale_ss'][1], num=_s.gi['frames_tot'])
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
             _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
 

@@ -18,7 +18,10 @@ class F(AbstractLayer, AbstractSSS):
 
         _s.gi = deepcopy(sh.gi.fs_gi)
         # _s.sps_gi = _s.gen_sps_gi()
-        _s.sps_gi = sh.gi.sps_gi
+
+        if P.A_SPS:
+            _s.sps_gi = sh.gi.sps_gi
+
         _s.zorder = _s.gi['zorder']
 
         AbstractSSS.__init__(_s, sh, id)
@@ -38,7 +41,7 @@ class F(AbstractLayer, AbstractSSS):
         # _s.gi = _s.finish_info(_s.gi)
 
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='f')
-        _s.scale_vector = np.linspace(0.01, 1.3, _s.gi['frames_tot'])
+        _s.scale_vector = np.linspace(_s.gi['scale_ss'][0], _s.gi['scale_ss'][1], _s.gi['frames_tot'])  # USE GI
         _s.rotation_v = np.linspace(0.01, -0.3, num=len(_s.scale_vector))
         aa = 5
         # _s.tri_base, _s.tris, _s.tri_ext, _s.mask_ri, _s.mask_do = \
