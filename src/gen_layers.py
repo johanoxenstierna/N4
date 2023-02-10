@@ -95,9 +95,12 @@ class GenLayers:
         for sh_id, sh in shs.items():
             if 'sps' in sh.gi.child_names:
                 # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
-                num_sps = P.NUM_SPS_SH
+                num_sps = None
                 if sh_id == '3':
                     num_sps = P.NUM_SPS_C
+                if sh_id == '2':
+                    num_sps = len(sh.ls) * P.NUM_SPS_F
+
                 for id_int in range(num_sps):
                     sp = Sp(sh, id_int)
                     sh.sps[sp.id] = sp

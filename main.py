@@ -41,9 +41,6 @@ shs = g.gen_shs(ax0, im_ax)
 if P.A_FS:
     shs = g.gen_fs(ax0, im_ax, shs)
 
-if P.A_SPS:
-    shs = g.gen_sps(ax0, im_ax, shs)  # OBS children of fs NOT GENERATED HERE
-
 if P.A_CS:  # gen before srs so that landing known.
     shs = g.gen_cs(ax0, im_ax, shs)
 
@@ -55,6 +52,9 @@ if P.A_RS:
 
 if P.A_LS:
     shs = g.gen_ls(ax0, im_ax, shs)
+
+if P.A_SPS:
+    shs = g.gen_sps(ax0, im_ax, shs)  # OBS children of fs NOT GENERATED HERE
 
 
 '''VIEWER ==========================================='''
@@ -178,15 +178,16 @@ def animate(i):
 
                 num = P.NUM_SPS_C  # '3'  (0 uses F)
                 if sh.id[0] in ['2', '4']:
-                    num = P.NUM_SPS_SH
+                    num = P.NUM_SPS_L
                 prints += "  trying to add " + str(num) + "sp"
+                # num_failed_to_add = 0
                 for _ in range(num):
                     sp = sh.find_free_obj(type='sp')
                     if sp != None:
                         assert (sp.f == None)  #
                         sh.dyn_gen_child_sp(i, sp)
                     else:
-                        prints += "  couldnt add sp"
+                        prints += "  COULDNT add sp"
 
             # DECIDE FRAME_SS. HERE FRAME_SS IS THE SAME FOR EVERY SP HERE
             for sp_id, sp in sh.sps.items():
@@ -348,7 +349,7 @@ def animate(i):
                     c.frame_ss1 = [c.frame_ss[1], c.frame_ss[1] + c.gi['frames_tot1']]
                     _, _ = c.ani_update_step(ax0, im_ax)  # imshow
                     im_ax[c.index_im_ax].set_extent(c.extent_k)  # ONLY USES LD[0] and LD[1]
-                    # im_ax[c.index_im_ax].set_alpha(0.1)  # uncomment for invisibility
+                    # im_ax[c.index_im_ax].set_alpha(0.1)  # uncomment for secrecy DONT COMMENT ABOVE
 
             for c_id, c in sh.cs.items():
 
@@ -376,7 +377,7 @@ def animate(i):
                             # im_ax[c.index_im_ax].set_extent(c.extent[c.clock])
                             warp_affine_and_color(c.clock, ax0, im_ax, c)  # parent obj required for sail
                             im_ax[c.index_im_ax].set_alpha(c.alpha[c.clock])
-                            # im_ax[c.index_im_ax].set_alpha(0.1)
+                            # im_ax[c.index_im_ax].set_alpha(1)  # SECRECY
                     elif drawBool == 2:  # remove
                         '''two cases'''
                         if i == c.frame_ss1[0]:  # start moving it

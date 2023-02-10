@@ -26,13 +26,13 @@ class Sh_3_info(ShInfoAbstract):
         _s.child_names = ['cs', 'srs', 'sps']  # both cks and cds
 
         if P.A_CS:  # THEY ALL HAVE INDIVIDUAL GI'S
-            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 30, frames_tot1=150)
+            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=150)
             _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200)
-            _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 60, frames_tot1=200)
+            _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 30, frames_tot1=200)
             _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200)
             _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300)
             _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200)
-            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 10, frames_tot1=300)
+            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300)
             _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=200)
             _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200)
             _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200)
@@ -152,7 +152,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 25,
+            'v': 35,
             'theta': 2,
             'r_f_d': 0.2,
             'extra_offset_x': 0,
@@ -209,7 +209,7 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [5, 0],  # OBS there is no ss, only start!
             'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 100,  # rc=2
+            'v_loc': 120,  # rc=2
             'v_scale': 4,
             'scale_ss': [0.01, 1],
             'theta_loc': -0.5,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
@@ -276,13 +276,13 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 20,
-            'theta': 2,
+            'v': 40,
+            'theta': -1.7,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
             'extra_offset_y': 5,
             'up_down': 'up',
-            'rad_rot': 0.5,
+            'rad_rot': 1.5,
             'zorder': 110
         }
 
@@ -390,13 +390,13 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 15,
-            'theta': 2,
+            'v': 40,
+            'theta': -1.7,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
             'extra_offset_y': 5,
             'up_down': 'up',
-            'rad_rot': -0.5,
+            'rad_rot': -1.5,
             'zorder': 110
         }
 
@@ -502,13 +502,13 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 15,
+            'v': 40,
             'theta': 2,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
             'extra_offset_y': 3,
             'up_down': 'up',
-            'rad_rot': -0.5,
+            'rad_rot': -1.5,
             'zorder': 90
         }
 
@@ -524,9 +524,9 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
             'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
+            'v_loc': 140,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 2],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'r_f_d_loc': 0.5,
@@ -552,7 +552,7 @@ class Sh_3_info(ShInfoAbstract):
             'c_id': '3_c_3',
             'frames_tot': 200,
             'init_frame_max_dist': 10,  #
-            'v_loc': 5, 'v_scale': 10,
+            'v_loc': 5, 'v_scale': 12,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': -0.3, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
@@ -584,13 +584,13 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 25,
+            'v': 40,
             'theta': 2,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
             'extra_offset_y': 3,
             'up_down': 'up',
-            'rad_rot': -0.8,
+            'rad_rot': -1.8,
             'zorder': 105
         }
 
@@ -666,13 +666,13 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 30,
+            'v': 40,
             'theta': 1.5,
             'r_f_d': 0.1,
             'extra_offset_x': 4,
             'extra_offset_y': 3,
             'up_down': 'up',
-            'rad_rot': -0.9,
+            'rad_rot': -1.5,
             'zorder': 120
         }
 
@@ -757,8 +757,8 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 15,
-            'theta': 1.8,
+            'v': 30,
+            'theta': -1.2,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
             'extra_offset_y': 5,
@@ -839,7 +839,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 25,
+            'v': 35,
             'theta': 1.7,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
@@ -875,7 +875,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': -0.5,
-            'zorder': 90
+            'zorder': 110
         }
 
         return gi

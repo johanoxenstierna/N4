@@ -14,9 +14,11 @@ def init_infos():
     top_point1 = [210, 90]  # aft expl
     top_point2 = [210, 90]  # for 3 rocks
 
-    pulse_sr1 = random.sample(range(1, 200), 30)  # 1 (sr)
-    pulse_0 = random.sample(range(20, 300), 5)  # 0 after initial srs
+    pulse_sr1 = random.sample(range(1, 500), 50)  # 1 (sr)
+    pulse_0 = random.sample(range(50, 300), 15)  # 0 after initial srs
+    # pulse_0 = [50, 250]
     pulse_c3 = random.sample(range(300, 450), 20)  # expl
+    pulse_5 = random.sample(range(300, 350), 10)  # expl
 
     pulse_0.sort()
     pulse_sr1.sort()
@@ -42,7 +44,7 @@ def init_infos():
 
     # 5: 0 but after expl
     if '5' in P.SHS_TO_SHOW:  # BEF EXPL
-        _5 = _5_info.Sh_5_info(pulse, top_point0)
+        _5 = _5_info.Sh_5_info(pulse_5, top_point1)
         infos[_5.id] = _5
 
     return infos

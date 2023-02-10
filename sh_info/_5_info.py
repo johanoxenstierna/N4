@@ -18,15 +18,17 @@ class Sh_5_info(ShInfoAbstract):
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
-        _s.zorder = 10
+        _s.zorder = 87
 
         _s.ld = top_point
         _s.child_names = ['fs', 'srs', 'rs']
+
         _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
+        pulse_srs = [x - 30 for x in pulse]
         if P.A_SRS == 1:
-            _s.srs_gi = _s.gen_srs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
-            _s.srs_gi_init_frames = pulse
+            _s.srs_gi = _s.gen_srs_gi(pulse_srs)  # OBS: sp_gi generated in f class. There is no info class for f.
+            _s.srs_gi_init_frames = pulse_srs
             _s.srs_gi = {  # these numbers correspond to c!
                 '0': _s.srs_gi,
             }
@@ -48,10 +50,10 @@ class Sh_5_info(ShInfoAbstract):
         # init_frames.sort()
         fs_gi['init_frames'] = pulse
         # fs_gi['frames_tot'] = random.randint(170, 220)
-        fs_gi['frames_tot'] = 151  # MUST BE HIGHTER THAN SP.FRAMES_TOT
+        fs_gi['frames_tot'] = 301  # MUST BE HIGHTER THAN SP.FRAMES_TOT
         # fs_gi['ld_offset_ss'] = [[30, -15], [10, -15]]
         # fs_gi['ld_offset_rand_ss'] = [[10, 5], [5, 5]]
-        # fs_gi['scale_ss'] = [0, 12.0]
+        fs_gi['scale_ss'] = [0.02, 3.0]
         fs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         fs_gi['ld'] = _s.ld
         fs_gi['fs_hardcoded'] = {}  # {id: {}}
@@ -72,22 +74,21 @@ class Sh_5_info(ShInfoAbstract):
         srs_gi['zorder'] = 4
         srs_gi['init_frames'] = copy.deepcopy(init_frames)
 
-
         # srs_gi['init_frames'] = [x + 30 for x in srs_gi['init_frames']]
 
         # fs_gi['frames_tot'] = random.randint(170, 220)
-        srs_gi['frames_tot'] = 300
+        srs_gi['frames_tot'] = 400
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
         srs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1]]  # -6 TUNED WITH affine2D.translate!!!
-        srs_gi['ld_offset_loc'] = [2, 0]  # OBS there is no ss, only start!
+        srs_gi['ld_offset_loc'] = [-4, 0]  # OBS there is no ss, only start!
         srs_gi['ld_offset_scale'] = [1, 1]  # OBS there is no ss, only start!
-        # srs_gi['ld_offset_rand'] = [10, 5], [5, 5]
+        srs_gi['scale_ss'] = [0.01, 4]
         srs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         srs_gi['sr_hardcoded'] = {}
-        srs_gi['v_loc'] = 20  # rc=2
+        srs_gi['v_loc'] = 60  # rc=2
         srs_gi['v_scale'] = 5
-        srs_gi['theta_loc'] = -0.1  # radians!
-        srs_gi['theta_scale'] = 0.3
+        srs_gi['theta_loc'] = 1.5  # radians!
+        srs_gi['theta_scale'] = 0.13
         srs_gi['r_f_d_loc'] = 0.001
         srs_gi['r_f_d_scale'] = 0.00
         srs_gi['up_down'] = 'up'
@@ -112,14 +113,14 @@ class Sh_5_info(ShInfoAbstract):
         rs_gi['ld_offset_scale'] = [0.2, 0.05]  # OBS there is no ss, only start!
         rs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         rs_gi['rs_hardcoded'] = {}
-        rs_gi['v_loc'] = 20  # rc=2
+        rs_gi['v_loc'] = 30  # rc=2
         rs_gi['v_scale'] = 5
-        rs_gi['theta_loc'] = np.pi/2 + 0.1  # radians!
+        rs_gi['theta_loc'] = np.pi / 2 + 0.1  # radians!
         rs_gi['theta_scale'] = 0.1
         rs_gi['r_f_d_loc'] = 0.7
-        rs_gi['r_f_d_scale'] = 0.05
-        rs_gi['scale_loc'] = 0.1
-        rs_gi['scale_scale'] = 0.08
+        rs_gi['r_f_d_scale'] = 0.1
+        rs_gi['scale_loc'] = 0.3
+        rs_gi['scale_scale'] = 0.25
 
         rs_gi['up_down'] = 'up'
         rs_gi['alpha_plot'] = 'r_up'
@@ -137,17 +138,17 @@ class Sh_5_info(ShInfoAbstract):
         """
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
-            'frames_tot': 150,
-            'v_loc': 20, 'v_scale': 5,
+            'frames_tot': 300,
+            'v_loc': 40, 'v_scale': 10,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'theta_loc': 1.2, 'theta_scale': 0.4,
-            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.05,
-            'ld': _s.ld,
-            'ld_offset_loc': [0, 1],
-            'ld_offset_scale': [0, 0.1],
-            'R_ss': [0.9, 1], 'R_scale': 0,
-            'G_ss': [0.5, 0.01], 'G_scale': 0.1,
-            'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
+            'theta_loc': 1.5, 'theta_scale': 0.1,
+            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.1,
+            'ld': _s.ld,  # in
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [0, 1],
+            'R_ss': [0.9, 1], 'R_scale': 0.2,  # first one is loc
+            'G_ss': [0.3, 0.01], 'G_scale': 0.1,
+            'B_ss': [0.1, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
             'up_down': 'up'
         }
 

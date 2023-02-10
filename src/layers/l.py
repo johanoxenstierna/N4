@@ -25,26 +25,27 @@ class L(AbstractLayer, AbstractSSS):
 
         '''OBS THIS GENERATES EXTENT THAT IS TOO LONG'''
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
-        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.3])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.2])
 
         adf = 5
 
     def finish_info(_s, id):
         """
-        Ls share gis for a given sh.
+        Ls share gis for a given sh. The sh gi is set with top point, so it is lt,
+
         The ONLY thing that needs to be done here is extent. id from gen_layers used
+        LRDU
         """
 
         if id[4] == '0':
-            extent = [_s.gi['ld'][0] - 4, _s.gi['ld'][0] - 4 + _s.pic.shape[1],
-                      _s.gi['ld'][1] + 6, _s.gi['ld'][1] + 6 - _s.pic.shape[0]]
+            extent = [_s.gi['ld'][0] - 8, _s.gi['ld'][0] - 8 + _s.pic.shape[1],
+                      _s.gi['ld'][1] + 3, _s.gi['ld'][1] + 3 - _s.pic.shape[0]]
         elif id[4] == '1':
-            extent = [_s.gi['ld'][0] - 10, _s.gi['ld'][0] - 10 + _s.pic.shape[1],
-                      _s.gi['ld'][1] + 13, _s.gi['ld'][1] + 13 - _s.pic.shape[0]]
-        elif id[4] == '2':
-            extent = [_s.gi['ld'][0] - 30, _s.gi['ld'][0] - 30 + _s.pic.shape[1],
-                      _s.gi['ld'][1] + 29, _s.gi['ld'][1] + 29 - _s.pic.shape[0]]
-
+            extent = [_s.gi['ld'][0] - 24, _s.gi['ld'][0] - 24 + _s.pic.shape[1],
+                      _s.gi['ld'][1] + 25, _s.gi['ld'][1] + 25 - _s.pic.shape[0]]
+        elif id[4] == '2':  # MOVED THIS TO
+            extent = [_s.gi['ld'][0] - 60, _s.gi['ld'][0] - 60 + _s.pic.shape[1],
+                      _s.gi['ld'][1] + 65, _s.gi['ld'][1] + 65 - _s.pic.shape[0]]
         else:
             raise Exception("havent done")
 

@@ -17,15 +17,17 @@ A_RS = 1  # rocks
 A_LS = 1  # lava
 A_CS = 1
 
-NUM_SPS_SH = 50  # per sh. used by 2
-NUM_SPS_F = 20  # used by 0
-NUM_SPS_C = 10  # used by 3: Num sp at 1 init frame!
+NUM_SPS_SH = None  #
+NUM_SPS_F = 50  # used by 0
+NUM_SPS_L = 200  # used by 2, 4
+NUM_SPS_C = 200  # used by 3: Num sp at 1 init frame!
 
-NUM_SRS_SH = 50  # the upper ones. used by 0, 1
-NUM_SRS_C = 10  # used by 3. OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
+NUM_SRS_SH = 200  # the upper ones. used by 0, 1
+NUM_SRS_C = 400  # used by 3. OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
 NUM_FS = 20
-NUM_RS = 20  # upper bound
+NUM_RS = 50  # upper bound
 
-# SHS_TO_SHOW = ['0', '1', '2', '3']  # , '6', '7']#, '1'] #, '2', '3']
-SHS_TO_SHOW = ['2', '3']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['2']  # , '6', '7']#, '1'] #, '2', '3']
+SHS_TO_SHOW = ['0', '1', '2', '3', '5']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['0', '3', '5']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['0', '5']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['5']  # , '6', '7']#, '1'] #, '2', '3']

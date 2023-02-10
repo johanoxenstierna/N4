@@ -54,7 +54,7 @@ class Sp(AbstractLayer, AbstractSSS):
             assert(_s.f != None)
             _s.gi = deepcopy(_s.f.sps_gi)
             # _s.gi['frames_tot'] = 150
-            assert (_s.gi['frames_tot'] < _s.f.gi['frames_tot'])
+            assert (_s.gi['frames_tot'] < _s.f.gi['frames_tot'])  # f have to last longer than sp
             # _s._flip_it = True
             _s.gi['r_f_d_type'] = 'after'  # after is what is kept
             # _s._up_down = 'down'
@@ -95,7 +95,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.alphas = np.linspace(0.6, 0.0, num=_s.gi['frames_tot'])
         else:
             '''CHANGE ALPHA TO NORMAL'''
-            _s.alphas = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.5])
+            _s.alphas = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.8])
 
         # _s.alphas = np.sin(list(range(0, int(_s.gi['frames_tot'] / 2 * np.pi))))
         if _s.alphas[0] > 0.3:

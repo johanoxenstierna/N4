@@ -46,7 +46,7 @@ def gen_alpha(g_obj, frames_tot=None, y_range=None, plot=False):
 		alpha0 = _normal(X, mean=len(X)//2, var=len(X)//2, y_range=y_range)  # THIS IS WAVE ALPHA
 		alpha1 = (np.sin(X / 7) + 1) / 2
 		alpha = alpha0 + 0.001 * alpha1
-		alpha = min_max_normalization(alpha, y_range=[0, 0.7])
+		alpha = min_max_normalization(alpha, y_range=y_range)
 	#
 	elif g_obj.__class__.__name__ == 'F':
 		'''Has to end at 0 alpha because these include fire smokhs'''
@@ -60,7 +60,8 @@ def gen_alpha(g_obj, frames_tot=None, y_range=None, plot=False):
 	# 	# alpha = _gamma(X, mean=3, var=15, y_range=[0.0, 6.0])  # same as extent
 	# 	alpha = _normal(X, mean=len(X)//2, var=len(X)//4, y_range=y_range)  # THIS IS WAVE ALPHA
 	elif g_obj.__class__.__name__ == 'Sp':  #sp2':
-		if len(X) < 100:
+		if len(X) < 100:  # DEBUG?
+			print("HARDCODED ALPHA =================================")
 			alpha = np.linspace(0.6, 0.01, num=len(X))
 		else:
 			# alpha = _gamma(X, mean=int(len(X)/60), var=int(len(X)/8), y_range=[0.0, 0.5])  # same as extent. mean=5 gives mean=100 if len == 200
