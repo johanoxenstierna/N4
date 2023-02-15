@@ -121,7 +121,7 @@ class Sh(AbstractLayer):
             random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
 
             # flag_found = False # only used by smoka
-            for key in li_ids:
+            for key in li_ids:  # takes the first one it finds
                 obj = _di[key]
                 if obj.drawn == 0:  # object is not drawn
                     if type == 'f':
@@ -199,7 +199,7 @@ class Sh(AbstractLayer):
 
         for sp_gi_id, sp_gi in _s.gi.sps_gi.items():
             if i in sp_gi['init_frames']:
-                sp.dyn_gen(i, gi=sp_gi)  # GENERATES GI AND EVERYTHING
+                sp.dyn_gen(i, gi=deepcopy(sp_gi))  # GENERATES GI AND EVERYTHING
 
                 adf = 5
 

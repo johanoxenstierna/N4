@@ -19,7 +19,7 @@ from src.ani_helpers import *
 import P as P
 from src.chronicler import Chronicler
 
-WRITE = 0  # 12
+WRITE = 0  # 24
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 
@@ -81,10 +81,10 @@ def animate(i):
             # for l_id, l in sh.ls.items():
             #     aaa = 5
 
-        if P.A_FS and 'fs' in sh.gi.child_names:
+        if P.A_FS and 'fs' in sh.gi.child_names:  # 0 and 5
             if i in sh.gi.fs_gi['init_frames']:
                 f = sh.find_free_obj(type='f')
-                if f != None and f.id not in f.gi['fs_hardcoded']:
+                if f != None:
                     prints += "  adding f"
                     exceeds_frame_max, how_many = f.check_frame_max(i, f.gi['frames_tot'])
                     if exceeds_frame_max == True:
@@ -141,12 +141,12 @@ def animate(i):
                             continue
                         elif drawBoolSP == 1:
                             # try:
-                            if sp.clock < 4:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
+                            if sp.clock < sp.gi['sp_len'] + 1:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
                                 im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
                             else:
                                 try:
-                                    im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
-                                                                   sp.xy[sp.clock - 3:sp.clock, 1])
+                                    im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 0],
+                                                                   sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 1])
                                     im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
                                 except:
                                     raise Exception("Adf")
@@ -154,12 +154,8 @@ def animate(i):
                             try:
                                 im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
                             except:
-                                asdf = 5
+                                raise Exception("Adf")
 
-                            # im_ax[sp.index_im_ax].set_alpha(1)
-                            #
-                            # except:
-                            #     adf = 6
                         elif drawBoolSP == 2:
                             prints += "  removing sp"
                             decrement_all_index_im_ax(index_removed, shs)
@@ -178,14 +174,14 @@ def animate(i):
 
                 num = P.NUM_SPS_C  # '3'  (0 uses F)
                 if sh.id[0] in ['2', '4']:
-                    num = P.NUM_SPS_L
+                    num = int(P.NUM_SPS_L / 5)  # per L
                 prints += "  trying to add " + str(num) + "sp"
                 # num_failed_to_add = 0
                 for _ in range(num):
                     sp = sh.find_free_obj(type='sp')
                     if sp != None:
                         assert (sp.f == None)  #
-                        sh.dyn_gen_child_sp(i, sp)
+                        sh.dyn_gen_child_sp(i, sp)  # assigns gi according to frame
                     else:
                         prints += "  COULDNT add sp"
 
@@ -210,11 +206,18 @@ def animate(i):
                         continue
                     elif drawBool == 1:
                         # try:
-                        if sp.clock < 4:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
+                        if sp.clock < sp.gi['sp_len'] + 1:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
                             im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
                         else:
-                            im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
-                                                           sp.xy[sp.clock - 3:sp.clock, 1])
+                            im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 0],
+                                                           sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 1])
+
+                            # im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
+                            #                                sp.xy[sp.clock - 3:sp.clock, 1])
+
+                        asdf = sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 0]
+                        if len(asdf) > 12:
+                            adf = 5
                         # try:
                         im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
                         # except:
@@ -271,7 +274,7 @@ def animate(i):
         if P.A_RS and 'rs' in sh.gi.child_names:
             if i in sh.gi.rs_gi['init_frames']:
                 r = sh.find_free_obj(type='r')
-                if r != None and r.id not in r.gi['rs_hardcoded']:
+                if r != None and r.id:
                     prints += "  adding r"
                     exceeds_frame_max, how_many = r.check_frame_max(i, r.gi['frames_tot'])
                     if exceeds_frame_max == True:

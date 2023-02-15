@@ -18,7 +18,9 @@ def init_infos():
     pulse_0 = random.sample(range(50, 300), 15)  # 0 after initial srs
     # pulse_0 = [50, 250]
     pulse_c3 = random.sample(range(300, 450), 20)  # expl
-    pulse_5 = random.sample(range(300, 350), 10)  # expl
+    # pulse_5 = random.sample(range(300, 500), 10)  # expl
+    # pulse_5 = random.sample(range(5, 200), 10)  # expl
+    pulse_5 = [100, 150, 200]  # expl
 
     pulse_0.sort()
     pulse_sr1.sort()

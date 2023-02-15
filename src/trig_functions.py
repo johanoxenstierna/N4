@@ -149,7 +149,7 @@ if __name__ == '__main__':
 	'''
 
 	# # # # WAVE alpha NOT EXPL! ALpha 1 in beg cuz it starts real small ============
-	X = np.arange(1, 60)
+	X = np.arange(1, 150)
 	# # # Y = _normal(X, mean=len(X) // 2, var=len(X) // 4, y_range=[0, 0.15])  # alpha
 	# Y = ([_sigmoid(x, grad_magn_inv=-len(X) / 12, x_shift=-4, y_magn=22, y_shift=0) for x in X])  # expl alpha
 	# Y = np.asarray([_sigmoid(x, grad_magn_inv=-len(X) / 10, x_shift=-2, y_magn=40, y_shift=0) for x in X])  # expl alpha
@@ -179,29 +179,16 @@ if __name__ == '__main__':
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 10, x_shift=-2, y_magn=6.2, y_shift=0) for x in X]))
 	# aa = 5
 
-	# # SPL extent =============
+	# # SP extent =============
 	# X = np.arange(0, 50)
-	Y = _normal(X, mean=1, var=5, y_range=[0, 0.999])
-	# a = 1.99
-	# x = np.linspace(gamma.ppf(0.01, a),
-	#                 gamma.ppf(0.99, a), 50)
-	# X = np.arange(0, 150)
-	# # Y = chi2.pdf(X / 2, 150 // 12) * 2 + \
-	# # 					  chi2.pdf(X / 14, 150 // 28) * 4  # obs starts at fire frame
-	# Y = _gamma(X, 2, 14, y_range=[0, 1])
-	# Y = min_max_normalization(Y, y_range=[0.0, 1.0])
+	# Y = _normal(X, mean=1, var=5, y_range=[0, 0.999])
 
-	# #EXPL on ship DOESNT DO ANYTHING
-	# fig = plt.figure(figsize=(10, 6))
-	# ax = fig.add_subplot(1, 1, 1, projection='3d')
-	# X0, X1 = np.meshgrid(np.arange(0, 50, 1), np.arange(0, 50, 1))
-	# X = np.dstack((X0, X1))
-	# Y = multivariate_normal.pdf(X, mean=(20, 20), cov=[[15, 0], [0, 15]])  # only for rand?
-	# Y = min_max_normalization(Y, y_range=[0, 1])
-	# # breakpoint()
+	# SP ALPHA ===========
+	# Y = np.asarray(
+	# 	([_sigmoid(x, grad_magn_inv=- len(X) / 5, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 
-	# Y = np.random.multivariate_normal((20, 20), [[1, 0], [0, 1]], size=(40, 40))
-	# Y = chi2.pdf(X / 2, 4)
+	# F ALPHA ============
+	Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-2, y_magn=1., y_shift=0) for x in X]))
 
 	'''EXECUTE'''
 	ax.plot(X, Y, '-')

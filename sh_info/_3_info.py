@@ -248,6 +248,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta_loc': -0.7, 'theta_scale': 0.3,
             'r_f_d_loc': 0.5, 'r_f_d_scale': 0.1,
             'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
             'ld_offset_loc': [5, 1],  # this is wrt to ld, which is toward end of c path
             'ld_offset_scale': [1, 1],
             'R_ss': [0.5, 0.8], 'R_scale': 0.2,
@@ -362,6 +363,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta_loc': -0.9, 'theta_scale': 0.1,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
             'ld_offset_loc': [5, -10],  # this is wrt to ld, which is toward end of c path
             'ld_offset_scale': [1, 1],
             'R_ss': [0.9, 1], 'R_scale': 0,
@@ -475,6 +477,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta_loc': -0.3, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
             'ld_offset_loc': [10, -3],  # this is wrt to ld, which is toward end of c path
             'ld_offset_scale': [1, 1],
             'R_ss': [0.9, 1], 'R_scale': 0,
@@ -557,6 +560,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta_loc': -0.3, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
             'ld_offset_loc': [10, -3],  # this is wrt to ld, which is toward end of c path
             'ld_offset_scale': [1, 1],
             'R_ss': [0.9, 1], 'R_scale': 0,
@@ -639,6 +643,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta_loc': -0.3, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
             'ld_offset_loc': [10, -3],  # this is wrt to ld, which is toward end of c path
             'ld_offset_scale': [1, 1],
             'R_ss': [0.9, 1], 'R_scale': 0,
@@ -730,6 +735,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta_loc': 0.3, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
             'ld_offset_loc': [10, -3],  # this is wrt to ld, which is toward end of c path
             'ld_offset_scale': [1, 2],
             'R_ss': [0.9, 1], 'R_scale': 0,
@@ -812,6 +818,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta_loc': -0.3, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
             'ld_offset_loc': [10, -3],  # this is wrt to ld, which is toward end of c path
             'ld_offset_scale': [1, 1],
             'R_ss': [0.9, 1], 'R_scale': 0,

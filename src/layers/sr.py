@@ -70,7 +70,7 @@ class Sr(AbstractLayer, AbstractSSS):
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
             _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
 
-        _s.rotation = np.linspace(0.01, 1, num=len(_s.scale_vector))
+        _s.rotation = np.linspace(0.01, 2, num=len(_s.scale_vector))
 
         _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'])
 

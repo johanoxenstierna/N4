@@ -23,17 +23,18 @@ class Sh_2_info(ShInfoAbstract):
         _s.ld = top_point
         _s.child_names = ['sps', 'ls', 'rs']
 
-        l_init_frames0 = [70, 272]
+        '''DOESNT CARE ABOUT LS for now. OBS WATCH OVERLAP'''
+        l_init_frames0 = [90, 110]
         # l_init_frames0 = [x + 100 for x in l_init_frames0]
-        l_init_frames1 = [120, 330]
-        # l_init_frames1 = [x + 100 for x in l_init_frames1]
+        l_init_frames1 = [120, 180]
+        # l_init_frames1 = [x + 100 for x in l_init_frames1]180
         # l_init_frames = [130, 220, 250, 300]
-        l_init_frames = [70, 120, 280, 330]
+        l_init_frames = [90, 120, 110, 180]
         # l_init_frames = [x + 100 for x in l_init_frames]
         # l_init_frames = [10, 30, 60, 300]
         _s.ls_gi = _s.gen_ls_gi(l_init_frames)
 
-        _s.num_sp_at_init_frame = 50  # OBS this is a special parameter.
+        # _s.num_sp_at_init_frame = 50  # OBS this is a special parameter.  # P instead
 
         if P.A_SPS:
 
@@ -56,7 +57,7 @@ class Sh_2_info(ShInfoAbstract):
                 '0': _s.sps_gi0,
                 '2': _s.sps_gi2
             }
-
+            init_frames.sort()
             _s.sps_gi_init_frames = init_frames
 
         if P.A_RS:
@@ -77,7 +78,7 @@ class Sh_2_info(ShInfoAbstract):
 
         l_gi = {
             'init_frames': l_init_frames,
-            'frames_tot': 201,
+            'frames_tot': 150,
             'ld': [_s.ld[0] - 5, _s.ld[1] + 20],  # top point!!! morphd to extent in l finish_info
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
@@ -110,18 +111,19 @@ class Sh_2_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '0',
             'init_frames': init_frames_sp,
-            'frames_tot': 151,
-            'init_frame_max_dist': 100,
-            'v_loc': 100, 'v_scale': 16,
+            'frames_tot': 100,
+            'init_frame_max_dist': 40,  # OBS THIS MUST BE SHORTER
+            'v_loc': 80, 'v_scale': 12,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.1, 'theta_scale': 0.05,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.02,
             'r_f_d_type': 'after',  # which part of r_f_d to use
-            'ld': [_s.ld[0], _s.ld[1] - 5],
+            'sp_len_loc': 5, 'sp_len_scale': 5,
+            'ld': [_s.ld[0] + 3, _s.ld[1] - 5],
             'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 1],
-            'R_ss': [0.8, 1], 'R_scale': 0.2,
-            'G_ss': [0.5, 0.2], 'G_scale': 0.1,
+            'R_ss': [0.9, 1], 'R_scale': 0.2,
+            'G_ss': [0.5, 0.2], 'G_scale': 0.15,
             'B_ss': [0.2, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
             'up_down': 'down'
         }
@@ -149,19 +151,20 @@ class Sh_2_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '2',
             'init_frames': init_frames_sp,
-            'frames_tot': 151,
-            'init_frame_max_dist': 100,  # random num of frames in future from init frame
-            'v_loc': 100, 'v_scale': 10,
+            'frames_tot': 100,
+            'init_frame_max_dist': 35,  # random num of frames in future from init frame
+            'v_loc': 90, 'v_scale': 6,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': -0.9, 'theta_scale': 0.03,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
-            'ld': [_s.ld[0] - 5, _s.ld[1] + 10],
-            'ld_offset_loc': [-4, 10],
-            'ld_offset_scale': [0, 2],
-            'R_ss': [0.8, 0.9], 'R_scale': 0.2,
-            'G_ss': [0.8, 0.2], 'G_scale': 0.1,
-            'B_ss': [0.7, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+            'sp_len_loc': 5, 'sp_len_scale': 5,
+            'ld': [_s.ld[0] - 0, _s.ld[1] + 10],
+            'ld_offset_loc': [-4, 5],
+            'ld_offset_scale': [0, 1],
+            'R_ss': [0.8, 1], 'R_scale': 0.2,
+            'G_ss': [0.4, 0.2], 'G_scale': 0.2,
+            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
             'up_down': 'down'
         }
 

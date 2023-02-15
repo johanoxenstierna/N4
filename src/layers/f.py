@@ -42,13 +42,13 @@ class F(AbstractLayer, AbstractSSS):
 
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='f')
         _s.scale_vector = np.linspace(_s.gi['scale_ss'][0], _s.gi['scale_ss'][1], _s.gi['frames_tot'])  # USE GI
-        _s.rotation_v = np.linspace(0.01, -0.3, num=len(_s.scale_vector))
+        _s.rotation_v = np.linspace(0.01, _s.gi['rad_rot'], num=len(_s.scale_vector))
         aa = 5
         # _s.tri_base, _s.tris, _s.tri_ext, _s.mask_ri, _s.mask_do = \
         #     gen_triangles(_s.extent_t, _s.extent, _s.gi, _s.pic)
 
 
-        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 1])
 
         # _s.temp_x = np.linspace(200, 300, num=_s.gi['frames_tot'])
         # _s.temp_y = np.linspace(50, 50, num=_s.gi['frames_tot'])

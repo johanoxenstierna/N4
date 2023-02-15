@@ -30,9 +30,9 @@ class GenLayers:
 
     def gen_backgr(_s, ax, im_ax):
 
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.1))
 
-        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
+        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.1,
                                extent=[45, 45 + _s.pics['volc_d'].shape[1], 75, 75 + _s.pics['volc_d'].shape[0]]))
         # im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
         #                        extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
@@ -99,7 +99,7 @@ class GenLayers:
                 if sh_id == '3':
                     num_sps = P.NUM_SPS_C
                 if sh_id == '2':
-                    num_sps = len(sh.ls) * P.NUM_SPS_F
+                    num_sps = len(sh.ls) * P.NUM_SPS_L
 
                 for id_int in range(num_sps):
                     sp = Sp(sh, id_int)

@@ -54,7 +54,9 @@ class Sp(AbstractLayer, AbstractSSS):
             assert(_s.f != None)
             _s.gi = deepcopy(_s.f.sps_gi)
             # _s.gi['frames_tot'] = 150
-            assert (_s.gi['frames_tot'] < _s.f.gi['frames_tot'])  # f have to last longer than sp
+
+            # TEEEEEEEEEEEEEEEEEEEmp
+            # assert (_s.gi['frames_tot'] < _s.f.gi['frames_tot'])  # f have to last longer than sp
             # _s._flip_it = True
             _s.gi['r_f_d_type'] = 'after'  # after is what is kept
             # _s._up_down = 'down'
@@ -91,11 +93,8 @@ class Sp(AbstractLayer, AbstractSSS):
 
         # _s.alphas = np.linspace(0.6, 0.0, num=len(_s.xy))
 
-        if _s.f != None:
-            _s.alphas = np.linspace(0.6, 0.0, num=_s.gi['frames_tot'])
-        else:
-            '''CHANGE ALPHA TO NORMAL'''
-            _s.alphas = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.8])
+        # if _s.f != None:
+        _s.alphas = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.8])
 
         # _s.alphas = np.sin(list(range(0, int(_s.gi['frames_tot'] / 2 * np.pi))))
         if _s.alphas[0] > 0.3:
@@ -142,7 +141,7 @@ class Sp(AbstractLayer, AbstractSSS):
 
         '''Colors'''
         R_start = min(1, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
-        G_start = min(1, np.random.normal(loc=_s.gi['G_ss'][0], scale=_s.gi['G_scale']))
+        G_start = min(0.2, np.random.normal(loc=_s.gi['G_ss'][0], scale=_s.gi['G_scale']))
         B_start = min(1, np.random.normal(loc=_s.gi['B_ss'][0], scale=_s.gi['B_scale']))
 
         R_start = max(0.01, R_start)
@@ -160,7 +159,7 @@ class Sp(AbstractLayer, AbstractSSS):
         except:
             raise Exception("R G B not within range")
 
-        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 16)
+        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
 
         # OBS NEW FROM SR SUPER IMPORTANT:
         if _s.id[0] == '3':
@@ -171,4 +170,11 @@ class Sp(AbstractLayer, AbstractSSS):
 
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
+
+        # currently this is done for all F sps children
+        # if _s.id[0] in ['0', '5']:
+        _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
+        _s.gi['sp_len'] = max(3, _s.gi['sp_len'])
+
+        adf = 5
 

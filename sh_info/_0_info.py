@@ -25,15 +25,23 @@ class Sh_0_info(ShInfoAbstract):
         _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
         if P.A_SRS == 1:
-            _s.srs_gi = _s.gen_srs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
-            _s.srs_gi_init_frames = pulse
+            srs_init_frames = []
+            for init_frame in pulse:
+                init_frame_1 = max(30, init_frame)
+                if init_frame_1 not in srs_init_frames:
+                    srs_init_frames.append(init_frame_1)
+
+            _s.srs_gi = _s.gen_srs_gi([max(30, x - 50) for x in pulse])  # OBS: sp_gi generated in f class. There is no info class for f.
+            _s.srs_gi_init_frames = _s.srs_gi['init_frames']
             _s.srs_gi = {  # these numbers correspond to c!
                 '0': _s.srs_gi,
             }
         if P.A_RS == 1:
-            _s.rs_gi = _s.gen_rs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
+            pulse_rs = random.sample(range(pulse[0], pulse[-1]), 50)
+            pulse_rs.sort()
+            _s.rs_gi = _s.gen_rs_gi(pulse_rs)
         if P.A_SPS == 1:
-            _s.sps_gi = _s.gen_sps_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
+            _s.sps_gi = _s.gen_sps_gi(pulse)
 
     def gen_fs_gi(_s, pulse):
         """
@@ -41,21 +49,15 @@ class Sh_0_info(ShInfoAbstract):
         This is like the constructor input for F class
         """
 
-        fs_gi = {}
-        # init_frames = [3, 20, 50, 100, 120, 150, 160, 200]
-        # init_frames = [10, 20]  # THESE ARE USED FOR SPS NO F AS WELL
-        # init_frames = random.sample(range(1, 300), 10)  # 1-50 is range, 7 is num  + sort
-        # init_frames.sort()
-        fs_gi['init_frames'] = pulse
-        # fs_gi['frames_tot'] = random.randint(170, 220)
-        fs_gi['frames_tot'] = 151  # MUST BE HIGHTER THAN SP.FRAMES_TOT
-        # fs_gi['ld_offset_ss'] = [[30, -15], [10, -15]]
-        # fs_gi['ld_offset_rand_ss'] = [[10, 5], [5, 5]]
-        fs_gi['scale_ss'] = [0.02, 2.0]
-        fs_gi['frame_ss'] = _s.frame_ss  # simpler with this
-        fs_gi['ld'] = _s.ld
-        fs_gi['fs_hardcoded'] = {}  # {id: {}}
-        fs_gi['zorder'] = 5
+        fs_gi = {
+            'rad_rot': -0.2,
+            'init_frames': pulse,
+            'frames_tot': 151,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
+            'scale_ss': [0.1, 2.0],
+            'frame_ss': None,  # simpler with this
+            'ld': [_s.ld[0] - 2, _s.ld[1]],
+            'zorder': 5
+        }
 
         return fs_gi
 
@@ -69,7 +71,7 @@ class Sh_0_info(ShInfoAbstract):
         # srs_gi['init_frames'] = [3, 20, 50, 100, 120, 150, 160, 200]
         # init_frames = random.sample(range(1, 200), 10)  # 1-50 is range, 7 is num  + sort
         # init_frames.sort()
-        srs_gi['zorder'] = 4
+        srs_gi['zorder'] = 110
         srs_gi['init_frames'] = copy.deepcopy(init_frames)
 
 
@@ -79,14 +81,14 @@ class Sh_0_info(ShInfoAbstract):
         srs_gi['frames_tot'] = 300
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
         srs_gi['ld'] = [_s.ld[0] - 5, _s.ld[1]]  # -6 TUNED WITH affine2D.translate!!!
-        srs_gi['ld_offset_loc'] = [-4, 0]  # OBS there is no ss, only start!
+        srs_gi['ld_offset_loc'] = [-4, 10]  # OBS there is no ss, only start!
         srs_gi['ld_offset_scale'] = [1, 1]  # OBS there is no ss, only start!
-        srs_gi['scale_ss'] = [0.01, 4]
+        srs_gi['scale_ss'] = [0.01, 5]
         srs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         srs_gi['sr_hardcoded'] = {}
-        srs_gi['v_loc'] = 30  # rc=2
+        srs_gi['v_loc'] = 20  # rc=2
         srs_gi['v_scale'] = 5
-        srs_gi['theta_loc'] = 1.5  # radians!
+        srs_gi['theta_loc'] = -1.3  # radians!  # 1.6= straight up  1.7 right
         srs_gi['theta_scale'] = 0.3
         srs_gi['r_f_d_loc'] = 0.001
         srs_gi['r_f_d_scale'] = 0.00
@@ -95,38 +97,29 @@ class Sh_0_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_rs_gi(_s, init_frames, _type=None):
-        rs_gi = {}
+    def gen_rs_gi(_s, pulse_rs, _type=None):
 
-        rs_gi['init_frames'] = random.sample(range(1, 300), 50)
-        # rs_gi['init_frames'] = [20]
-        rs_gi['init_frames'].sort()
-
-        # rs_gi['init_frames'] = list(range(3, 63))  # TODO: This should be generated same frame
-        rs_gi['frames_tot'] = 200
-        # rs_gi['frames_tot'] = 300
+        rs_gi = {
+            'init_frames': pulse_rs,
+            'frames_tot': 200,
+            'ld': [_s.ld[0] - 0, _s.ld[1] - 0],
+            'ld_offset_loc': [0.2, 0.05],
+            'ld_offset_scale': [0.2, 0.05],
+            'frame_ss': _s.frame_ss,
+            'v_loc': 20,
+            'v_scale': 5,
+            'theta_loc': 1.7,
+            'theta_scale': 0.1,
+            'r_f_d_loc': 0.7,
+            'r_f_d_scale': 0.05,
+            'scale_loc': 0.2,
+            'scale_scale': 0.08,
+            'up_down': 'up',
+            'alpha_plot': 'r_up',
+            'zorder': 110
+        }
 
         assert (rs_gi['init_frames'][-1] + rs_gi['frames_tot'] < P.FRAMES_STOP)
-        rs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1] - 0]  # -6 TUNED WITH affine2D.translate!!!
-        rs_gi['ld_offset_loc'] = [-1, 2]  # OBS there is no ss, only start!
-        rs_gi['ld_offset_scale'] = [0.2, 0.05]  # OBS there is no ss, only start!
-        rs_gi['frame_ss'] = _s.frame_ss  # simpler with this
-        rs_gi['rs_hardcoded'] = {}
-        rs_gi['v_loc'] = 20  # rc=2
-        rs_gi['v_scale'] = 5
-        rs_gi['theta_loc'] = np.pi/2 + 0.1  # radians!
-        rs_gi['theta_scale'] = 0.1
-        rs_gi['r_f_d_loc'] = 0.7
-        rs_gi['r_f_d_scale'] = 0.05
-        rs_gi['scale_loc'] = 0.2
-        rs_gi['scale_scale'] = 0.08
-
-        rs_gi['up_down'] = 'up'
-        rs_gi['alpha_plot'] = 'r_up'
-        rs_gi['zorder'] = 110
-
-        # temp cv2 test
-        # rs_gi['ld_ss'] = [[_s.ld[0], _s.ld[1]], ]
 
         return rs_gi
 
@@ -137,11 +130,13 @@ class Sh_0_info(ShInfoAbstract):
         """
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
-            'frames_tot': 150,
+            'frames_tot': 150,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT
             'v_loc': 26, 'v_scale': 8,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.05,
             'r_f_d_loc': 0.2, 'r_f_d_scale': 0.05,
+            'sp_len_loc': 3, 'sp_len_scale': 8,
+            'rad_rot': 0.1,
             'ld': _s.ld,  # in
             'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 1],
