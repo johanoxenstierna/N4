@@ -53,9 +53,13 @@ if P.A_RS:
 if P.A_LS:
     shs = g.gen_ls(ax0, im_ax, shs)
 
+if P.A_LIS:
+    shs = g.gen_lis(ax0, im_ax, shs)
+
 if P.A_SPS:
     shs = g.gen_sps(ax0, im_ax, shs)  # OBS children of fs NOT GENERATED HERE
 
+# lis_frames = [50, 80, 120, 190, 220, 250]
 
 '''VIEWER ==========================================='''
 brkpoint = 4
@@ -66,10 +70,11 @@ def init():
 
 def animate(i):
 
-    # if i == 20:
-    #     im_ax[2].set_alpha(0.1)
-    # if i == 21:
-    #     im_ax[2].set_alpha(0)
+
+    if P.A_LIS and '1' in shs.keys():
+        if i in shs['1'].gi.lis_gi['init_frames']:
+            pass
+            # im_ax[2].set_alpha(0.1)
 
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
@@ -94,9 +99,7 @@ def animate(i):
                     f.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
                     sh.f_latest_drawn_id = f.id
                     f.set_frame_ss(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
-                    # f.gen_dyn_extent_alpha()
 
-                    # '''Prob has to be let go'''
                     if P.A_SPS:
                         for sp_key, sp in f.sps.items():
                             # if sp.f is not None:
@@ -267,7 +270,11 @@ def animate(i):
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, sr, ax0, im_ax)
                         im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
-                        # im_ax[sr.index_im_ax].set_alpha(1)
+                        # im_ax[sr.index_im_ax].set_alpha(0.7)
+                        if P.A_LIS and '1' in shs.keys():
+                            if i in shs['1'].gi.lis_gi['init_frames']:
+                                im_ax[sr.index_im_ax].set_alpha(min(0.7, sr.alpha[sr.clock] + random.uniform(0.1, 0.3)))
+
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 
@@ -317,10 +324,10 @@ def animate(i):
                     '''Have to use i - 1 because otherwise l.set_clock() will return 1, i.e. start drawing in loop below'''
                     l.set_frame_ss(i - 1, l.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
 
-                    '''This stuff taken from below loop'''
+                    '''This stuff taken from below loop BCS EXTENT SET ONCE'''
                     # l.set_clock(i)
                     _, _ = l.ani_update_step(ax0, im_ax)
-                    im_ax[l.index_im_ax].set_extent(l.gi['extent'])
+                    im_ax[l.index_im_ax].set_extent(l.gi['extent'])  # ONLY SET ONCE
                 else:
                     prints += "  no free ls"
 
@@ -389,6 +396,31 @@ def animate(i):
                             im_ax[c.index_im_ax].set_alpha(0)
                         else:
                             decrement_all_index_im_ax(index_removed, shs)
+
+        if P.A_LIS and 'lis' in sh.gi.child_names:
+            if i in sh.gi.lis_gi['init_frames']:
+                li = sh.find_free_obj(type='li')
+                if li != None:
+                    prints += "  adding li"
+                    li.drawn = 1
+                    li.set_frame_ss(i - 1, li.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+
+                    _, _ = li.ani_update_step(ax0, im_ax)
+                    im_ax[li.index_im_ax].set_extent(li.extent)  # ONLY SET ONCE
+
+                    print(li.alpha[li.clock])
+
+            for li_id, li in enumerate(sh.lis):
+                if li.drawn != 0:
+                    li.set_clock(i)
+                    drawBool, index_removed = li.ani_update_step(ax0, im_ax)
+                    if drawBool == 0:  # dont draw
+                        continue
+                    elif drawBool == 1:
+                        im_ax[li.index_im_ax].set_alpha(li.alpha[li.clock])
+                        # im_ax[li.index_im_ax].set_alpha(1)
+                    elif drawBool == 2:  # remove
+                        decrement_all_index_im_ax(index_removed, shs)
 
         print(prints)
 

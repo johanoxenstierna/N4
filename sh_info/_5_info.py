@@ -18,25 +18,30 @@ class Sh_5_info(ShInfoAbstract):
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
-        _s.zorder = 87
+
 
         _s.ld = top_point
         _s.child_names = ['fs', 'srs', 'rs']
 
         _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
-        pulse_srs = [max(5, x - 30) for x in pulse]
         if P.A_SRS == 1:
+            pulse_srs = random.sample(range(pulse[0], pulse[-1]), 50)
+            pulse_srs = [max(5, x - 30) for x in pulse_srs]
             _s.srs_gi = _s.gen_srs_gi(pulse_srs)  # OBS: sp_gi generated in f class. There is no info class for f.
             _s.srs_gi_init_frames = pulse_srs
             _s.srs_gi = {  # these numbers are because of c!
                 '0': _s.srs_gi,
             }
         if P.A_RS == 1:
-            _s.rs_gi = _s.gen_rs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
+            pulse_rs = random.sample(range(pulse[0], pulse[-1]), 50)
+            pulse_rs.sort()
+            _s.rs_gi = _s.gen_rs_gi(pulse_rs)  # OBS: sp_gi generated in f class. There is no info class for f.
         if P.A_SPS == 1:
             # pulse_sps = [max(5, x - 80) for x in pulse]  # OBS NO. SPS are tied to f
             _s.sps_gi = _s.gen_sps_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
+
+        _s.zorder = 87
 
     def gen_fs_gi(_s, pulse):
         """
@@ -51,78 +56,62 @@ class Sh_5_info(ShInfoAbstract):
             'scale_ss': [0.1, 2.0],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 5, _s.ld[1]],
-            'zorder': 5
+            'zorder': 50
         }
 
         return fs_gi
 
-    def gen_srs_gi(_s, init_frames):
+    def gen_srs_gi(_s, pulse_srs):
         """
         This has to be provided because the fs are generated w.r.t. sh.
         This is like the constructor input for F class
         """
 
-        srs_gi = {}
-        # srs_gi['init_frames'] = [3, 20, 50, 100, 120, 150, 160, 200]
-        # init_frames = random.sample(range(1, 200), 10)  # 1-50 is range, 7 is num  + sort
-        # init_frames.sort()
-        srs_gi['zorder'] = 4
-        srs_gi['init_frames'] = copy.deepcopy(init_frames)
+        srs_gi = {
+            'init_frames': copy.deepcopy(pulse_srs),
+            'frames_tot': 250,
+            'ld': [_s.ld[0] - 0, _s.ld[1]],
+            'ld_offset_loc': [5, 8],
+            'ld_offset_scale': [1, 1],
+            'scale_ss': [0.01, 4],
+            'frame_ss': _s.frame_ss,
+            'v_loc': 35,
+            'v_scale': 5,
+            'theta_loc': -1.3,  # -1.6 is straight up
+            'theta_scale': 0.2,
+            'r_f_d_loc': 0.001,
+            'r_f_d_scale': 0.1,
+            'up_down': 'up',
+            'zorder': None  # Set in finish_info
+        }
 
-        # srs_gi['init_frames'] = [x + 30 for x in srs_gi['init_frames']]
-
-        # fs_gi['frames_tot'] = random.randint(170, 220)
-        srs_gi['frames_tot'] = 400
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
-        srs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1]]  # -6 TUNED WITH affine2D.translate!!!
-        srs_gi['ld_offset_loc'] = [5, 8]  # OBS there is no ss, only start!
-        srs_gi['ld_offset_scale'] = [1, 1]  # OBS there is no ss, only start!
-        srs_gi['scale_ss'] = [0.01, 6]
-        srs_gi['frame_ss'] = _s.frame_ss  # simpler with this
-        srs_gi['sr_hardcoded'] = {}
-        srs_gi['v_loc'] = 35  # rc=2
-        srs_gi['v_scale'] = 5
-        srs_gi['theta_loc'] = -1.3  # radians!
-        srs_gi['theta_scale'] = 0.13
-        srs_gi['r_f_d_loc'] = 0.001
-        srs_gi['r_f_d_scale'] = 0.00
-        srs_gi['up_down'] = 'up'
-        # srs_gi['alpha_plot'] = 'sr'
 
         return srs_gi
 
-    def gen_rs_gi(_s, init_frames, _type=None):
-        rs_gi = {}
+    def gen_rs_gi(_s, pulse_rs, _type=None):
 
-        rs_gi['init_frames'] = random.sample(range(1, 300), 50)
-        # rs_gi['init_frames'] = [20]
-        rs_gi['init_frames'].sort()
-
-        # rs_gi['init_frames'] = list(range(3, 63))  # TODO: This should be generated same frame
-        rs_gi['frames_tot'] = 200
-        # rs_gi['frames_tot'] = 300
+        rs_gi = {
+            'init_frames': pulse_rs,
+            'frames_tot': 200,
+            'ld': [_s.ld[0] - 0, _s.ld[1] - 0],
+            'ld_offset_loc': [-1, 5],
+            'ld_offset_scale': [0.2, 0.05],
+            'frame_ss': _s.frame_ss,
+            'v_loc': 30,
+            'v_scale': 5,
+            'theta_loc': 1.7,
+            'theta_scale': 0.1,
+            'r_f_d_loc': 0.7,
+            'r_f_d_scale': 0.1,
+            'scale_loc': 0.2,
+            'scale_scale': 0.1,
+            'up_down': 'up',
+            'alpha_plot': 'r_up',
+            'zorder': 80
+        }
 
         assert (rs_gi['init_frames'][-1] + rs_gi['frames_tot'] < P.FRAMES_STOP)
-        rs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1] - 0]  # -6 TUNED WITH affine2D.translate!!!
-        rs_gi['ld_offset_loc'] = [-1, 5]  # OBS there is no ss, only start!
-        rs_gi['ld_offset_scale'] = [0.2, 0.05]  # OBS there is no ss, only start!
-        rs_gi['frame_ss'] = _s.frame_ss  # simpler with this
-        rs_gi['rs_hardcoded'] = {}
-        rs_gi['v_loc'] = 30  # rc=2
-        rs_gi['v_scale'] = 5
-        rs_gi['theta_loc'] = np.pi / 2 + 0.1  # radians!
-        rs_gi['theta_scale'] = 0.1
-        rs_gi['r_f_d_loc'] = 0.7
-        rs_gi['r_f_d_scale'] = 0.1
-        rs_gi['scale_loc'] = 0.3
-        rs_gi['scale_scale'] = 0.25
-
-        rs_gi['up_down'] = 'up'
-        rs_gi['alpha_plot'] = 'r_up'
-        rs_gi['zorder'] = 80
-
-        # temp cv2 test
-        # rs_gi['ld_ss'] = [[_s.ld[0], _s.ld[1]], ]
 
         return rs_gi
 
@@ -143,8 +132,8 @@ class Sh_5_info(ShInfoAbstract):
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 1],
             'R_ss': [0.9, 1], 'R_scale': 0.5,  # first one is loc
-            'G_ss': [0.2, 0.01], 'G_scale': 0.2,
-            'B_ss': [0.1, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
+            'G_ss': [0.2, 0.01], 'G_scale': 0.3,
+            'B_ss': [0.1, 0.01], 'B_scale': 0.1,  # good to prevent neg numbers here
             'up_down': 'up'
         }
 

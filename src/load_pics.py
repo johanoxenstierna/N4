@@ -50,12 +50,14 @@ def load_pics():
         # pics['ships'][folder_name]['smokrs'] = {}
         # pics['ships'][folder_name]['expls'] = {}
         # pics['ships'][folder_name]['spls'] = {}
-        folder_names1 = ['fs', 'srs', 'rs', 'ls', 'cs']
+        folder_names1 = ['fs', 'srs', 'rs', 'ls', 'lis', 'cs']
         pics['sh'][folder_name0]['fs'] = {}
         pics['sh'][folder_name0]['srs'] = {}
         pics['sh'][folder_name0]['rs'] = {}
         pics['sh'][folder_name0]['ls'] = {}
+        pics['sh'][folder_name0]['lis'] = {}
         pics['sh'][folder_name0]['cs'] = {}
+
         for folder_name1 in folder_names1:
             try:
                 _, _, file_names = os.walk(PATH + '/' + folder_name0 + '/' + folder_name1).__next__()
@@ -87,6 +89,12 @@ def load_pics():
                         pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
                     # pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
                 elif folder_name1 == 'ls':
+                    pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
+                    pic = np.flipud(pic)
+                    # for i in range(P.NUM_LS):
+                        # _path_debug = 'sh' + '/' + folder_name0 + '/' + file_name[:-4]
+                    pics['sh'][folder_name0][folder_name1][file_name[:-4]] = pic
+                elif folder_name1 == 'lis':
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pic = np.flipud(pic)
                     # for i in range(P.NUM_LS):

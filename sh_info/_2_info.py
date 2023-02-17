@@ -89,7 +89,8 @@ class Sh_2_info(ShInfoAbstract):
     def gen_sps_gi0(_s, init_frames, l_init_frames):
 
         """
-        MATCHED WITH ls gi
+        MATCHED WITH ls gi, BUT THEYRE NOT CHILDREN AS FOR F -> SP (bcs problem there is that when F dies, then
+        so does sp, so f has to last longer than sp).
         top left one
         THESE ARE AVERAGES
         r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should

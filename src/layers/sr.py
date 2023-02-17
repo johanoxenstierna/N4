@@ -49,18 +49,22 @@ class Sr(AbstractLayer, AbstractSSS):
 
         _s.finish_info()
 
+        '''OBS THIS PROBABLY ONLY WORKS WITH AFTER'''
+        before_after = 'after'
         frames_to_d = int(_s.gi['frames_tot'] * _s.gi['r_f_d'])
         frames_tot_and_d = _s.gi['frames_tot'] + frames_to_d
 
-        if _s.gi['v'] > 20:
-            adf = 5
+        if _s.sh.id == '6':
+            before_after = 'before'
+            frames_to_d = _s.gi['frames_tot']  # JUST GENS EVERYTHING
+            frames_tot_and_d = int(_s.gi['frames_tot'] + _s.gi['frames_tot'] - frames_to_d)
 
         _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
                                     frames_tot=frames_tot_and_d, rc=1, up_down=_s.gi['up_down'])
 
         origin_ = (_s.gi['ld'][0] + _s.gi['ld_offset'][0], _s.gi['ld'][1] + _s.gi['ld_offset'][1])
         _s.xy = shift_projectile(_s.xy_t, origin=origin_, up_down=_s.gi['up_down'], frames_tot_d=frames_to_d,
-                                 r_f_d_type='after')
+                                 r_f_d_type=before_after)
 
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
         # fun_plot = 'sr'  # smokr but fun plot is same
@@ -70,9 +74,9 @@ class Sr(AbstractLayer, AbstractSSS):
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
             _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
 
-        _s.rotation = np.linspace(0.01, 2, num=len(_s.scale_vector))
+        _s.rotation = np.linspace(0.01, _s.gi['rad_rot'], num=len(_s.scale_vector))
 
-        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_range'])
 
     def set_init_frame(_s, i):
 
@@ -90,7 +94,7 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
         theta = _s.gi['theta_loc']  # np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
         _s.gi['theta'] = theta
-        _s.gi['r_f_d'] = np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale'])
+        _s.gi['r_f_d'] = max(0.01, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
@@ -103,6 +107,13 @@ class Sr(AbstractLayer, AbstractSSS):
 
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
+
+        if _s.id[0] in ['0', '1', '2', '3', '4', '5']:
+            _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
+        elif _s.id[0] in ['6']:
+            pass
+            # _s.gi[]
+
 
         # if _s.id[0] == '3':
         # if _s.id[0:6] == '3_sr_0':

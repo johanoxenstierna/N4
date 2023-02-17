@@ -4,7 +4,7 @@ import random
 import P
 
 # from sh_info import shInfoAbstract, _0_info
-from sh_info import _0_info, _1_info, _2_info, _3_info, _4_info, _5_info
+from sh_info import _0_info, _1_info, _2_info, _3_info, _4_info, _5_info, _6_info
 
 def init_infos():
     '''Creates instance of each info and stores in dict'''
@@ -15,16 +15,20 @@ def init_infos():
     top_point2 = [210, 90]  # for 3 rocks
 
     pulse_sr1 = random.sample(range(1, 500), 50)  # 1 (sr)
+    # pulse_sr1 = [5, 10, 20]  # 1 (sr)
     pulse_0 = random.sample(range(50, 300), 15)  # 0 after initial srs
     # pulse_0 = [50, 250]
     pulse_c3 = random.sample(range(300, 450), 20)  # expl
-    # pulse_5 = random.sample(range(300, 500), 10)  # expl
+    pulse_5 = random.sample(range(300, 500), 10)  # expl
     # pulse_5 = random.sample(range(5, 200), 10)  # expl
-    pulse_5 = [100, 150, 200]  # expl
+    # pulse_5 = [50, 100, 200]  # expl
 
+    pulse_6 = [20, 35, 50]
     pulse_0.sort()
     pulse_sr1.sort()
     pulse_c3.sort()
+    pulse_5.sort()
+    pulse_6.sort()
 
     if '0' in P.SHS_TO_SHOW:  # BEF EXPL
         _0 = _0_info.Sh_0_info(pulse_0, top_point0)
@@ -45,8 +49,12 @@ def init_infos():
     # 4: # DOWN RIGHT
 
     # 5: 0 but after expl
-    if '5' in P.SHS_TO_SHOW:  # BEF EXPL
+    if '5' in P.SHS_TO_SHOW:  # POST EXPL
         _5 = _5_info.Sh_5_info(pulse_5, top_point1)
         infos[_5.id] = _5
+
+    if '6' in P.SHS_TO_SHOW:  # EXPL
+        _6 = _6_info.Sh_6_info(pulse_6, top_point1)
+        infos[_6.id] = _6
 
     return infos

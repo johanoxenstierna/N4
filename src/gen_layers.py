@@ -10,6 +10,7 @@ from src.layers.sr import Sr
 from src.layers.sp import Sp
 from src.layers.r import R
 from src.layers.l import L
+from src.layers.li import Li
 from src.layers.c import C
 
 
@@ -30,9 +31,9 @@ class GenLayers:
 
     def gen_backgr(_s, ax, im_ax):
 
-        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=0.1))
+        im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
 
-        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=0.1,
+        im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
                                extent=[45, 45 + _s.pics['volc_d'].shape[1], 75, 75 + _s.pics['volc_d'].shape[0]]))
         # im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
         #                        extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
@@ -152,6 +153,22 @@ class GenLayers:
                 for pic_key in ls_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE. CURRENTLY NOT USED
                     l = L(id=pic_key, pic=ls_pics[pic_key], sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
                     sh.ls.append(l)
+        return shs
+
+    def gen_lis(_s, ax, im_ax, shs):
+
+        """
+
+        """
+
+        for sh_id, sh in shs.items():
+            if 'lis' in sh.gi.child_names:
+                lis_pics = _s.pics['sh'][sh_id]['lis']
+                lis_pics_keys = list(lis_pics.keys())
+                lis_pics_keys.sort()
+                for pic_key in lis_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE. CURRENTLY NOT USED
+                    li = Li(id=pic_key, pic=lis_pics[pic_key], sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    sh.lis.append(li)
         return shs
 
 

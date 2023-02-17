@@ -9,8 +9,7 @@ import copy
 class Sh_4_info(ShInfoAbstract):
 
     """
-    Basically this is the json replacement (also chronicle to some extent).
-    Just very basic stuff
+
     """
 
     def __init__(_s, pulse, top_point):

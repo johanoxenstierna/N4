@@ -140,7 +140,7 @@ class Sp(AbstractLayer, AbstractSSS):
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
         '''Colors'''
-        R_start = min(1, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
+        R_start = min(0.9, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
         G_start = min(0.2, np.random.normal(loc=_s.gi['G_ss'][0], scale=_s.gi['G_scale']))
         B_start = min(1, np.random.normal(loc=_s.gi['B_ss'][0], scale=_s.gi['B_scale']))
 
@@ -159,8 +159,6 @@ class Sp(AbstractLayer, AbstractSSS):
         except:
             raise Exception("R G B not within range")
 
-        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
-
         # OBS NEW FROM SR SUPER IMPORTANT:
         if _s.id[0] == '3':
             c_id = _s.gi['c_id']
@@ -175,6 +173,8 @@ class Sp(AbstractLayer, AbstractSSS):
         # if _s.id[0] in ['0', '5']:
         _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
         _s.gi['sp_len'] = max(3, _s.gi['sp_len'])
+
+        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
 
         adf = 5
 

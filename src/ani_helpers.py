@@ -68,10 +68,16 @@ def mpl_affine(ii, g_obj, ax0, im_ax):
 
 	""""""
 	if g_obj.id[2] == 'f':  # legacy
-		M = mtransforms.Affine2D(). \
-				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
-				rotate(g_obj.rotation_v[g_obj.clock]). \
-				translate(g_obj.gi['ld'][0], g_obj.gi['ld'][1]) + ax0.transData
+		if g_obj.id[0] in ['0', '5']:
+			M = mtransforms.Affine2D(). \
+					scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+					rotate(g_obj.rotation_v[g_obj.clock]). \
+					translate(g_obj.gi['ld'][0], g_obj.gi['ld'][1]) + ax0.transData
+		elif g_obj.id[0] in ['6']:
+			M = mtransforms.Affine2D(). \
+					scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+					rotate(g_obj.rotation_v[g_obj.clock]). \
+					translate(g_obj.gi['ld'][0] + g_obj.gi['x_mov'][g_obj.clock], g_obj.gi['ld'][1]) + ax0.transData
 	elif g_obj.id[2:4] == 'sr':
 		M = mtransforms.Affine2D(). \
 				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
@@ -130,6 +136,11 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 			if l.index_im_ax != None:
 				if l.index_im_ax > index_removed:
 					l.index_im_ax -= 1
+
+		for li in sh.lis:
+			if li.index_im_ax != None:
+				if li.index_im_ax > index_removed:
+					li.index_im_ax -= 1
 
 		for c in sh.cs.values():
 			if c.index_im_ax != None:

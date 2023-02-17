@@ -19,6 +19,7 @@ class Sh(AbstractLayer):
         _s.srs = {}
         _s.rs = {}
         _s.ls = []
+        _s.lis = []
         _s.cs = {}
         _s.sps = {}  # only used by some insts
         _s.f_latest_drawn_id = "99_99_99_99"
@@ -115,8 +116,10 @@ class Sh(AbstractLayer):
             _di = _s.sps
         elif type == 'l':
             _list = _s.ls
+        elif type == 'li':
+            _list = _s.lis
 
-        if type != 'l':
+        if type not in ['l', 'li']:
             li_ids = list(_di.keys())
             random.shuffle(li_ids)  # TODO: REPLACE WITH INDEX FOR SMOKA
 
