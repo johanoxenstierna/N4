@@ -23,6 +23,9 @@ class Sh(AbstractLayer):
         _s.cs = {}
         _s.sps = {}  # only used by some insts
         _s.f_latest_drawn_id = "99_99_99_99"
+
+        _s.li_cur_ind = 0
+
         # _s.zorder = gi.zorder
 
         # zigzag = ()
@@ -101,7 +104,7 @@ class Sh(AbstractLayer):
             _s.tris[i][1, 0] += mov_black[i, 0]
             # TODO y not asdjusted currently
 
-    def find_free_obj(_s, type):
+    def find_free_obj(_s, type, i=None):
 
         """HERE NEED TO ADD CASE THAT RETURNS ALL SPS FOR A GIVEN PARENT"""
 
@@ -133,10 +136,9 @@ class Sh(AbstractLayer):
                         if id_split_smoka[2] == id_split_ship_latest_smoka[2]:
                             continue
                     return obj
-        else:
+        else:  # REPLACE WITH LOOPING MECHANISM
             for obj in _list:
-                # obj = _list[i]
-                if obj.drawn == 0:
+                if obj.drawn == 0 and i in obj.gi['init_frames']:
                     return obj
 
         if type == 'f':  # if return above has not happened it means that none has been found (e.g. if only 1 type available)

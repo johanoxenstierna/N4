@@ -15,7 +15,7 @@ class Sh_1_info(ShInfoAbstract):
         super().__init__()
         _s.id = '1'
         _s.extent = "static"
-        _s.child_names = ['srs', 'lis']
+        _s.child_names = ['srs', 'lis', 'fs']
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]
         _s.init_frames = pulse
@@ -26,8 +26,15 @@ class Sh_1_info(ShInfoAbstract):
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
         _s.zorder = 110
 
-        pulse_lis = [50, 100, 190, 220, 250]
+        pulse_lis = [100, 190, 200, 210, 220, 250, 300]
         _s.lis_gi = _s.gen_lis(pulse_lis)
+
+        pulse_fs = [195]  # shockwave
+        _s.fs_gi = _s.gen_fs_gi(pulse_fs)
+
+        pulse_sps = []  # sp hits down
+
+        _s.sps_gi = {}
 
     def gen_srs_gi(_s, pulse_srs):
         """
@@ -44,14 +51,14 @@ class Sh_1_info(ShInfoAbstract):
             'scale_ss': [0.01, 3],
             # 'frame_ss': _s.frame_ss,
             'v_loc': 30,  # OBS SPECIAL, USES BEFORE
-            'v_scale': 3,
+            'v_scale': 5,
             'theta_loc': -0.9,  # -1.6 is straight up
             'theta_scale': 0.1,
             'rad_rot': 0.2,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_range': [0.01, 0.6],
+            'alpha_y_range': [0, 0.6],
             'zorder': 50,
         }
 
@@ -71,6 +78,27 @@ class Sh_1_info(ShInfoAbstract):
         }
 
         return lis_gi
+
+    def gen_fs_gi(_s, pulse):
+        """
+        This has to be provided because the fs are generated w.r.t. sh.
+        This is like the constructor input for F class
+        """
+
+        fs_gi = {
+            'rad_rot': -0.2,
+            'init_frames': pulse,
+            'frames_tot': 80,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
+            'scale_ss': [0.1, 2.0],
+            'frame_ss': None,  # simpler with this
+            'ld': [_s.ld[0] - 20, _s.ld[1] + 30],
+            'x_mov': list(np.linspace(0, -200, num=80)),  # SPECIAL
+            'y_mov': list(np.linspace(0, 200, num=80)),  # SPECIAL
+            'alpha_y_range': [0, 0.6],
+            'zorder': 5
+        }
+
+        return fs_gi
 
 
 

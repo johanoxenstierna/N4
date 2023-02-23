@@ -5,6 +5,7 @@ import P as P
 import random
 import numpy as np
 
+
 class Sh_0_info(ShInfoAbstract):
     """
     Basically this is the json replacement (also chronicle to some extent).
@@ -22,7 +23,9 @@ class Sh_0_info(ShInfoAbstract):
 
         _s.ld = top_point
         _s.child_names = ['fs', 'srs', 'rs']
-        _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
+
+        if P.A_FS:
+            _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
         if P.A_SRS == 1:
             srs_init_frames = []
@@ -83,9 +86,9 @@ class Sh_0_info(ShInfoAbstract):
             'theta_scale': 0.3,
             'r_f_d_loc': 0.001,
             'r_f_d_scale': 0.1,
-            'rad_rot': random.uniform(0.1, 0.2),
+            'rad_rot': random.uniform(-0.03, 0.5),
             'up_down': 'up',
-            'alpha_range': [0.1, 0.4],
+            'alpha_y_range': [0.0, 0.3],
 
             'zorder': None  # Set in finish_info
         }
@@ -99,11 +102,11 @@ class Sh_0_info(ShInfoAbstract):
         rs_gi = {
             'init_frames': pulse_rs,
             'frames_tot': 200,
-            'ld': [_s.ld[0] - 0, _s.ld[1] - 0],
+            'ld': [_s.ld[0] - 0, _s.ld[1] + 3],
             'ld_offset_loc': [0.2, 0.05],
             'ld_offset_scale': [0.2, 0.05],
             'frame_ss': _s.frame_ss,
-            'v_loc': 20,
+            'v_loc': 25,
             'v_scale': 5,
             'theta_loc': 1.7,
             'theta_scale': 0.1,
@@ -125,6 +128,7 @@ class Sh_0_info(ShInfoAbstract):
         UPDATE: THESE ARE NO LONGER CHILDREN OF F,
         THEIR INIT FRAMES CAN BE SET BY F THOUGH.
         """
+
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 150,  # MUST BE LOWER THAN SP.FRAMES_TOT. IT CRASHES AT THE LAST FRAME OF THE SP OTHERWISE
@@ -137,9 +141,13 @@ class Sh_0_info(ShInfoAbstract):
             'ld': _s.ld,  # in
             'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 1],
+            'rgb_start': [0.4, 0.45],  #
+            'rgb_theta_diff_c': 1,
+            'rgb_v_diff_c': 0.01,
             'R_ss': [0.9, 1], 'R_scale': 0.5,  # first one is loc
             'G_ss': [0.2, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
+            'alpha_y_range': [0.01, 0.7],
             'up_down': 'up'
         }
 

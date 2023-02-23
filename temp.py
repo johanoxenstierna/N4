@@ -2,7 +2,8 @@ import random
 
 import numpy as np
 
-# aa = np.random.dirichlet((0.7, 0.8, 1, 0.6, 0.2), 10)
+aa = np.random.dirichlet((0.7, 0.8, 1, 0.6, 0.2), 1)
+ff = np.sum(aa)
 aa = np.random.normal(loc=5, scale=3, size=100)
 
 aa.sort()

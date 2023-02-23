@@ -19,7 +19,7 @@ from src.ani_helpers import *
 import P as P
 from src.chronicler import Chronicler
 
-WRITE = 0  # 24
+WRITE = 0  #
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 
@@ -100,7 +100,7 @@ def animate(i):
                     sh.f_latest_drawn_id = f.id
                     f.set_frame_ss(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
 
-                    if P.A_SPS:
+                    if P.A_SPS and sh.id not in ['1']:
                         for sp_key, sp in f.sps.items():
                             # if sp.f is not None:
                             #     if sp.f.id == f.id:
@@ -177,7 +177,7 @@ def animate(i):
 
                 num = P.NUM_SPS_C  # '3'  (0 uses F)
                 if sh.id[0] in ['2', '4']:
-                    num = int(P.NUM_SPS_L / 5)  # per L
+                    num = P.NUM_SPS_PER_INIT  # per L
                 prints += "  trying to add " + str(num) + "sp"
                 # num_failed_to_add = 0
                 for _ in range(num):
@@ -208,23 +208,13 @@ def animate(i):
                     if drawBool == 0:
                         continue
                     elif drawBool == 1:
-                        # try:
                         if sp.clock < sp.gi['sp_len'] + 1:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
                             im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
                         else:
                             im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 0],
                                                            sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 1])
 
-                            # im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - 3:sp.clock, 0],
-                            #                                sp.xy[sp.clock - 3:sp.clock, 1])
-
-                        asdf = sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 0]
-                        if len(asdf) > 12:
-                            adf = 5
-                        # try:
                         im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
-                        # except:
-                        #     adf =5
                         im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
                         # im_ax[sp.index_im_ax].set_alpha(1)
 
@@ -273,7 +263,7 @@ def animate(i):
                         # im_ax[sr.index_im_ax].set_alpha(0.7)
                         if P.A_LIS and '1' in shs.keys():
                             if i in shs['1'].gi.lis_gi['init_frames']:
-                                im_ax[sr.index_im_ax].set_alpha(min(0.7, sr.alpha[sr.clock] + random.uniform(0.1, 0.3)))
+                                im_ax[sr.index_im_ax].set_alpha(min(0.3, sr.alpha[sr.clock] + random.uniform(0.05, 0.15)))
 
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
@@ -307,13 +297,13 @@ def animate(i):
                         # im_ax[r.index_im_ax].set_color((r.R[r.clock], r.G[r.clock], r.B[r.clock]))
                         # im_ax[r.index_im_ax].set(interpolation_stage='rgba', cmap='jet')
                         im_ax[r.index_im_ax].set_alpha(r.alpha[r.clock])
-                        im_ax[r.index_im_ax].set_zorder(100)
+                        # im_ax[r.index_im_ax].set_zorder(100)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 
         if P.A_LS and 'ls' in sh.gi.child_names:
-            if i in sh.gi.ls_gi['init_frames']:
-                l = sh.find_free_obj(type='l')  # starts with 0, then 1
+            if i in sh.gi.ls_gi['init_frames_all']:
+                l = sh.find_free_obj(type='l', i=i)  # starts with 0, then 1
                 if l != None:
                     prints += "  adding l"
                     exceeds_frame_max, how_many = l.check_frame_max(i, l.gi['frames_tot'])
@@ -399,7 +389,7 @@ def animate(i):
 
         if P.A_LIS and 'lis' in sh.gi.child_names:
             if i in sh.gi.lis_gi['init_frames']:
-                li = sh.find_free_obj(type='li')
+                li = sh.find_free_obj(type='li', i=i)
                 if li != None:
                     prints += "  adding li"
                     li.drawn = 1

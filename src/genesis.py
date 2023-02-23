@@ -14,16 +14,20 @@ def init_infos():
     top_point1 = [210, 90]  # aft expl
     top_point2 = [210, 90]  # for 3 rocks
 
-    pulse_sr1 = random.sample(range(1, 500), 50)  # 1 (sr)
-    # pulse_sr1 = [5, 10, 20]  # 1 (sr)
+    pulse_sr1 = random.sample(range(5, 500), 50)  # 1 (sr)  # OBS '2' CAN ONLY BE TESTED WHEN STARTS AT 100
+    # pulse_sr1 = [110, 150]  # 1 (sr)
     pulse_0 = random.sample(range(50, 300), 15)  # 0 after initial srs
     # pulse_0 = [50, 250]
-    pulse_c3 = random.sample(range(300, 450), 20)  # expl
-    pulse_5 = random.sample(range(300, 500), 10)  # expl
-    # pulse_5 = random.sample(range(5, 200), 10)  # expl
+    pulse_2 = [110, 180]  # sps uses -100 OBS MAY GET WRONG
+    pulse_c3 = random.sample(range(150, 450), 30)  # expl
+    # pulse_c3 = [10, 50, 100]  # expl
+    # pulse_c3 = random.sample(range(100, 200), 10)  # post expl
+    pulse_5 = random.sample(range(200, 500), 20)  # post expl
+    # pulse_5 = random.sample(range(5, 200), 10)  # post expl
     # pulse_5 = [50, 100, 200]  # expl
 
-    pulse_6 = [20, 35, 50]
+    pulse_6 = [200, 205, 250]
+    # pulse_6 = [5, 10, 50]
     pulse_0.sort()
     pulse_sr1.sort()
     pulse_c3.sort()
@@ -39,7 +43,7 @@ def init_infos():
         infos[_1.id] = _1
 
     if '2' in P.SHS_TO_SHOW:  # DOWN LEFT
-        _2 = _2_info.Sh_2_info(pulse_sr1, top_point0)
+        _2 = _2_info.Sh_2_info(pulse_2, top_point0)
         infos[_2.id] = _2
 
     if '3' in P.SHS_TO_SHOW and P.A_CS:  # ROCKS

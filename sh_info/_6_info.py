@@ -33,8 +33,8 @@ class Sh_6_info(ShInfoAbstract):
 
             # pulse_srs = random.sample(range(pulse[0], pulse[-1]), 50)
             # pulse_srs = [max(30, x - 50) for x in pulse_srs]
-            _s.srs_gi = _s.gen_srs_gi([5, 20, 35])  # OBS: sp_gi generated in f class. There is no info class for f.
-            _s.srs_gi_init_frames = [5, 20, 35]
+            _s.srs_gi = _s.gen_srs_gi([pulse[0] + 5, pulse[0] + 20, pulse[0] + 35])  # OBS: sp_gi generated in f class. There is no info class for f.
+            _s.srs_gi_init_frames = [pulse[0] + 5, pulse[0] + 20, pulse[0] + 35]
             _s.srs_gi = {  # these numbers correspond to c!
                 '0': _s.srs_gi,
             }
@@ -87,7 +87,7 @@ class Sh_6_info(ShInfoAbstract):
             'r_f_d_loc': 0.9,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_range': [0.01, 0.9],
+            'alpha_y_range': [0, 0.4],
             'zorder': 50,
         }
 
@@ -112,9 +112,13 @@ class Sh_6_info(ShInfoAbstract):
             'ld': _s.ld,  # in
             'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 1],
+            'rgb_start': [0.4, 0.6],  #
+            'rgb_theta_diff_c': 0.1,
+            'rgb_v_diff_c': 0.001,
             'R_ss': [0.7, 1], 'R_scale': 0.3,  # first one is loc
             'G_ss': [0.4, 0.3], 'G_scale': 0.2,
             'B_ss': [0.3, 0.1], 'B_scale': 0.1,  # good to prevent neg numbers here
+            'alpha_y_range': [0.05, 0.7],
             'up_down': 'up'
         }
 

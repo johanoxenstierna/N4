@@ -76,7 +76,7 @@ class Sr(AbstractLayer, AbstractSSS):
 
         _s.rotation = np.linspace(0.01, _s.gi['rad_rot'], num=len(_s.scale_vector))
 
-        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_range'])
+        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_y_range'])
 
     def set_init_frame(_s, i):
 

@@ -99,8 +99,8 @@ class GenLayers:
                 num_sps = None
                 if sh_id == '3':
                     num_sps = P.NUM_SPS_C
-                if sh_id == '2':
-                    num_sps = len(sh.ls) * P.NUM_SPS_L
+                if sh_id == '2':  # PER PIC
+                    num_sps = len(sh.ls) * P.NUM_SPS_L_TOT
 
                 for id_int in range(num_sps):
                     sp = Sp(sh, id_int)
@@ -168,7 +168,7 @@ class GenLayers:
                 lis_pics_keys.sort()
                 for pic_key in lis_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE. CURRENTLY NOT USED
                     li = Li(id=pic_key, pic=lis_pics[pic_key], sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                    sh.lis.append(li)
+                    sh.lis.append(li)  #    GOOD WITH LIST SO THEY CAN BE CIRCLED
         return shs
 
 

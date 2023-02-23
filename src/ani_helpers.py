@@ -78,6 +78,12 @@ def mpl_affine(ii, g_obj, ax0, im_ax):
 					scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
 					rotate(g_obj.rotation_v[g_obj.clock]). \
 					translate(g_obj.gi['ld'][0] + g_obj.gi['x_mov'][g_obj.clock], g_obj.gi['ld'][1]) + ax0.transData
+		elif g_obj.id[0] in ['1']:
+			M = mtransforms.Affine2D(). \
+					scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+					rotate(g_obj.rotation_v[g_obj.clock]). \
+					translate(g_obj.gi['ld'][0] + g_obj.gi['x_mov'][g_obj.clock],
+							  g_obj.gi['ld'][1] + g_obj.gi['y_mov'][g_obj.clock]) + ax0.transData
 	elif g_obj.id[2:4] == 'sr':
 		M = mtransforms.Affine2D(). \
 				scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \

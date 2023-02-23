@@ -55,7 +55,7 @@ class Sh_5_info(ShInfoAbstract):
             'frames_tot': 301,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
             'scale_ss': [0.1, 2.0],
             'frame_ss': None,  # simpler with this
-            'ld': [_s.ld[0] - 5, _s.ld[1]],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 5],
             'zorder': 50
         }
 
@@ -79,9 +79,11 @@ class Sh_5_info(ShInfoAbstract):
             'v_scale': 5,
             'theta_loc': -1.3,  # -1.6 is straight up
             'theta_scale': 0.2,
+            'rad_rot': random.uniform(-0.2, 0.2),
             'r_f_d_loc': 0.001,
             'r_f_d_scale': 0.1,
             'up_down': 'up',
+            'alpha_y_range': [0, 0.3],
             'zorder': None  # Set in finish_info
         }
 
@@ -105,7 +107,7 @@ class Sh_5_info(ShInfoAbstract):
             'r_f_d_loc': 0.7,
             'r_f_d_scale': 0.1,
             'scale_loc': 0.2,
-            'scale_scale': 0.1,
+            'scale_scale': 0.15,
             'up_down': 'up',
             'alpha_plot': 'r_up',
             'zorder': 80
@@ -123,17 +125,21 @@ class Sh_5_info(ShInfoAbstract):
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 300,
-            'v_loc': 26, 'v_scale': 10,
+            'v_loc': 30, 'v_scale': 5,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'sp_len_loc': 3, 'sp_len_scale': 3,
+            'sp_len_loc': 3, 'sp_len_scale': 5,
             'theta_loc': 1.5, 'theta_scale': 0.1,
-            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.1,
+            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.3,
             'ld': _s.ld,  # in
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 1],
-            'R_ss': [0.9, 1], 'R_scale': 0.5,  # first one is loc
+            'rgb_start': [0.65, 0.75],
+            'rgb_theta_diff_c': 2,
+            'rgb_v_diff_c': 0.001,
+            'R_ss': [0.9, 1], 'R_scale': 0.1,  # first one is loc
             'G_ss': [0.2, 0.01], 'G_scale': 0.3,
             'B_ss': [0.1, 0.01], 'B_scale': 0.1,  # good to prevent neg numbers here
+            'alpha_y_range': [0.1, 0.6],
             'up_down': 'up'
         }
 

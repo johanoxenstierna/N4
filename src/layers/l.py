@@ -25,12 +25,13 @@ class L(AbstractLayer, AbstractSSS):
 
         '''OBS THIS GENERATES EXTENT THAT IS TOO LONG'''
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
-        _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.2])
+        # _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.7])
 
         adf = 5
 
     def finish_info(_s, id):
         """
+        NO DYN_GEN, so its done here instead
         Ls share gis for a given sh. The sh gi is set with top point, so it is lt,
 
         The ONLY thing that needs to be done here is extent. id from gen_layers used
@@ -38,18 +39,28 @@ class L(AbstractLayer, AbstractSSS):
         """
 
         if id[4] == '0':
-            extent = [_s.gi['ld'][0] - 8, _s.gi['ld'][0] - 8 + _s.pic.shape[1],
+            extent = [_s.gi['ld'][0] - 6, _s.gi['ld'][0] - 6 + _s.pic.shape[1],
                       _s.gi['ld'][1] + 3, _s.gi['ld'][1] + 3 - _s.pic.shape[0]]
+            init_frames = _s.gi['lif0']
+            frames_tot = _s.gi['frames_tot0']
+            alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0, 0.7])
         elif id[4] == '1':
-            extent = [_s.gi['ld'][0] - 24, _s.gi['ld'][0] - 24 + _s.pic.shape[1],
+            extent = [_s.gi['ld'][0] - 22, _s.gi['ld'][0] - 22 + _s.pic.shape[1],
                       _s.gi['ld'][1] + 25, _s.gi['ld'][1] + 25 - _s.pic.shape[0]]
+            init_frames = _s.gi['lif1']
+            frames_tot = _s.gi['frames_tot1']
+            alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0, 0.7])
         elif id[4] == '2':  # MOVED THIS TO
             extent = [_s.gi['ld'][0] - 60, _s.gi['ld'][0] - 60 + _s.pic.shape[1],
                       _s.gi['ld'][1] + 65, _s.gi['ld'][1] + 65 - _s.pic.shape[0]]
+            init_frames = _s.gi['lif2']
         else:
             raise Exception("havent done")
 
         _s.gi['extent'] = extent
+        _s.gi['init_frames'] = init_frames
+        _s.alpha = alpha
+        _s.gi['frames_tot'] = frames_tot
         # ld_offset_start = [-30, 46]
             # ld_offset_end = [-30, 46]
 

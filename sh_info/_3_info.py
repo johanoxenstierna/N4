@@ -97,6 +97,18 @@ class Sh_3_info(ShInfoAbstract):
                 '6': _s.sps_gi6
             }
 
+            '''Apply to all'''
+            for sp_gi_key, sp_gi in _s.sps_gi.items():
+
+                sp_gi['rgb_start'] = [0.4, 0.9]
+                sp_gi['rgb_theta_diff_c'] = 1
+                sp_gi['rgb_v_diff_c'] = 0.01
+                sp_gi['alpha_y_range'] = [0.1, 0.8]
+
+
+        adf = 6
+
+
     def gen_srs_init_frames(_s, _cs_gi, init_frames):
 
         """
@@ -107,7 +119,7 @@ class Sh_3_info(ShInfoAbstract):
         if P.DEBUG:
             frames_tot = 140
         clf = _cs_gi['init_frame'] + _cs_gi['frames_tot'] + _cs_gi['frames_tot1']  # c_last_frame
-        start = _cs_gi['init_frame'] + int(0.8 * _cs_gi['frames_tot'])
+        start = _cs_gi['init_frame'] + int(0.7 * (_cs_gi['frames_tot'] + _cs_gi['frames_tot1']))
         stop = clf + 5
         in_f_cand = list(range(start, stop, 6))
         in_f2 = []
@@ -159,7 +171,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 0,
             'up_down': 'up',
             'rad_rot': -1,
-            'zorder': 110
+            'zorder': _s.zorder + 10
         }
 
         # gi['init_frame'] = 2
@@ -214,9 +226,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [0.01, 1],
             'theta_loc': -0.5,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
+            'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.00,
             'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
             'zorder': _s.cs_gi0['zorder']
         }
 
@@ -284,7 +298,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': 1.5,
-            'zorder': 110
+            'zorder': _s.zorder + 10
         }
 
         # gi['init_frame'] = 2
@@ -335,9 +349,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [0.01, 1],
             'theta_loc': -0.6, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
+            'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
+            'alpha_y_range': [0, 0.5],
             'zorder': _s.cs_gi1['zorder']
         }
 
@@ -399,7 +415,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': -1.5,
-            'zorder': 110
+            'zorder': _s.zorder + 10
         }
 
         # gi['init_frame'] = 2
@@ -449,9 +465,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [0.01, 1],
             'theta_loc': -0.7, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
+            'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
             'zorder': _s.cs_gi2['zorder']
         }
 
@@ -532,9 +550,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [0.01, 2],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
+            'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
+            'alpha_y_range': [0, 0.5],
             'zorder': _s.cs_gi3['zorder']
         }
 
@@ -615,9 +635,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [0.01, 1],
             'theta_loc': -0.3,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
+            'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
             'zorder': _s.cs_gi4['zorder']
         }
 
@@ -674,7 +696,7 @@ class Sh_3_info(ShInfoAbstract):
             'v': 40,
             'theta': 1.5,
             'r_f_d': 0.1,
-            'extra_offset_x': 4,
+            'extra_offset_x': 2,
             'extra_offset_y': 3,
             'up_down': 'up',
             'rad_rot': -1.5,
@@ -705,9 +727,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [0.01, 1],
             'theta_loc': 1.2,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
+            'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.00,
             'up_down': 'down',
+            'alpha_y_range': [0, 0.5],
             'zorder': _s.cs_gi5['zorder']
         }
 
@@ -767,10 +791,10 @@ class Sh_3_info(ShInfoAbstract):
             'theta': -1.2,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
-            'extra_offset_y': 5,
+            'extra_offset_y': 2,
             'up_down': 'up',
             'rad_rot': -0.5,
-            'zorder': 90
+            'zorder': _s.zorder + 10
         }
 
         return gi
@@ -790,9 +814,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [0.01, 1],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
+            'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
             'zorder': _s.cs_gi6['zorder']
         }
 
@@ -853,7 +879,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': -0.5,
-            'zorder': 110
+            'zorder': _s.zorder + 10
         }
 
         return gi
@@ -882,7 +908,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': -0.5,
-            'zorder': 110
+            'zorder': _s.zorder + 10
         }
 
         return gi

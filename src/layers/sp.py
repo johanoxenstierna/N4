@@ -7,7 +7,8 @@ import numpy as np
 from copy import deepcopy
 import random
 from src.projective_functions import *
-from src.gen_trig_fun import gen_alpha
+from src.gen_trig_fun import gen_alpha, min_max_normalization
+import matplotlib as mpl
 
 class Sp(AbstractLayer, AbstractSSS):
 
@@ -94,7 +95,7 @@ class Sp(AbstractLayer, AbstractSSS):
         # _s.alphas = np.linspace(0.6, 0.0, num=len(_s.xy))
 
         # if _s.f != None:
-        _s.alphas = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=[0, 0.8])
+        _s.alphas = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_y_range'])
 
         # _s.alphas = np.sin(list(range(0, int(_s.gi['frames_tot'] / 2 * np.pi))))
         if _s.alphas[0] > 0.3:
@@ -140,22 +141,36 @@ class Sp(AbstractLayer, AbstractSSS):
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
         '''Colors'''
-        R_start = min(0.9, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
-        G_start = min(0.2, np.random.normal(loc=_s.gi['G_ss'][0], scale=_s.gi['G_scale']))
-        B_start = min(1, np.random.normal(loc=_s.gi['B_ss'][0], scale=_s.gi['B_scale']))
+        # R_start = min(0.9, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
+        # G_start = min(0.2, np.random.normal(loc=_s.gi['G_ss'][0], scale=_s.gi['G_scale']))
+        # B_start = min(1, np.random.normal(loc=_s.gi['B_ss'][0], scale=_s.gi['B_scale']))
 
-        R_start = max(0.01, R_start)
-        G_start = max(0.01, G_start)
-        B_start = max(0.01, B_start)
+        # 0
+        start = random.uniform(_s.gi['rgb_start'][0], _s.gi['rgb_start'][1])  # starts hot
+        theta_diff = abs(theta - _s.gi['theta_loc'])  # less hot if theta is far from mean
+        v_diff = _s.gi['v_loc'] - _s.gi['v']  # less hot for faster ones, neg if its too fast
+        '''color darkened for fast ones'''
+        start = min(_s.gi['rgb_start'][1], start - _s.gi['rgb_theta_diff_c'] * theta_diff + \
+                    _s.gi['rgb_v_diff_c'] * v_diff)
+        end = max(0.3, random.uniform(0.3, start - 0.1))
 
-        _s.R = np.linspace(R_start, _s.gi['R_ss'][1], num=_s.gi['frames_tot'] + 5)
-        _s.G = np.linspace(G_start, _s.gi['G_ss'][1], num=_s.gi['frames_tot'] + 5)
-        _s.B = np.linspace(B_start, _s.gi['B_ss'][1], num=_s.gi['frames_tot'] + 5)
+        # start = random.uniform(0.65, 0.75)  # starts hot
+        # theta_diff = abs(theta - _s.gi['theta_loc'])  # less hot if theta is far from mean
+        # v_diff = _s.gi['v_loc'] - _s.gi['v']   # less hot for faster ones, neg if its too fast
+        # start = min(0.75, start - 1 * theta_diff + 0.01 * v_diff)
+        # end = max(0.2, random.uniform(0.2, start - 0.1))
+
+        x = np.linspace(start, end, _s.gi['frames_tot'])  # no need to flip since it starts hot
+        rgb = mpl.colormaps['afmhot'](x)[:, 0:3]  # starts as cold
+
+        _s.R = rgb[:, 0]
+        _s.G = rgb[:, 1]
+        _s.B = rgb[:, 2]
 
         try:
-            assert(min(_s.R) > 0)
-            assert(min(_s.G) > 0)
-            assert(min(_s.B) > 0)
+            assert(min(_s.R) >= 0.0)
+            assert(min(_s.G) >= 0.0)
+            assert(min(_s.B) >= 0.0)
         except:
             raise Exception("R G B not within range")
 
@@ -174,7 +189,7 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
         _s.gi['sp_len'] = max(3, _s.gi['sp_len'])
 
-        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
+        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 5, _s.sh.gi.zorder + 5)
 
         adf = 5
 
