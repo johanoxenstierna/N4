@@ -136,9 +136,9 @@ class Sh(AbstractLayer):
                         if id_split_smoka[2] == id_split_ship_latest_smoka[2]:
                             continue
                     return obj
-        else:  # REPLACE WITH LOOPING MECHANISM
+        else:  # REPLACE WITH LOOPING MECHANISM. NO, NOT NEEDED
             for obj in _list:
-                if obj.drawn == 0 and i in obj.gi['init_frames']:
+                if obj.drawn == 0 and i in obj.gi['init_frames']:  # YES 2nd ONE WORKS! init_frames done in finish_info
                     return obj
 
         if type == 'f':  # if return above has not happened it means that none has been found (e.g. if only 1 type available)

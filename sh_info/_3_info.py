@@ -26,7 +26,7 @@ class Sh_3_info(ShInfoAbstract):
         _s.child_names = ['cs', 'srs', 'sps']  # both cks and cds
 
         if P.A_CS:  # THEY ALL HAVE INDIVIDUAL GI'S
-            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=150)
+            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=30)
             _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200)
             _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 30, frames_tot1=200)
             _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200)
@@ -47,7 +47,7 @@ class Sh_3_info(ShInfoAbstract):
             AND WILL CRASH IF THERE IS NO CORRESPONDING C PIC'''
             init_frames = []
 
-            '''remove to not show'''
+            '''THEY USE CORRESPONDING CS init_frames'''
             _s.srs_gi0, init_frames = _s.gen_srs_gi0(init_frames)  # THIS MEANS THERE MUST BE A '3_c_0'
             _s.srs_gi1, init_frames = _s.gen_srs_gi1(init_frames)
             _s.srs_gi2, init_frames = _s.gen_srs_gi2(init_frames)
@@ -107,7 +107,6 @@ class Sh_3_info(ShInfoAbstract):
 
 
         adf = 6
-
 
     def gen_srs_init_frames(_s, _cs_gi, init_frames):
 
@@ -793,7 +792,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_x': 0,
             'extra_offset_y': 2,
             'up_down': 'up',
-            'rad_rot': -0.5,
+            'rad_rot': -0.9,
             'zorder': _s.zorder + 10
         }
 

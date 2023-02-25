@@ -17,7 +17,7 @@ class Sh_6_info(ShInfoAbstract):
 
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
-        _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
+        # _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
         _s.zorder = 110
 
         _s.ld = top_point

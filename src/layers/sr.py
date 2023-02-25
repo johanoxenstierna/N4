@@ -74,7 +74,7 @@ class Sr(AbstractLayer, AbstractSSS):
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
             _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
 
-        _s.rotation = np.linspace(0.01, _s.gi['rad_rot'], num=len(_s.scale_vector))
+        _s.rotation_v = np.linspace(0.01, _s.gi['rad_rot'], num=len(_s.scale_vector))
 
         _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_y_range'])
 
@@ -107,8 +107,17 @@ class Sr(AbstractLayer, AbstractSSS):
 
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
+        elif _s.id[0] == '2':
+            l_id = _s.gi['l_id']
+            if l_id >= len(_s.sh.ls):
+            # if l_id not in _s.sh.sps.keys():
+                raise Exception("trying to dyn_gen an sr which is tied to a c that does not exist. "
+                                "l_id: " + l_id + " sr_id: " + _s.id + ". Check that pic is in there.")
+            _s.gi['ld'] = [_s.sh.ls[l_id].gi['ld'][0], _s.sh.ls[l_id].gi['ld'][1]]
 
-        if _s.id[0] in ['0', '1', '2', '3', '4', '5']:
+            # _s.gi['ld'] = [_s.sh.ls[l_id].gi['ld'][0] + _s.gi['ld_offset'][0],
+            #                _s.sh.ls[l_id].gi['ld'][1] + _s.gi['ld_offset'][1]]
+        if _s.id[0] in ['0', '1', '3', '4', '5']:
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
         elif _s.id[0] in ['6']:
             pass

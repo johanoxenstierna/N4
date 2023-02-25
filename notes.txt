@@ -1,6 +1,6 @@
 
 t:
-110
+120
 
 micro_breaks=0
 
@@ -10,6 +10,7 @@ log:
 35 - lava not done yet.
 60 - rocks
 90 - lightning
+110 - lava more
 
 OBS below are just short things not yet added to Desktop/N4_local
 

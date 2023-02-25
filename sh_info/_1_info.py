@@ -26,7 +26,8 @@ class Sh_1_info(ShInfoAbstract):
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
         _s.zorder = 110
 
-        pulse_lis = [100, 190, 200, 210, 220, 250, 300]
+        # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
+        pulse_lis = [100, 150, 180, 200, 220, 230, 245, 250, 260, 280, 300]
         _s.lis_gi = _s.gen_lis(pulse_lis)
 
         pulse_fs = [195]  # shockwave
@@ -54,7 +55,7 @@ class Sh_1_info(ShInfoAbstract):
             'v_scale': 5,
             'theta_loc': -0.9,  # -1.6 is straight up
             'theta_scale': 0.1,
-            'rad_rot': 0.2,
+            'rad_rot': random.uniform(-0.3, -1.9),
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
@@ -95,7 +96,7 @@ class Sh_1_info(ShInfoAbstract):
             'x_mov': list(np.linspace(0, -200, num=80)),  # SPECIAL
             'y_mov': list(np.linspace(0, 200, num=80)),  # SPECIAL
             'alpha_y_range': [0, 0.6],
-            'zorder': 5
+            'zorder': _s.zorder
         }
 
         return fs_gi

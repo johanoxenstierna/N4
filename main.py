@@ -70,7 +70,6 @@ def init():
 
 def animate(i):
 
-
     if P.A_LIS and '1' in shs.keys():
         if i in shs['1'].gi.lis_gi['init_frames']:
             pass
@@ -260,10 +259,12 @@ def animate(i):
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, sr, ax0, im_ax)
                         im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
-                        # im_ax[sr.index_im_ax].set_alpha(0.7)
                         if P.A_LIS and '1' in shs.keys():
                             if i in shs['1'].gi.lis_gi['init_frames']:
-                                im_ax[sr.index_im_ax].set_alpha(min(0.3, sr.alpha[sr.clock] + random.uniform(0.05, 0.15)))
+                                if random.random() < 0.5:
+                                    alpha = sr.alpha[sr.clock] + random.uniform(0.05, 0.15)
+                                    alpha = min(1, alpha)
+                                    im_ax[sr.index_im_ax].set_alpha(alpha)
 
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)

@@ -82,7 +82,8 @@ class Sp(AbstractLayer, AbstractSSS):
 
         frames_tot_and_d = _s.gi['frames_tot'] + frames_tot_d
 
-        # if _s.f != None:
+        before_after = 'after'
+
         _s.xy_t = simple_projectile(v=_s.gi['v'], theta=_s.gi['theta'],
                                     frames_tot=frames_tot_and_d, up_down=_s.gi['up_down'])
 
@@ -90,7 +91,7 @@ class Sp(AbstractLayer, AbstractSSS):
                                                   _s.gi['ld'][1] + _s.gi['ld_offset'][1]),
                                  frames_tot_d=frames_tot_d,
                                  up_down=_s.gi['up_down'],
-                                 r_f_d_type=_s.gi['r_f_d_type'])
+                                 r_f_d_type=before_after)
 
         # _s.alphas = np.linspace(0.6, 0.0, num=len(_s.xy))
 
