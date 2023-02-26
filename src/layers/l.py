@@ -34,32 +34,30 @@ class L(AbstractLayer, AbstractSSS):
         NO DYN_GEN, CALLED FROM INIT ABOVE. so its done here instead
         Ls share gis for a given sh. The sh gi is set with top point, so it is lt,
 
-        The ONLY thing that needs to be done here is extent. id from gen_layers used
+        The ONLY thing that truly needs to be done here is extent.
+        extent needed bcs its not in infos by convention.
+        id from gen_layers used
         LRDU
         """
         if id[0] == '2':
             if id[4] == '0':  # OBS id[4]!!! not id[0]
-                extent = [_s.gi['ld'][0] - 11, _s.gi['ld'][0] - 11 + _s.pic.shape[1],
-                          _s.gi['ld'][1] + 23, _s.gi['ld'][1] + 23 - _s.pic.shape[0]]
+                ld = _s.gi['ld0']
                 init_frames = _s.gi['lif0']
                 frames_tot = _s.gi['frames_tot0']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0, 0.7])
             elif id[4] == '1':
-                extent = [_s.gi['ld'][0] - 27, _s.gi['ld'][0] - 27 + _s.pic.shape[1],
-                          _s.gi['ld'][1] + 45, _s.gi['ld'][1] + 45 - _s.pic.shape[0]]
+                ld = _s.gi['ld1']
                 init_frames = _s.gi['lif1']
                 frames_tot = _s.gi['frames_tot1']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0, 0.7])
             elif id[4] == '2':  # MOVED THIS TO
-                extent = [_s.gi['ld'][0] - 65, _s.gi['ld'][0] - 65 + _s.pic.shape[1],
-                          _s.gi['ld'][1] + 72, _s.gi['ld'][1] + 72 - _s.pic.shape[0]]
+                ld = _s.gi['ld2']
                 init_frames = _s.gi['lif2']
                 frames_tot = _s.gi['frames_tot2']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0, 0.7])
 
             elif id[4] == '3':
-                extent = [_s.gi['ld'][0] - 20, _s.gi['ld'][0] - 20 + _s.pic.shape[1],
-                          _s.gi['ld'][1] + 52, _s.gi['ld'][1] + 52 - _s.pic.shape[0]]
+                ld = _s.gi['ld3']
                 init_frames = _s.gi['lif3']
                 frames_tot = _s.gi['frames_tot3']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0, 0.7])
@@ -67,15 +65,12 @@ class L(AbstractLayer, AbstractSSS):
                 raise Exception("havent done")
         elif id[0] == '7':
             if id[4] == '0':
-                extent = [_s.gi['ld'][0] + 22, _s.gi['ld'][0] + 22 + _s.pic.shape[1],
-                          _s.gi['ld'][1] + 158, _s.gi['ld'][1] + 158 - _s.pic.shape[0]]
+                ld = _s.gi['ld0']
                 init_frames = _s.gi['lif0']
                 frames_tot = _s.gi['frames_tot0']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0.01, 1])
             elif id[4] == '1':
-                extent = [_s.gi['ld'][0] + 89, _s.gi['ld'][0] + 89 + _s.pic.shape[1],
-                          _s.gi['ld'][1] + 152, _s.gi['ld'][1] + 152 - _s.pic.shape[0]]
-
+                ld = _s.gi['ld1']
                 init_frames = _s.gi['lif1']
                 frames_tot = _s.gi['frames_tot1']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0.01, 1])
@@ -84,6 +79,9 @@ class L(AbstractLayer, AbstractSSS):
         else:
             raise Exception("havent done")
 
+        _s.gi['ld'] = ld
+        extent = [ld[0], ld[0] + _s.pic.shape[1],
+                  ld[1], ld[1] - _s.pic.shape[0]]
         _s.gi['extent'] = extent
         _s.gi['init_frames'] = init_frames
         _s.alpha = alpha

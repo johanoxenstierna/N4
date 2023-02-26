@@ -7,7 +7,7 @@ import copy
 
 class Sh_7_info(ShInfoAbstract):
     """
-    Extras
+    Extras. For now try to do just 1 at init_frame with low alpha.
     Basically this is the json replacement (also chronicle to some extent).
     Just very basic stuff
     """
@@ -49,7 +49,9 @@ class Sh_7_info(ShInfoAbstract):
             'frames_tot1': 100,
             # 'frames_tot2': 500,
             # 'frames_tot3': 500,
-            'ld': _s.ld,  # top point!!! morphd to extent in l finish_info
+            'ld': _s.ld,
+            'ld0': [_s.ld[0] + 22, _s.ld[1] + 158],
+            'ld1': [_s.ld[0] + 89, _s.ld[1] + 152],
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
         }
@@ -58,6 +60,7 @@ class Sh_7_info(ShInfoAbstract):
 
     def gen_srs_gi(_s, pulse_srs):
         """
+        Tied to ls!
         This has to be provided because the fs are generated w.r.t. sh.
         This is like the constructor input for F class
         """
@@ -65,21 +68,21 @@ class Sh_7_info(ShInfoAbstract):
         srs_gi = {
             'init_frames': copy.deepcopy(pulse_srs),
             'frames_tot': 300,
-            'ld': [_s.ld[0] + 5, _s.ld[1]],
-            'ld_offset_loc': [0, 1],
-            'ld_offset_scale': [5, 5],
-            'scale_ss': [0.01, 3],
+            'ld': None,  # finish_info
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [0, 0],
+            'scale_ss': [0.01, 2],
             # 'frame_ss': _s.frame_ss,
-            'v_loc': 30,  # OBS SPECIAL, USES BEFORE
+            'v_loc': 25,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
-            'theta_loc': -0.9,  # -1.6 is straight up
+            'theta_loc': -0.3,  # -1.6 is straight up
             'theta_scale': 0.1,
-            'rad_rot': random.uniform(-0.3, -1.9),
+            'rad_rot': random.uniform(-0.1, -0.3),
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
             'alpha_y_range': [0, 0.6],
-            'zorder': 50,
+            'zorder': 200,
         }
 
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)

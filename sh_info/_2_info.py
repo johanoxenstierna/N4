@@ -111,7 +111,11 @@ class Sh_2_info(ShInfoAbstract):
             'frames_tot1': 500,
             'frames_tot2': 500,
             'frames_tot3': 500,
-            'ld': _s.ld,  # top point!!! morphd to extent in l finish_info
+            'ld': _s.ld,  # USED BY SR?
+            'ld0': [_s.ld[0] - 11, _s.ld[1] + 23],
+            'ld1': [_s.ld[0] - 27, _s.ld[1] + 45],
+            'ld2': [_s.ld[0] - 65, _s.ld[1] + 72],
+            'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
         }

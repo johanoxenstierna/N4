@@ -118,6 +118,20 @@ class GenLayers:
 
         return shs
 
+    def gen_ls(_s, ax, im_ax, shs):
+
+        """Srs"""
+
+        for sh_id, sh in shs.items():
+            if 'ls' in sh.gi.child_names:
+                ls_pics = _s.pics['sh'][sh_id]['ls']
+                ls_pics_keys = list(ls_pics.keys())
+                ls_pics_keys.sort()
+                for pic_key in ls_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE. CURRENTLY NOT USED
+                    l = L(id=pic_key, pic=ls_pics[pic_key], sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
+                    sh.ls.append(l)
+        return shs
+
     def gen_srs(_s, ax, im_ax, shs):
         """Srs"""
         for sh_id, sh in shs.items():
@@ -139,20 +153,6 @@ class GenLayers:
 
                     sh.rs[pic_key] = r
 
-        return shs
-
-    def gen_ls(_s, ax, im_ax, shs):
-
-        """Srs"""
-
-        for sh_id, sh in shs.items():
-            if 'ls' in sh.gi.child_names:
-                ls_pics = _s.pics['sh'][sh_id]['ls']
-                ls_pics_keys = list(ls_pics.keys())
-                ls_pics_keys.sort()
-                for pic_key in ls_pics_keys:  # IF REPEATS OF PIC THEN ADD IN LOOP HERE. CURRENTLY NOT USED
-                    l = L(id=pic_key, pic=ls_pics[pic_key], sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
-                    sh.ls.append(l)
         return shs
 
     def gen_lis(_s, ax, im_ax, shs):

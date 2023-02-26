@@ -34,8 +34,14 @@ class Sr(AbstractLayer, AbstractSSS):
 
         AbstractSSS.__init__(_s, sh, id)
 
-        if sh.id == '1':
+        if sh.id in ['1']:
             _s.dyn_gen(gi=sh.gi.srs_gi['0'])  # creates REPEATED srs. C-tied sr are dyn_gened in main
+        elif sh.id in ['7']:
+            gi = deepcopy(sh.gi.srs_gi['0'])
+            l = random.choice(sh.ls)
+            gi['ld'] = l.gi['ld']
+            gi['ld_offset'] = [0, 0]
+            _s.dyn_gen(gi=gi)  # creates REPEATED srs. C-tied sr are dyn_gened in main
 
     def dyn_gen(_s, i=None, gi=None):
 
@@ -100,23 +106,22 @@ class Sr(AbstractLayer, AbstractSSS):
 
         # OBS SUPER IMPORTANT:
         if _s.id[0] == '3':
-            c_id = _s.gi['c_id']
+            c_id = _s.gi['c_id']  # DIRECT MATCHING!
             if c_id not in _s.sh.cs.keys():
                 raise Exception("trying to dyn_gen an sr which is tied to a c that does not exist. "
                                 "c_id: " + c_id + " sr_id: " + _s.id + ". Check that pic is in there.")
 
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
-        elif _s.id[0] == '2':
-            l_id = _s.gi['l_id']
+        elif _s.id[0] in ['2']:
+            l_id = _s.gi['l_id']  # DIRECT MATCHING!
             if l_id >= len(_s.sh.ls):
-            # if l_id not in _s.sh.sps.keys():
-                raise Exception("trying to dyn_gen an sr which is tied to a c that does not exist. "
+                raise Exception("trying to dyn_gen an sr which is tied to a l that does not exist. "
                                 "l_id: " + l_id + " sr_id: " + _s.id + ". Check that pic is in there.")
             _s.gi['ld'] = [_s.sh.ls[l_id].gi['ld'][0], _s.sh.ls[l_id].gi['ld'][1]]
+        # elif _s.id[0] in ['7']: same as for 1 instead
+        #     adf = 5
 
-            # _s.gi['ld'] = [_s.sh.ls[l_id].gi['ld'][0] + _s.gi['ld_offset'][0],
-            #                _s.sh.ls[l_id].gi['ld'][1] + _s.gi['ld_offset'][1]]
         if _s.id[0] in ['0', '1', '3', '4', '5']:
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
         elif _s.id[0] in ['6']:

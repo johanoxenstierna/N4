@@ -44,14 +44,14 @@ if P.A_FS:
 if P.A_CS:  # gen before srs so that landing known.
     shs = g.gen_cs(ax0, im_ax, shs)
 
+if P.A_LS:
+    shs = g.gen_ls(ax0, im_ax, shs)
+
 if P.A_SRS:  #
     shs = g.gen_srs(ax0, im_ax, shs)
 
 if P.A_RS:
     shs = g.gen_rs(ax0, im_ax, shs)
-
-if P.A_LS:
-    shs = g.gen_ls(ax0, im_ax, shs)
 
 if P.A_LIS:
     shs = g.gen_lis(ax0, im_ax, shs)
@@ -229,8 +229,8 @@ def animate(i):
 
                 if sr != None:
 
-                    # if sr.id[0] == '3':  # dyn_gen needed!
-                    sh.dyn_gen_child_sr(i, sr)
+                    if sr.id[0] in ['3']:  # dyn_gen needed!
+                        sh.dyn_gen_child_sr(i, sr)
 
                     prints += "  adding sr"
                     # try:
@@ -259,7 +259,8 @@ def animate(i):
                         # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, sr, ax0, im_ax)
                         im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
-                        if P.A_LIS and '1' in shs.keys():
+                        # im_ax[sr.index_im_ax].set_alpha(1)
+                        if P.A_LIS and '1' in shs.keys():  # 1 here is the holder of the lis!
                             if i in shs['1'].gi.lis_gi['init_frames']:
                                 if random.random() < 0.5:
                                     alpha = sr.alpha[sr.clock] + random.uniform(0.05, 0.15)
