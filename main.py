@@ -174,9 +174,12 @@ def animate(i):
                 according to gi conditions. 
                 '''
 
-                num = P.NUM_SPS_C  # '3'  (0 uses F)
                 if sh.id[0] in ['2', '4']:
-                    num = P.NUM_SPS_PER_INIT  # per L
+                    num = P.NUM_SPS_PER_L  # per L
+                elif sh.id[0] in ['3']:
+                    num = P.NUM_SPS_PER_C  # '3'  (0 uses F)
+                elif sh.id[0] in ['7']:
+                    num = P.NUM_SPS_PER_7
                 prints += "  trying to add " + str(num) + "sp"
                 # num_failed_to_add = 0
                 for _ in range(num):
@@ -233,10 +236,10 @@ def animate(i):
                         sh.dyn_gen_child_sr(i, sr)
 
                     prints += "  adding sr"
-                    # try:
-                    exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
-                    # except:
-                    #     adf = 5
+                    try:
+                        exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
+                    except:
+                        adf = 5
                     if exceeds_frame_max == True:
                         sr.gi['frames_tot'] = how_many
                     sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
@@ -394,11 +397,10 @@ def animate(i):
                 li = sh.find_free_obj(type='li', i=i)
                 if li != None:
                     prints += "  adding li"
+                    li.finish_info()
                     li.drawn = 1
                     li.set_frame_ss(i - 1, li.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
-
                     _, _ = li.ani_update_step(ax0, im_ax)
-                    im_ax[li.index_im_ax].set_extent(li.extent)  # ONLY SET ONCE
 
                     print(li.alpha[li.clock])
 
@@ -409,6 +411,7 @@ def animate(i):
                     if drawBool == 0:  # dont draw
                         continue
                     elif drawBool == 1:
+                        mpl_affine(i, li, ax0, im_ax)
                         im_ax[li.index_im_ax].set_alpha(li.alpha[li.clock])
                         # im_ax[li.index_im_ax].set_alpha(1)
                     elif drawBool == 2:  # remove

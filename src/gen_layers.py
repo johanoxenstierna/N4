@@ -98,9 +98,11 @@ class GenLayers:
                 # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
                 num_sps = None
                 if sh_id == '3':
-                    num_sps = P.NUM_SPS_C
-                if sh_id == '2':  # PER PIC
+                    num_sps = P.NUM_SPS_C_TOT
+                elif sh_id == '2':  # PER PIC
                     num_sps = len(sh.ls) * P.NUM_SPS_L_TOT
+                elif sh_id == '7':
+                    num_sps = P.NUM_SPS_7_TOT
 
                 for id_int in range(num_sps):
                     sp = Sp(sh, id_int)

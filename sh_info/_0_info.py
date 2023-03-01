@@ -38,7 +38,7 @@ class Sh_0_info(ShInfoAbstract):
             pulse_srs = [max(30, x - 50) for x in pulse_srs]
             _s.srs_gi = _s.gen_srs_gi(pulse_srs)  # OBS: sp_gi generated in f class. There is no info class for f.
             _s.srs_gi_init_frames = _s.srs_gi['init_frames']
-            _s.srs_gi = {  # these numbers correspond to c!
+            _s.srs_gi = {
                 '0': _s.srs_gi,
             }
         if P.A_RS == 1:

@@ -74,6 +74,11 @@ class L(AbstractLayer, AbstractSSS):
                 init_frames = _s.gi['lif1']
                 frames_tot = _s.gi['frames_tot1']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0.01, 1])
+            elif id[4] == '2':
+                ld = _s.gi['ld2']
+                init_frames = _s.gi['lif2']
+                frames_tot = _s.gi['frames_tot2']
+                alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0.01, 1])
             else:
                 raise Exception("havent done")
         else:

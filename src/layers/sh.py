@@ -136,7 +136,12 @@ class Sh(AbstractLayer):
                         if id_split_smoka[2] == id_split_ship_latest_smoka[2]:
                             continue
                     return obj
-        else:  # REPLACE WITH LOOPING MECHANISM. NO, NOT NEEDED
+        elif type in ['l']:  # REPLACE WITH LOOPING MECHANISM. NO, NOT NEEDED
+            for obj in _list:
+                if obj.drawn == 0 and i in obj.gi['init_frames']:  # YES 2nd ONE WORKS! init_frames done in finish_info
+                    return obj
+        elif type in ['li']:
+            random.shuffle(_list)
             for obj in _list:
                 if obj.drawn == 0 and i in obj.gi['init_frames']:  # YES 2nd ONE WORKS! init_frames done in finish_info
                     return obj

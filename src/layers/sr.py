@@ -34,7 +34,7 @@ class Sr(AbstractLayer, AbstractSSS):
 
         AbstractSSS.__init__(_s, sh, id)
 
-        if sh.id in ['1']:
+        if sh.id in ['0', '1', '2', '5']:
             _s.dyn_gen(gi=sh.gi.srs_gi['0'])  # creates REPEATED srs. C-tied sr are dyn_gened in main
         elif sh.id in ['7']:
             gi = deepcopy(sh.gi.srs_gi['0'])

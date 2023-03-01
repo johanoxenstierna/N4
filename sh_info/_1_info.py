@@ -27,8 +27,8 @@ class Sh_1_info(ShInfoAbstract):
         _s.zorder = 110
 
         # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
-        pulse_lis = [100, 150, 180, 200, 220, 230, 245, 250, 260, 280, 300]
-        _s.lis_gi = _s.gen_lis(pulse_lis)
+        pulse_lis = [10, 20, 40, 60, 80, 100, 150, 180, 200, 220, 230, 245, 250, 260, 280, 300]
+        _s.lis_gi = _s.gen_lis_gi(pulse_lis)
 
         pulse_fs = [195]  # shockwave
         _s.fs_gi = _s.gen_fs_gi(pulse_fs)
@@ -67,15 +67,15 @@ class Sh_1_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_lis(_s, pulse_lis):
+    def gen_lis_gi(_s, pulse_lis):
 
         lis_gi = {
             'init_frames': pulse_lis,
-            'frames_tot': 7,
-            'ld': [_s.ld[0] - 15, _s.ld[1] - 40],
+            'frames_tot': None,
+            'ld': [_s.ld[0] - 0, _s.ld[1] + 0],
             'ld_offset_loc': [0, 1],
             'ld_offset_scale': [5, 5],
-            'zorder': 110,
+            'zorder': _s.zorder
         }
 
         return lis_gi

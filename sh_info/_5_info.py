@@ -77,7 +77,7 @@ class Sh_5_info(ShInfoAbstract):
             'frame_ss': _s.frame_ss,
             'v_loc': 35,
             'v_scale': 5,
-            'theta_loc': -1.3,  # -1.6 is straight up
+            'theta_loc': -1.15,  # -1.6 is straight up
             'theta_scale': 0.2,
             'rad_rot': random.uniform(-0.2, 0.2),
             'r_f_d_loc': 0.001,

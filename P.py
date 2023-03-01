@@ -21,8 +21,12 @@ A_LIS = 1
 NUM_SPS_SH = None  #a
 NUM_SPS_F = 15  # used by 0, 5
 NUM_SPS_L_TOT = 400  # used by 2, 4   PER PIC!!!
-NUM_SPS_PER_INIT = 50  # FOR EACH INIT_FRAME
-NUM_SPS_C = 20  # used by 3: Num sp at 1 init frame!
+# NUM_SPS_PER_INIT = 50
+NUM_SPS_PER_L = 50  # FOR EACH INIT_FRAME
+# NUM_SPS_C_TOT = 200  # used by 3: Num sp at 1 init frame!
+# NUM_SPS_PER_C = 20  # used by 3: Num sp at 1 init frame!
+NUM_SPS_7_TOT = 100
+NUM_SPS_PER_7 = 50
 
 NUM_SRS_SH = 50  # the upper ones. used by 0, 1, 2, 5. THIS IS ONLY USED TO GENERATE COPIES OF PICTURES (HOW MANY SHOULD BE AVAILABLE FOR GIVEN INIT_FRAMES)
 NUM_SRS_C = 100  # used by 3. OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
@@ -32,7 +36,7 @@ NUM_RS = 50  # upper bound
 # SHS_TO_SHOW = ['0', '1', '2', '3', '5', '6']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['0', '1', '3', '5', '6']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['6', '2', '3']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['5', '2']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['7', '0']  # , '6', '7']#, '1'] #, '2', '3']
 SHS_TO_SHOW = ['7']  # , '6', '7']#, '1'] #, '2', '3']
 
 

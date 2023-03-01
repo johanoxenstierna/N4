@@ -1,6 +1,7 @@
 
 
 import numpy as np
+import random
 from copy import deepcopy
 
 import P as P
@@ -22,9 +23,16 @@ class Li(AbstractLayer, AbstractSSS):
 
         AbstractSSS.__init__(_s, sh, id)
 
-        _s.extent = [_s.gi['ld'][0] - 40, _s.gi['ld'][0] + 40,
-                     _s.gi['ld'][1] + 30, _s.gi['ld'][1] - 30]
+        # _s.extent = [_s.gi['ld'][0] - 40, _s.gi['ld'][0] + 40,
+        #              _s.gi['ld'][1] + 30, _s.gi['ld'][1] - 30]
 
-        _s.alpha = [0.5, 0.7, 0.1, 0.3, 0.2, 0.6, 0.1]
+        '''This is the maximum 12, but not all may be used'''
+        _s.alpha = [0.5, 0.7, 0.1, 0.3, 0.2, 0.6, 0.1, 0.3, 0.8, 0.1, 0.9, 0.2, 0.6]
 
-        # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
+    def finish_info(_s):
+        _s.gi['frames_tot'] = random.randint(2, 6)
+        _s.gi['rad_rot'] = random.uniform(-1.0, 1.01)
+        _s.gi['scale'] = random.uniform(0.3, 0.8)
+        _s.gi['ld'][0] += random.uniform(-20, 1)
+        _s.gi['ld'][1] += random.uniform(-10, 10)
+        # _s.gi['init_frames']

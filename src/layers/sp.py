@@ -134,7 +134,7 @@ class Sp(AbstractLayer, AbstractSSS):
         """
 
         # _s.gi['max_ri'] = np.max(_s.extent[:, 1])
-        _s.gi['v'] = max(13, abs(np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])))
+        _s.gi['v'] = max(1, abs(np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])))
         theta = np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])  # + np.pi / 2
         _s.gi['theta'] = theta
         _s.gi['r_f_d'] = max(0.001, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))

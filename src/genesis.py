@@ -4,7 +4,7 @@ import random
 import P
 
 # from sh_info import shInfoAbstract, _0_info
-from sh_info import _0_info, _1_info, _2_info, _3_info, _4_info, _5_info, _6_info, _7_info
+from sh_info import _0_info, _1_info, _2_info, _3_info, _4_info, _5_info, _6_info, _7_info, _8_info
 
 def init_infos():
     '''Creates instance of each info and stores in dict'''
@@ -22,12 +22,12 @@ def init_infos():
     # pulse_c3 = random.sample(range(150, 450), 30)  # rs. init_frames use pulse[0] here
     pulse_c3 = [10, 30, 100]  # expl
     # pulse_c3 = random.sample(range(100, 200), 10)  # post expl
-    pulse_5 = random.sample(range(200, 500), 20)  # post expl
+    # pulse_5 = random.sample(range(200, 500), 20)  # post expl
     # pulse_5 = random.sample(range(5, 200), 10)  # post expl
-    # pulse_5 = [50, 100, 200]  # expl
+    pulse_5 = [50, 100, 200]  # expl
 
     pulse_6 = [200, 205, 250]
-    pulse_7 = [10, 80]
+    pulse_7 = [10, 40, 80]
     # pulse_6 = [5, 10, 50]
     pulse_0.sort()
     pulse_sr1.sort()
@@ -63,8 +63,12 @@ def init_infos():
         _6 = _6_info.Sh_6_info(pulse_6, top_point1)
         infos[_6.id] = _6
 
-    if '7' in P.SHS_TO_SHOW:  # EXTRAS
+    if '7' in P.SHS_TO_SHOW:  # EXTRAS1: srs tied to ls, sps dots
         _7 = _7_info.Sh_7_info(pulse_7, top_point0)
         infos[_7.id] = _7
+
+    # if '8' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper
+    #     _8 = _8_info.Sh_8_info(pulse_7, top_point0)
+    #     infos[_8.id] = _8
 
     return infos
