@@ -22,10 +22,11 @@ class Sh_7_info(ShInfoAbstract):
         _s.ld = top_point
 
         _s.ls_gi = _s.gen_ls_gi(pulse)  # NO DYN_GEN
-        _s.srs_gi = {'0': _s.gen_srs_gi(pulse)}
+        pulse_srs = _s.gen_pulse_srs7(pulse)
+        _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs)}
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
 
-        init_frames_sp0 = [20, 80]
+        init_frames_sp0 = [20]
         # init_frames_sp1 = [40]  # 150 is init_frame_max_dist
         # init_frames_sp2 = [60]  # 150 is init_frame_max_dist
         # init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
@@ -43,7 +44,7 @@ class Sh_7_info(ShInfoAbstract):
             # '3': _s.sps_gi3
         }
 
-        _s.zorder = 110
+        _s.zorder = 300
 
     def gen_ls_gi(_s, pulse):
         """
@@ -81,6 +82,17 @@ class Sh_7_info(ShInfoAbstract):
 
         return ls_gi
 
+    def gen_pulse_srs7(_s, pulse):
+
+        pulse_srs = []
+        for init_frame in pulse:
+            for i in range(-10, 10, 3):  # 5 total for each ls
+                init_frame_sr_cand = init_frame + i
+                if init_frame_sr_cand not in pulse_srs:
+                    pulse_srs.append(init_frame_sr_cand)
+
+        return pulse_srs
+
     def gen_srs_gi(_s, pulse_srs):
         """
         Tied to ls!
@@ -92,7 +104,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': None,  # finish_info
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 0],
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 0.5],  # assumed big pics
             # 'frame_ss': _s.frame_ss,
             'v_loc': 25,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
@@ -129,22 +141,22 @@ class Sh_7_info(ShInfoAbstract):
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
-            'v_loc': 70, 'v_scale': 15,
+            'v_loc': 50, 'v_scale': 15,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
-            'theta_loc': -1.6, 'theta_scale': 1.0,  # neg is left  with straight down= -1.6, 0=
+            'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 2, 'sp_len_scale': 4,
             'rgb_start': [0.4, 0.9],  #
             'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] + 3, _s.ld[1] + 25],
-            'ld_offset_loc': [0, 0],
-            'ld_offset_scale': [10, 5],
+            'ld': _s.ld,
+            'ld_offset_loc': [1, 20],
+            'ld_offset_scale': [5, 5],
             # 'R_ss': [0.9, 1], 'R_scale': 0.2,
             # 'G_ss': [0.5, 0.2], 'G_scale': 0.15,
             # 'B_ss': [0.2, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
-            'alpha_y_range': [0.01, 0.9],
+            'alpha_y_range': [0.01, 0.4],
             'up_down': 'down'
         }
 

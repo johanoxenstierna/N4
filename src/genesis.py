@@ -20,15 +20,18 @@ def init_infos():
     # pulse_0 = [50, 250]
     pulse_2 = [110, 180, 200, 231]  # THIS IS FOR LS, 1 PER L
     # pulse_c3 = random.sample(range(150, 450), 30)  # rs. init_frames use pulse[0] here
-    pulse_c3 = [10, 30, 100]  # expl
-    # pulse_c3 = random.sample(range(100, 200), 10)  # post expl
-    # pulse_5 = random.sample(range(200, 500), 20)  # post expl
+    # pulse_c3 = [10, 30, 100]  # expl
+    pulse_c3 = random.sample(range(100, 200), 10)  # post expl
+    pulse_5 = random.sample(range(200, 500), 20)  # post expl
     # pulse_5 = random.sample(range(5, 200), 10)  # post expl
-    pulse_5 = [50, 100, 200]  # expl
+    # pulse_5 = [50, 100, 200]  # expl
 
     pulse_6 = [200, 205, 250]
-    pulse_7 = [10, 40, 80]
     # pulse_6 = [5, 10, 50]
+
+    # pulse_7 = [10, 40, 80]
+    pulse_7 = [110, 140, 200, 280]
+
     pulse_0.sort()
     pulse_sr1.sort()
     pulse_c3.sort()
@@ -41,7 +44,7 @@ def init_infos():
         infos[_0.id] = _0
 
     if '1' in P.SHS_TO_SHOW:  # ALL OF THEM. LD NEEDS TO WORK FOR BOTH
-        _1 = _1_info.Sh_1_info(pulse_sr1, top_point1)
+        _1 = _1_info.Sh_1_info(pulse_sr1, top_point1)  # OBS shifts pulse_sr1 +30
         infos[_1.id] = _1
 
     if '2' in P.SHS_TO_SHOW:  # DOWN LEFT

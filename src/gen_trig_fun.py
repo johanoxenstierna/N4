@@ -73,10 +73,12 @@ def gen_alpha(g_obj, frames_tot=None, y_range=None, plot=False):
 				([_sigmoid(x, grad_magn_inv=- len(X) / 5, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 			alpha = min_max_normalization(alpha, y_range=y_range)
 		elif g_obj.sh.id == '7':
-		# 	alpha = _normal(X, mean=len(X) * 0.5, var=len(X) * 0.2, y_range=y_range)  # THIS IS WAVE ALPHA
+			# alpha = _normal(X, mean=len(X) * 0.5, var=len(X) * 0.2, y_range=y_range)  # THIS IS WAVE ALPHA
+			alpha = np.asarray(
+				([_sigmoid(x, grad_magn_inv=- len(X) / 5, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 		# elif len(X) < 100:  # DEBUG?
-			print("HARDCODED ALPHA =================================")
-			alpha = np.linspace(0.99, 0.01, num=len(X))
+		# 	print("HARDCODED ALPHA =================================")
+			alpha = np.linspace(y_range[1], y_range[0], num=len(X))
 			# alpha[0:int(len(alpha) * 0.3)] = 0.0
 
 		else:

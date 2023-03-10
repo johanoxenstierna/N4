@@ -185,6 +185,13 @@ class Sp(AbstractLayer, AbstractSSS):
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
 
+        elif _s.id[0] == '7':  # theta and ld_offset need to be matched here
+            if theta < 0:
+                if theta < -1.6:
+                    _s.gi['ld_offset'][0] = max(_s.gi['ld_offset'][0], -_s.gi['ld_offset'][0])
+                else:
+                    _s.gi['ld_offset'][0] = min(_s.gi['ld_offset'][0], -_s.gi['ld_offset'][0])
+
         # currently this is done for all F sps children
         # if _s.id[0] in ['0', '5']:
         _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))

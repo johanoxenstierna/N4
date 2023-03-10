@@ -244,7 +244,10 @@ def animate(i):
                         sr.gi['frames_tot'] = how_many
                     sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
                     sh.sr_latest_drawn_id = sr.id
-                    sr.set_frame_ss(i, sr.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    try:
+                        sr.set_frame_ss(i, sr.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    except:
+                        asdf =5
 
                 else:
                     prints += "  no free sr"

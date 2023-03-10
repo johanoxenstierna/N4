@@ -220,9 +220,9 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [5, 0],  # OBS there is no ss, only start!
             'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
+            'v_loc': 50,  # rc=2
             'v_scale': 4,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
             'rad_rot': -2,
