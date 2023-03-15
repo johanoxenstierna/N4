@@ -2,6 +2,7 @@ import numpy as np
 from copy import deepcopy
 import math
 # from src.trig_functions import _normal
+import P
 
 
 def gen_zig_zag(num_frames, cycles, max_delta_width):
@@ -413,5 +414,29 @@ def rotate_point(origin, point, angle):
     qx = ox + math.cos(angle) * (px - ox) - math.sin(angle) * (py - oy)
     qy = oy + math.sin(angle) * (px - ox) + math.cos(angle) * (py - oy)
     return qx, qy
+
+
+def gen_xy_linear(gi):
+
+    """
+    Just used by 8 curretnly
+    """
+    xy = np.zeros(shape=(gi['frames_tot'], 2))
+
+    x_cur = gi['ld'][0]
+    y_cur = gi['ld'][1]
+
+    for i in range(0, gi['frames_tot']):
+
+        xy[i, 0] = x_cur
+        xy[i, 1] = y_cur
+
+        x_cur = x_cur + gi['v_linear'][0]
+        y_cur = y_cur + gi['v_linear'][1]
+
+    if xy[-1, 0] < 0:  # makes sense since they just move left
+        raise Exception("bounds. id: " + str(gi['id']))
+
+    return xy
 
 

@@ -31,6 +31,7 @@ def init_infos():
 
     # pulse_7 = [10, 40, 80]
     pulse_7 = [110, 140, 200, 280]
+    pulse_8 = None  # this one is specially set inside 8_info
 
     pulse_0.sort()
     pulse_sr1.sort()
@@ -70,8 +71,8 @@ def init_infos():
         _7 = _7_info.Sh_7_info(pulse_7, top_point0)
         infos[_7.id] = _7
 
-    # if '8' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper
-    #     _8 = _8_info.Sh_8_info(pulse_7, top_point0)
-    #     infos[_8.id] = _8
+    if '8' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper
+        _8 = _8_info.Sh_8_info(top_point0)
+        infos[_8.id] = _8
 
     return infos

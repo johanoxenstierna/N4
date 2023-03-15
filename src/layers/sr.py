@@ -8,7 +8,8 @@ import random
 import P as P
 from src.gen_extent_triangles import *
 from src.layers.abstract import AbstractLayer, AbstractSSS
-from src.gen_trig_fun import gen_alpha, gen_scale_lds
+from src.gen_trig_fun import gen_alpha #gen_scale_lds
+from src.trig_functions import _normal, min_max_normalization
 from src.projective_functions import *
 
 class Sr(AbstractLayer, AbstractSSS):
@@ -34,14 +35,41 @@ class Sr(AbstractLayer, AbstractSSS):
 
         AbstractSSS.__init__(_s, sh, id)
 
+        id_s = id.split('_')
+
         if sh.id in ['0', '1', '2', '5', '6']:
-            _s.dyn_gen(gi=sh.gi.srs_gi['0'])  # creates REPEATED srs. C-tied sr are dyn_gened in main
+            _s.dyn_gen(gi=sh.gi.srs_gi['0'])
         elif sh.id in ['7']:
             gi = deepcopy(sh.gi.srs_gi['0'])
             l = random.choice(sh.ls)
             gi['ld'] = l.gi['ld']
             gi['ld_offset'] = [0, 0]
             _s.dyn_gen(gi=gi)  # creates REPEATED srs. C-tied sr are dyn_gened in main
+        elif sh.id in ['8']:
+            '''Special case. xy done in gi'''
+            # if id_s[2] == '4':
+            _s.gi = deepcopy(sh.gi.srs_gi[id_s[2]])
+
+            '''This should be generic though:'''
+            ld_offset = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
+                         np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
+
+            _s.gi['ld'] = [_s.gi['ld'][0] + ld_offset[0], _s.gi['ld'][1] + ld_offset[1]]
+
+            _s.gi['v_linear'] = [np.random.normal(loc=_s.gi['v_linear_loc'][0], scale=_s.gi['v_linear_scale'][0]),
+                                 np.random.normal(loc=_s.gi['v_linear_loc'][1], scale=_s.gi['v_linear_scale'][1])]
+
+            _s.xy = gen_xy_linear(_s.gi)
+            # _s.scale_vector = np.ones(shape=(_s.gi['frames_tot'],))
+            # X = np.array(shape=(len(_s.xy,)))  # zeros causes warning
+            X = np.arange(0, len(_s.xy))
+            sv0 = _normal(X=X, mean=len(X) // 2, var=len(X) // 4, y_range=[0.01, 1])
+            # sv1 = np.ones(shape=(len(_s.xy,)))
+            # sv = 0.1 * sv0 + 0.9 * sv1
+            _s.scale_vector = min_max_normalization(sv0, y_range=[0.5, 0.6])
+
+            _s.rotation_v = np.zeros(shape=(_s.gi['frames_tot'],))
+            _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_y_range'])
 
     def dyn_gen(_s, i=None, gi=None):
 

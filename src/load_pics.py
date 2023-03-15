@@ -75,11 +75,14 @@ def load_pics():
                     '''Two cases. srs that are normal and srs that are associated to c'''
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png
                     pic = np.flipud(pic)
-                    if folder_name0 != '3':
-                        for i in range(P.NUM_SRS_SH):
+                    if folder_name0 == '3':
+                        for i in range(P.NUM_SRS_C):
+                            pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
+                    elif folder_name0 == '8':
+                        for i in range(P.NUM_SRS_8):
                             pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
                     else:
-                        for i in range(P.NUM_SRS_C):
+                        for i in range(P.NUM_SRS_SH):
                             pics['sh'][folder_name0][folder_name1][file_name[:-4] + '_' + str(i)] = pic
                 elif folder_name1 == 'rs':
                     pic = imread(PATH + folder_name0 + '/' + folder_name1 + '/' + file_name)  # without .png

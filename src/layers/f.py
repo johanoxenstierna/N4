@@ -6,7 +6,7 @@ from copy import deepcopy
 import P as P
 from src.gen_extent_triangles import *
 from src.layers.abstract import AbstractLayer, AbstractSSS
-from src.gen_trig_fun import gen_alpha, gen_scale_lds
+from src.gen_trig_fun import gen_alpha  #, gen_scale_lds
 
 class F(AbstractLayer, AbstractSSS):
 

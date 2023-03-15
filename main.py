@@ -236,10 +236,11 @@ def animate(i):
                         sh.dyn_gen_child_sr(i, sr)
 
                     prints += "  adding sr"
-                    try:
-                        exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
-                    except:
-                        adf = 5
+                    # try:
+                    exceeds_frame_max, how_many = sr.check_frame_max(i, sr.gi['frames_tot'])
+                    # except:
+                    #     adf = 5
+
                     if exceeds_frame_max == True:
                         sr.gi['frames_tot'] = how_many
                     sr.drawn = 1  # this variable can serve multiple purposes (see below, and in set_clock)
