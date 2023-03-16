@@ -99,7 +99,7 @@ class GenLayers:
                 num_sps = None
                 if sh_id == '3':
                     num_sps = P.NUM_SPS_C_TOT
-                elif sh_id == '2':  # PER PIC
+                elif sh_id in ['2', '4']:  # PER PIC
                     num_sps = len(sh.ls) * P.NUM_SPS_L_TOT
                 elif sh_id == '7':
                     num_sps = P.NUM_SPS_7_TOT

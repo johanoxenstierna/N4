@@ -39,7 +39,7 @@ class L(AbstractLayer, AbstractSSS):
         id from gen_layers used
         LRDU
         """
-        if id[0] == '2':
+        if id[0] in ['2', '4']:
             if id[4] == '0':  # OBS id[4]!!! not id[0]
                 ld = _s.gi['ld0']
                 init_frames = _s.gi['lif0']
@@ -55,7 +55,6 @@ class L(AbstractLayer, AbstractSSS):
                 init_frames = _s.gi['lif2']
                 frames_tot = _s.gi['frames_tot2']
                 alpha = gen_alpha(_s, frames_tot=frames_tot, y_range=[0, 0.7])
-
             elif id[4] == '3':
                 ld = _s.gi['ld3']
                 init_frames = _s.gi['lif3']

@@ -26,7 +26,8 @@ class Sh_7_info(ShInfoAbstract):
         _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs)}
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
 
-        init_frames_sp0 = [20]
+        # init_frames_sp0 = [20]
+        init_frames_sp0 = [pulse[0]]
         # init_frames_sp1 = [40]  # 150 is init_frame_max_dist
         # init_frames_sp2 = [60]  # 150 is init_frame_max_dist
         # init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
@@ -44,7 +45,7 @@ class Sh_7_info(ShInfoAbstract):
             # '3': _s.sps_gi3
         }
 
-        _s.zorder = 300
+        _s.zorder = 110
 
     def gen_ls_gi(_s, pulse):
         """
@@ -103,18 +104,18 @@ class Sh_7_info(ShInfoAbstract):
             'frames_tot': 300,
             'ld': None,  # finish_info
             'ld_offset_loc': [0, 0],
-            'ld_offset_scale': [0, 0],
-            'scale_ss': [0.01, 0.5],  # assumed big pics
+            'ld_offset_scale': [2, 1],
+            'scale_ss': [0.01, 0.7],  # assumed big pics
             # 'frame_ss': _s.frame_ss,
             'v_loc': 25,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
             'theta_loc': -0.3,  # -1.6 is straight up
-            'theta_scale': 0.1,
+            'theta_scale': 0.05,
             'rad_rot': random.uniform(-0.1, -0.3),
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.6],
+            'alpha_y_range': [0, 0.3],
             'zorder': 200,
         }
 

@@ -197,7 +197,8 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
         _s.gi['sp_len'] = max(3, _s.gi['sp_len'])
 
-        _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 5, _s.sh.gi.zorder + 5)
+        if _s.id[0] != '3':  # 3 zorders hardcoded
+            _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 5, _s.sh.gi.zorder + 5)
 
         adf = 5
 

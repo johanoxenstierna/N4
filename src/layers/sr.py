@@ -37,16 +37,23 @@ class Sr(AbstractLayer, AbstractSSS):
 
         id_s = id.split('_')
 
-        if sh.id in ['0', '1', '2', '5', '6']:
+        if sh.id in ['0', '1', '5', '6', '5', '7']:
+            '''All special inits are done in finish_info'''
             _s.dyn_gen(gi=sh.gi.srs_gi['0'])
-        elif sh.id in ['7']:
-            gi = deepcopy(sh.gi.srs_gi['0'])
-            l = random.choice(sh.ls)
-            gi['ld'] = l.gi['ld']
-            gi['ld_offset'] = [0, 0]
-            _s.dyn_gen(gi=gi)  # creates REPEATED srs. C-tied sr are dyn_gened in main
+        elif sh.id in ['2', '4']:  # sr tied to l
+
+            gi = random.choice(list(sh.gi.srs_gi.values()))
+
+            _s.dyn_gen(gi=gi)
+
+            # gi = deepcopy(sh.gi.srs_gi['0'])
+            # l = random.choice(sh.ls)
+            # gi['ld'] = l.gi['ld']
+            # gi['ld_offset'] = [np.random.normal(loc=gi['ld_offset_loc'][0], scale=gi['ld_offset_scale'][0]),
+            #              np.random.normal(loc=gi['ld_offset_loc'][1], scale=gi['ld_offset_scale'][1])]
+            # _s.dyn_gen(gi=gi)  # creates REPEATED srs. C-tied sr are dyn_gened in main
         elif sh.id in ['8']:
-            '''Special case. xy done in gi'''
+            '''NO DYN GEN. Special case. xy done in gi. Its linear motion. '''
             # if id_s[2] == '4':
             _s.gi = deepcopy(sh.gi.srs_gi[id_s[2]])
 
@@ -132,25 +139,31 @@ class Sr(AbstractLayer, AbstractSSS):
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
-        # OBS SUPER IMPORTANT:
+        # OBS SUPER IMPORTANT: TODO: MOVE THIS TO GI
         if _s.id[0] == '3':
             c_id = _s.gi['c_id']  # DIRECT MATCHING!
             if c_id not in _s.sh.cs.keys():
                 raise Exception("trying to dyn_gen an sr which is tied to a c that does not exist. "
                                 "c_id: " + c_id + " sr_id: " + _s.id + ". Check that pic is in there.")
 
-            '''This could be written to gi of sr'''
+            '''This could be written to gi of sr, but that would require that xy is gened for c first'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
-        elif _s.id[0] in ['2']:
-            l_id = _s.gi['l_id']  # DIRECT MATCHING!
-            if l_id >= len(_s.sh.ls):
-                raise Exception("trying to dyn_gen an sr which is tied to a l that does not exist. "
-                                "l_id: " + l_id + " sr_id: " + _s.id + ". Check that pic is in there.")
-            _s.gi['ld'] = [_s.sh.ls[l_id].gi['ld'][0], _s.sh.ls[l_id].gi['ld'][1]]
-        # elif _s.id[0] in ['7']: same as for 1 instead
-        #     adf = 5
+        # elif _s.id[0] in ['2', '4']:
+        #
+        #     '''THIS IS MOVED TO GI'''
+        #     l_id = _s.gi['l_id']  # DIRECT MATCHING!
+        #     if l_id >= len(_s.sh.ls):
+        #         raise Exception("trying to dyn_gen an sr which is tied to a l that does not exist. "
+        #                         "l_id: " + l_id + " sr_id: " + _s.id + ". Check that pic is in there.")
+        #     _s.gi['ld'] = [_s.sh.ls[l_id].gi['ld'][0], _s.sh.ls[l_id].gi['ld'][1]]
+        elif _s.id[0] in ['7']: #same as for 1 instead
+            # gi = deepcopy(sh.gi.srs_gi['0'])
+            l = random.choice(_s.sh.ls)
+            _s.gi['ld'] = l.gi['ld']
+            _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
+                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
-        if _s.id[0] in ['0', '1', '3', '4', '5']:
+        if _s.id[0] in ['0', '1', '4', '5']:
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
         elif _s.id[0] in ['6']:
             pass

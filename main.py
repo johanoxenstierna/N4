@@ -78,12 +78,12 @@ def animate(i):
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
 
-        if i == 5:
+        if i == 60:
             '''Here the all stationary objects are added.'''
 
             '''ls'''
             # for l_id, l in sh.ls.items():
-            #     aaa = 5
+            aaa = 5
 
         if P.A_FS and 'fs' in sh.gi.child_names:  # 0 and 5
             if i in sh.gi.fs_gi['init_frames']:
@@ -232,7 +232,7 @@ def animate(i):
 
                 if sr != None:
 
-                    if sr.id[0] in ['3']:  # dyn_gen needed!
+                    if sr.id[0] in ['3']:  # dyn_gen needed! COULD BE MOVED TO sr.py
                         sh.dyn_gen_child_sr(i, sr)
 
                     prints += "  adding sr"

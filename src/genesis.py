@@ -10,7 +10,7 @@ def init_infos():
     '''Creates instance of each info and stores in dict'''
     infos = {}
 
-    top_point0 = [210, 70]
+    top_point0 = [210, 80]
     top_point1 = [210, 90]  # aft expl
     top_point2 = [210, 90]  # for 3 rocks
 
@@ -18,24 +18,27 @@ def init_infos():
     # pulse_sr1 = [110, 150]  # 1 (sr)
     pulse_0 = random.sample(range(50, 300), 15)  # 0 after initial srs
     # pulse_0 = [50, 250]
-    pulse_2 = [110, 180, 200, 231]  # THIS IS FOR LS, 1 PER L
+    pulse_2 = [110, 180, 200, 231]  # THIS IS FOR LS, 1 PER L OBS MAKE SURE THEYRE NOT TOO CLOSE TO EACH OTHER FOR SRS
     # pulse_c3 = random.sample(range(150, 450), 30)  # rs. init_frames use pulse[0] here
-    # pulse_c3 = [10, 30, 100]  # expl
-    pulse_c3 = random.sample(range(100, 200), 10)  # post expl
+    # pulse_3 = [10, 30, 100]  # expl
+    pulse_3 = random.sample(range(100, 200), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
+
+    # pulse_4 = [110, 180, 200, 231]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
+    pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     pulse_5 = random.sample(range(200, 500), 20)  # post expl
     # pulse_5 = random.sample(range(5, 200), 10)  # post expl
     # pulse_5 = [50, 100, 200]  # expl
 
-    pulse_6 = [200, 205, 250]
     # pulse_6 = [5, 10, 50]
+    pulse_6 = [200, 205, 250]
 
     # pulse_7 = [10, 40, 80]
-    pulse_7 = [110, 140, 200, 280]
+    pulse_7 = [150, 180, 200, 280]
     pulse_8 = None  # this one is specially set inside 8_info
 
     pulse_0.sort()
     pulse_sr1.sort()
-    pulse_c3.sort()
+    pulse_3.sort()
     pulse_5.sort()
     pulse_6.sort()
     pulse_7.sort()
@@ -53,10 +56,12 @@ def init_infos():
         infos[_2.id] = _2
 
     if '3' in P.SHS_TO_SHOW and P.A_CS:  # ROCKS
-        _3 = _3_info.Sh_3_info(pulse_c3, top_point2)
+        _3 = _3_info.Sh_3_info(pulse_3, top_point2)
         infos[_3.id] = _3
 
-    # 4: # DOWN RIGHT
+    if '4' in P.SHS_TO_SHOW:  # DOWN LEFT
+        _4 = _4_info.Sh_4_info(pulse_4, top_point0)
+        infos[_4.id] = _4  # DOWN RIGHT
 
     # 5: 0 but after expl
     if '5' in P.SHS_TO_SHOW:  # POST EXPL

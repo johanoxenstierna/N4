@@ -59,26 +59,40 @@ class Sh_2_info(ShInfoAbstract):
                 '3': _s.sps_gi3
             }
             # sps_init_frames.sort()
-            _s.sps_gi_init_frames = init_frames_sp0 + init_frames_sp1 + init_frames_sp2 + init_frames_sp3
+            # _s.sps_gi_init_frames = init_frames_sp0 + init_frames_sp1 + init_frames_sp2 + init_frames_sp3
 
-            if P.A_SRS:
+            lol = [val['init_frames'] for key, val in _s.sps_gi.items()]
+            lol = [x for sublist in lol for x in sublist]
+            lol.sort(reverse=False)
+            _s.sps_gi_init_frames = lol
 
-                _s.srs_gi0 = _s.gen_srs_gi0([pulse[0] - 50, pulse[0] - 40, pulse[0] - 30])
-                _s.srs_gi1 = _s.gen_srs_gi1([pulse[1] - 50, pulse[1] - 40, pulse[1] - 30])
+            '''
+            flat_list = []
+            for sublist in lol:
+                for item in sublist:
+                    flat_list.append(item)
+                    
+             for sublist in lol: for item in sublist: yield item
+            '''
 
-                _s.srs_gi = {  # these numbers correspond to c!
-                    '0': _s.srs_gi0,
-                    '1': _s.srs_gi1  # IF A C AND CORR SR EXISTS, THEN SO MUST THIS
-                    # '2': _s.srs_gi2,
-                    # '3': _s.srs_gi3,
-                    # '4': _s.srs_gi4,
-                    # '5': _s.srs_gi5,
-                    # '6': _s.srs_gi6
-                }
+        if P.A_SRS:
+            '''HAVE TO STAY SEPARATED BCS TIED TO LS INIT FRAMES AND LD. 
+            SOME REDUNDANCY BCS EVERYTHING ELSE IS SAME BUT WHATEVER'''
+            _s.srs_gi0 = _s.gen_srs_gi0()
+            _s.srs_gi1 = _s.gen_srs_gi1()
+            _s.srs_gi2 = _s.gen_srs_gi2()
+            _s.srs_gi3 = _s.gen_srs_gi3()
 
-                init_frames_srs = _s.srs_gi0['init_frames']
-                _s.srs_gi_init_frames = init_frames_srs
-                _s.srs_gi_init_frames.sort()
+            _s.srs_gi = {  # these numbers correspond to c!
+                '0': _s.srs_gi0,
+                '1': _s.srs_gi1,
+                '2': _s.srs_gi2,
+                '3': _s.srs_gi3
+            }
+
+            _s.srs_gi_init_frames = [val['init_frames'] for key, val in _s.srs_gi.items()]
+            _s.srs_gi_init_frames = list(np.asarray(_s.srs_gi_init_frames).flatten())
+
 
         if P.A_RS:
             # rs_init_frames = random.sample(range(pulse[0], pulse[-1]), min(50, len(pulse)))
@@ -160,7 +174,7 @@ class Sh_2_info(ShInfoAbstract):
             'rgb_start': [0.4, 0.9],  #
             'rgb_theta_diff_c': 1,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] + 3, _s.ld[1] - 5],
+            'ld': [_s.ld[0] + 3, _s.ld[1] - 5],  # NOT TIED TO L BCS TUNING NEEDED ANYWAY
             'ld_offset_loc': [0, 2],
             'ld_offset_scale': [0, 1],
             'R_ss': [0.9, 1], 'R_scale': 0.2,
@@ -172,16 +186,19 @@ class Sh_2_info(ShInfoAbstract):
 
         return sps_gi
 
-    def gen_srs_gi0(_s, init_frames_sr0):
+    def gen_srs_gi0(_s):
+        """ARE PICS SELECTED RANDOMLY"""
 
-        # in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi0, init_frames=init_frames_sr0)
-
-        # assert (in_f[-1] < P.FRAMES_STOP)
+        init_frames = []
+        for i in range(-10, 10, 3):  # 5 total for each ls
+            init_frame = _s.ls_gi['lif0'][0] + i
+            init_frames.append(init_frame)
 
         srs_gi = {
-            'l_id': 0,  # a position in a list
-            'init_frames': init_frames_sr0,
-            'ld_offset_loc': [-5, 5],  # OBS there is no ss, only start!
+            # 'l_id': 0,  # a position in a list
+            'init_frames': init_frames,
+            'ld': _s.ls_gi['ld0'],
+            'ld_offset_loc': [0, 0],  # THIS IS WRT ld0!
             'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
             'frames_tot': 200,
             'v_loc': 10,  # rc=2
@@ -193,7 +210,7 @@ class Sh_2_info(ShInfoAbstract):
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.3],
+            'alpha_y_range': [0.01, 0.3],
             'zorder': _s.zorder + 10
         }
 
@@ -256,16 +273,22 @@ class Sh_2_info(ShInfoAbstract):
 
         return sps_gi
 
-    def gen_srs_gi1(_s, init_frames_sr1):
+    def gen_srs_gi1(_s):
 
         # in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi0, init_frames=init_frames_sr0)
 
         # assert (in_f[-1] < P.FRAMES_STOP)
 
+        init_frames = []
+        for i in range(-10, 10, 3):  # 5 total for each ls
+            init_frame = _s.ls_gi['lif1'][0] + i
+            init_frames.append(init_frame)
+
         srs_gi = {
-            'l_id': 1,  # a position in a list
-            'init_frames': init_frames_sr1,
-            'ld_offset_loc': [-5, 5],  # OBS there is no ss, only start!
+            # 'l_id': 1,  # a position in a list
+            'init_frames': init_frames,
+            'ld': _s.ls_gi['ld1'],
+            'ld_offset_loc': [0, 0],  # OBS there is no ss, only start!
             'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
             'frames_tot': 200,
             'v_loc': 10,  # rc=2
@@ -321,6 +344,41 @@ class Sh_2_info(ShInfoAbstract):
 
         return sps_gi
 
+    def gen_srs_gi2(_s):
+
+        # in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi0, init_frames=init_frames_sr0)
+
+        # assert (in_f[-1] < P.FRAMES_STOP)
+
+        init_frames = []
+        for i in range(-10, 10, 3):  # 5 total for each ls
+            init_frame = _s.ls_gi['lif2'][0] + i
+            init_frames.append(init_frame)
+
+        srs_gi = {
+            # 'l_id': 2,  # a position in a list
+            'init_frames': init_frames,
+            'ld': _s.ls_gi['ld2'],
+            'ld_offset_loc': [0, 0],  # OBS there is no ss, only start!
+            'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
+            'frames_tot': 200,
+            'v_loc': 10,  # rc=2
+            'v_scale': 2,
+            'scale_ss': [0.01, 2],
+            'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
+            'theta_scale': 0.0,
+            'rad_rot': -0.3,
+            'r_f_d_loc': 0.05,
+            'r_f_d_scale': 0.00,
+            'up_down': 'up',
+            'alpha_y_range': [0, 0.3],
+            'zorder': _s.zorder + 10
+        }
+
+        assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
+
+        return srs_gi
+
     def gen_sps_gi3(_s, init_frames_sp):
 
         """
@@ -357,6 +415,41 @@ class Sh_2_info(ShInfoAbstract):
         # 160, 77, 36  -> 76, 42, 28
 
         return sps_gi
+
+    def gen_srs_gi3(_s):
+
+        # in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi0, init_frames=init_frames_sr0)
+
+        # assert (in_f[-1] < P.FRAMES_STOP)
+
+        init_frames = []
+        for i in range(-10, 10, 3):  # 5 total for each ls
+            init_frame = _s.ls_gi['lif3'][0] + i
+            init_frames.append(init_frame)
+
+        srs_gi = {
+            # 'l_id': 3,  # a position in a list
+            'init_frames': init_frames,
+            'ld': _s.ls_gi['ld3'],
+            'ld_offset_loc': [0, 0],  # OBS there is no ss, only start!
+            'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
+            'frames_tot': 200,
+            'v_loc': 10,  # rc=2
+            'v_scale': 2,
+            'scale_ss': [0.01, 2],
+            'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
+            'theta_scale': 0.0,
+            'rad_rot': -0.3,
+            'r_f_d_loc': 0.05,
+            'r_f_d_scale': 0.00,
+            'up_down': 'up',
+            'alpha_y_range': [0, 0.3],
+            'zorder': _s.zorder + 10
+        }
+
+        assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
+
+        return srs_gi
 
     def gen_rs_gi(_s, rs_init_frames, _type=None):
         rs_gi = {}

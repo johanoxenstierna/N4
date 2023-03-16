@@ -26,17 +26,18 @@ class Sh_3_info(ShInfoAbstract):
         _s.child_names = ['cs', 'srs', 'sps']  # both cks and cds
 
         if P.A_CS:  # THEY ALL HAVE INDIVIDUAL GI'S
-            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=30)
-            _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200)
-            _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 30, frames_tot1=200)
-            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200)
-            _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300)
-            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200)
-            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300)
-            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=200)
-            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200)
-            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200)
-            _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200)
+            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=100, z_d=100)
+            _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200, z_d=-20)  # OBS 100 is volc_d
+            _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 30, frames_tot1=200, z_d=10)
+            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=-10)
+            _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=-5)
+            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=10)
+            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=-10)
+            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=10)
+            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=10)
+            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=-10)
+            _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=-20)  # OBS 100 is volc_d
+            _s.cs_gi11 = _s.gen_cs_gi11(frames_tot=pulse[0] + 90, frames_tot1=300, z_d=-30)  # OBS 100 is volc_d
 
         if P.A_SRS:  # different gis here have nothing to do with pic, but rather with init frames
 
@@ -47,14 +48,20 @@ class Sh_3_info(ShInfoAbstract):
             AND WILL CRASH IF THERE IS NO CORRESPONDING C PIC'''
             init_frames = []
 
-            '''THEY USE CORRESPONDING CS init_frames'''
+            '''THEY USE CORRESPONDING CS init_frames
+            THESE COULD HAVE BEEN MERGED INTO A SINGLE GI BUT WHATEVER
+            '''
             _s.srs_gi0, init_frames = _s.gen_srs_gi0(init_frames)  # THIS MEANS THERE MUST BE A '3_c_0'
             _s.srs_gi1, init_frames = _s.gen_srs_gi1(init_frames)
             _s.srs_gi2, init_frames = _s.gen_srs_gi2(init_frames)
             _s.srs_gi3, init_frames = _s.gen_srs_gi3(init_frames)
             _s.srs_gi4, init_frames = _s.gen_srs_gi4(init_frames)
-            _s.srs_gi5, init_frames = _s.gen_srs_gi5(init_frames)  # perhaps redundant
-            _s.srs_gi6, init_frames = _s.gen_srs_gi6(init_frames)  # perhaps redundant
+            _s.srs_gi5, init_frames = _s.gen_srs_gi5(init_frames)  # perhaps redundant (???)
+            _s.srs_gi6, init_frames = _s.gen_srs_gi6(init_frames)
+            _s.srs_gi7, init_frames = _s.gen_srs_gi7(init_frames)
+            _s.srs_gi8, init_frames = _s.gen_srs_gi8(init_frames)
+            _s.srs_gi9, init_frames = _s.gen_srs_gi9(init_frames)
+            _s.srs_gi10, init_frames = _s.gen_srs_gi10(init_frames)
 
             _s.srs_gi = {  # these numbers correspond to c!
                 '0': _s.srs_gi0,
@@ -63,7 +70,11 @@ class Sh_3_info(ShInfoAbstract):
                 '3': _s.srs_gi3,
                 '4': _s.srs_gi4,
                 '5': _s.srs_gi5,
-                '6': _s.srs_gi6
+                '6': _s.srs_gi6,
+                '7': _s.srs_gi7,
+                '8': _s.srs_gi8,
+                '9': _s.srs_gi9,
+                '10': _s.srs_gi10
             }
             _s.srs_gi_init_frames = init_frames
             _s.srs_gi_init_frames.sort()
@@ -82,7 +93,11 @@ class Sh_3_info(ShInfoAbstract):
             _s.sps_gi3, init_frames = _s.gen_sps_gi3(init_frames)  # THIS MEANS THERE MUST BE A '3_sr_3'
             _s.sps_gi4, init_frames = _s.gen_sps_gi4(init_frames)  # THIS MEANS THERE MUST BE A '3_sr_3'
             _s.sps_gi5, init_frames = _s.gen_sps_gi5(init_frames)  # THIS MEANS THERE MUST BE A '3_sr_3'
-            _s.sps_gi6, init_frames = _s.gen_sps_gi6(init_frames)  # THIS MEANS THERE MUST BE A '3_sr_3'
+            _s.sps_gi6, init_frames = _s.gen_sps_gi6(init_frames)
+            _s.sps_gi7, init_frames = _s.gen_sps_gi7(init_frames)
+            _s.sps_gi8, init_frames = _s.gen_sps_gi8(init_frames)
+            _s.sps_gi9, init_frames = _s.gen_sps_gi9(init_frames)
+            _s.sps_gi10, init_frames = _s.gen_sps_gi10(init_frames)
 
             _s.sps_gi_init_frames = init_frames
             _s.sps_gi_init_frames.sort()
@@ -94,7 +109,11 @@ class Sh_3_info(ShInfoAbstract):
                 '3': _s.sps_gi3,  # IF A C AND CORR SR EXISTS, THEN SO MUST THIS
                 '4': _s.sps_gi4,  # IF A C AND CORR SR EXISTS, THEN SO MUST THIS
                 '5': _s.sps_gi5,  # IF A C AND CORR SR EXISTS, THEN SO MUST THIS
-                '6': _s.sps_gi6
+                '6': _s.sps_gi6,
+                '7': _s.sps_gi7,
+                '8': _s.sps_gi8,
+                '9': _s.sps_gi9,
+                '10': _s.sps_gi10
             }
 
             '''Apply to all'''
@@ -145,9 +164,9 @@ class Sh_3_info(ShInfoAbstract):
 
         return in_f, init_frames, frames_tot
 
-    def gen_cs_gi0(_s, frames_tot, frames_tot1):
+    def gen_cs_gi0(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 5, _s.ld[1] + 5]
+        ld = [_s.ld[0] - 7, _s.ld[1] - 10]
 
         if P.DEBUG:  # don't let coloring fool one, it does overwrite
             frames_tot = 10
@@ -163,14 +182,14 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 35,
-            'theta': 2,
-            'r_f_d': 0.2,
+            'v': 30,
+            'theta': 1.5,
+            'r_f_d': 0.5,  # more = more up (for some weird reason)
             'extra_offset_x': 0,
             'extra_offset_y': 0,
             'up_down': 'up',
             'rad_rot': -1,
-            'zorder': _s.zorder + 10
+            'zorder': _s.zorder + z_d
         }
 
         # gi['init_frame'] = 2
@@ -267,14 +286,15 @@ class Sh_3_info(ShInfoAbstract):
             'R_ss': [0.5, 0.8], 'R_scale': 0.2,
             'G_ss': [0.35, 0.2], 'G_scale': 0.1,
             'B_ss': [0.15, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
-            'up_down': 'up'
+            'up_down': 'up',
+            'zorder': _s.zorder
         }
 
         return sps_gi, init_frames
 
-    def gen_cs_gi1(_s, frames_tot, frames_tot1):
+    def gen_cs_gi1(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 60, _s.ld[1] + 40]
+        ld = [_s.ld[0] - 58, _s.ld[1] + 40]
 
         if P.DEBUG:
             frames_tot = 10
@@ -291,13 +311,13 @@ class Sh_3_info(ShInfoAbstract):
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
             'v': 40,
-            'theta': -1.7,
+            'theta': -1.4,
             'r_f_d': 0.1,
-            'extra_offset_x': 0,
+            'extra_offset_x': -1,
             'extra_offset_y': 5,
             'up_down': 'up',
-            'rad_rot': 1.5,
-            'zorder': _s.zorder + 10
+            'rad_rot': 1.,
+            'zorder': _s.zorder + z_d
         }
 
         # gi['init_frame'] = 2
@@ -384,12 +404,13 @@ class Sh_3_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0,
             'G_ss': [0.5, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
-            'up_down': 'up'
+            'up_down': 'up',
+            'zorder': _s.zorder
         }
 
         return sps_gi, init_frames
 
-    def gen_cs_gi2(_s, frames_tot, frames_tot1):
+    def gen_cs_gi2(_s, frames_tot, frames_tot1, z_d):
 
         ld = [_s.ld[0] - 45, _s.ld[1] + 25]
 
@@ -407,14 +428,14 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 40,
-            'theta': -1.7,
+            'v': 30,
+            'theta': 2,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
-            'extra_offset_y': 5,
+            'extra_offset_y': 0,
             'up_down': 'up',
-            'rad_rot': -1.5,
-            'zorder': _s.zorder + 10
+            'rad_rot': -2.5,
+            'zorder': _s.zorder + z_d
         }
 
         # gi['init_frame'] = 2
@@ -500,12 +521,13 @@ class Sh_3_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0,
             'G_ss': [0.5, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
-            'up_down': 'up'
+            'up_down': 'up',
+            'zorder': _s.zorder
         }
 
         return sps_gi, init_frames
 
-    def gen_cs_gi3(_s, frames_tot, frames_tot1):
+    def gen_cs_gi3(_s, frames_tot, frames_tot1, z_d):
 
         ld = [_s.ld[0] - 28, _s.ld[1] + 12]
 
@@ -522,14 +544,14 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 40,
+            'v': 25,
             'theta': 2,
             'r_f_d': 0.1,
-            'extra_offset_x': 0,
-            'extra_offset_y': 3,
+            'extra_offset_x': -2,
+            'extra_offset_y': -2,
             'up_down': 'up',
             'rad_rot': -1.5,
-            'zorder': 90
+            'zorder': _s.zorder + z_d
         }
 
         return gi
@@ -585,12 +607,13 @@ class Sh_3_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0,
             'G_ss': [0.5, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
-            'up_down': 'up'
+            'up_down': 'up',
+            'zorder': _s.zorder
         }
 
         return sps_gi, init_frames
 
-    def gen_cs_gi4(_s, frames_tot, frames_tot1):
+    def gen_cs_gi4(_s, frames_tot, frames_tot1, z_d):
 
         ld = [_s.ld[0] - 22, _s.ld[1] + 7]
 
@@ -607,14 +630,14 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 40,
+            'v': 25,
             'theta': 2,
             'r_f_d': 0.1,
-            'extra_offset_x': 0,
-            'extra_offset_y': 3,
+            'extra_offset_x': -3,
+            'extra_offset_y': -2,
             'up_down': 'up',
             'rad_rot': -1.8,
-            'zorder': 105
+            'zorder': _s.zorder + z_d
         }
 
         return gi
@@ -670,14 +693,15 @@ class Sh_3_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0,
             'G_ss': [0.5, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
-            'up_down': 'up'
+            'up_down': 'up',
+            'zorder': _s.zorder
         }
 
         return sps_gi, init_frames
 
-    def gen_cs_gi5(_s, frames_tot, frames_tot1):
+    def gen_cs_gi5(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 15, _s.ld[1] + 0]
+        ld = [_s.ld[0] - 13, _s.ld[1] + 0]
 
         if P.DEBUG:
             frames_tot = 10
@@ -692,14 +716,14 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 40,
-            'theta': 1.5,
+            'v': 25,
+            'theta': -1.5,
             'r_f_d': 0.1,
-            'extra_offset_x': 2,
-            'extra_offset_y': 3,
+            'extra_offset_x': 0,
+            'extra_offset_y': 0,
             'up_down': 'up',
             'rad_rot': -1.5,
-            'zorder': 120
+            'zorder': _s.zorder + z_d
         }
 
         return gi
@@ -764,14 +788,15 @@ class Sh_3_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0,
             'G_ss': [0.5, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
-            'up_down': 'up'
+            'up_down': 'up',
+            'zorder': _s.zorder
         }
 
         return sps_gi, init_frames
 
-    def gen_cs_gi6(_s, frames_tot, frames_tot1):
+    def gen_cs_gi6(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 10, _s.ld[1] - 7]
+        ld = [_s.ld[0] - 10, _s.ld[1] - 2]
 
         if P.DEBUG:
             frames_tot = 10
@@ -786,14 +811,14 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 30,
+            'v': 25,
             'theta': -1.2,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
             'extra_offset_y': 2,
             'up_down': 'up',
             'rad_rot': -0.9,
-            'zorder': _s.zorder + 10
+            'zorder': _s.zorder + z_d
         }
 
         return gi
@@ -849,12 +874,13 @@ class Sh_3_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0,
             'G_ss': [0.5, 0.01], 'G_scale': 0.1,
             'B_ss': [0.01, 0.01], 'B_scale': 0,  # good to prevent neg numbers here
-            'up_down': 'up'
+            'up_down': 'up',
+            'zorder': _s.zorder
         }
 
         return sps_gi, init_frames
 
-    def gen_cs_gi7(_s, frames_tot, frames_tot1):
+    def gen_cs_gi7(_s, frames_tot, frames_tot1, z_d):
 
         ld = [_s.ld[0] - 30, _s.ld[1] + 10]
 
@@ -878,14 +904,73 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': -0.5,
-            'zorder': _s.zorder + 10
+            'zorder': _s.zorder + z_d
         }
 
         return gi
 
-    def gen_cs_gi8(_s, frames_tot, frames_tot1):
+    def gen_srs_gi7(_s, init_frames):
 
-        ld = [_s.ld[0] - 8, _s.ld[1] + 3]
+        in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi7, init_frames=init_frames)
+
+        srs_gi = {
+            'c_id': '3_c_7',
+            'init_frames': in_f,
+            'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
+            'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
+            'frames_tot': frames_tot,
+            'v_loc': 120,  # rc=2
+            'v_scale': 6,
+            'scale_ss': [0.01, 1],
+            'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
+            'theta_scale': 0.000,
+            'rad_rot': -2,
+            'r_f_d_loc': 0.5,
+            'r_f_d_scale': 0.05,
+            'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
+            'zorder': _s.cs_gi7['zorder']
+        }
+
+        return srs_gi, init_frames
+
+    def gen_sps_gi7(_s, init_frames):
+
+        """
+        """
+
+        index = int(len(_s.srs_gi7['init_frames']) * 0.8)  # 0.8 is towards the end of sr init_frames
+        init_frame = _s.srs_gi7['init_frames'][index]  # sr first frame
+        if init_frame in init_frames:
+            raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
+
+        init_frames.append(init_frame)
+
+        sps_gi = {
+            'init_frames': [init_frame],
+            'gi_id': '7',
+            'c_id': '3_c_7',
+            'frames_tot': 200,
+            'init_frame_max_dist': 10,  # it is called but 0 so no diff
+            'v_loc': 5, 'v_scale': 10,
+            'theta_loc': -0.7, 'theta_scale': 0.3,
+            'r_f_d_loc': 0.9, 'r_f_d_scale': 0.1,
+            'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
+            'ld_offset_loc': [5, 1],  # this is wrt to ld, which is toward end of c path
+            'ld_offset_scale': [1, 1],
+            'R_ss': [0.5, 0.8], 'R_scale': 0.2,
+            'G_ss': [0.35, 0.2], 'G_scale': 0.1,
+            'B_ss': [0.15, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+            'up_down': 'up',
+            'zorder': _s.cs_gi7['zorder']
+        }
+
+        return sps_gi, init_frames
+
+    def gen_cs_gi8(_s, frames_tot, frames_tot1, z_d):
+
+        ld = [_s.ld[0] - 10, _s.ld[1] + 3]
 
         if P.DEBUG:
             frames_tot = 10
@@ -902,19 +987,78 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [1, 1],
             'v': 30,
             'theta': 1.6,
-            'r_f_d': 0.4,
+            'r_f_d': 0.7,
             'extra_offset_x': 0,
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': -0.5,
-            'zorder': _s.zorder + 10
+            'zorder': _s.zorder + z_d
         }
 
         return gi
 
-    def gen_cs_gi9(_s, frames_tot, frames_tot1):
+    def gen_srs_gi8(_s, init_frames):
 
-        ld = [_s.ld[0] + 0, _s.ld[1] + 10]
+        in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi8, init_frames=init_frames)
+
+        srs_gi = {
+            'c_id': '3_c_8',
+            'init_frames': in_f,
+            'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
+            'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
+            'frames_tot': frames_tot,
+            'v_loc': 120,  # rc=2
+            'v_scale': 6,
+            'scale_ss': [0.01, 1],
+            'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
+            'theta_scale': 0.000,
+            'rad_rot': -2,
+            'r_f_d_loc': 0.5,
+            'r_f_d_scale': 0.05,
+            'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
+            'zorder': _s.cs_gi8['zorder']
+        }
+
+        return srs_gi, init_frames
+
+    def gen_sps_gi8(_s, init_frames):
+
+        """
+        """
+
+        index = int(len(_s.srs_gi8['init_frames']) * 0.8)  # 0.8 is towards the end of sr init_frames
+        init_frame = _s.srs_gi8['init_frames'][index]  # sr first frame
+        if init_frame in init_frames:
+            raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
+
+        init_frames.append(init_frame)
+
+        sps_gi = {
+            'init_frames': [init_frame],
+            'gi_id': '8',
+            'c_id': '3_c_8',
+            'frames_tot': 200,
+            'init_frame_max_dist': 10,  # it is called but 0 so no diff
+            'v_loc': 5, 'v_scale': 10,
+            'theta_loc': -0.7, 'theta_scale': 0.3,
+            'r_f_d_loc': 0.9, 'r_f_d_scale': 0.1,
+            'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
+            'ld_offset_loc': [5, 1],  # this is wrt to ld, which is toward end of c path
+            'ld_offset_scale': [1, 1],
+            'R_ss': [0.5, 0.8], 'R_scale': 0.2,
+            'G_ss': [0.35, 0.2], 'G_scale': 0.1,
+            'B_ss': [0.15, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+            'up_down': 'up',
+            'zorder': _s.cs_gi8['zorder']
+        }
+
+        return sps_gi, init_frames
+
+    def gen_cs_gi9(_s, frames_tot, frames_tot1, z_d):
+
+        ld = [_s.ld[0] - 6, _s.ld[1] + 10]
 
         if P.DEBUG:
             frames_tot = 10
@@ -936,13 +1080,72 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 3,
             'up_down': 'up',
             'rad_rot': 0.8,
-            'zorder': 90
+            'zorder': _s.zorder + z_d
         }
 
         return gi
 
-    def gen_cs_gi10(_s, frames_tot, frames_tot1):
-        ld = [_s.ld[0] + 15, _s.ld[1] + 6]
+    def gen_srs_gi9(_s, init_frames):
+
+        in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi9, init_frames=init_frames)
+
+        srs_gi = {
+            'c_id': '3_c_9',
+            'init_frames': in_f,
+            'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
+            'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
+            'frames_tot': frames_tot,
+            'v_loc': 120,  # rc=2
+            'v_scale': 6,
+            'scale_ss': [0.01, 1],
+            'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
+            'theta_scale': 0.000,
+            'rad_rot': -2,
+            'r_f_d_loc': 0.5,
+            'r_f_d_scale': 0.05,
+            'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
+            'zorder': _s.cs_gi9['zorder']
+        }
+
+        return srs_gi, init_frames
+
+    def gen_sps_gi9(_s, init_frames):
+
+        """
+        """
+
+        index = int(len(_s.srs_gi9['init_frames']) * 0.8)  # 0.8 is towards the end of sr init_frames
+        init_frame = _s.srs_gi9['init_frames'][index]  # sr first frame
+        if init_frame in init_frames:
+            raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
+
+        init_frames.append(init_frame)
+
+        sps_gi = {
+            'init_frames': [init_frame],
+            'gi_id': '9',
+            'c_id': '3_c_9',
+            'frames_tot': 200,
+            'init_frame_max_dist': 10,  # it is called but 0 so no diff
+            'v_loc': 5, 'v_scale': 10,
+            'theta_loc': 0.7, 'theta_scale': 0.3,
+            'r_f_d_loc': 0.9, 'r_f_d_scale': 0.1,
+            'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 3, 'sp_len_scale': 8,
+            'ld_offset_loc': [5, 1],  # this is wrt to ld, which is toward end of c path
+            'ld_offset_scale': [1, 1],
+            'R_ss': [0.5, 0.8], 'R_scale': 0.2,
+            'G_ss': [0.35, 0.2], 'G_scale': 0.1,
+            'B_ss': [0.15, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+            'up_down': 'up',
+            'zorder': _s.cs_gi9['zorder']
+        }
+
+        return sps_gi, init_frames
+
+    def gen_cs_gi10(_s, frames_tot, frames_tot1, z_d):
+        ld = [_s.ld[0] + 14, _s.ld[1] + 6]
 
         if P.DEBUG:
             frames_tot = 10
@@ -964,43 +1167,95 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': 0.5,
-            'zorder': 90
+            'zorder': _s.zorder + z_d
         }
 
         return gi
 
+    def gen_srs_gi10(_s, init_frames):
+
+        in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi10, init_frames=init_frames)
+
+        srs_gi = {
+            'c_id': '3_c_10',
+            'init_frames': in_f,
+            'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
+            'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
+            'frames_tot': frames_tot,
+            'v_loc': 120,  # rc=2
+            'v_scale': 6,
+            'scale_ss': [0.01, 1],
+            'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
+            'theta_scale': 0.000,
+            'rad_rot': -2,
+            'r_f_d_loc': 0.5,
+            'r_f_d_scale': 0.05,
+            'up_down': 'down',
+            'alpha_y_range': [0, 0.3],
+            'zorder': _s.cs_gi10['zorder']
+        }
+
+        return srs_gi, init_frames
+
     def gen_sps_gi10(_s, init_frames):
 
         """
-        lower left one
-        THESE ARE AVERAGES
-        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
-        climb up the projectile (before shifting)
         """
 
-        clf = _s.cs_gi10['init_frame'] + _s.cs_gi10['frames_tot'] + _s.cs_gi10['frames_tot1']  # c_last_frame
+        index = int(len(_s.srs_gi10['init_frames']) * 0.8)  # 0.8 is towards the end of sr init_frames
+        init_frame = _s.srs_gi10['init_frames'][index]  # sr first frame
+        if init_frame in init_frames:
+            raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
 
-        init_frames.append(clf)
+        init_frames.append(init_frame)
 
         sps_gi = {
-            '_type': 'sp_c',
-            'init_frames': [clf],
+            'init_frames': [init_frame],
             'gi_id': '10',
-            'frames_tot': 230,
-            'init_frame_max_dist': 5,  # random num of frames in future from init frame
-            'v_loc': 30, 'v_scale': 10,
-            'num_loc': P.NUM_SPS_SH, 'num_scale': P.NUM_SPS_SH / 2,
-            'theta_loc': -0.2, 'theta_scale': 0.01,
-            'r_f_d_loc': 0.5, 'r_f_d_scale': 0.05,
+            'c_id': '3_c_10',
+            'frames_tot': 200,
+            'init_frame_max_dist': 10,  # it is called but 0 so no diff
+            'v_loc': 5, 'v_scale': 10,
+            'theta_loc': -0.7, 'theta_scale': 0.3,
+            'r_f_d_loc': 0.9, 'r_f_d_scale': 0.1,
             'r_f_d_type': 'after',  # which part of r_f_d to use
-            'ld': _s.ld,
-            'ld_offset_loc': [20, 30],
-            'ld_offset_scale': [0, 0],
-            'R_ss': [0.8, 0.9], 'R_scale': 0.2,
-            'G_ss': [0.8, 0.2], 'G_scale': 0.1,
-            'B_ss': [0.7, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
-            'up_down': 'up'
-
+            'sp_len_loc': 3, 'sp_len_scale': 8,
+            'ld_offset_loc': [5, 1],  # this is wrt to ld, which is toward end of c path
+            'ld_offset_scale': [1, 1],
+            'R_ss': [0.5, 0.8], 'R_scale': 0.2,
+            'G_ss': [0.35, 0.2], 'G_scale': 0.1,
+            'B_ss': [0.15, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+            'up_down': 'up',
+            'zorder': _s.cs_gi10['zorder']
         }
 
         return sps_gi, init_frames
+
+    def gen_cs_gi11(_s, frames_tot, frames_tot1, z_d):
+
+        ld = [_s.ld[0] - 8, _s.ld[1] + 22]
+
+        if P.DEBUG:
+            frames_tot = 10
+            frames_tot1 = 30
+
+        frame_ss = [_s.INIT_FRAME + frames_tot, _s.INIT_FRAME + frames_tot + frames_tot1]
+
+        gi = {
+            'init_frame': _s.INIT_FRAME,
+            'ld': ld,
+            'frames_tot': frames_tot,
+            'frames_tot1': frames_tot1,
+            'frame_ss': frame_ss,
+            'scale_ss': [1, 1],
+            'v': 20,
+            'theta': -1.8,
+            'r_f_d': 0.1,
+            'extra_offset_x': 8,
+            'extra_offset_y': -3,
+            'up_down': 'up',
+            'rad_rot': 3.6,
+            'zorder': _s.zorder + z_d
+        }
+
+        return gi
