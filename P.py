@@ -1,6 +1,7 @@
 DEBUG = 0  # if 1 then faster speed on objectsh
 MAP_SIZE = 's0'  # 214, 181
-MAP_DIMS = (465, 270)  #(233, 141)small  # NEEDED FOR ASSERTIONS
+# MAP_DIMS = (465, 270)  #(233, 141)small  # NEEDED FOR ASSERTIONS
+MAP_DIMS = (1280, 720)  #(233, 141)small  # NEEDED FOR ASSERTIONS
 
 FRAMES_START = 0
 FRAMES_STOP = None  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
@@ -22,7 +23,7 @@ NUM_SPS_SH = None  #a
 NUM_SPS_F = 100  # used by 0, 5
 NUM_SPS_L_TOT = 800  # used by 2, 4   PER PIC!!!
 # NUM_SPS_PER_INIT = 50
-NUM_SPS_PER_L = 150  # FOR EACH INIT_FRAME
+NUM_SPS_PER_L = 10  # FOR EACH INIT_FRAME
 NUM_SPS_C_TOT = 400  # used by 3: Num sp at 1 init frame!
 NUM_SPS_PER_C = 25  # used by 3: Num sp at 1 init frame!
 NUM_SPS_7_TOT = 400
@@ -38,9 +39,9 @@ NUM_RS = 50  # upper bound
 # 5: post expl, 6: expl, 7: sr tied to ls, 8: srs up/home/johan/PycharmProjects/N4/images/processed/3/cs/3_c_8.png
 
 SHS_TO_SHOW = ['0', '1', '2', '3', '4', '5', '6', '7', '8']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['0', '1', '3', '5', '6']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['0', '2', '8']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['4', '2']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['3']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['0', '2', '3', '4']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['2', '3', '4']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['3', '6']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['7']  # , '6', '7']#, '1'] #, '2', '3']
 
 

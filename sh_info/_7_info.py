@@ -12,7 +12,7 @@ class Sh_7_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, top_point):  # EXTRAS1: srs tied to ls, sps dots
+    def __init__(_s, pulse, pulse_7_sps_dots, top_point):  # EXTRAS1: srs tied to ls, sps dots
         super().__init__()
         _s.id = '7'
         _s.extent = "static"
@@ -27,16 +27,15 @@ class Sh_7_info(ShInfoAbstract):
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
 
         # init_frames_sp0 = [20]
-        init_frames_sp0 = [pulse[0]]
         # init_frames_sp1 = [40]  # 150 is init_frame_max_dist
         # init_frames_sp2 = [60]  # 150 is init_frame_max_dist
         # init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
 
-        _s.sps_gi0 = _s.gen_sps_gi0(init_frames_sp0)
+        _s.sps_gi0 = _s.gen_sps_gi0(pulse_7_sps_dots)
         # _s.sps_gi1 = _s.gen_sps_gi1(init_frames_sp1)
         # _s.sps_gi2 = _s.gen_sps_gi2(init_frames_sp2)
         # _s.sps_gi3 = _s.gen_sps_gi3(init_frames_sp3)
-        _s.sps_gi_init_frames = init_frames_sp0 #+ init_frames_sp1 + init_frames_sp2
+        _s.sps_gi_init_frames = pulse_7_sps_dots #+ init_frames_sp1 + init_frames_sp2
 
         _s.sps_gi = {
             '0': _s.sps_gi0
@@ -45,7 +44,7 @@ class Sh_7_info(ShInfoAbstract):
             # '3': _s.sps_gi3
         }
 
-        _s.zorder = 110
+        _s.zorder = 120
 
     def gen_ls_gi(_s, pulse):
         """
@@ -74,9 +73,9 @@ class Sh_7_info(ShInfoAbstract):
             # 'frames_tot2': 500,
             # 'frames_tot3': 500,
             'ld': _s.ld,
-            'ld0': [_s.ld[0] + 22, _s.ld[1] + 158],
-            'ld1': [_s.ld[0] + 89, _s.ld[1] + 152],
-            'ld2': [_s.ld[0] - 74, _s.ld[1] + 122],
+            'ld0': [_s.ld[0] + 12, _s.ld[1] + 152],
+            'ld1': [_s.ld[0] + 79, _s.ld[1] + 148],
+            'ld2': [_s.ld[0] - 74, _s.ld[1] + 112],
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
         }
@@ -105,7 +104,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': None,  # finish_info
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [2, 1],
-            'scale_ss': [0.01, 0.7],  # assumed big pics
+            'scale_ss': [0.01, 1.2],  # assumed big pics
             # 'frame_ss': _s.frame_ss,
             'v_loc': 25,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
@@ -142,7 +141,7 @@ class Sh_7_info(ShInfoAbstract):
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
-            'v_loc': 50, 'v_scale': 15,
+            'v_loc': 80, 'v_scale': 30,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
@@ -151,9 +150,9 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_start': [0.4, 0.9],  #
             'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
-            'ld': _s.ld,
-            'ld_offset_loc': [1, 20],
-            'ld_offset_scale': [5, 5],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 20],
+            'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
+            'ld_offset_scale': [5, 100],  # SCALE HERE IS USED AS INPUT TO NORMAL
             # 'R_ss': [0.9, 1], 'R_scale': 0.2,
             # 'G_ss': [0.5, 0.2], 'G_scale': 0.15,
             # 'B_ss': [0.2, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here

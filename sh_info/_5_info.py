@@ -83,7 +83,7 @@ class Sh_5_info(ShInfoAbstract):
             'r_f_d_loc': 0.001,
             'r_f_d_scale': 0.1,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.3],
+            'alpha_y_range': [0, 0.15],
             'zorder': None  # Set in finish_info
         }
 

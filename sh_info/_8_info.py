@@ -47,7 +47,7 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.1, 0.02],
             'ld': _s.ld,  # finish_info
-            'ld_offset_loc': [-50, -15],
+            'ld_offset_loc': [-100, -15],
             'ld_offset_scale': [1, 1],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
@@ -89,7 +89,7 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.1, 0.02],
             'ld': _s.ld,  # finish_info
-            'ld_offset_loc': [-50, 5],
+            'ld_offset_loc': [-100, 5],
             'ld_offset_scale': [1, 1],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
@@ -128,11 +128,11 @@ class Sh_8_info(ShInfoAbstract):
         srs_gi = {
             'id': 4,
             'init_frames': [14, 24, 34, 44, 54],
-            'frames_tot': 300,
+            'frames_tot': 600,
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.02, 0.01],
             'ld': _s.ld,  # finish_info
-            'ld_offset_loc': [0, -20],
+            'ld_offset_loc': [-50, 50],
             'ld_offset_scale': [1, 1],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.2),
@@ -150,11 +150,11 @@ class Sh_8_info(ShInfoAbstract):
         srs_gi = {
             'id': 5,
             'init_frames': [25, 35, 45, 55, 65],
-            'frames_tot': 300,
+            'frames_tot': 600,
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.02, 0.01],
             'ld': _s.ld,  # finish_info
-            'ld_offset_loc': [50, 70],
+            'ld_offset_loc': [150, 60],
             'ld_offset_scale': [1, 1],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.2),

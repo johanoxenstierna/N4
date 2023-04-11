@@ -58,7 +58,7 @@ class Sh_0_info(ShInfoAbstract):
             'rad_rot': -0.2,
             'init_frames': pulse,
             'frames_tot': 151,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
-            'scale_ss': [0.1, 2.0],
+            'scale_ss': [0.1, 2.5],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 2, _s.ld[1]],
             'zorder': 5
@@ -88,7 +88,7 @@ class Sh_0_info(ShInfoAbstract):
             'r_f_d_scale': 0.1,
             'rad_rot': random.uniform(-0.03, 0.5),
             'up_down': 'up',
-            'alpha_y_range': [0.0, 0.3],
+            'alpha_y_range': [0.0, 0.2],
 
             'zorder': None  # Set in finish_info
         }

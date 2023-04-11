@@ -33,8 +33,15 @@ class GenLayers:
 
         im_ax.append(ax.imshow(_s.pics['backgr_d'], zorder=1, alpha=1))
 
+        LEFT = 385
+        TOP = 330
+        # im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
+        #                        extent=[LEFT, LEFT + _s.pics['volc_d'].shape[1], RIGHT, RIGHT + _s.pics['volc_d'].shape[0]]))
+        #
         im_ax.append(ax.imshow(_s.pics['volc_d'], zorder=100, alpha=1,
-                               extent=[45, 45 + _s.pics['volc_d'].shape[1], 75, 75 + _s.pics['volc_d'].shape[0]]))
+                               extent=[LEFT, LEFT + _s.pics['volc_d'].shape[1], TOP,
+                                       TOP + _s.pics['volc_d'].shape[0]]))
+
         # im_ax.append(ax.imshow(_s.pics['volc_l'], zorder=100, alpha=0,
         #                        extent=[36, 36 + _s.pics['volc_l'].shape[1], 44, 44 + _s.pics['volc_l'].shape[0]]))
 
@@ -52,7 +59,7 @@ class GenLayers:
             ax.axis([0, 1280, 0, 720])
         # ax.invert_yaxis()  # ONLY IF SHIPS?
         # ax.grid()
-        # ax.axis('off')  # TURN ON FOR FINAL
+        ax.axis('off')  # TURN ON FOR FINAL
 
     def gen_shs(_s, ax, im_ax):
         """

@@ -51,15 +51,15 @@ class Sh_1_info(ShInfoAbstract):
             'ld_offset_scale': [5, 5],
             'scale_ss': [0.01, 3],
             # 'frame_ss': _s.frame_ss,
-            'v_loc': 30,  # OBS SPECIAL, USES BEFORE
-            'v_scale': 5,
+            'v_loc': 26,  # OBS SPECIAL, USES BEFORE
+            'v_scale': 3,
             'theta_loc': -0.9,  # -1.6 is straight up
             'theta_scale': 0.1,
             'rad_rot': random.uniform(-0.3, -1.9),
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.6],
+            'alpha_y_range': [0, 0.15],
             'zorder': 50,
         }
 

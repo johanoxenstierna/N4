@@ -18,7 +18,7 @@ class Sh_6_info(ShInfoAbstract):
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         # _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
-        _s.zorder = 110
+        _s.zorder = 95
 
         _s.ld = top_point
         _s.child_names = ['fs', 'srs']
@@ -56,7 +56,7 @@ class Sh_6_info(ShInfoAbstract):
             'rad_rot': -0.2,
             'init_frames': pulse,
             'frames_tot': 80,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
-            'scale_ss': [0.01, 0.8],
+            'scale_ss': [0.01, 1.4],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 2, _s.ld[1]],
             'x_mov': list(np.linspace(0, -15, num=80)),  # SPECIAL
@@ -77,9 +77,9 @@ class Sh_6_info(ShInfoAbstract):
             'ld': [_s.ld[0] - 0, _s.ld[1]],
             'ld_offset_loc': [-4, 15],
             'ld_offset_scale': [1, 1],
-            'scale_ss': [0.01, 0.8],
+            'scale_ss': [0.01, 1.3],
             'frame_ss': _s.frame_ss,
-            'v_loc': 33,  # OBS SPECIAL, USES BEFORE
+            'v_loc': 46,  # OBS SPECIAL, USES BEFORE
             'v_scale': 0,
             'theta_loc': -0.3,  # -1.6 is straight up
             'theta_scale': 0.02,
@@ -87,7 +87,7 @@ class Sh_6_info(ShInfoAbstract):
             'r_f_d_loc': 0.9,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.4],
+            'alpha_y_range': [0, 0.2],
             'zorder': 50,
         }
 
@@ -103,10 +103,10 @@ class Sh_6_info(ShInfoAbstract):
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 150,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT
-            'v_loc': 26, 'v_scale': 8,
+            'v_loc': 36, 'v_scale': 8,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.3,
-            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.1,
+            'r_f_d_loc': 0.3, 'r_f_d_scale': 0.2,
             'sp_len_loc': 3, 'sp_len_scale': 8,
             # 'rad_rot': 0.1,
             'ld': _s.ld,  # in

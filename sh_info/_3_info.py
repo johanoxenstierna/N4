@@ -32,12 +32,13 @@ class Sh_3_info(ShInfoAbstract):
             _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=-10)
             _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=-5)
             _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=10)
-            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=-10)
+            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=-20)
             _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=10)
-            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=10)
-            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=-10)
+            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=-10)
+            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=-20)
             _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=-20)  # OBS 100 is volc_d
             _s.cs_gi11 = _s.gen_cs_gi11(frames_tot=pulse[0] + 90, frames_tot1=300, z_d=-30)  # OBS 100 is volc_d
+            _s.cs_gi12 = _s.gen_cs_gi12(frames_tot=pulse[0] + 110, frames_tot1=450, z_d=-40)  # OBS 100 is volc_d
 
         if P.A_SRS:  # different gis here have nothing to do with pic, but rather with init frames
 
@@ -294,7 +295,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi1(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 58, _s.ld[1] + 40]
+        ld = [_s.ld[0] - 50, _s.ld[1] + 40]
 
         if P.DEBUG:
             frames_tot = 10
@@ -412,7 +413,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi2(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 45, _s.ld[1] + 25]
+        ld = [_s.ld[0] - 40, _s.ld[1] + 25]
 
         if P.DEBUG:
             frames_tot = 20
@@ -529,7 +530,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi3(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 28, _s.ld[1] + 12]
+        ld = [_s.ld[0] - 28, _s.ld[1] + 18]
 
         if P.DEBUG:
             frames_tot = 30
@@ -882,7 +883,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi7(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 30, _s.ld[1] + 10]
+        ld = [_s.ld[0] - 20, _s.ld[1] + 10]
 
         if P.DEBUG:
             frames_tot = 10
@@ -1058,7 +1059,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi9(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 6, _s.ld[1] + 10]
+        ld = [_s.ld[0] - 10, _s.ld[1] + 12]
 
         if P.DEBUG:
             frames_tot = 10
@@ -1145,7 +1146,7 @@ class Sh_3_info(ShInfoAbstract):
         return sps_gi, init_frames
 
     def gen_cs_gi10(_s, frames_tot, frames_tot1, z_d):
-        ld = [_s.ld[0] + 14, _s.ld[1] + 6]
+        ld = [_s.ld[0] + 5, _s.ld[1] + 16]
 
         if P.DEBUG:
             frames_tot = 10
@@ -1233,7 +1234,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi11(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 8, _s.ld[1] + 22]
+        ld = [_s.ld[0] - 20, _s.ld[1] + 35]
 
         if P.DEBUG:
             frames_tot = 10
@@ -1255,6 +1256,35 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_y': -3,
             'up_down': 'up',
             'rad_rot': 3.6,
+            'zorder': _s.zorder + z_d
+        }
+
+        return gi
+
+    def gen_cs_gi12(_s, frames_tot, frames_tot1, z_d):
+
+        ld = [_s.ld[0] - 25, _s.ld[1] + 50]
+
+        if P.DEBUG:
+            frames_tot = 10
+            frames_tot1 = 30
+
+        frame_ss = [_s.INIT_FRAME + frames_tot, _s.INIT_FRAME + frames_tot + frames_tot1]
+
+        gi = {
+            'init_frame': _s.INIT_FRAME,
+            'ld': ld,
+            'frames_tot': frames_tot,
+            'frames_tot1': frames_tot1,
+            'frame_ss': frame_ss,
+            'scale_ss': [1, 1],
+            'v': 40,
+            'theta': 1.65,
+            'r_f_d': 0.8,
+            'extra_offset_x': 0,
+            'extra_offset_y': -3,
+            'up_down': 'up',
+            'rad_rot': -1.1,
             'zorder': _s.zorder + z_d
         }
 

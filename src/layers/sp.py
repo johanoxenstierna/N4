@@ -8,6 +8,7 @@ from copy import deepcopy
 import random
 from src.projective_functions import *
 from src.gen_trig_fun import gen_alpha, min_max_normalization
+from src.trig_functions import _sigmoid
 import matplotlib as mpl
 
 class Sp(AbstractLayer, AbstractSSS):
@@ -140,6 +141,19 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['r_f_d'] = max(0.001, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
+        if _s.id[0] == '7':  # sps_dots only down from ld
+            # aaa =  _s.gi['ld_offset_loc'][1] + np.random.poisson(lam=_s.gi['ld_offset_scale'][1])
+
+            offset_y_normal = abs(np.random.normal(loc=0, scale=_s.gi['ld_offset_scale'][1]))  # this is input to next
+            offset_y_factor = _sigmoid(offset_y_normal, grad_magn_inv=-15, x_shift=-3, y_magn=1, y_shift=0)
+            offset_y = offset_y_normal * offset_y_factor
+
+            _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
+                                  offset_y]
+
+            '''OBS ld needs to be overwritten here for case that multiple sps numbers sought'''
+
+            '''OBS 7 X offsets done below after theta'''
 
         '''Colors'''
         # R_start = min(0.9, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
@@ -185,7 +199,7 @@ class Sp(AbstractLayer, AbstractSSS):
             '''This could be written to gi of sr'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
 
-        elif _s.id[0] == '7':  # theta and ld_offset need to be matched here
+        elif _s.id[0] == '7':  # sps_dots? theta and ld_offset need to be matched here
             if theta < 0:
                 if theta < -1.6:
                     _s.gi['ld_offset'][0] = max(_s.gi['ld_offset'][0], -_s.gi['ld_offset'][0])

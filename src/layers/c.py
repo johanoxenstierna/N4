@@ -104,6 +104,8 @@ class C(AbstractLayer, AbstractSSS):
             gi = sh.gi.cs_gi10
         elif id_s == '11':
             gi = sh.gi.cs_gi11
+        elif id_s == '12':
+            gi = sh.gi.cs_gi12
         else:
             raise Exception("Probably have to sort out images/processed/" + id_s)
 

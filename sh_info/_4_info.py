@@ -109,6 +109,7 @@ class Sh_4_info(ShInfoAbstract):
             # 'ld2': [_s.ld[0] - 65, _s.ld[1] + 72],
             # 'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
             'frame_ss': _s.frame_ss,
+            'scale': 0.5,
             'zorder': 120  # 3 is 110
         }
 
@@ -132,20 +133,20 @@ class Sh_4_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '0',
             'init_frames': init_frames_sp,
-            'frames_tot': 200,  # NEEDS TO MATCH WITH EXPL
+            'frames_tot': 300,  # NEEDS TO MATCH WITH EXPL
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
             'v_loc': 80, 'v_scale': 12,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
-            'theta_loc': 0.9, 'theta_scale': 0.05,  # neg is left  with straight down= -1.6, 0=
+            'theta_loc': 0.9, 'theta_scale': 0.01,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.02,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 5, 'sp_len_scale': 5,
             'rgb_start': [0.4, 0.9],  #
             'rgb_theta_diff_c': 1,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] + 3, _s.ld[1] + 5],
-            'ld_offset_loc': [0, 2],
-            'ld_offset_scale': [0, 1],
+            'ld': [_s.ld[0] + 3, _s.ld[1] + 10],
+            'ld_offset_loc': [0, 0.1],
+            'ld_offset_scale': [0, 0.1],
             'R_ss': [0.9, 1], 'R_scale': 0.2,
             'G_ss': [0.5, 0.2], 'G_scale': 0.15,
             'B_ss': [0.2, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
@@ -173,14 +174,14 @@ class Sh_4_info(ShInfoAbstract):
             'frames_tot': 200,
             'v_loc': 10,  # rc=2
             'v_scale': 2,
-            'scale_ss': [0.01, 2],
+            'scale_ss': [0.01, 4],
             'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
             'rad_rot': -0.3,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.3],
+            'alpha_y_range': [0.01, 0.2],
             'zorder': _s.zorder + 10
         }
 
@@ -196,11 +197,11 @@ class Sh_4_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '1',
             'init_frames': init_frames_sp,
-            'frames_tot': 150,
+            'frames_tot': 250,
             'init_frame_max_dist': 100,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'theta_loc': 1.0, 'theta_scale': 0.06,
+            'theta_loc': 1.0, 'theta_scale': 0.05,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'rgb_start': [0.4, 0.45],  #
@@ -209,7 +210,7 @@ class Sh_4_info(ShInfoAbstract):
             'sp_len_loc': 5, 'sp_len_scale': 15,
             'ld': [_s.ld[0] + 23, _s.ld[1] + 23],
             'ld_offset_loc': [-4, 5],
-            'ld_offset_scale': [0, 1],
+            'ld_offset_scale': [0, 0.1],
             'R_ss': [0.8, 1], 'R_scale': 0.2,
             'G_ss': [0.4, 0.2], 'G_scale': 0.2,
             'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
@@ -237,14 +238,14 @@ class Sh_4_info(ShInfoAbstract):
             'frames_tot': 200,
             'v_loc': 10,  # rc=2
             'v_scale': 2,
-            'scale_ss': [0.01, 2],
+            'scale_ss': [0.01, 4],
             'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
             'rad_rot': -0.3,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.3],
+            'alpha_y_range': [0.01, 0.2],
             'zorder': _s.zorder + 10
         }
 

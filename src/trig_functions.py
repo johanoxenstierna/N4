@@ -188,11 +188,18 @@ if __name__ == '__main__':
 	# 	([_sigmoid(x, grad_magn_inv=- len(X) / 5, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 
 	# F ALPHA ============
-	Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-2, y_magn=1., y_shift=0) for x in X]))
+	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-2, y_magn=1., y_shift=0) for x in X]))
+
+	# SP dots: ld_offset. input is ld_offset_scale. output is offset (needs scaling afterwards)
+	Y = np.asarray(([_sigmoid(x, grad_magn_inv= -15, x_shift=-3, y_magn=1, y_shift=0) for x in X]))
+	# Y = min_max_normalization(Y, y_range=[0, 1])
 
 	'''EXECUTE'''
 	ax.plot(X, Y, '-')
 	# plt.xlim([-5, NUM])
 	# plt.ylim([-2.5, 2.5])
+
+
+
 
 	plt.show()

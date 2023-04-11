@@ -86,6 +86,13 @@ class L(AbstractLayer, AbstractSSS):
         _s.gi['ld'] = ld
         extent = [ld[0], ld[0] + _s.pic.shape[1],
                   ld[1], ld[1] - _s.pic.shape[0]]
+
+        if _s.id[0] in ['2', '4']:
+            extent = [ld[0], ld[0] + _s.gi['scale'] * _s.pic.shape[1],
+                      ld[1], ld[1] - _s.gi['scale'] * _s.pic.shape[0]]
+
+            asdf = 5
+
         _s.gi['extent'] = extent
         _s.gi['init_frames'] = init_frames
         _s.alpha = alpha

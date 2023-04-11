@@ -10,9 +10,15 @@ def init_infos():
     '''Creates instance of each info and stores in dict'''
     infos = {}
 
-    top_point0 = [210, 80]
-    top_point1 = [210, 90]  # aft expl
-    top_point2 = [210, 90]  # for 3 rocks
+    # top_point0 = [210, 80]
+    # top_point1 = [210, 90]  # aft expl
+    # top_point2 = [210, 90]  # for 3 rocks
+
+    top_point0 = [550, 330]
+    top_point1 = [550, 350]  # aft expl
+    top_point_c = [550, 340]  # for 3 rocks
+    top_point2 = [550, 330]
+    top_point7 = [560, 330]
 
     pulse_sr1 = random.sample(range(5, 500), 50)  # 1 (sr)  # OBS '2' CAN ONLY BE TESTED WHEN STARTS AT 100
     # pulse_sr1 = [110, 150]  # 1 (sr)
@@ -23,8 +29,8 @@ def init_infos():
     # pulse_3 = [10, 30, 100]  # expl
     pulse_3 = random.sample(range(100, 200), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
 
-    # pulse_4 = [110, 180, 200, 231]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
-    pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
+    pulse_4 = [110, 180, 200, 231]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
+    # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     pulse_5 = random.sample(range(200, 500), 20)  # post expl
     # pulse_5 = random.sample(range(5, 200), 10)  # post expl
     # pulse_5 = [50, 100, 200]  # expl
@@ -33,7 +39,8 @@ def init_infos():
     pulse_6 = [200, 205, 250]
 
     # pulse_7 = [10, 40, 80]
-    pulse_7 = [150, 180, 200, 280]
+    pulse_7 = [150, 180, 200, 280, 350]
+    pulse_7_sps_dots = [150, 180, 200, 280, 350]
     pulse_8 = None  # this one is specially set inside 8_info
 
     pulse_0.sort()
@@ -52,11 +59,11 @@ def init_infos():
         infos[_1.id] = _1
 
     if '2' in P.SHS_TO_SHOW:  # DOWN LEFT
-        _2 = _2_info.Sh_2_info(pulse_2, top_point0)
+        _2 = _2_info.Sh_2_info(pulse_2, top_point2)
         infos[_2.id] = _2
 
     if '3' in P.SHS_TO_SHOW and P.A_CS:  # ROCKS
-        _3 = _3_info.Sh_3_info(pulse_3, top_point2)
+        _3 = _3_info.Sh_3_info(pulse_3, top_point_c)
         infos[_3.id] = _3
 
     if '4' in P.SHS_TO_SHOW:  # DOWN LEFT
@@ -73,7 +80,7 @@ def init_infos():
         infos[_6.id] = _6
 
     if '7' in P.SHS_TO_SHOW:  # EXTRAS1: srs tied to ls, sps dots
-        _7 = _7_info.Sh_7_info(pulse_7, top_point0)
+        _7 = _7_info.Sh_7_info(pulse_7, pulse_7_sps_dots, top_point7)
         infos[_7.id] = _7
 
     if '8' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper
