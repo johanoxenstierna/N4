@@ -11,7 +11,7 @@ class Sh_1_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, top_point):
+    def __init__(_s, pulse, top_point, EXPL_F):
         super().__init__()
         _s.id = '1'
         _s.extent = "static"
@@ -24,13 +24,14 @@ class Sh_1_info(ShInfoAbstract):
         pulse_srs = [x + 30 for x in _s.init_frames]
         _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs)}  # OBS: sp_gi generated in f class. There is no info class for f.
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
-        _s.zorder = 110
+        _s.zorder = 200  # in fron t of c
 
         # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
         pulse_lis = [10, 20, 40, 60, 80, 100, 150, 180, 200, 220, 230, 245, 250, 260, 280, 300]
+        pulse_lis = [x + 200 for x in pulse_lis]
         _s.lis_gi = _s.gen_lis_gi(pulse_lis)
 
-        pulse_fs = [195]  # shockwave
+        pulse_fs = [EXPL_F]  # shockwave
         _s.fs_gi = _s.gen_fs_gi(pulse_fs)
 
         pulse_sps = []  # sp hits down

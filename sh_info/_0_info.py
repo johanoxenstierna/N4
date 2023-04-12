@@ -19,7 +19,7 @@ class Sh_0_info(ShInfoAbstract):
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
-        _s.zorder = 110
+        _s.zorder = 170
 
         _s.ld = top_point
         _s.child_names = ['fs', 'srs', 'rs']
@@ -63,6 +63,9 @@ class Sh_0_info(ShInfoAbstract):
             'ld': [_s.ld[0] - 2, _s.ld[1]],
             'zorder': 5
         }
+
+        if fs_gi['init_frames'][-1] + fs_gi['frames_tot'] > 0.9 * P.FRAMES_STOP:
+            raise Exception("fs_gi['init_frames'][-1] + fs_gi['frames_tot'] > 0.9 * P.FRAMES_STOP")
 
         return fs_gi
 

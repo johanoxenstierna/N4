@@ -48,18 +48,18 @@ class GenLayers:
 
         # im_ax[1].set_extent([])
         # im_ax.append(ax.imshow(_s.pics['frame'], zorder=99999))
-        if P.MAP_SIZE == 's0':
+        # if P.MAP_SIZE == 's0':
             # pass
-            ax.axis([0, P.MAP_DIMS[0], P.MAP_DIMS[1], 0])
+        ax.axis([0, P.MAP_DIMS[0], P.MAP_DIMS[1], 0])
             # ax.axis([-30, 254, 133, -30])
             # ax.axis([0, 214, 0, 181])
             # ax.axis([0, 214, 181, 0])
             # ax.axis([0, 571, 0, 500])
-        else:
-            ax.axis([0, 1280, 0, 720])
+        # else:
+        #     ax.axis([0, 1280, 0, 720])
         # ax.invert_yaxis()  # ONLY IF SHIPS?
         # ax.grid()
-        ax.axis('off')  # TURN ON FOR FINAL
+        # ax.axis('off')  # TURN ON FOR FINAL
 
     def gen_shs(_s, ax, im_ax):
         """
@@ -83,8 +83,7 @@ class GenLayers:
                     f = F(id=pic_key, pic=pic, sh=sh)  # THE PIC IS ALWAYS TIED TO 1 INSTANCE?
 
                     '''sps always generated, but they will not be animated
-                    if A_SPS set to 0'''
-                    # num_sp_f = int(np.random.normal(loc=f.sps_gi['num_loc'], scale=f.sps_gi['num_scale']))
+                    if A_SPS set to 0. If an sh has an f, '''
 
                     if P.A_SPS:
                         num_sp_f = P.NUM_SPS_F

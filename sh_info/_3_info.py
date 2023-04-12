@@ -26,17 +26,17 @@ class Sh_3_info(ShInfoAbstract):
         _s.child_names = ['cs', 'srs', 'sps']  # both cks and cds
 
         if P.A_CS:  # THEY ALL HAVE INDIVIDUAL GI'S
-            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=100, z_d=100)
-            _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200, z_d=-20)  # OBS 100 is volc_d
+            _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=100, z_d=1000)
+            _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200, z_d=20)  # OBS 100 is volc_d
             _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 30, frames_tot1=200, z_d=10)
-            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=-10)
-            _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=-5)
-            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=10)
-            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=-20)
-            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=10)
-            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=-10)
-            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=-20)
-            _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=-20)  # OBS 100 is volc_d
+            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=30)
+            _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=10)
+            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=60)
+            _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=50)
+            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=300, z_d=20)
+            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=70)
+            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=80)
+            _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=80)  # OBS 100 is volc_d
             _s.cs_gi11 = _s.gen_cs_gi11(frames_tot=pulse[0] + 90, frames_tot1=300, z_d=-30)  # OBS 100 is volc_d
             _s.cs_gi12 = _s.gen_cs_gi12(frames_tot=pulse[0] + 110, frames_tot1=450, z_d=-40)  # OBS 100 is volc_d
 
@@ -134,7 +134,7 @@ class Sh_3_info(ShInfoAbstract):
         C used to gen init frames for sr
         """
 
-        frames_tot = 300
+        frames_tot = 500
         if P.DEBUG:
             frames_tot = 140
         clf = _cs_gi['init_frame'] + _cs_gi['frames_tot'] + _cs_gi['frames_tot1']  # c_last_frame
@@ -167,7 +167,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi0(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 7, _s.ld[1] - 10]
+        ld = [_s.ld[0] - 0, _s.ld[1] - 10]
 
         if P.DEBUG:  # don't let coloring fool one, it does overwrite
             frames_tot = 10
@@ -242,7 +242,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 50,  # rc=2
             'v_scale': 4,
-            'scale_ss': [0.01, 3],
+            'scale_ss': [0.01, 6],
             'theta_loc': -0.5,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
             'rad_rot': -2,
@@ -366,7 +366,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.6, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -483,7 +483,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.7, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -569,7 +569,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 140,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 2],
+            'scale_ss': [0.01, 4],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -655,7 +655,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 200,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.3,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
             'rad_rot': -2,
@@ -748,7 +748,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 4,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': 1.2,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
             'rad_rot': -2,
@@ -836,7 +836,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -900,11 +900,11 @@ class Sh_3_info(ShInfoAbstract):
             'scale_ss': [1, 1],
             'v': 35,
             'theta': 1.7,
-            'r_f_d': 0.1,
+            'r_f_d': 0.2,
             'extra_offset_x': 0,
             'extra_offset_y': 5,
             'up_down': 'up',
-            'rad_rot': -0.5,
+            'rad_rot': -0.3,
             'zorder': _s.zorder + z_d
         }
 
@@ -922,7 +922,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -930,7 +930,7 @@ class Sh_3_info(ShInfoAbstract):
             'r_f_d_scale': 0.05,
             'up_down': 'down',
             'alpha_y_range': [0, 0.3],
-            'zorder': _s.cs_gi7['zorder']
+            'zorder': _s.cs_gi7['zorder'] + 10
         }
 
         return srs_gi, init_frames
@@ -1010,7 +1010,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -1098,7 +1098,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -1185,7 +1185,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 120,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 1],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,

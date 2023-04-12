@@ -131,7 +131,7 @@ class Sh_2_info(ShInfoAbstract):
             'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
             'scale': 0.5,
             'frame_ss': _s.frame_ss,
-            'zorder': 120  # 3 is 110
+            'zorder': 200  # 3 is 110
         }
 
         return l_gi

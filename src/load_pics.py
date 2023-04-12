@@ -19,12 +19,12 @@ def load_pics():
     # pics['expls'] = {}
     # pics['specials'] = {}
 
-    if P.MAP_SIZE == 's0':
+    # if P.MAP_SIZE == 's0':
         # pics['backgr_d'] = imread('./images/processed/navarino_s0d.png')  # 482, 187
         # pics['backgr_d'] = imread('./images/processed/temp.png')  # 482, 187
-        pics['backgr_d'] = imread('./images/processed/mdoom.png')  # 482, 187
-        pics['volc_d'] = imread('./images/processed/volc_d.png')  # 482, 187
-        pics['volc_d'] = np.flipud(pics['volc_d'])
+    pics['backgr_d'] = imread('./images/processed/mdoom.png')  # 482, 187
+    pics['volc_d'] = imread('./images/processed/volc_d.png')  # 482, 187
+    pics['volc_d'] = np.flipud(pics['volc_d'])
 
         # pics['volc_l'] = imread('./images/processed/volc_l.png')  # 482, 187
         # pics['volc_l'] = np.flipud(pics['volc_l'])

@@ -60,9 +60,6 @@ def warp_affine_and_color(ii, ax, im_ax, g_obj):
 	im_ax.insert(g_obj.index_im_ax, ax.imshow(img, zorder=g_obj.gi['zorder'], alpha=1))
 	g_obj.ax1 = im_ax[g_obj.index_im_ax]
 
-# M = mtransforms.Affine2D().translate(1, 1)
-# M = mtransforms.Affine2D().scale(2, 2)
-# im_ax[g_obj.index_im_ax].set_transform(M)
 
 def mpl_affine(ii, g_obj, ax0, im_ax):
 
@@ -74,10 +71,13 @@ def mpl_affine(ii, g_obj, ax0, im_ax):
 					rotate(g_obj.rotation_v[g_obj.clock]). \
 					translate(g_obj.gi['ld'][0], g_obj.gi['ld'][1]) + ax0.transData
 		elif g_obj.id[0] in ['6']:
-			M = mtransforms.Affine2D(). \
-					scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
-					rotate(g_obj.rotation_v[g_obj.clock]). \
-					translate(g_obj.gi['ld'][0] + g_obj.gi['x_mov'][g_obj.clock], g_obj.gi['ld'][1]) + ax0.transData
+			try:
+				M = mtransforms.Affine2D(). \
+						scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
+						rotate(g_obj.rotation_v[g_obj.clock]). \
+						translate(g_obj.gi['ld'][0] + g_obj.gi['x_mov'][g_obj.clock], g_obj.gi['ld'][1]) + ax0.transData
+			except:
+				adf = 6
 		elif g_obj.id[0] in ['1']:  # YES, 1 has f shockwave
 			M = mtransforms.Affine2D(). \
 					scale(g_obj.scale_vector[g_obj.clock], -g_obj.scale_vector[g_obj.clock]). \
@@ -159,6 +159,20 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 				if c.index_im_ax > index_removed:
 					c.index_im_ax -= 1
 
+
+def set_sps(sp, im_ax):
+
+	if sp.clock < sp.gi['sp_len'] + 1:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
+		im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
+	else:
+		im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 0],
+		                               sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 1])
+
+	im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
+	im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
+
+
+
 # for smokr in sh.smokrs.values():
 # 	if smokr.index_im_ax != None:
 # 		if smokr.index_im_ax > index_removed:
@@ -181,73 +195,73 @@ def decrement_all_index_im_ax(index_removed, shs, waves=None):
 # def
 
 
-def static_alpha_darkening(pic, ii, g_obj):
-	"""
-	R   G   B   !   !   !
-	https://stackoverflow.com/questions/39308030/how-do-i-increase-the-contrast-of-an-image-in-python-opencv
-
-	Works by overwriting the image in memory. If alpha set to 0 in beginning it cannot be restored!
-	The specified amount is always in relation to latest written image!
-	The sails are done manually.
-
-	Might get super expensive to do this for ships at each frame. FIXED: doing it statically at certain frames
-	expl_at_coords: coordinates where there are active expls this frame (the expl "event" continues more frames
-	than the expl is shown).
-
-	Not applied for expls
-
-	"""
-	if g_obj.__class__.__name__ not in ['Sail', 'Smoke', 'Ship']:  #  INCLUDED ones. WAVE DONE ELSEWHERE
-		return pic
-
-	if g_obj.__class__.__name__ == 'Ship':
-		gi = g_obj.gi
-		ab_clock = g_obj.ab_clock
-	else:
-		gi = g_obj.ship.gi
-		ab_clock = g_obj.ship.ab_clock
-
-	ship_ab_at_clock = gi['alpha_and_bright'][ab_clock]  # this is incremented for ship at bottom of animation loop
-	if ii == ship_ab_at_clock[0]:  # hence this is checked every frame but only runs once for each obj
-
-		c = 1
-		if g_obj.__class__.__name__ == 'Smoke':  # needed since smokas are updated too rarely otherwise\
-			if g_obj.type == 'a':
-				c = 0.98  # visible switch if less than 0.98
-
-			if random.random() < 0.3:  # also add darkening effect (red layer decreased)
-				c = 0.98
-				g_obj.pic[:, :, 0] = g_obj.pic[:, :, 0] * ship_ab_at_clock[2] * c
-
-		g_obj.pic[:, :, 1] = g_obj.pic[:, :, 1] * ship_ab_at_clock[2] * c
-		g_obj.pic[:, :, 2] = g_obj.pic[:, :, 2] * ship_ab_at_clock[2] * c
-
-		if g_obj.__class__.__name__ != 'Smoke':  # alpha only for ships
-			g_obj.pic[:, :, 3] = g_obj.pic[:, :, 3] * ship_ab_at_clock[1] * c
-
-		# g_obj.pic[:, :, 1] = g_obj.pic[:, :, 1] * g_obj.ab_cur[1]  # failed attempt at fixing it
-		# g_obj.pic[:, :, 2] = g_obj.pic[:, :, 2] * g_obj.ab_cur[1]
-		# g_obj.pic[:, :, 3] = g_obj.pic[:, :, 3] * g_obj.ab_cur[0]
-
-		g_obj.ab_cur[0] *= ship_ab_at_clock[1]  # needed for smokes
-		g_obj.ab_cur[1] *= ship_ab_at_clock[2]  # needed for smokes
-		# THESE PROBABLY NEED TO BE SET FOR ALL OF THEM, NOT JUST THE ONES THAT ARE CURRENTLY DRAWN (KEPT FOR NOW DUE TO OKISH RANDOM EFFECT).
-		# THIS IS ALSO REASON WHY SMOKAS NEED EXTRA
-
-		aa = 6
-
-
-def hardcoded_adjustments(g_obj, ii):
-
-	"""assumed to be a ship for now"""
-
-	if g_obj.id == "0" and ii > 3600:
-		g_obj.gi['xtras']['0_a_0']['scale_ss'][1] = 0.9
-		g_obj.gi['xtras']['0_a_1']['scale_ss'][1] = 0.7
-		g_obj.gi['xtras']['0_a_2']['scale_ss'][1] = 0.9
-		g_obj.gi['xtras']['0_smokrs']['scale_max'] = 0.9
-
-	aa = 5
+# def static_alpha_darkening(pic, ii, g_obj):
+# 	"""
+# 	R   G   B   !   !   !
+# 	https://stackoverflow.com/questions/39308030/how-do-i-increase-the-contrast-of-an-image-in-python-opencv
+#
+# 	Works by overwriting the image in memory. If alpha set to 0 in beginning it cannot be restored!
+# 	The specified amount is always in relation to latest written image!
+# 	The sails are done manually.
+#
+# 	Might get super expensive to do this for ships at each frame. FIXED: doing it statically at certain frames
+# 	expl_at_coords: coordinates where there are active expls this frame (the expl "event" continues more frames
+# 	than the expl is shown).
+#
+# 	Not applied for expls
+#
+# 	"""
+# 	if g_obj.__class__.__name__ not in ['Sail', 'Smoke', 'Ship']:  #  INCLUDED ones. WAVE DONE ELSEWHERE
+# 		return pic
+#
+# 	if g_obj.__class__.__name__ == 'Ship':
+# 		gi = g_obj.gi
+# 		ab_clock = g_obj.ab_clock
+# 	else:
+# 		gi = g_obj.ship.gi
+# 		ab_clock = g_obj.ship.ab_clock
+#
+# 	ship_ab_at_clock = gi['alpha_and_bright'][ab_clock]  # this is incremented for ship at bottom of animation loop
+# 	if ii == ship_ab_at_clock[0]:  # hence this is checked every frame but only runs once for each obj
+#
+# 		c = 1
+# 		if g_obj.__class__.__name__ == 'Smoke':  # needed since smokas are updated too rarely otherwise\
+# 			if g_obj.type == 'a':
+# 				c = 0.98  # visible switch if less than 0.98
+#
+# 			if random.random() < 0.3:  # also add darkening effect (red layer decreased)
+# 				c = 0.98
+# 				g_obj.pic[:, :, 0] = g_obj.pic[:, :, 0] * ship_ab_at_clock[2] * c
+#
+# 		g_obj.pic[:, :, 1] = g_obj.pic[:, :, 1] * ship_ab_at_clock[2] * c
+# 		g_obj.pic[:, :, 2] = g_obj.pic[:, :, 2] * ship_ab_at_clock[2] * c
+#
+# 		if g_obj.__class__.__name__ != 'Smoke':  # alpha only for ships
+# 			g_obj.pic[:, :, 3] = g_obj.pic[:, :, 3] * ship_ab_at_clock[1] * c
+#
+# 		# g_obj.pic[:, :, 1] = g_obj.pic[:, :, 1] * g_obj.ab_cur[1]  # failed attempt at fixing it
+# 		# g_obj.pic[:, :, 2] = g_obj.pic[:, :, 2] * g_obj.ab_cur[1]
+# 		# g_obj.pic[:, :, 3] = g_obj.pic[:, :, 3] * g_obj.ab_cur[0]
+#
+# 		g_obj.ab_cur[0] *= ship_ab_at_clock[1]  # needed for smokes
+# 		g_obj.ab_cur[1] *= ship_ab_at_clock[2]  # needed for smokes
+# 		# THESE PROBABLY NEED TO BE SET FOR ALL OF THEM, NOT JUST THE ONES THAT ARE CURRENTLY DRAWN (KEPT FOR NOW DUE TO OKISH RANDOM EFFECT).
+# 		# THIS IS ALSO REASON WHY SMOKAS NEED EXTRA
+#
+# 		aa = 6
+#
+#
+# def hardcoded_adjustments(g_obj, ii):
+#
+# 	"""assumed to be a ship for now"""
+#
+# 	if g_obj.id == "0" and ii > 3600:
+# 		g_obj.gi['xtras']['0_a_0']['scale_ss'][1] = 0.9
+# 		g_obj.gi['xtras']['0_a_1']['scale_ss'][1] = 0.7
+# 		g_obj.gi['xtras']['0_a_2']['scale_ss'][1] = 0.9
+# 		g_obj.gi['xtras']['0_smokrs']['scale_max'] = 0.9
+#
+# 	aa = 5
 
 
 

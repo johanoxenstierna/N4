@@ -132,6 +132,8 @@ class Sr(AbstractLayer, AbstractSSS):
         a parent layer at a certain frame. But not always.
         """
 
+        assert(_s.id != 8)
+
         _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
         theta = _s.gi['theta_loc']  # np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
         _s.gi['theta'] = theta

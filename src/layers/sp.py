@@ -141,7 +141,7 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['r_f_d'] = max(0.001, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
-        if _s.id[0] == '7':  # sps_dots only down from ld
+        if _s.id[0] == '7' and _s.gi['gi_id'] == '0':  # sps_dots only down from ld
             # aaa =  _s.gi['ld_offset_loc'][1] + np.random.poisson(lam=_s.gi['ld_offset_scale'][1])
 
             offset_y_normal = abs(np.random.normal(loc=0, scale=_s.gi['ld_offset_scale'][1]))  # this is input to next
@@ -210,6 +210,9 @@ class Sp(AbstractLayer, AbstractSSS):
         # if _s.id[0] in ['0', '5']:
         _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
         _s.gi['sp_len'] = max(3, _s.gi['sp_len'])
+
+        if _s.gi['v'] > 30:
+            _s.gi['sp_len'] = 3
 
         if _s.id[0] != '3':  # 3 zorders hardcoded
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 5, _s.sh.gi.zorder + 5)

@@ -26,9 +26,9 @@ class C(AbstractLayer, AbstractSSS):
         AbstractSSS.__init__(_s, sh, id)
         # _s.finish_info(id)
 
-        '''OBS THIS GENERATES EXTENT THAT IS TOO LONG'''
-        _s.extent_k = np.array([_s.gi['ld'][0], _s.gi['ld'][0] + pic.shape[1],
-                                _s.gi['ld'][1], _s.gi['ld'][1] - pic.shape[0]])
+        '''OBS THIS GENERATES EXTENT THAT IS TOO LONG ????'''
+        _s.extent_k = np.array([_s.gi['ld'][0], _s.gi['ld'][0] + pic.shape[1] * _s.gi['scale_ss'][0],
+                                _s.gi['ld'][1], _s.gi['ld'][1] - pic.shape[0] * _s.gi['scale_ss'][0]])
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
         # _s.extent_k = _s.extent[0]
         # assert(len(_s.extent) == _s.gi['frames_tot1'])

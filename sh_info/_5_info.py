@@ -13,6 +13,7 @@ class Sh_5_info(ShInfoAbstract):
 
     def __init__(_s, pulse, top_point):
         super().__init__()
+
         _s.id = '5'
 
         _s.extent = "static"
@@ -53,11 +54,14 @@ class Sh_5_info(ShInfoAbstract):
             'rad_rot': -0.2,
             'init_frames': pulse,
             'frames_tot': 301,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
-            'scale_ss': [0.1, 2.0],
+            'scale_ss': [0.1, 3.0],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 5, _s.ld[1] + 5],
             'zorder': 50
         }
+
+        if fs_gi['init_frames'][-1] + fs_gi['frames_tot'] > 0.9 * P.FRAMES_STOP:
+            raise Exception("fs_gi['init_frames'][-1] + fs_gi['frames_tot'] > 0.9 * P.FRAMES_STOP")
 
         return fs_gi
 
@@ -83,7 +87,7 @@ class Sh_5_info(ShInfoAbstract):
             'r_f_d_loc': 0.001,
             'r_f_d_scale': 0.1,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.15],
+            'alpha_y_range': [0, 0.2],
             'zorder': None  # Set in finish_info
         }
 

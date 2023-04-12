@@ -4,6 +4,7 @@ import P as P
 import random
 import numpy as np
 import copy
+from src.trig_functions import min_max_normalization
 
 class Sh_7_info(ShInfoAbstract):
     """
@@ -12,7 +13,7 @@ class Sh_7_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, pulse_7_sps_dots, top_point):  # EXTRAS1: srs tied to ls, sps dots
+    def __init__(_s, pulse, pulse_7_sps_dots0, pulse_7_sps_dots1, top_point):  # EXTRAS1: srs tied to ls, sps dots
         super().__init__()
         _s.id = '7'
         _s.extent = "static"
@@ -31,15 +32,15 @@ class Sh_7_info(ShInfoAbstract):
         # init_frames_sp2 = [60]  # 150 is init_frame_max_dist
         # init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
 
-        _s.sps_gi0 = _s.gen_sps_gi0(pulse_7_sps_dots)
-        # _s.sps_gi1 = _s.gen_sps_gi1(init_frames_sp1)
+        _s.sps_gi0 = _s.gen_sps_gi0(pulse_7_sps_dots0)
+        _s.sps_gi1 = _s.gen_sps_gi1(pulse_7_sps_dots1)
         # _s.sps_gi2 = _s.gen_sps_gi2(init_frames_sp2)
         # _s.sps_gi3 = _s.gen_sps_gi3(init_frames_sp3)
-        _s.sps_gi_init_frames = pulse_7_sps_dots #+ init_frames_sp1 + init_frames_sp2
+        _s.sps_gi_init_frames = pulse_7_sps_dots0 + pulse_7_sps_dots1 #+ init_frames_sp1 + init_frames_sp2
 
         _s.sps_gi = {
-            '0': _s.sps_gi0
-            # '1': _s.sps_gi1,
+            '0': _s.sps_gi0,
+            '1': _s.sps_gi1,
             # '2': _s.sps_gi2
             # '3': _s.sps_gi3
         }
@@ -54,8 +55,17 @@ class Sh_7_info(ShInfoAbstract):
 
         # lif0, lif1 = _s.distribute_pulse_for_ls(pulse)  # l_init_frame
         lif0 = [pulse[0]]
-        lif1 = [pulse[1]]  # OBS REMEMBER l_init_frames below
-        lif2 = [pulse[2]]  # OBS REMEMBER l_init_frames below
+        lif1 = [pulse[1]]
+        lif2 = [pulse[2]]
+
+        for i in range(1, 5):
+            lif0.append(pulse[0] + 101 * i)
+            lif1.append(pulse[1] + 101 * i)
+            lif2.append(pulse[2] + 101 * i)
+
+        # lif0 = [pulse[0], pulse[0] + 101 * 2, pulse[0] + 101 * 3, pulse[0] + 101 * 4, pulse[0] + 101 * 5]
+        # lif1 = [pulse[1], pulse[1] + 101 * 2, pulse[1] + 101 * 3, pulse[1] + 101 * 4, pulse[1] + 101 * 5]  # OBS REMEMBER l_init_frames below
+        # lif2 = [pulse[2], pulse[2] + 101 * 2, pulse[2] + 101 * 3, pulse[2] + 101 * 4, pulse[2] + 101 * 5]  # OBS REMEMBER l_init_frames below
         # lif2 = [pulse[2]]
         # lif3 = [pulse[3]]
         l_init_frames = lif0 + lif1 + lif2 #+ lif3
@@ -74,7 +84,7 @@ class Sh_7_info(ShInfoAbstract):
             # 'frames_tot3': 500,
             'ld': _s.ld,
             'ld0': [_s.ld[0] + 12, _s.ld[1] + 152],
-            'ld1': [_s.ld[0] + 79, _s.ld[1] + 148],
+            'ld1': [_s.ld[0] + 82, _s.ld[1] + 148],
             'ld2': [_s.ld[0] - 74, _s.ld[1] + 112],
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
@@ -114,7 +124,7 @@ class Sh_7_info(ShInfoAbstract):
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.3],
+            'alpha_y_range': [0, 0.2],
             'zorder': 200,
         }
 
@@ -171,45 +181,24 @@ class Sh_7_info(ShInfoAbstract):
         climb up the projectile (before shifting)
         """
 
-        # init_frames_sp = []
-
-        # BELOW IS TOO BRITTLE.
-        # init_frames_to_rem = []  # these are removed afterwards
-        # for i in range(len(_s.ls_gi['lif1'])):
-        #     init_frame_sp = max(10, _s.ls_gi['lif1'][i] - 150)  # OBS first number needs to be different for each sp
-        #     if init_frame_sp in init_frames:
-        #         init_frames_to_rem.append(init_frame_sp)
-        #         # raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
-        #     else:
-        #         init_frames_sp.append(init_frame_sp)
-        #         init_frames.append(init_frame_sp)
-        #
-        # '''remove duplicates'''
-        # init_frames = [x for x in init_frames if x not in init_frames_to_rem]
-        # _s.ls_gi['lif1'] = [x for x in _s.ls_gi['lif1'] if x not in init_frames_to_rem]
-
-
         sps_gi = {
             'gi_id': '1',
             'init_frames': init_frames_sp,
-            'frames_tot': 150,
-            'init_frame_max_dist': 100,  # random num of frames in future from init frame
-            'v_loc': 100, 'v_scale': 10,
-            # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'theta_loc': -0.9, 'theta_scale': 0.03,
-            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
+            'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'v_loc': 30, 'v_scale': 10,
+            # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
+            'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
+            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
-            'rgb_start': [0.4, 0.45],  #
-            'rgb_theta_diff_c': 1,
+            'sp_len_loc': 2, 'sp_len_scale': 4,
+            'rgb_start': [0.4, 0.9],  #
+            'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
-            'sp_len_loc': 5, 'sp_len_scale': 15,
-            'ld': [_s.ld[0] - 0, _s.ld[1] + 10],
-            'ld_offset_loc': [-4, 5],
-            'ld_offset_scale': [0, 1],
-            'R_ss': [0.8, 1], 'R_scale': 0.2,
-            'G_ss': [0.4, 0.2], 'G_scale': 0.2,
-            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
-            'alpha_y_range': [0.05, 0.9],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 140],
+            'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
+            'ld_offset_scale': [70, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'alpha_y_range': [0.01, 0.4],
             'up_down': 'down'
         }
 
