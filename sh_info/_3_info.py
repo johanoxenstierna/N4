@@ -29,11 +29,11 @@ class Sh_3_info(ShInfoAbstract):
             _s.cs_gi0 = _s.gen_cs_gi0(frames_tot=pulse[0] + 20, frames_tot1=100, z_d=1000)
             _s.cs_gi1 = _s.gen_cs_gi1(frames_tot=pulse[0] + 70, frames_tot1=200, z_d=20)  # OBS 100 is volc_d
             _s.cs_gi2 = _s.gen_cs_gi2(frames_tot=pulse[0] + 30, frames_tot1=200, z_d=10)
-            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 40, frames_tot1=200, z_d=30)
+            _s.cs_gi3 = _s.gen_cs_gi3(frames_tot=pulse[0] + 10, frames_tot1=200, z_d=30)
             _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=10)
-            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=60)
+            _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=70)
             _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=50)
-            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 40, frames_tot1=300, z_d=20)
+            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 30, frames_tot1=500, z_d=100)
             _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=70)
             _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=80)
             _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=80)  # OBS 100 is volc_d
@@ -530,7 +530,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi3(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 28, _s.ld[1] + 18]
+        ld = [_s.ld[0] - 10, _s.ld[1] - 5]
 
         if P.DEBUG:
             frames_tot = 30
@@ -545,11 +545,11 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 25,
+            'v': 30,
             'theta': 2,
             'r_f_d': 0.1,
-            'extra_offset_x': -2,
-            'extra_offset_y': -2,
+            'extra_offset_x': 0,
+            'extra_offset_y': 0,
             'up_down': 'up',
             'rad_rot': -1.5,
             'zorder': _s.zorder + z_d
@@ -885,9 +885,9 @@ class Sh_3_info(ShInfoAbstract):
 
         ld = [_s.ld[0] - 20, _s.ld[1] + 10]
 
-        if P.DEBUG:
-            frames_tot = 10
-            frames_tot1 = 30
+        # if P.DEBUG:
+        #     frames_tot = 10
+        #     frames_tot1 = 30
 
         frame_ss = [_s.INIT_FRAME + frames_tot, _s.INIT_FRAME + frames_tot + frames_tot1]
 
@@ -898,13 +898,13 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 35,
+            'v': 28,
             'theta': 1.7,
             'r_f_d': 0.2,
             'extra_offset_x': 0,
-            'extra_offset_y': 5,
+            'extra_offset_y': 3,
             'up_down': 'up',
-            'rad_rot': -0.3,
+            'rad_rot': -0.2,
             'zorder': _s.zorder + z_d
         }
 
@@ -1078,7 +1078,7 @@ class Sh_3_info(ShInfoAbstract):
             'theta': -1.8,
             'r_f_d': 0.1,
             'extra_offset_x': 0,
-            'extra_offset_y': 3,
+            'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': 0.8,
             'zorder': _s.zorder + z_d
@@ -1234,7 +1234,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi11(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 20, _s.ld[1] + 35]
+        ld = [_s.ld[0] - 15, _s.ld[1] + 20]
 
         if P.DEBUG:
             frames_tot = 10

@@ -28,12 +28,11 @@ def init_infos():
     pulse_2 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L OBS MAKE SURE THEYRE NOT TOO CLOSE TO EACH OTHER FOR SRS
     # pulse_c3 = random.sample(range(150, 450), 30)  # rs. init_frames use pulse[0] here
     # pulse_3 = [10, 30, 100]  # expl
-    pulse_3 = random.sample(range(EXPL_F - 100, EXPL_F), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
+    pulse_3 = random.sample(range(EXPL_F - 50, EXPL_F + 50), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
 
     pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     pulse_5 = random.sample(range(EXPL_F + 50, EXPL_F + 600), 30)  # post expl
-    # pulse_5 = random.sample(range(5, 200), 10)  # post expl
     # pulse_5 = [50, 100, 200]  # expl
 
     # pulse_6 = [5, 10, 50, 100]
@@ -41,9 +40,12 @@ def init_infos():
 
     # pulse_7 = [10, 40, 80]
     # pulse_7 = [150, 180, 200, 280, 350]
-    pulse_7 = [EXPL_F - 50, EXPL_F - 20, EXPL_F, EXPL_F + 80, EXPL_F + 150]
+    pulse_7 = [EXPL_F - 50, EXPL_F - 20, EXPL_F, EXPL_F + 20, EXPL_F + 30]
+
+    # TODO AUTOMATE
     pulse_7_sps_dots0 = [EXPL_F - 50, EXPL_F - 20, EXPL_F, EXPL_F + 80, EXPL_F + 150]  # top of mt
-    pulse_7_sps_dots1 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
+    pulse_7_sps_dots1 = [EXPL_F + 101, EXPL_F + 151, EXPL_F + 101, EXPL_F + 351]  # other locs
+    pulse_7_sps_dots2 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
     # pulse_7_sps_dots1 = [10, 20, 30]  # other locs
     pulse_8 = None  # this one is specially set inside 8_info
 
@@ -84,7 +86,7 @@ def init_infos():
         infos[_6.id] = _6
 
     if '7' in P.SHS_TO_SHOW:  # EXTRAS1: srs tied to ls, sps dots
-        _7 = _7_info.Sh_7_info(pulse_7, pulse_7_sps_dots0, pulse_7_sps_dots1, top_point7)
+        _7 = _7_info.Sh_7_info(pulse_7, pulse_7_sps_dots0, pulse_7_sps_dots1, pulse_7_sps_dots2, top_point7)
         infos[_7.id] = _7
 
     if '8' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper

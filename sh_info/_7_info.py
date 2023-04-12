@@ -13,7 +13,7 @@ class Sh_7_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, pulse_7_sps_dots0, pulse_7_sps_dots1, top_point):  # EXTRAS1: srs tied to ls, sps dots
+    def __init__(_s, pulse, pulse_7_sps_dots0, pulse_7_sps_dots1, pulse_7_sps_dots2, top_point):  # EXTRAS1: srs tied to ls, sps dots
         super().__init__()
         _s.id = '7'
         _s.extent = "static"
@@ -22,9 +22,9 @@ class Sh_7_info(ShInfoAbstract):
         _s.init_frames = pulse
         _s.ld = top_point
 
-        _s.ls_gi = _s.gen_ls_gi(pulse)  # NO DYN_GEN
-        pulse_srs = _s.gen_pulse_srs7(pulse)
-        _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs)}
+        _s.ls_gi, pulse_srs0 = _s.gen_ls_gi(pulse)  # NO DYN_GEN
+        pulse_srs1 = _s.gen_pulse_srs7(pulse_srs0)  # 0: before extending for each sr
+        _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs1)}
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
 
         # init_frames_sp0 = [20]
@@ -34,14 +34,14 @@ class Sh_7_info(ShInfoAbstract):
 
         _s.sps_gi0 = _s.gen_sps_gi0(pulse_7_sps_dots0)
         _s.sps_gi1 = _s.gen_sps_gi1(pulse_7_sps_dots1)
-        # _s.sps_gi2 = _s.gen_sps_gi2(init_frames_sp2)
+        _s.sps_gi2 = _s.gen_sps_gi2(pulse_7_sps_dots2)
         # _s.sps_gi3 = _s.gen_sps_gi3(init_frames_sp3)
-        _s.sps_gi_init_frames = pulse_7_sps_dots0 + pulse_7_sps_dots1 #+ init_frames_sp1 + init_frames_sp2
+        _s.sps_gi_init_frames = pulse_7_sps_dots0 + pulse_7_sps_dots1 + pulse_7_sps_dots2 #+ init_frames_sp1 + init_frames_sp2
 
         _s.sps_gi = {
             '0': _s.sps_gi0,
             '1': _s.sps_gi1,
-            # '2': _s.sps_gi2
+            '2': _s.sps_gi2
             # '3': _s.sps_gi3
         }
 
@@ -57,46 +57,54 @@ class Sh_7_info(ShInfoAbstract):
         lif0 = [pulse[0]]
         lif1 = [pulse[1]]
         lif2 = [pulse[2]]
+        lif3 = [pulse[3]]
+
+        pulse_for_srs = pulse
 
         for i in range(1, 5):
             lif0.append(pulse[0] + 101 * i)
             lif1.append(pulse[1] + 101 * i)
             lif2.append(pulse[2] + 101 * i)
+            lif3.append(pulse[3] + 101 * i)
+
+            pulse_for_srs.extend([pulse[0] + 101 * i,
+                                  pulse[1] + 101 * i,
+                                  pulse[2] + 101 * i,
+                                  pulse[3] + 101 * i])
 
         # lif0 = [pulse[0], pulse[0] + 101 * 2, pulse[0] + 101 * 3, pulse[0] + 101 * 4, pulse[0] + 101 * 5]
         # lif1 = [pulse[1], pulse[1] + 101 * 2, pulse[1] + 101 * 3, pulse[1] + 101 * 4, pulse[1] + 101 * 5]  # OBS REMEMBER l_init_frames below
         # lif2 = [pulse[2], pulse[2] + 101 * 2, pulse[2] + 101 * 3, pulse[2] + 101 * 4, pulse[2] + 101 * 5]  # OBS REMEMBER l_init_frames below
         # lif2 = [pulse[2]]
         # lif3 = [pulse[3]]
-        l_init_frames = lif0 + lif1 + lif2 #+ lif3
+        l_init_frames = lif0 + lif1 + lif2 + lif3
 
         ls_gi = {
             'init_frames_all': l_init_frames,
             'lif0': lif0,
             'lif1': lif1,
             'lif2': lif2,
-            # 'lif2': lif2,
-            # 'lif3': lif3,
-            'frames_tot0': 100,
+            'lif3': lif3,
+            'frames_tot0': 100,  # LETS KEEP IT
             'frames_tot1': 100,
             'frames_tot2': 100,
-            # 'frames_tot2': 500,
-            # 'frames_tot3': 500,
+            'frames_tot3': 100,
             'ld': _s.ld,
             'ld0': [_s.ld[0] + 12, _s.ld[1] + 152],
             'ld1': [_s.ld[0] + 82, _s.ld[1] + 148],
             'ld2': [_s.ld[0] - 74, _s.ld[1] + 112],
+            'ld3': [_s.ld[0] + 135, _s.ld[1] + 235],  # 108 235
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
         }
 
-        return ls_gi
+        return ls_gi, pulse_for_srs
 
     def gen_pulse_srs7(_s, pulse):
 
         pulse_srs = []
         for init_frame in pulse:
-            for i in range(-10, 10, 3):  # 5 total for each ls
+            for i in range(-10, 10, 6):  # 3ish total for each ls
                 init_frame_sr_cand = init_frame + i
                 if init_frame_sr_cand not in pulse_srs:
                     pulse_srs.append(init_frame_sr_cand)
@@ -124,7 +132,7 @@ class Sh_7_info(ShInfoAbstract):
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.2],
+            'alpha_y_range': [0, 0.3],
             'zorder': 200,
         }
 
@@ -135,6 +143,7 @@ class Sh_7_info(ShInfoAbstract):
     def gen_sps_gi0(_s, init_frames_sp):
 
         """
+        UPPER
         MATCHED WITH ls gi, BUT THEYRE NOT CHILDREN AS FOR F -> SP (bcs problem there is that when F dies, then
         so does sp, so f has to last longer than sp).
         top left one
@@ -162,7 +171,7 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_v_diff_c': 0.01,
             'ld': [_s.ld[0] - 5, _s.ld[1] + 20],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
-            'ld_offset_scale': [5, 100],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'ld_offset_scale': [5, 130],  # SCALE HERE IS USED AS INPUT TO NORMAL
             # 'R_ss': [0.9, 1], 'R_scale': 0.2,
             # 'G_ss': [0.5, 0.2], 'G_scale': 0.15,
             # 'B_ss': [0.2, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
@@ -175,7 +184,8 @@ class Sh_7_info(ShInfoAbstract):
     def gen_sps_gi1(_s, init_frames_sp):
 
         """
-        lower left one
+        MIDDLE
+
         THESE ARE AVERAGES
         r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
         climb up the projectile (before shifting)
@@ -195,7 +205,7 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_start': [0.4, 0.9],  #
             'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 5, _s.ld[1] + 140],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 100],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [70, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
             'alpha_y_range': [0.01, 0.4],
@@ -218,23 +228,21 @@ class Sh_7_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '2',
             'init_frames': init_frames_sp,
-            'frames_tot': 150,
-            'init_frame_max_dist': 100,  # random num of frames in future from init frame
-            'v_loc': 100, 'v_scale': 10,
-            'theta_loc': -0.7, 'theta_scale': 0.03,
-            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
+            'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'v_loc': 30, 'v_scale': 10,
+            # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
+            'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
+            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
-            'rgb_start': [0.4, 0.45],  #
-            'rgb_theta_diff_c': 1,
+            'sp_len_loc': 2, 'sp_len_scale': 4,
+            'rgb_start': [0.4, 0.9],  #
+            'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
-            'sp_len_loc': 5, 'sp_len_scale': 15,
-            'ld': [_s.ld[0] - 0, _s.ld[1] + 10],
-            'ld_offset_loc': [-25, 35],
-            'ld_offset_scale': [0, 1],
-            'R_ss': [0.8, 1], 'R_scale': 0.2,
-            'G_ss': [0.4, 0.2], 'G_scale': 0.2,
-            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
-            'alpha_y_range': [0.05, 0.9],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 160],
+            'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
+            'ld_offset_scale': [70, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'alpha_y_range': [0.01, 0.4],
             'up_down': 'down'
         }
 
@@ -242,42 +250,42 @@ class Sh_7_info(ShInfoAbstract):
 
         return sps_gi
 
-    def gen_sps_gi3(_s, init_frames_sp):
-
-        """
-        lower left one
-        THESE ARE AVERAGES
-        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
-        climb up the projectile (before shifting)
-        """
-
-        sps_gi = {
-            'gi_id': '3',
-            'init_frames': init_frames_sp,
-            'frames_tot': 150,
-            'init_frame_max_dist': 100,  # random num of frames in future from init frame
-            'v_loc': 100, 'v_scale': 10,
-            # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'theta_loc': -1.1, 'theta_scale': 0.1,
-            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
-            'r_f_d_type': 'after',  # which part of r_f_d to use
-            'rgb_start': [0.4, 0.45],  #
-            'rgb_theta_diff_c': 1,
-            'rgb_v_diff_c': 0.01,
-            'sp_len_loc': 5, 'sp_len_scale': 15,
-            'ld': [_s.ld[0] - 0, _s.ld[1] + 15],
-            'ld_offset_loc': [0, 2],
-            'ld_offset_scale': [1, 1],
-            'R_ss': [0.8, 1], 'R_scale': 0.2,
-            'G_ss': [0.4, 0.2], 'G_scale': 0.2,
-            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
-            'alpha_y_range': [0.01, 0.9],
-            'up_down': 'down'
-        }
-
-        # 160, 77, 36  -> 76, 42, 28
-
-        return sps_gi
+    # def gen_sps_gi3(_s, init_frames_sp):
+    #
+    #     """
+    #     lower left one
+    #     THESE ARE AVERAGES
+    #     r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
+    #     climb up the projectile (before shifting)
+    #     """
+    #
+    #     sps_gi = {
+    #         'gi_id': '3',
+    #         'init_frames': init_frames_sp,
+    #         'frames_tot': 150,
+    #         'init_frame_max_dist': 100,  # random num of frames in future from init frame
+    #         'v_loc': 100, 'v_scale': 10,
+    #         # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
+    #         'theta_loc': -1.1, 'theta_scale': 0.1,
+    #         'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
+    #         'r_f_d_type': 'after',  # which part of r_f_d to use
+    #         'rgb_start': [0.4, 0.45],  #
+    #         'rgb_theta_diff_c': 1,
+    #         'rgb_v_diff_c': 0.01,
+    #         'sp_len_loc': 5, 'sp_len_scale': 15,
+    #         'ld': [_s.ld[0] - 0, _s.ld[1] + 15],
+    #         'ld_offset_loc': [0, 2],
+    #         'ld_offset_scale': [1, 1],
+    #         'R_ss': [0.8, 1], 'R_scale': 0.2,
+    #         'G_ss': [0.4, 0.2], 'G_scale': 0.2,
+    #         'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+    #         'alpha_y_range': [0.01, 0.9],
+    #         'up_down': 'down'
+    #     }
+    #
+    #     # 160, 77, 36  -> 76, 42, 28
+    #
+    #     return sps_gi
 
 
 

@@ -211,7 +211,7 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
         _s.gi['sp_len'] = max(3, _s.gi['sp_len'])
 
-        if _s.gi['v'] > 30:
+        if _s.gi['v'] > 40:  # NEW
             _s.gi['sp_len'] = 3
 
         if _s.id[0] != '3':  # 3 zorders hardcoded

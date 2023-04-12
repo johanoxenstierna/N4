@@ -19,7 +19,7 @@ from src.ani_helpers import *
 import P as P
 from src.chronicler import Chronicler
 
-WRITE = 65  #
+WRITE = 0  #
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 
@@ -115,7 +115,7 @@ def animate(i):
 
             for f_id, f in sh.fs.items():
 
-                if f.drawn != 0:  # the 4 from above is needed only the very first iteration it becomes visible
+                if f.drawn != 0:  # OBS the 4 from above is needed only the very first iteration it becomes visible
                     f.set_clock(i)
 
                     drawBool, index_removed = f.ani_update_step(ax0, im_ax)

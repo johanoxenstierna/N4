@@ -309,81 +309,81 @@ def set_sps(sp, im_ax):
 # return pic
 
 
-def fire_brightness(pic, ii, g_obj):
-	"""Instant lightning up of ship objects when firing"""
+# def fire_brightness(pic, ii, g_obj):
+# 	"""Instant lightning up of ship objects when firing"""
+#
+# 	type = 'constant'
+# 	gi = None
+# 	# expls = None
+# 	if g_obj.__class__.__name__ == 'Ship':
+# 		gi_ship = g_obj.gi
+# 		# expls = g_obj.expls
+# 		type = 'mvn'  # multivariate normal
+# 	else:
+# 		gi_ship = g_obj.ship.gi
+# 	# expls = g_obj.ship.expls
+#
+# 	# FIRING UPDATES = ===================
+# 	if ii not in gi_ship['firing_frames'] or g_obj.__class__.__name__ not in ['Ship', 'Sail', 'Wave', 'Spl', 'Expl', 'Smoke']:
+# 		return pic
+#
+# 	# BRIGHTNESS =
+# 	if type == 'constant':  # same shift applied to whole pic
+# 		# ex = 5.84
+#
+# 		c = 0.5
+# 		if g_obj.__class__.__name__ == 'Smoke':
+# 			if g_obj.type == 'r':
+# 				c = 1
+# 			elif g_obj.type == 'a':  # SMOKHS do not come here
+# 				c = 0.2  # 50: 0.3  doesnt work for larger smokas
+# 				if g_obj.id_gi in ['0_a_2', '2_a_3', '1_a_2', '5_a_1', '6_a_1', '6_a_2', '6_a_3', '7_a_2']:  # 51: new
+# 					c = 0.03
+# 		elif g_obj.__class__.__name__ == 'Sail':
+# 			c = 0.4  # 47 ex was 0.4
+# 		elif g_obj.__class__.__name__ == 'Wave':
+# 			c = 0.7  # 44 ex was 1.5
+#
+# 		ex = c * np.random.rand() + 1  # TODO: Perhaps make this more fancy.  2.7 makes it totally white
+#
+# 		# if iii in firing_frames:
+# 		# 	ex = 0.84  # decrease in green and blue
+# 		# pic = _s.pic.copy()  # REQUIRED
+# 		pic[:, :, 0] = pic[:, :, 0] * ex  # more y=more red, less=more green
+# 		pic[:, :, 0][pic[:, :, 0] > 1.0] = 1.0
+# 		pic[:, :, 1] = pic[:, :, 1] * ex  # more y=more green, less=more red
+# 		pic[:, :, 1][pic[:, :, 1] > 1.0] = 1.0
+# 		pic[:, :, 2] = pic[:, :, 2] * ex  # Needed to complement red and green
+# 		pic[:, :, 2][pic[:, :, 2] > 1.0] = 1.0
+# 	elif type == 'mvn':
+# 		X0, X1 = np.meshgrid(np.arange(0, pic.shape[1], 1), np.arange(0, pic.shape[0], 1))
+# 		X = np.dstack((X0, X1))
+#
+# 		# Select ld for mean
+# 		ld = gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_ss'][0].copy()  # OMG actually gets overwritten
+# 		ld[0] += random.randint(-gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][0],
+# 								gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][0])
+# 		ld[1] += random.randint(-gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][1],
+# 								gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][1])
+# 		left_top = ld
+# 		left_top[1] = pic.shape[0] + ld[1]
+#
+# 		# Y = multivariate_normal.pdf(X, mean=(72, 213), cov=[[50, 0], [0, 50]])
+# 		Y = multivariate_normal.pdf(X, mean=left_top, cov=[[pic.shape[1] * 1.2, 0], [0, pic.shape[0] * 1.2]])  # 350. 650
+# 		Y = min_max_normalization(Y, y_range=[0, 0.4])  # this is amount added to current
+#
+# 		# aa = pic[:, :, 0] * Y
+# 		pic[:, :, 0] += Y  # more y=more red, less=more green
+# 		pic[:, :, 0][pic[:, :, 0] > 1.0] = 1.0
+# 		pic[:, :, 1] += Y  # more y=more green, less=more red
+# 		pic[:, :, 1][pic[:, :, 1] > 1.0] = 1.0
+# 		pic[:, :, 2] += Y  # Needed to complement red and green
+# 		pic[:, :, 2][pic[:, :, 2] > 1.0] = 1.0
+#
+# 	return pic
 
-	type = 'constant'
-	gi = None
-	# expls = None
-	if g_obj.__class__.__name__ == 'Ship':
-		gi_ship = g_obj.gi
-		# expls = g_obj.expls
-		type = 'mvn'  # multivariate normal
-	else:
-		gi_ship = g_obj.ship.gi
-	# expls = g_obj.ship.expls
-
-	# FIRING UPDATES = ===================
-	if ii not in gi_ship['firing_frames'] or g_obj.__class__.__name__ not in ['Ship', 'Sail', 'Wave', 'Spl', 'Expl', 'Smoke']:
-		return pic
-
-	# BRIGHTNESS =
-	if type == 'constant':  # same shift applied to whole pic
-		# ex = 5.84
-
-		c = 0.5
-		if g_obj.__class__.__name__ == 'Smoke':
-			if g_obj.type == 'r':
-				c = 1
-			elif g_obj.type == 'a':  # SMOKHS do not come here
-				c = 0.2  # 50: 0.3  doesnt work for larger smokas
-				if g_obj.id_gi in ['0_a_2', '2_a_3', '1_a_2', '5_a_1', '6_a_1', '6_a_2', '6_a_3', '7_a_2']:  # 51: new
-					c = 0.03
-		elif g_obj.__class__.__name__ == 'Sail':
-			c = 0.4  # 47 ex was 0.4
-		elif g_obj.__class__.__name__ == 'Wave':
-			c = 0.7  # 44 ex was 1.5
-
-		ex = c * np.random.rand() + 1  # TODO: Perhaps make this more fancy.  2.7 makes it totally white
-
-		# if iii in firing_frames:
-		# 	ex = 0.84  # decrease in green and blue
-		# pic = _s.pic.copy()  # REQUIRED
-		pic[:, :, 0] = pic[:, :, 0] * ex  # more y=more red, less=more green
-		pic[:, :, 0][pic[:, :, 0] > 1.0] = 1.0
-		pic[:, :, 1] = pic[:, :, 1] * ex  # more y=more green, less=more red
-		pic[:, :, 1][pic[:, :, 1] > 1.0] = 1.0
-		pic[:, :, 2] = pic[:, :, 2] * ex  # Needed to complement red and green
-		pic[:, :, 2][pic[:, :, 2] > 1.0] = 1.0
-	elif type == 'mvn':
-		X0, X1 = np.meshgrid(np.arange(0, pic.shape[1], 1), np.arange(0, pic.shape[0], 1))
-		X = np.dstack((X0, X1))
-
-		# Select ld for mean
-		ld = gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_ss'][0].copy()  # OMG actually gets overwritten
-		ld[0] += random.randint(-gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][0],
-								gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][0])
-		ld[1] += random.randint(-gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][1],
-								gi_ship['xtras'][gi_ship['id'] + '_expls']['ld_offset_rand_ss'][0][1])
-		left_top = ld
-		left_top[1] = pic.shape[0] + ld[1]
-
-		# Y = multivariate_normal.pdf(X, mean=(72, 213), cov=[[50, 0], [0, 50]])
-		Y = multivariate_normal.pdf(X, mean=left_top, cov=[[pic.shape[1] * 1.2, 0], [0, pic.shape[0] * 1.2]])  # 350. 650
-		Y = min_max_normalization(Y, y_range=[0, 0.4])  # this is amount added to current
-
-		# aa = pic[:, :, 0] * Y
-		pic[:, :, 0] += Y  # more y=more red, less=more green
-		pic[:, :, 0][pic[:, :, 0] > 1.0] = 1.0
-		pic[:, :, 1] += Y  # more y=more green, less=more red
-		pic[:, :, 1][pic[:, :, 1] > 1.0] = 1.0
-		pic[:, :, 2] += Y  # Needed to complement red and green
-		pic[:, :, 2][pic[:, :, 2] > 1.0] = 1.0
-
-	return pic
-
-
-def find_all_ax_at_coord():  # probably wont be used
-
-	return ""
+#
+# def find_all_ax_at_coord():  # probably wont be used
+#
+# 	return ""
 

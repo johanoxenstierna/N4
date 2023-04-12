@@ -33,8 +33,8 @@ class Sh_6_info(ShInfoAbstract):
 
             # pulse_srs = random.sample(range(pulse[0], pulse[-1]), 50)
             # pulse_srs = [max(30, x - 50) for x in pulse_srs]
-            _s.srs_gi = _s.gen_srs_gi([pulse[0] + 5, pulse[0] + 20, pulse[0] + 35])  # OBS: sp_gi generated in f class. There is no info class for f.
-            _s.srs_gi_init_frames = [pulse[0] + 5, pulse[0] + 20, pulse[0] + 35]
+            _s.srs_gi = _s.gen_srs_gi([pulse[0] + 5, pulse[0] + 20, pulse[0] + 35, pulse[0] + 50])  # OBS: sp_gi generated in f class. There is no info class for f.
+            _s.srs_gi_init_frames = [pulse[0] + 5, pulse[0] + 20, pulse[0] + 35, pulse[0] + 50]
             _s.srs_gi = {  # these numbers correspond to c!
                 '0': _s.srs_gi,
             }
@@ -74,11 +74,11 @@ class Sh_6_info(ShInfoAbstract):
 
         srs_gi = {
             'init_frames': copy.deepcopy(pulse_srs),
-            'frames_tot': 200,
+            'frames_tot': 300,
             'ld': [_s.ld[0] - 0, _s.ld[1]],
             'ld_offset_loc': [-4, 15],
             'ld_offset_scale': [1, 1],
-            'scale_ss': [0.01, 1.3],
+            'scale_ss': [0.01, 1.5],
             'frame_ss': _s.frame_ss,
             'v_loc': 46,  # OBS SPECIAL, USES BEFORE
             'v_scale': 0,
@@ -88,7 +88,7 @@ class Sh_6_info(ShInfoAbstract):
             'r_f_d_loc': 0.9,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.2],
+            'alpha_y_range': [0, 0.3],
             'zorder': 50,
         }
 
@@ -103,16 +103,16 @@ class Sh_6_info(ShInfoAbstract):
         """
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
-            'frames_tot': 300,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. NOT CONFIRMED
-            'v_loc': 36, 'v_scale': 8,
+            'frames_tot': 600,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. NOT CONFIRMED
+            'v_loc': 50, 'v_scale': 20,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.2,
-            'r_f_d_loc': 0.3, 'r_f_d_scale': 0.2,
-            'sp_len_loc': 3, 'sp_len_scale': 20,
+            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.3,
+            'sp_len_loc': 3, 'sp_len_scale': 100,
             # 'rad_rot': 0.1,
             'ld': _s.ld,  # in
-            'ld_offset_loc': [0, 2],
-            'ld_offset_scale': [0, 1],
+            'ld_offset_loc': [0, 0],  # NOT USED!!!
+            'ld_offset_scale': [5, 5],
             'rgb_start': [0.4, 0.6],  #
             'rgb_theta_diff_c': 0.1,
             'rgb_v_diff_c': 0.001,

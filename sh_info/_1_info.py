@@ -31,7 +31,7 @@ class Sh_1_info(ShInfoAbstract):
         pulse_lis = [x + 200 for x in pulse_lis]
         _s.lis_gi = _s.gen_lis_gi(pulse_lis)
 
-        pulse_fs = [EXPL_F]  # shockwave
+        pulse_fs = [EXPL_F + 10]  # shockwave
         _s.fs_gi = _s.gen_fs_gi(pulse_fs)
 
         pulse_sps = []  # sp hits down
@@ -93,10 +93,10 @@ class Sh_1_info(ShInfoAbstract):
             'frames_tot': 80,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
             'scale_ss': [0.1, 2.0],
             'frame_ss': None,  # simpler with this
-            'ld': [_s.ld[0] - 20, _s.ld[1] + 30],
+            'ld': [_s.ld[0] - 30, _s.ld[1] + 30],
             'x_mov': list(np.linspace(0, -200, num=80)),  # SPECIAL
             'y_mov': list(np.linspace(0, 200, num=80)),  # SPECIAL
-            'alpha_y_range': [0, 0.6],
+            'alpha_y_range': [0, 0.8],
             'zorder': _s.zorder
         }
 
