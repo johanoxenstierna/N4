@@ -33,7 +33,7 @@ class Sh_3_info(ShInfoAbstract):
             _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=10)
             _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=70)
             _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=50)
-            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 30, frames_tot1=500, z_d=100)
+            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 30, frames_tot1=500, z_d=70)
             _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=70)
             _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=80)
             _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=80)  # OBS 100 is volc_d
@@ -183,7 +183,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 30,
+            'v': 40,
             'theta': 1.5,
             'r_f_d': 0.5,  # more = more up (for some weird reason)
             'extra_offset_x': 0,
@@ -883,7 +883,7 @@ class Sh_3_info(ShInfoAbstract):
 
     def gen_cs_gi7(_s, frames_tot, frames_tot1, z_d):
 
-        ld = [_s.ld[0] - 20, _s.ld[1] + 10]
+        ld = [_s.ld[0] - 25, _s.ld[1] + 10]
 
         # if P.DEBUG:
         #     frames_tot = 10
@@ -904,7 +904,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_x': 0,
             'extra_offset_y': 3,
             'up_down': 'up',
-            'rad_rot': -0.2,
+            'rad_rot': 0.2,
             'zorder': _s.zorder + z_d
         }
 

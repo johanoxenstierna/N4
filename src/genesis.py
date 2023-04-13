@@ -1,6 +1,8 @@
 
 import random
 
+import numpy as np
+
 import P
 
 # from sh_info import shInfoAbstract, _0_info
@@ -21,7 +23,8 @@ def init_infos():
     top_point7 = [560, 330]
     EXPL_F = 400
 
-    pulse_sr1 = random.sample(range(5, 800), 70)  # 1 (sr)  # OBS '2' CAN ONLY BE TESTED WHEN STARTS AT 100
+    pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 400), 70)  # 1 (sr)  # OBS '2' CAN ONLY BE TESTED WHEN STARTS AT 100
+    pulse_sr1.sort(reverse=False)
     # pulse_sr1 = [110, 150]  # 1 (sr)
     pulse_0 = random.sample(range(50, 500), 25)  # 0 after initial srs
     # pulse_0 = [50, 250]
@@ -32,20 +35,20 @@ def init_infos():
 
     pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
-    pulse_5 = random.sample(range(EXPL_F + 50, EXPL_F + 600), 30)  # post expl
+    pulse_5 = random.sample(range(EXPL_F + 0, EXPL_F + 600), 30)  # post expl
+    pulse_5.append(EXPL_F + 0)
+    pulse_5.sort(reverse=False)
     # pulse_5 = [50, 100, 200]  # expl
 
     # pulse_6 = [5, 10, 50, 100]
-    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 50]
+    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20]
 
     # pulse_7 = [10, 40, 80]
     # pulse_7 = [150, 180, 200, 280, 350]
-    pulse_7 = [EXPL_F - 50, EXPL_F - 20, EXPL_F, EXPL_F + 20, EXPL_F + 30]
+    start_7 = -50  # relative to EXPL
+    end_7 = 300  # relative to EXPL
+    pulse_7 = list(range(EXPL_F + start_7, EXPL_F + end_7, 30))
 
-    # TODO AUTOMATE
-    pulse_7_sps_dots0 = [EXPL_F - 50, EXPL_F - 20, EXPL_F, EXPL_F + 80, EXPL_F + 150]  # top of mt
-    pulse_7_sps_dots1 = [EXPL_F + 101, EXPL_F + 151, EXPL_F + 101, EXPL_F + 351]  # other locs
-    pulse_7_sps_dots2 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
     # pulse_7_sps_dots1 = [10, 20, 30]  # other locs
     pulse_8 = None  # this one is specially set inside 8_info
 
@@ -86,7 +89,7 @@ def init_infos():
         infos[_6.id] = _6
 
     if '7' in P.SHS_TO_SHOW:  # EXTRAS1: srs tied to ls, sps dots
-        _7 = _7_info.Sh_7_info(pulse_7, pulse_7_sps_dots0, pulse_7_sps_dots1, pulse_7_sps_dots2, top_point7)
+        _7 = _7_info.Sh_7_info(pulse_7, top_point7)
         infos[_7.id] = _7
 
     if '8' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper

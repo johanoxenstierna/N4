@@ -19,7 +19,7 @@ from src.ani_helpers import *
 import P as P
 from src.chronicler import Chronicler
 
-WRITE = 0  #
+WRITE = 67  #
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 

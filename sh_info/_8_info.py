@@ -26,7 +26,7 @@ class Sh_8_info(ShInfoAbstract):
             '1': _s.gen_srs_gi1(frames_tot=300),
             '2': _s.gen_srs_gi2(frames_tot=300),
             '3': _s.gen_srs_gi3(frames_tot=300),
-            '4': _s.gen_srs_gi4(frames_tot=400),
+            '4': _s.gen_srs_gi4(frames_tot=700),
             '5': _s.gen_srs_gi5(frames_tot=400),
             '6': _s.gen_srs_gi6(frames_tot=300),
             '7': _s.gen_srs_gi7(frames_tot=300),
@@ -56,11 +56,13 @@ class Sh_8_info(ShInfoAbstract):
                 frames_tot = val['frames_tot']
                 init_frames1 = [x + (i * (frames_tot + 10)) for x in val['init_frames']]
 
-                if init_frames1[-1] + frames_tot > P.FRAMES_STOP * 0.95:
-                    raise Exception("8 clouds init_frames1[-1] + frames_tot > P.FRAMES_STOP * 0.9")
+                if init_frames1[-1] + frames_tot < P.FRAMES_STOP * 0.95:
+                    init_frames_out.extend(init_frames1)
+                else:
+                    print("8 clouds init_frames1[-1] + frames_tot > P.FRAMES_STOP * 0.9")
                 adf = 6
 
-                init_frames_out.extend(init_frames1)
+
             val['init_frames'] = init_frames_out
 
     def gen_srs_gi0(_s, frames_tot):
@@ -72,8 +74,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.1, 0.02],
             'ld': [_s.ld[0] - 200, _s.ld[1] + 60],  # finish_info
-            'ld_offset_loc': [2, 2],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 50],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.3],
@@ -93,8 +95,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.15, 0.02],
             'ld': [_s.ld[0] - 260, _s.ld[1] + 80],  # finish_info
-            'ld_offset_loc': [-3, -5],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 10],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.3],
@@ -114,8 +116,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.1, 0.02],
             'ld': [_s.ld[0] - 100, _s.ld[1] - 35],  # finish_info
-            'ld_offset_loc': [-5, 3],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 50],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.5],
@@ -135,8 +137,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.15, 0.02],
             'ld': [_s.ld[0] - 100, _s.ld[1] + 70],  # finish_info
-            'ld_offset_loc': [3, 3],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 50],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.5],
@@ -157,9 +159,9 @@ class Sh_8_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.02, 0.01],
-            'ld': [_s.ld[0] - 50, _s.ld[1] + 50],  # finish_info
-            'ld_offset_loc': [10, 5],
-            'ld_offset_scale': [1, 1],
+            'ld': [_s.ld[0] + 40, _s.ld[1] + 50],  # finish_info
+            'ld_offset_loc': [0, 0],  # NOT USED
+            'ld_offset_scale': [5, 2],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.2),
             'alpha_y_range': [0.01, 0.2],
@@ -180,8 +182,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.02, 0.01],
             'ld': [_s.ld[0] + 150, _s.ld[1] + 60],  # finish_info
-            'ld_offset_loc': [10, 5],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],  # NOT USED
+            'ld_offset_scale': [5, 2],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.2),
             'alpha_y_range': [0.01, 0.2],
@@ -201,8 +203,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.02, 0.01],
             'ld': [_s.ld[0] + 260, _s.ld[1] + 80],  # finish_info
-            'ld_offset_loc': [5, 6],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 10],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.2),
             'alpha_y_range': [0.1, 0.3],
@@ -222,8 +224,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.05, 0.02],
             'ld': [_s.ld[0] + 200, _s.ld[1] + 60],  # finish_info
-            'ld_offset_loc': [10, 5],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 10],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.3],
@@ -243,8 +245,8 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.15, 0.02],
             'ld': [_s.ld[0] - 60, _s.ld[1] - 5],  # finish_info
-            'ld_offset_loc': [100, -20],
-            'ld_offset_scale': [1, 1],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 50],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.3],

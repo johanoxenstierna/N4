@@ -21,10 +21,12 @@ class Sh_1_info(ShInfoAbstract):
         _s.init_frames = pulse
         _s.ld = [top_point[0] - 3, top_point[1] - 5]
 
+        _s.zorder = 200  # in fron t of c
+
         pulse_srs = [x + 30 for x in _s.init_frames]
         _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs)}  # OBS: sp_gi generated in f class. There is no info class for f.
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
-        _s.zorder = 200  # in fron t of c
+
 
         # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
         pulse_lis = [10, 20, 40, 60, 80, 100, 150, 180, 200, 220, 230, 245, 250, 260, 280, 300]
@@ -86,17 +88,17 @@ class Sh_1_info(ShInfoAbstract):
         This has to be provided because the fs are generated w.r.t. sh.
         This is like the constructor input for F class
         """
-
+        FRAMES_TOT = 120
         fs_gi = {
-            'rad_rot': -0.2,
+            'rad_rot': -0.0,
             'init_frames': pulse,
-            'frames_tot': 80,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
+            'frames_tot': FRAMES_TOT,
             'scale_ss': [0.1, 2.0],
             'frame_ss': None,  # simpler with this
-            'ld': [_s.ld[0] - 30, _s.ld[1] + 30],
-            'x_mov': list(np.linspace(0, -200, num=80)),  # SPECIAL
-            'y_mov': list(np.linspace(0, 200, num=80)),  # SPECIAL
-            'alpha_y_range': [0, 0.8],
+            'ld': [_s.ld[0] - 10, _s.ld[1] + 30],
+            'x_mov': list(np.linspace(0, -200, num=FRAMES_TOT)),  # SPECIAL
+            'y_mov': list(np.linspace(0, 200, num=FRAMES_TOT)),  # SPECIAL
+            'alpha_y_range': [0.01, 0.8],
             'zorder': _s.zorder
         }
 

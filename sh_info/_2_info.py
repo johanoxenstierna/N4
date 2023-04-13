@@ -27,7 +27,7 @@ class Sh_2_info(ShInfoAbstract):
         but sps plotted a bunch.
         NEW: Only plotted once and sps controlled with init_frame_max_dist and num_scale
         '''
-        _s.zorder = 130
+        _s.zorder = 200
         _s.ls_gi = _s.gen_ls_gi(pulse)  # NO DYN_GEN
 
         if P.A_SPS:
@@ -131,7 +131,7 @@ class Sh_2_info(ShInfoAbstract):
             'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
             'scale': 0.5,
             'frame_ss': _s.frame_ss,
-            'zorder': 200  # 3 is 110
+            'zorder': _s.zorder  # 3 is 110
         }
 
         return l_gi

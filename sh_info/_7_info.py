@@ -13,7 +13,7 @@ class Sh_7_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, pulse_7_sps_dots0, pulse_7_sps_dots1, pulse_7_sps_dots2, top_point):  # EXTRAS1: srs tied to ls, sps dots
+    def __init__(_s, pulse, top_point):  # EXTRAS1: srs tied to ls, sps dots
         super().__init__()
         _s.id = '7'
         _s.extent = "static"
@@ -32,11 +32,16 @@ class Sh_7_info(ShInfoAbstract):
         # init_frames_sp2 = [60]  # 150 is init_frame_max_dist
         # init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
 
-        _s.sps_gi0 = _s.gen_sps_gi0(pulse_7_sps_dots0)
-        _s.sps_gi1 = _s.gen_sps_gi1(pulse_7_sps_dots1)
-        _s.sps_gi2 = _s.gen_sps_gi2(pulse_7_sps_dots2)
+        # pulse_7_sps_dots0 = [EXPL_F - 50, EXPL_F - 20, EXPL_F, EXPL_F + 80, EXPL_F + 150]  # top of mt
+        # pulse_7_sps_dots1 = [EXPL_F + 101, EXPL_F + 151, EXPL_F + 101, EXPL_F + 351]  # other locs
+        # pulse_7_sps_dots2 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
+
+        pulse_dots = _s.gen_pulse_dots(pulse)
+        _s.sps_gi0 = _s.gen_sps_gi0(pulse_dots[0])
+        _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[1])
+        _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[2])
         # _s.sps_gi3 = _s.gen_sps_gi3(init_frames_sp3)
-        _s.sps_gi_init_frames = pulse_7_sps_dots0 + pulse_7_sps_dots1 + pulse_7_sps_dots2 #+ init_frames_sp1 + init_frames_sp2
+        _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  #+ init_frames_sp1 + init_frames_sp2
 
         _s.sps_gi = {
             '0': _s.sps_gi0,
@@ -59,7 +64,7 @@ class Sh_7_info(ShInfoAbstract):
         lif2 = [pulse[2]]
         lif3 = [pulse[3]]
 
-        pulse_for_srs = pulse
+        pulse_for_srs = copy.deepcopy(pulse)
 
         for i in range(1, 5):
             lif0.append(pulse[0] + 101 * i)
@@ -140,6 +145,25 @@ class Sh_7_info(ShInfoAbstract):
 
         return srs_gi
 
+    def gen_pulse_dots(_s, pulse):
+        """Distances are same for all pulses
+        frames_tot: 120 (from below)
+        """
+
+        pulse_dots = []
+
+        offset0 = -50
+        offset1 = 200
+        offset2 = 350
+
+        pulse_dots = [
+            [x + offset0 for x in pulse],
+            [x + offset1 for x in pulse],
+            [x + offset2 for x in pulse]
+        ]
+
+        return pulse_dots
+
     def gen_sps_gi0(_s, init_frames_sp):
 
         """
@@ -207,7 +231,7 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_v_diff_c': 0.01,
             'ld': [_s.ld[0] - 5, _s.ld[1] + 100],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
-            'ld_offset_scale': [70, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'ld_offset_scale': [40, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
             'alpha_y_range': [0.01, 0.4],
             'up_down': 'down'
         }
@@ -239,9 +263,9 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_start': [0.4, 0.9],  #
             'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 5, _s.ld[1] + 160],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 170],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
-            'ld_offset_scale': [70, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'ld_offset_scale': [100, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
             'alpha_y_range': [0.01, 0.4],
             'up_down': 'down'
         }
