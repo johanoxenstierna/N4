@@ -104,7 +104,7 @@ class Sh_6_info(ShInfoAbstract):
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 600,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. NOT CONFIRMED
-            'v_loc': 40, 'v_scale': 17,
+            'v_loc': 43, 'v_scale': 13,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.2,
             'r_f_d_loc': 0.2, 'r_f_d_scale': 0.3,
@@ -113,8 +113,8 @@ class Sh_6_info(ShInfoAbstract):
             'ld': _s.ld,  # in
             'ld_offset_loc': [0, 0],  # NOT USED!!!
             'ld_offset_scale': [5, 5],
-            'rgb_start': [0.4, 0.6],  #
-            'rgb_theta_diff_c': 0.1,
+            'rgb_start': [0.4, 0.7],  #
+            'rgb_theta_diff_c': 0.2,
             'rgb_v_diff_c': 0.001,
             'R_ss': [0.7, 1], 'R_scale': 0.3,  # first one is loc
             'G_ss': [0.4, 0.3], 'G_scale': 0.2,

@@ -40,14 +40,14 @@ class Sh_7_info(ShInfoAbstract):
         _s.sps_gi0 = _s.gen_sps_gi0(pulse_dots[0])
         _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[1])
         _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[2])
-        # _s.sps_gi3 = _s.gen_sps_gi3(init_frames_sp3)
+        _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[3])
         _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  #+ init_frames_sp1 + init_frames_sp2
 
         _s.sps_gi = {
             '0': _s.sps_gi0,
             '1': _s.sps_gi1,
-            '2': _s.sps_gi2
-            # '3': _s.sps_gi3
+            # '2': _s.sps_gi2
+            '3': _s.sps_gi3
         }
 
         _s.zorder = 120
@@ -126,7 +126,7 @@ class Sh_7_info(ShInfoAbstract):
             'frames_tot': 300,
             'ld': None,  # finish_info
             'ld_offset_loc': [0, 0],
-            'ld_offset_scale': [2, 1],
+            'ld_offset_scale': [10, 6],
             'scale_ss': [0.01, 1.2],  # assumed big pics
             # 'frame_ss': _s.frame_ss,
             'v_loc': 25,  # OBS SPECIAL, USES BEFORE
@@ -153,13 +153,15 @@ class Sh_7_info(ShInfoAbstract):
         pulse_dots = []
 
         offset0 = -50
-        offset1 = 200
-        offset2 = 350
+        offset1 = 300
+        offset2 = 10
+        offset3 = 400
 
         pulse_dots = [
             [x + offset0 for x in pulse],
             [x + offset1 for x in pulse],
-            [x + offset2 for x in pulse]
+            [x + offset2 for x in pulse],
+            [x + offset3 for x in pulse]
         ]
 
         return pulse_dots
@@ -189,11 +191,11 @@ class Sh_7_info(ShInfoAbstract):
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
-            'sp_len_loc': 2, 'sp_len_scale': 4,
-            'rgb_start': [0.4, 0.9],  #
-            'rgb_theta_diff_c': 0.0,
+            'sp_len_loc': 2, 'sp_len_scale': 24,
+            'rgb_start': [0.4, 0.7],  # ONLY START (between these 2)
+            'rgb_theta_diff_c': 0.1,  # prob not used due to minimum broken
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 5, _s.ld[1] + 20],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 17],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [5, 130],  # SCALE HERE IS USED AS INPUT TO NORMAL
             # 'R_ss': [0.9, 1], 'R_scale': 0.2,
@@ -219,17 +221,17 @@ class Sh_7_info(ShInfoAbstract):
             'gi_id': '1',
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
-            'v_loc': 30, 'v_scale': 10,
+            'init_frame_max_dist': 100,  # 100 OBS THIS MUST BE SHORTER
+            'v_loc': 60, 'v_scale': 30,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
-            'sp_len_loc': 2, 'sp_len_scale': 4,
-            'rgb_start': [0.4, 0.9],  #
+            'sp_len_loc': 2, 'sp_len_scale': 164,
+            'rgb_start': [0.3, 0.6],  #
             'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 5, _s.ld[1] + 100],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 90],  #60
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [40, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
             'alpha_y_range': [0.01, 0.4],
@@ -243,7 +245,8 @@ class Sh_7_info(ShInfoAbstract):
     def gen_sps_gi2(_s, init_frames_sp):
 
         """
-        lower left one
+        MIDDLE
+
         THESE ARE AVERAGES
         r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
         climb up the projectile (before shifting)
@@ -254,13 +257,47 @@ class Sh_7_info(ShInfoAbstract):
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'v_loc': 40, 'v_scale': 10,
+            # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
+            'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
+            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
+            'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 2, 'sp_len_scale': 164,
+            'rgb_start': [0.3, 0.5],  #
+            'rgb_theta_diff_c': 0.0,
+            'rgb_v_diff_c': 0.01,
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 100],
+            'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
+            'ld_offset_scale': [40, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'alpha_y_range': [0.01, 0.4],
+            'up_down': 'down'
+        }
+
+        # 160, 77, 36  -> 76, 42, 28
+
+        return sps_gi
+
+    def gen_sps_gi3(_s, init_frames_sp):
+
+        """
+        lower left one
+        THESE ARE AVERAGES
+        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
+        climb up the projectile (before shifting)
+        """
+
+        sps_gi = {
+            'gi_id': '3',
+            'init_frames': init_frames_sp,
+            'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
             'v_loc': 30, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 2, 'sp_len_scale': 4,
-            'rgb_start': [0.4, 0.9],  #
+            'rgb_start': [0.2, 0.5],  #
             'rgb_theta_diff_c': 0.0,
             'rgb_v_diff_c': 0.01,
             'ld': [_s.ld[0] - 5, _s.ld[1] + 170],

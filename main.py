@@ -19,7 +19,7 @@ from src.ani_helpers import *
 import P as P
 from src.chronicler import Chronicler
 
-WRITE = 67  #
+WRITE = 0  #
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 
@@ -85,7 +85,7 @@ def animate(i):
             # for l_id, l in sh.ls.items():
             aaa = 5
 
-        if P.A_FS and 'fs' in sh.gi.child_names:  # 0 and 5!!!
+        if P.A_FS and 'fs' in sh.gi.child_names:  # 0, 5, 6!!!
             if i in sh.gi.fs_gi['init_frames']:
                 f = sh.find_free_obj(type='f')
                 if f != None:
@@ -266,7 +266,7 @@ def animate(i):
                         # im_ax[sr.index_im_ax].set_alpha(1)
                         if P.A_LIS and '1' in shs.keys():  # 1 here is the holder of the lis!
                             if i in shs['1'].gi.lis_gi['init_frames']:
-                                if random.random() < 0.5:
+                                if random.random() < 0.1:
                                     alpha = sr.alpha[sr.clock] + random.uniform(0.05, 0.15)
                                     alpha = min(1, alpha)
                                     im_ax[sr.index_im_ax].set_alpha(alpha)

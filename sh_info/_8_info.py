@@ -30,7 +30,8 @@ class Sh_8_info(ShInfoAbstract):
             '5': _s.gen_srs_gi5(frames_tot=400),
             '6': _s.gen_srs_gi6(frames_tot=300),
             '7': _s.gen_srs_gi7(frames_tot=300),
-            '8': _s.gen_srs_gi8(frames_tot=300)
+            '8': _s.gen_srs_gi8(frames_tot=300),
+            '9': _s.gen_srs_gi9(frames_tot=700)
         }
 
         _s.extend_srs_init_frames(EXTEND_PARAM=3)  # TODO
@@ -164,7 +165,7 @@ class Sh_8_info(ShInfoAbstract):
             'ld_offset_scale': [5, 2],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.2),
-            'alpha_y_range': [0.01, 0.2],
+            'alpha_y_range': [0.01, 0.3],
             'up_down': None,  # key checked for alpha
             'zorder': 2000,
         }
@@ -252,6 +253,27 @@ class Sh_8_info(ShInfoAbstract):
             'alpha_y_range': [0.1, 0.3],
             'up_down': None,  # key checked for alpha
             'zorder': 90,
+        }
+
+        assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
+
+        return srs_gi
+
+    def gen_srs_gi9(_s, frames_tot):
+        srs_gi = {
+            'id': 9,
+            'init_frames': [19, 29, 39, 49, 59],
+            'frames_tot': frames_tot,
+            'v_linear_loc': [-0.3, 0],
+            'v_linear_scale': [0.15, 0.02],
+            'ld': [_s.ld[0] + 40, _s.ld[1] + 100],  # finish_info
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [5, 2],
+            'scale_ss': [1, 1],  # assumed big pics
+            'rad_rot': random.uniform(-0.1, -0.3),
+            'alpha_y_range': [0.1, 0.3],
+            'up_down': None,  # key checked for alpha
+            'zorder': 2000,
         }
 
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)

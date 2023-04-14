@@ -29,8 +29,8 @@ class Sh_1_info(ShInfoAbstract):
 
 
         # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
-        pulse_lis = [10, 20, 40, 60, 80, 100, 150, 180, 200, 220, 230, 245, 250, 260, 280, 300]
-        pulse_lis = [x + 200 for x in pulse_lis]
+        pulse_lis = list(range(5, 400, 10))
+        # TODO: Add extra lis for expl and mess with the uniform random
         _s.lis_gi = _s.gen_lis_gi(pulse_lis)
 
         pulse_fs = [EXPL_F + 10]  # shockwave

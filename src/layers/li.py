@@ -37,3 +37,12 @@ class Li(AbstractLayer, AbstractSSS):
         _s.gi['ld'][0] += random.uniform(-20, -5)
         _s.gi['ld'][1] += random.uniform(-10, 10)
         # _s.gi['init_frames']
+
+        # SPECIAL
+        if _s.id.split('_')[2] in ['4']:
+            _s.gi['ld'][0] += random.uniform(-50, -15)
+            _s.gi['ld'][1] += random.uniform(-50, -30)
+            _s.gi['rad_rot'] = 0
+            _s.gi['scale'] = random.uniform(0.7, 1.2)
+        # adf = 6
+

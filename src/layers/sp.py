@@ -141,7 +141,7 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['r_f_d'] = max(0.001, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
-        if _s.id[0] == '7' and _s.gi['gi_id'] == '0':  # sps_dots only down from ld
+        if _s.id[0] == '7' and _s.gi['gi_id'] in ['0']:  # sps_dots only down from ld OBS has nothing to do with movement, only where they start
             # aaa =  _s.gi['ld_offset_loc'][1] + np.random.poisson(lam=_s.gi['ld_offset_scale'][1])
 
             offset_y_normal = abs(np.random.normal(loc=0, scale=_s.gi['ld_offset_scale'][1]))  # this is input to next
@@ -151,15 +151,13 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                                   offset_y]
 
-            '''OBS ld needs to be overwritten here for case that multiple sps numbers sought'''
-
-            '''OBS 7 X offsets done below after theta'''
+        if _s.id[0] == '7' and _s.gi['gi_id'] in ['1']:  # need to restrict left right
+            '''pyramidical. '''
+            ld_offset_y = _s.gi['ld_offset'][1]
+            ld_offset_x = np.random.normal(loc=30, scale=(abs(1 * ld_offset_y + 40)))
+            _s.gi['ld_offset'] = [ld_offset_x, ld_offset_y]
 
         '''Colors'''
-        # R_start = min(0.9, np.random.normal(loc=_s.gi['R_ss'][0], scale=_s.gi['R_scale']))
-        # G_start = min(0.2, np.random.normal(loc=_s.gi['G_ss'][0], scale=_s.gi['G_scale']))
-        # B_start = min(1, np.random.normal(loc=_s.gi['B_ss'][0], scale=_s.gi['B_scale']))
-
         # 0
         start = random.uniform(_s.gi['rgb_start'][0], _s.gi['rgb_start'][1])  # starts hot
         theta_diff = abs(theta - _s.gi['theta_loc'])  # less hot if theta is far from mean
@@ -168,12 +166,6 @@ class Sp(AbstractLayer, AbstractSSS):
         start = min(_s.gi['rgb_start'][1], start - _s.gi['rgb_theta_diff_c'] * theta_diff + \
                     _s.gi['rgb_v_diff_c'] * v_diff)
         end = max(0.3, random.uniform(0.3, start - 0.1))
-
-        # start = random.uniform(0.65, 0.75)  # starts hot
-        # theta_diff = abs(theta - _s.gi['theta_loc'])  # less hot if theta is far from mean
-        # v_diff = _s.gi['v_loc'] - _s.gi['v']   # less hot for faster ones, neg if its too fast
-        # start = min(0.75, start - 1 * theta_diff + 0.01 * v_diff)
-        # end = max(0.2, random.uniform(0.2, start - 0.1))
 
         x = np.linspace(start, end, _s.gi['frames_tot'])  # no need to flip since it starts hot
         rgb = mpl.colormaps['afmhot'](x)[:, 0:3]  # starts as cold
@@ -211,7 +203,9 @@ class Sp(AbstractLayer, AbstractSSS):
         _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
         _s.gi['sp_len'] = max(3, _s.gi['sp_len'])
 
-        if _s.gi['v'] > 40:  # NEW
+        if _s.gi['up_down'] == 'up' and _s.gi['v'] > 40:  # NEW
+            _s.gi['sp_len'] = 3
+        elif _s.gi['up_down'] == 'down' and _s.gi['v'] > 100:
             _s.gi['sp_len'] = 3
 
         if _s.id[0] != '3':  # 3 zorders hardcoded
