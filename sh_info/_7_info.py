@@ -339,9 +339,9 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_start': [0.3, 0.6],  #
             'rgb_theta_diff_c': 0.1,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 40, _s.ld[1] - 10],
+            'ld': [_s.ld[0] - 30, _s.ld[1] - 0],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
-            'ld_offset_scale': [100, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'ld_offset_scale': [90, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
             'alpha_y_range': [0.01, 0.15],
             'up_down': 'down'
         }

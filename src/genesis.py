@@ -17,19 +17,19 @@ def init_infos():
     # top_point2 = [210, 90]  # for 3 rocks
 
     top_point0 = [545, 330]
-    top_point1 = [550, 350]  # aft expl
+    top_point1 = [550, 350]  # aft expl????
     top_point_c = [550, 340]  # for 3 rocks
     top_point2 = [550, 330]
     top_point7 = [560, 330]
     EXPL_F = 400
 
-    pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 400), P.NUM_SRS_1)  # 1 (sr)
+    pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 610), P.NUM_SRS_1)  # 1 (sr)
     pulse_sr1.sort(reverse=False)
     # pulse_sr1 = [110, 150]  # 1 (sr)
-    pulse_0 = random.sample(range(50, 500), 25)  # 0 after initial srs
+
+    pulse_0 = random.sample(range(50, 600), 25)  # 0 after initial srs
     # pulse_0 = [50, 250]
-    pulse_2 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L OBS MAKE SURE THEYRE NOT TOO CLOSE TO EACH OTHER FOR SRS
-    # pulse_c3 = random.sample(range(150, 450), 30)  # rs. init_frames use pulse[0] here
+
     # pulse_3 = [10, 30, 100]  # expl
     pulse_3 = random.sample(range(EXPL_F - 50, EXPL_F + 50), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
 
@@ -68,7 +68,7 @@ def init_infos():
         infos[_1.id] = _1
 
     if '2' in P.SHS_TO_SHOW:  # DOWN LEFT
-        _2 = _2_info.Sh_2_info(pulse_2, top_point2)
+        _2 = _2_info.Sh_2_info(5, EXPL_F, top_point2)  # start_f, expl_f
         infos[_2.id] = _2
 
     if '3' in P.SHS_TO_SHOW and P.A_CS:  # ROCKS

@@ -21,9 +21,10 @@ class Sh_1_info(ShInfoAbstract):
         _s.init_frames = pulse
         _s.ld = [top_point[0] - 3, top_point[1] - 5]
 
-        _s.zorder = 200  # in fron t of c
+        _s.zorder = 87  # in fron t of c WHY??? NEW: same as 5
 
-        pulse_srs = [x + 30 for x in _s.init_frames]
+        # pulse_srs = [x + 30 for x in _s.init_frames]  # WHY + 30???
+        pulse_srs = [x for x in _s.init_frames]
         _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs)}  # OBS: sp_gi generated in f class. There is no info class for f.
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
 
@@ -48,22 +49,22 @@ class Sh_1_info(ShInfoAbstract):
 
         srs_gi = {
             'init_frames': copy.deepcopy(pulse_srs),
-            'frames_tot': 300,
+            'frames_tot': 600,
             'ld': [_s.ld[0] + 5, _s.ld[1]],
             'ld_offset_loc': [0, 1],
-            'ld_offset_scale': [5, 5],
-            'scale_ss': [0.01, 3],
+            'ld_offset_scale': [15, 10],
+            'scale_ss': [0.5, 3],
             # 'frame_ss': _s.frame_ss,
-            'v_loc': 26,  # OBS SPECIAL, USES BEFORE
-            'v_scale': 3,
+            'v_loc': 50,  # OBS SPECIAL, USES BEFORE
+            'v_scale': 5,
             'theta_loc': -0.9,  # -1.6 is straight up
-            'theta_scale': 0.1,
+            'theta_scale': 0.3,
             'rad_rot': random.uniform(-0.3, -1.9),
             'r_f_d_loc': 0.05,
-            'r_f_d_scale': 0.01,
+            'r_f_d_scale': 0.03,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.15],
-            'zorder': 50,
+            'alpha_y_range': [0, 0.15]
+            # 'zorder': 50,
         }
 
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)

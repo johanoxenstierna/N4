@@ -29,14 +29,17 @@ NUM_SPS_PER_C = 25  # used by 3: Num sp at 1 init frame!
 NUM_SPS_7_TOT = 800
 NUM_SPS_PER_7 = 50  # 50
 
-NUM_SRS_1 = 800  # init frames for 1
+NUM_SRS_1 = 600  # init frames for 1
 NUM_SRS_5 = 200  # init frames for 5
 NUM_SRS_SH = 150  # the upper ones. used by 0, 1, 2, 4, 5. THIS IS ONLY USED TO GENERATE COPIES OF PICTURES (HOW MANY SHOULD BE AVAILABLE FOR GIVEN INIT_FRAMES)
 # NUM_SRS_7 = 5  # NUMBER OF REPEATS PER PIC.
 NUM_SRS_8 = 5  # NUMBER OF REPEATS PER PIC.  HARDCODED
 NUM_SRS_C = 100  # used by 3. OBS OBS PER PIC, NOT PER C. SRS pics are used by all c
 NUM_FS = 10  # the ones that fill init_frames
-NUM_RS = 15  # upper bound
+
+NUM_RS_PICS = 150
+NUM_RS_0 = 50  # upper bound
+NUM_RS_2 = 50
 
 # 5: post expl, 6: expl, 7: sr tied to ls, 8: srs up/home/johan/PycharmProjects/N4/images/processed/3/cs/3_c_8.png
 
@@ -44,6 +47,6 @@ SHS_TO_SHOW = ['0', '1', '2', '3', '4', '5', '6', '7', '8']  # , '6', '7']#, '1'
 # SHS_TO_SHOW = ['0', '2', '3', '4']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['7', '3', '6']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['6', '7']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['8']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['2']  # , '6', '7']#, '1'] #, '2', '3']
 
 

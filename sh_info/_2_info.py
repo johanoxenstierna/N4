@@ -13,7 +13,7 @@ class Sh_2_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, top_point):
+    def __init__(_s, START_F, EXPL_F, top_point):
         super().__init__()
         _s.id = '2'
         _s.extent = "static"
@@ -28,7 +28,8 @@ class Sh_2_info(ShInfoAbstract):
         NEW: Only plotted once and sps controlled with init_frame_max_dist and num_scale
         '''
         _s.zorder = 200
-        _s.ls_gi = _s.gen_ls_gi(pulse)  # NO DYN_GEN
+        _s.ls_gi = _s.gen_ls_gi(START_F)  # NO DYN_GEN
+
 
         if P.A_SPS:
 
@@ -42,27 +43,24 @@ class Sh_2_info(ShInfoAbstract):
             # _s.sps_gi0, sps_init_frames = _s.gen_sps_gi0(sps_init_frames)
             # _s.sps_gi1, sps_init_frames = _s.gen_sps_gi1(sps_init_frames)\
 
-            init_frames_sp0 = [pulse[0] - 100]
-            init_frames_sp1 = [pulse[1] - 100, pulse[1], pulse[1] + 100]  # 150 is init_frame_max_dist
-            init_frames_sp2 = [pulse[2] - 100, pulse[2], pulse[2] + 100]  # 150 is init_frame_max_dist
-            init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
-
-            _s.sps_gi0 = _s.gen_sps_gi0(init_frames_sp0)
-            _s.sps_gi1 = _s.gen_sps_gi1(init_frames_sp1)
-            _s.sps_gi2 = _s.gen_sps_gi2(init_frames_sp2)
-            _s.sps_gi3 = _s.gen_sps_gi3(init_frames_sp3)
+            _s.sps_gi0 = _s.gen_sps_gi0(frames_tot=200)
+            _s.sps_gi1 = _s.gen_sps_gi1(frames_tot=150)
+            _s.sps_gi2 = _s.gen_sps_gi2(frames_tot=250)
+            _s.sps_gi3 = _s.gen_sps_gi3(frames_tot=250)
+            _s.sps_gi4 = _s.gen_sps_gi4(frames_tot=250)
 
             _s.sps_gi = {
                 '0': _s.sps_gi0,
                 '1': _s.sps_gi1,
                 '2': _s.sps_gi2,
-                '3': _s.sps_gi3
+                '3': _s.sps_gi3,
+                '4': _s.sps_gi4
             }
-            # sps_init_frames.sort()
-            # _s.sps_gi_init_frames = init_frames_sp0 + init_frames_sp1 + init_frames_sp2 + init_frames_sp3
+
+            _s.extend_sps_init_frames(EXTEND_PARAM=3)
 
             lol = [val['init_frames'] for key, val in _s.sps_gi.items()]
-            lol = [x for sublist in lol for x in sublist]
+            lol = [x for sublist in lol for x in sublist]  # flattening
             lol.sort(reverse=False)
             _s.sps_gi_init_frames = lol
 
@@ -82,37 +80,38 @@ class Sh_2_info(ShInfoAbstract):
             _s.srs_gi1 = _s.gen_srs_gi1()
             _s.srs_gi2 = _s.gen_srs_gi2()
             _s.srs_gi3 = _s.gen_srs_gi3()
+            _s.srs_gi4 = _s.gen_srs_gi4()
 
             _s.srs_gi = {  # these numbers correspond to c!
                 '0': _s.srs_gi0,
                 '1': _s.srs_gi1,
                 '2': _s.srs_gi2,
-                '3': _s.srs_gi3
+                '3': _s.srs_gi3,
+                '4': _s.srs_gi4,
             }
 
             _s.srs_gi_init_frames = [val['init_frames'] for key, val in _s.srs_gi.items()]
             _s.srs_gi_init_frames = list(np.asarray(_s.srs_gi_init_frames).flatten())
 
         if P.A_RS:
-            # rs_init_frames = random.sample(range(pulse[0], pulse[-1]), min(50, len(pulse)))
-
-            '''TEMEEEEMP'''
-            rs_init_frames = random.sample(range(min(pulse), max(pulse)), min(50, len(pulse)))
+            # rs_init_frames = random.sample(range(min(pulse), max(pulse)), min(50, len(pulse)))
+            # rs_init_frames = random.sample((START_F, P.FRAMES_STOP - 250), P.NUM_RS_2)
+            rs_init_frames = random.sample(range(START_F, EXPL_F + 100), 50)
+            rs_init_frames.sort(reverse=False)
             _s.rs_gi = _s.gen_rs_gi(rs_init_frames)
 
-    def gen_ls_gi(_s, pulse):
+    def gen_ls_gi(_s, START_F):
 
         """
         SHARED FOR THE SAME SH. Kind of... makes sense. ld is used for extent, but they are modified
         for each l in l class finish info.
         """
 
-        # lif0, lif1 = _s.distribute_pulse_for_ls(pulse)  # l_init_frame
-        lif0 = [pulse[0]]
-        lif1 = [pulse[1]]
-        lif2 = [pulse[2]]
-        lif3 = [pulse[3]]
-        lif4 = [pulse[4]]
+        lif0 = [START_F]
+        lif1 = [START_F + 50]
+        lif2 = [START_F + 100]
+        lif3 = [START_F + 60]
+        lif4 = [START_F + 150]
         l_init_frames = lif0 + lif1 + lif2 + lif3 + lif4
 
         l_gi = {
@@ -122,17 +121,17 @@ class Sh_2_info(ShInfoAbstract):
             'lif2': lif2,
             'lif3': lif3,
             'lif4': lif4,
-            'frames_tot0': 150,
-            'frames_tot1': 500,
-            'frames_tot2': 500,
-            'frames_tot3': 500,
-            'frames_tot4': 500,
+            'frames_tot0': 300,  # THESE ARE GONA BECOME REALLY LONG
+            'frames_tot1': 1000,
+            'frames_tot2': 1000,
+            'frames_tot3': 1000,
+            'frames_tot4': 1000,
             'ld': _s.ld,  # USED BY SR?
             'ld0': [_s.ld[0] - 11, _s.ld[1] + 23],
             'ld1': [_s.ld[0] - 27, _s.ld[1] + 45],
             'ld2': [_s.ld[0] - 65, _s.ld[1] + 72],
             'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
-            'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
+            'ld4': [_s.ld[0] - 95, _s.ld[1] + 110],
             'scale': 0.5,
             'frame_ss': _s.frame_ss,
             'zorder': _s.zorder  # 3 is 110
@@ -140,7 +139,23 @@ class Sh_2_info(ShInfoAbstract):
 
         return l_gi
 
-    def gen_sps_gi0(_s, init_frames_sp):
+    def extend_sps_init_frames(_s, EXTEND_PARAM):
+
+        for key, val in _s.sps_gi.items():
+            init_frames_out = val['init_frames']
+            for i in range(1, EXTEND_PARAM):
+                frames_tot = val['frames_tot']
+                init_frames1 = [x + (i * (frames_tot + 10)) for x in val['init_frames']]
+
+                if init_frames1[-1] + frames_tot < P.FRAMES_STOP * 0.95:
+                    init_frames_out.extend(init_frames1)
+                else:
+                    print("8 clouds init_frames1[-1] + frames_tot > P.FRAMES_STOP * 0.9")
+                adf = 6
+
+            val['init_frames'] = init_frames_out
+
+    def gen_sps_gi0(_s, frames_tot):
 
         """
         MATCHED WITH ls gi, BUT THEYRE NOT CHILDREN AS FOR F -> SP (bcs problem there is that when F dies, then
@@ -166,9 +181,9 @@ class Sh_2_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '0',
-            'init_frames': init_frames_sp,
-            'frames_tot': 200,  # NEEDS TO MATCH WITH EXPL ???
-            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'init_frames': _s.ls_gi['lif0'],
+            'frames_tot': frames_tot,  # NEEDS TO MATCH WITH EXPL ???
+            'init_frame_max_dist': frames_tot - 50,  # OBS THIS MUST BE SHORTER
             'v_loc': 80, 'v_scale': 12,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.1, 'theta_scale': 0.05,  # neg is left  with straight down= -1.6, 0=
@@ -178,8 +193,8 @@ class Sh_2_info(ShInfoAbstract):
             'rgb_start': [0.4, 0.9],  #
             'rgb_theta_diff_c': 1,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] + 3, _s.ld[1] - 5],  # NOT TIED TO L BCS TUNING NEEDED ANYWAY
-            'ld_offset_loc': [0, 2],
+            'ld': [_s.ld[0] + 3, _s.ld[1] - 3],  # NOT TIED TO L BCS TUNING NEEDED ANYWAY
+            'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 0.01],
             'R_ss': [0.9, 1], 'R_scale': 0.2,
             'G_ss': [0.5, 0.2], 'G_scale': 0.15,
@@ -222,7 +237,7 @@ class Sh_2_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_sps_gi1(_s, init_frames_sp):
+    def gen_sps_gi1(_s, frames_tot):
 
         """
         lower left one
@@ -251,9 +266,9 @@ class Sh_2_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '1',
-            'init_frames': init_frames_sp,
+            'init_frames': _s.ls_gi['lif1'],
             'frames_tot': 150,
-            'init_frame_max_dist': 100,  # random num of frames in future from init frame
+            'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': -0.9, 'theta_scale': 0.03,
@@ -263,8 +278,8 @@ class Sh_2_info(ShInfoAbstract):
             'rgb_theta_diff_c': 1,
             'rgb_v_diff_c': 0.01,
             'sp_len_loc': 5, 'sp_len_scale': 15,
-            'ld': [_s.ld[0] - 0, _s.ld[1] + 10],
-            'ld_offset_loc': [-4, 5],
+            'ld': [_s.ld[0] - 4, _s.ld[1] + 15],
+            'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 0.1],
             'R_ss': [0.8, 1], 'R_scale': 0.2,
             'G_ss': [0.4, 0.2], 'G_scale': 0.2,
@@ -312,7 +327,7 @@ class Sh_2_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_sps_gi2(_s, init_frames_sp):
+    def gen_sps_gi2(_s, frames_tot):
 
         """
         lower left one
@@ -323,9 +338,9 @@ class Sh_2_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '2',
-            'init_frames': init_frames_sp,
-            'frames_tot': 250,
-            'init_frame_max_dist': 100,  # random num of frames in future from init frame
+            'init_frames': _s.ls_gi['lif2'],
+            'frames_tot': frames_tot,
+            'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
             'theta_loc': -0.7, 'theta_scale': 0.03,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
@@ -334,8 +349,8 @@ class Sh_2_info(ShInfoAbstract):
             'rgb_theta_diff_c': 1,
             'rgb_v_diff_c': 0.01,
             'sp_len_loc': 5, 'sp_len_scale': 15,
-            'ld': [_s.ld[0] - 0, _s.ld[1] + 10],
-            'ld_offset_loc': [-25, 35],
+            'ld': [_s.ld[0] - 25, _s.ld[1] + 45],
+            'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 0.1],
             'R_ss': [0.8, 1], 'R_scale': 0.2,
             'G_ss': [0.4, 0.2], 'G_scale': 0.2,
@@ -383,7 +398,7 @@ class Sh_2_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_sps_gi3(_s, init_frames_sp):
+    def gen_sps_gi3(_s, frames_tot):
 
         """
         lower left one
@@ -394,9 +409,9 @@ class Sh_2_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '3',
-            'init_frames': init_frames_sp,
-            'frames_tot': 250,
-            'init_frame_max_dist': 100,  # random num of frames in future from init frame
+            'init_frames': _s.ls_gi['lif3'],
+            'frames_tot': frames_tot,
+            'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': -1.1, 'theta_scale': 0.1,
@@ -406,8 +421,8 @@ class Sh_2_info(ShInfoAbstract):
             'rgb_theta_diff_c': 1,
             'rgb_v_diff_c': 0.01,
             'sp_len_loc': 5, 'sp_len_scale': 15,
-            'ld': [_s.ld[0] - 0, _s.ld[1] + 15],
-            'ld_offset_loc': [0, 2],
+            'ld': [_s.ld[0] - 0, _s.ld[1] + 17],
+            'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0.1, 0.1],
             'R_ss': [0.8, 1], 'R_scale': 0.2,
             'G_ss': [0.4, 0.2], 'G_scale': 0.2,
@@ -455,6 +470,77 @@ class Sh_2_info(ShInfoAbstract):
 
         return srs_gi
 
+    def gen_sps_gi4(_s, frames_tot):
+
+        """
+        lower left one
+        THESE ARE AVERAGES
+        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
+        climb up the projectile (before shifting)
+        """
+
+        sps_gi = {
+            'gi_id': '4',
+            'init_frames': _s.ls_gi['lif4'],
+            'frames_tot': frames_tot,
+            'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
+            'v_loc': 100, 'v_scale': 10,
+            'theta_loc': -0.7, 'theta_scale': 0.03,
+            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
+            'r_f_d_type': 'after',  # which part of r_f_d to use
+            'rgb_start': [0.4, 0.45],  #
+            'rgb_theta_diff_c': 1,
+            'rgb_v_diff_c': 0.01,
+            'sp_len_loc': 5, 'sp_len_scale': 15,
+            'ld': [_s.ld[0] - 50, _s.ld[1] + 75],
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [0, 0.1],
+            'R_ss': [0.8, 1], 'R_scale': 0.2,
+            'G_ss': [0.4, 0.2], 'G_scale': 0.2,
+            'B_ss': [0.1, 0.05], 'B_scale': 0.01,  # good to prevent neg numbers here
+            'alpha_y_range': [0.05, 0.5],
+            'up_down': 'down'
+        }
+
+        # 160, 77, 36  -> 76, 42, 28
+
+        return sps_gi
+
+    def gen_srs_gi4(_s):
+
+        # in_f, init_frames, frames_tot = _s.gen_srs_init_frames(_cs_gi=_s.cs_gi0, init_frames=init_frames_sr0)
+
+        # assert (in_f[-1] < P.FRAMES_STOP)
+
+        init_frames = []
+        for i in range(-10, 10, 3):  # 5 total for each ls
+            init_frame = _s.ls_gi['lif4'][0] + i
+            init_frames.append(init_frame)
+
+        srs_gi = {
+            # 'l_id': 3,  # a position in a list
+            'init_frames': init_frames,
+            'ld': _s.ls_gi['ld4'],
+            'ld_offset_loc': [0, 0],  # OBS there is no ss, only start!
+            'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
+            'frames_tot': 200,
+            'v_loc': 10,  # rc=2
+            'v_scale': 2,
+            'scale_ss': [0.01, 4],
+            'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
+            'theta_scale': 0.0,
+            'rad_rot': -0.3,
+            'r_f_d_loc': 0.05,
+            'r_f_d_scale': 0.00,
+            'up_down': 'up',
+            'alpha_y_range': [0, 0.2],
+            'zorder': _s.zorder + 10
+        }
+
+        assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
+
+        return srs_gi
+
     def gen_rs_gi(_s, rs_init_frames, _type=None):
         rs_gi = {}
 
@@ -467,8 +553,8 @@ class Sh_2_info(ShInfoAbstract):
 
         assert (rs_gi['init_frames'][-1] + rs_gi['frames_tot'] < P.FRAMES_STOP)
         rs_gi['ld'] = [_s.ld[0] - 0, _s.ld[1] - 0]  # -6 TUNED WITH affine2D.translate!!!
-        rs_gi['ld_offset_loc'] = [-1, 2]  # OBS there is no ss, only start!
-        rs_gi['ld_offset_scale'] = [0.2, 1]  # OBS there is no ss, only start!
+        rs_gi['ld_offset_loc'] = [0, 0]  # OBS there is no ss, only start!
+        rs_gi['ld_offset_scale'] = [4, 10]  # OBS there is no ss, only start!
         rs_gi['frame_ss'] = _s.frame_ss  # simpler with this
         rs_gi['rs_hardcoded'] = {}
         rs_gi['v_loc'] = 100  # rc=2
@@ -477,8 +563,8 @@ class Sh_2_info(ShInfoAbstract):
         rs_gi['theta_scale'] = 0.1
         rs_gi['r_f_d_loc'] = 0.1
         rs_gi['r_f_d_scale'] = 0.02
-        rs_gi['scale_loc'] = 0.17
-        rs_gi['scale_scale'] = 0.05
+        rs_gi['scale_loc'] = 0.2
+        rs_gi['scale_scale'] = 0.1
         rs_gi['up_down'] = 'down'
         # rs_gi['alpha_plot'] = 'r_down'
         rs_gi['zorder'] = 300

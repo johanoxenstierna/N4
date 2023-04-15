@@ -42,7 +42,7 @@ class Sh_0_info(ShInfoAbstract):
                 '0': _s.srs_gi,
             }
         if P.A_RS == 1:
-            pulse_rs = random.sample(range(pulse[0], pulse[-1]), 50)
+            pulse_rs = random.sample(range(pulse[0], pulse[-1]), P.NUM_RS_0)
             pulse_rs.sort()
             _s.rs_gi = _s.gen_rs_gi(pulse_rs)
         if P.A_SPS == 1:
