@@ -27,7 +27,7 @@ class Sh_5_info(ShInfoAbstract):
         _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
         if P.A_SRS == 1:
-            pulse_srs = random.sample(range(pulse[0], pulse[-1]), 50)
+            pulse_srs = random.sample(range(pulse[0], pulse[-1]), P.NUM_SRS_5)
             pulse_srs = [max(5, x - 30) for x in pulse_srs]
             _s.srs_gi = _s.gen_srs_gi(pulse_srs)  # OBS: sp_gi generated in f class. There is no info class for f.
             _s.srs_gi_init_frames = pulse_srs

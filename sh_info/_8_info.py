@@ -31,7 +31,8 @@ class Sh_8_info(ShInfoAbstract):
             '6': _s.gen_srs_gi6(frames_tot=300),
             '7': _s.gen_srs_gi7(frames_tot=300),
             '8': _s.gen_srs_gi8(frames_tot=300),
-            '9': _s.gen_srs_gi9(frames_tot=700)
+            '9': _s.gen_srs_gi9(frames_tot=700),
+            '10': _s.gen_srs_gi10(frames_tot=700)
         }
 
         _s.extend_srs_init_frames(EXTEND_PARAM=3)  # TODO
@@ -74,12 +75,12 @@ class Sh_8_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.1, 0.02],
-            'ld': [_s.ld[0] - 200, _s.ld[1] + 60],  # finish_info
+            'ld': [_s.ld[0] - 200, _s.ld[1] + 50],  # finish_info
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [100, 50],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
-            'alpha_y_range': [0.1, 0.3],
+            'alpha_y_range': [0.1, 0.4],
             'up_down': None,  # key checked for alpha
             'zorder': 90,
         }
@@ -274,6 +275,28 @@ class Sh_8_info(ShInfoAbstract):
             'alpha_y_range': [0.1, 0.3],
             'up_down': None,  # key checked for alpha
             'zorder': 2000,
+        }
+
+        assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
+
+        return srs_gi
+
+    def gen_srs_gi10(_s, frames_tot):
+
+        srs_gi = {
+            'id': 10,
+            'init_frames': [60, 70, 80, 90, 100],
+            'frames_tot': frames_tot,
+            'v_linear_loc': [-0.3, 0],
+            'v_linear_scale': [0.1, 0.02],
+            'ld': [_s.ld[0] - 150, _s.ld[1] - 30],  # finish_info
+            'ld_offset_loc': [0, 0],
+            'ld_offset_scale': [100, 60],
+            'scale_ss': [1, 1],  # assumed big pics
+            'rad_rot': random.uniform(-0.1, -0.3),
+            'alpha_y_range': [0.1, 0.4],
+            'up_down': None,  # key checked for alpha
+            'zorder': 90,
         }
 
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)

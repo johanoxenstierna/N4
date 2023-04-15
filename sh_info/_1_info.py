@@ -29,7 +29,7 @@ class Sh_1_info(ShInfoAbstract):
 
 
         # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
-        pulse_lis = list(range(5, 400, 10))
+        pulse_lis = list(range(5, P.FRAMES_STOP - 100, 20))
         # TODO: Add extra lis for expl and mess with the uniform random
         _s.lis_gi = _s.gen_lis_gi(pulse_lis)
 

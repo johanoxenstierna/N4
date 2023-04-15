@@ -41,13 +41,15 @@ class Sh_7_info(ShInfoAbstract):
         _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[1])
         _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[2])
         _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[3])
-        _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  #+ init_frames_sp1 + init_frames_sp2
+        _s.sps_gi4 = _s.gen_sps_gi4(pulse_dots[4])  # SPECIAL sky
+        _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  # FLATTENING + init_frames_sp1 + init_frames_sp2
 
         _s.sps_gi = {
             '0': _s.sps_gi0,
             '1': _s.sps_gi1,
             # '2': _s.sps_gi2
-            '3': _s.sps_gi3
+            '3': _s.sps_gi3,
+            '4': _s.sps_gi4
         }
 
         _s.zorder = 120
@@ -152,16 +154,19 @@ class Sh_7_info(ShInfoAbstract):
 
         pulse_dots = []
 
-        offset0 = -50
-        offset1 = 300
+        '''OBS SAME FRAME CANT BE USED. BUT AS LONG AS NOT, MANY ARE LAUNCHED'''
+        offset0 = -90  # test it
+        offset1 = 400
         offset2 = 10
-        offset3 = 400
+        offset3 = 500
+        offset4 = 450
 
         pulse_dots = [
-            [x + offset0 for x in pulse],
+            [x + offset0 for x in pulse],  # NEED MORE HERE
             [x + offset1 for x in pulse],
             [x + offset2 for x in pulse],
-            [x + offset3 for x in pulse]
+            [x + offset3 for x in pulse],
+            [x + offset4 for x in pulse]
         ]
 
         return pulse_dots
@@ -188,7 +193,7 @@ class Sh_7_info(ShInfoAbstract):
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
             'v_loc': 80, 'v_scale': 30,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
-            'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
+            'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, little bit to left = -1.3
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 2, 'sp_len_scale': 24,
@@ -304,6 +309,40 @@ class Sh_7_info(ShInfoAbstract):
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [100, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
             'alpha_y_range': [0.01, 0.4],
+            'up_down': 'down'
+        }
+
+        # 160, 77, 36  -> 76, 42, 28
+
+        return sps_gi
+
+    def gen_sps_gi4(_s, init_frames_sp):
+
+        """
+        lower left one
+        THESE ARE AVERAGES
+        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
+        climb up the projectile (before shifting)
+        """
+
+        sps_gi = {
+            'gi_id': '4',
+            'init_frames': init_frames_sp,
+            'frames_tot': 200,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'v_loc': 160, 'v_scale': 20,
+            # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
+            'theta_loc': -1.2, 'theta_scale': 0.2,  # neg is left with straight down= -1.6, 0=
+            'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
+            'r_f_d_type': 'after',  # which part of r_f_d to use
+            'sp_len_loc': 2, 'sp_len_scale': 80,
+            'rgb_start': [0.3, 0.6],  #
+            'rgb_theta_diff_c': 0.1,
+            'rgb_v_diff_c': 0.01,
+            'ld': [_s.ld[0] - 40, _s.ld[1] - 10],
+            'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
+            'ld_offset_scale': [100, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
+            'alpha_y_range': [0.01, 0.15],
             'up_down': 'down'
         }
 

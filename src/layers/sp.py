@@ -208,6 +208,9 @@ class Sp(AbstractLayer, AbstractSSS):
         elif _s.gi['up_down'] == 'down' and _s.gi['v'] > 100:
             _s.gi['sp_len'] = 3
 
+        if _s.id[0] == '7' and _s.gi['gi_id'] in ['4']:  # sky ones
+            _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
+
         if _s.id[0] != '3':  # 3 zorders hardcoded
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 5, _s.sh.gi.zorder + 5)
 

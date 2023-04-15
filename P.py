@@ -26,9 +26,11 @@ NUM_SPS_L_TOT = 800  # used by 2, 4   PER PIC!!!
 NUM_SPS_PER_L = 10  # FOR EACH INIT_FRAME
 NUM_SPS_C_TOT = 400  # used by 3: Num sp at 1 init frame!
 NUM_SPS_PER_C = 25  # used by 3: Num sp at 1 init frame!
-NUM_SPS_7_TOT = 400
+NUM_SPS_7_TOT = 800
 NUM_SPS_PER_7 = 50  # 50
 
+NUM_SRS_1 = 800  # init frames for 1
+NUM_SRS_5 = 200  # init frames for 5
 NUM_SRS_SH = 150  # the upper ones. used by 0, 1, 2, 4, 5. THIS IS ONLY USED TO GENERATE COPIES OF PICTURES (HOW MANY SHOULD BE AVAILABLE FOR GIVEN INIT_FRAMES)
 # NUM_SRS_7 = 5  # NUMBER OF REPEATS PER PIC.
 NUM_SRS_8 = 5  # NUMBER OF REPEATS PER PIC.  HARDCODED
@@ -41,7 +43,7 @@ NUM_RS = 15  # upper bound
 SHS_TO_SHOW = ['0', '1', '2', '3', '4', '5', '6', '7', '8']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['0', '2', '3', '4']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['7', '3', '6']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['3', '2']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['6']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['6', '7']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['8']  # , '6', '7']#, '1'] #, '2', '3']
 
 

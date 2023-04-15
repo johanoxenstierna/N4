@@ -23,7 +23,7 @@ def init_infos():
     top_point7 = [560, 330]
     EXPL_F = 400
 
-    pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 400), 70)  # 1 (sr)  # OBS '2' CAN ONLY BE TESTED WHEN STARTS AT 100
+    pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 400), P.NUM_SRS_1)  # 1 (sr)
     pulse_sr1.sort(reverse=False)
     # pulse_sr1 = [110, 150]  # 1 (sr)
     pulse_0 = random.sample(range(50, 500), 25)  # 0 after initial srs
@@ -35,7 +35,7 @@ def init_infos():
 
     pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
-    pulse_5 = random.sample(range(EXPL_F + 0, EXPL_F + 600), 30)  # post expl
+    pulse_5 = random.sample(range(EXPL_F + 0, EXPL_F + 600), 30)  # this is num fs post expl
     pulse_5.append(EXPL_F + 0)
     pulse_5.sort(reverse=False)
     # pulse_5 = [50, 100, 200]  # expl
@@ -45,7 +45,7 @@ def init_infos():
 
     # pulse_7 = [10, 40, 80]
     # pulse_7 = [150, 180, 200, 280, 350]
-    start_7 = -50  # relative to EXPL
+    start_7 = -50  # relative to EXPL. OBS this is further offset by sps in _7_info
     end_7 = 300  # relative to EXPL
     pulse_7 = list(range(EXPL_F + start_7, EXPL_F + end_7, 30))
 

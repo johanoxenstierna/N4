@@ -112,7 +112,8 @@ class Sh_2_info(ShInfoAbstract):
         lif1 = [pulse[1]]
         lif2 = [pulse[2]]
         lif3 = [pulse[3]]
-        l_init_frames = lif0 + lif1 + lif2 + lif3
+        lif4 = [pulse[4]]
+        l_init_frames = lif0 + lif1 + lif2 + lif3 + lif4
 
         l_gi = {
             'init_frames_all': l_init_frames,
@@ -120,14 +121,17 @@ class Sh_2_info(ShInfoAbstract):
             'lif1': lif1,
             'lif2': lif2,
             'lif3': lif3,
+            'lif4': lif4,
             'frames_tot0': 150,
             'frames_tot1': 500,
             'frames_tot2': 500,
             'frames_tot3': 500,
+            'frames_tot4': 500,
             'ld': _s.ld,  # USED BY SR?
             'ld0': [_s.ld[0] - 11, _s.ld[1] + 23],
             'ld1': [_s.ld[0] - 27, _s.ld[1] + 45],
             'ld2': [_s.ld[0] - 65, _s.ld[1] + 72],
+            'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
             'ld3': [_s.ld[0] - 20, _s.ld[1] + 52],
             'scale': 0.5,
             'frame_ss': _s.frame_ss,
