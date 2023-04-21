@@ -27,7 +27,7 @@ class Sh_8_info(ShInfoAbstract):
             '2': _s.gen_srs_gi2(frames_tot=300),
             '3': _s.gen_srs_gi3(frames_tot=300),
             '4': _s.gen_srs_gi4(frames_tot=700),
-            '5': _s.gen_srs_gi5(frames_tot=400),
+            '5': _s.gen_srs_gi5(frames_tot=900),
             '6': _s.gen_srs_gi6(frames_tot=300),
             '7': _s.gen_srs_gi7(frames_tot=300),
             '8': _s.gen_srs_gi8(frames_tot=300),
@@ -35,12 +35,13 @@ class Sh_8_info(ShInfoAbstract):
             '10': _s.gen_srs_gi10(frames_tot=700)
         }
 
-        _s.extend_srs_init_frames(EXTEND_PARAM=3)  # TODO
+        _s.extend_srs_init_frames(EXTEND_PARAM=9)  # TODO
         # _s.srs_gi_init_frames = _s.srs_gi['4']['init_frames']
         out = []
         for key in _s.srs_gi.keys():
             out.extend(_s.srs_gi[key]['init_frames'])
         out.sort(reverse=False)
+        temp_debug = out[-1]
         _s.srs_gi_init_frames = out
 
         # _s.srs_gi_init_frames = [val['init_frames'] for key, val in _s.srs_gi.items()]

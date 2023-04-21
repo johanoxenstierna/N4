@@ -34,8 +34,8 @@ class Sh_3_info(ShInfoAbstract):
             _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=70)
             _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=50)
             _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 30, frames_tot1=500, z_d=70)
-            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 60, frames_tot1=200, z_d=70)
-            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=80)
+            _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 90, frames_tot1=200, z_d=80)
+            _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=70)
             _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=80)  # OBS 100 is volc_d
             _s.cs_gi11 = _s.gen_cs_gi11(frames_tot=pulse[0] + 90, frames_tot1=300, z_d=-30)  # OBS 100 is volc_d
             _s.cs_gi12 = _s.gen_cs_gi12(frames_tot=pulse[0] + 110, frames_tot1=450, z_d=-40)  # OBS 100 is volc_d
@@ -189,7 +189,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_x': 0,
             'extra_offset_y': 0,
             'up_down': 'up',
-            'rad_rot': -1,
+            'rad_rot': -2,
             'zorder': _s.zorder + z_d
         }
 
@@ -902,9 +902,9 @@ class Sh_3_info(ShInfoAbstract):
             'theta': 1.7,
             'r_f_d': 0.2,
             'extra_offset_x': 0,
-            'extra_offset_y': 3,
+            'extra_offset_y': 6,
             'up_down': 'up',
-            'rad_rot': 0.2,
+            'rad_rot': 0.4,
             'zorder': _s.zorder + z_d
         }
 
@@ -992,7 +992,7 @@ class Sh_3_info(ShInfoAbstract):
             'extra_offset_x': 0,
             'extra_offset_y': 5,
             'up_down': 'up',
-            'rad_rot': -0.5,
+            'rad_rot': -2.5,
             'zorder': _s.zorder + z_d
         }
 
@@ -1077,7 +1077,7 @@ class Sh_3_info(ShInfoAbstract):
             'v': 20,
             'theta': -1.8,
             'r_f_d': 0.1,
-            'extra_offset_x': 0,
+            'extra_offset_x': -2,
             'extra_offset_y': 5,
             'up_down': 'up',
             'rad_rot': 0.8,
@@ -1146,7 +1146,7 @@ class Sh_3_info(ShInfoAbstract):
         return sps_gi, init_frames
 
     def gen_cs_gi10(_s, frames_tot, frames_tot1, z_d):
-        ld = [_s.ld[0] + 5, _s.ld[1] + 16]
+        ld = [_s.ld[0] + 11, _s.ld[1] + 14]
 
         if P.DEBUG:
             frames_tot = 10
@@ -1249,7 +1249,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 20,
+            'v': 30,
             'theta': -1.8,
             'r_f_d': 0.1,
             'extra_offset_x': 8,
@@ -1278,7 +1278,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 40,
+            'v': 60,
             'theta': 1.65,
             'r_f_d': 0.8,
             'extra_offset_x': 0,

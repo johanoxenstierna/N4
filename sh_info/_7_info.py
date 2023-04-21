@@ -332,7 +332,7 @@ class Sh_7_info(ShInfoAbstract):
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
             'v_loc': 160, 'v_scale': 20,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
-            'theta_loc': -1.2, 'theta_scale': 0.2,  # neg is left with straight down= -1.6, 0=
+            'theta_loc': -1.2, 'theta_scale': 0.1,  # neg is left with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 2, 'sp_len_scale': 80,
@@ -342,7 +342,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': [_s.ld[0] - 30, _s.ld[1] - 0],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [90, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
-            'alpha_y_range': [0.01, 0.15],
+            'alpha_y_range': [0.01, 0.1],
             'up_down': 'down'
         }
 

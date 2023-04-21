@@ -21,33 +21,34 @@ def init_infos():
     top_point_c = [550, 340]  # for 3 rocks
     top_point2 = [550, 330]
     top_point7 = [560, 330]
-    EXPL_F = 400
+    EXPL_F = 1000
 
     pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 610), P.NUM_SRS_1)  # 1 (sr)
     pulse_sr1.sort(reverse=False)
     # pulse_sr1 = [110, 150]  # 1 (sr)
 
-    pulse_0 = random.sample(range(50, 600), 25)  # 0 after initial srs
+    pulse_0 = random.sample(range(50, EXPL_F + 100), 25 * 3)  # 0 after initial srs
     # pulse_0 = [50, 250]
 
     # pulse_3 = [10, 30, 100]  # expl
     pulse_3 = random.sample(range(EXPL_F - 50, EXPL_F + 50), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
 
-    pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
+    # pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
+    pulse_4 = random.sample(range(110, EXPL_F + 50), 10 * 3)
     # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
-    pulse_5 = random.sample(range(EXPL_F + 0, EXPL_F + 600), 30)  # this is num fs post expl
+    pulse_5 = random.sample(range(EXPL_F + 0, EXPL_F + 600), 30 * 3)  # this is num fs post expl
     pulse_5.append(EXPL_F + 0)
     pulse_5.sort(reverse=False)
     # pulse_5 = [50, 100, 200]  # expl
 
     # pulse_6 = [5, 10, 50, 100]
-    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20]
+    # pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 150, EXPL_F + 180]   # WWWTTTFFF???
+    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 140, EXPL_F + 180]
 
     # pulse_7 = [10, 40, 80]
     # pulse_7 = [150, 180, 200, 280, 350]
-    start_7 = -50  # relative to EXPL. OBS this is further offset by sps in _7_info
-    end_7 = 300  # relative to EXPL
-    pulse_7 = list(range(EXPL_F + start_7, EXPL_F + end_7, 30))
+
+    pulse_7 = list(range(EXPL_F - 50, EXPL_F + 300, 30))
 
     # pulse_7_sps_dots1 = [10, 20, 30]  # other locs
     pulse_8 = None  # this one is specially set inside 8_info
