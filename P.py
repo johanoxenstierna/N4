@@ -4,7 +4,7 @@ DEBUG = 0  # if 1 then faster speed on objectsh
 MAP_DIMS = (1280, 720)  #(233, 141)small  # NEEDED FOR ASSERTIONS
 
 FRAMES_START = 0
-FRAMES_STOP = 4500  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
+FRAMES_STOP = 3000  # frames info: 1200/min 12000 for 10 min.   Takes ~30 min to gen 1000 frames  7200
 # if MAP_SIZE == 's0':
 #     FRAMES_START = 0
 #     FRAMES_STOP = 1200
@@ -46,7 +46,7 @@ NUM_RS_2 = 50
 SHS_TO_SHOW = ['0', '1', '2', '3', '4', '5', '6', '7', '8']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['0', '2', '3', '4', '6']  # , '6', '7']#, '1'] #, '2', '3']
 # SHS_TO_SHOW = ['7', '3', '6']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['6', '3']  # , '6', '7']#, '1'] #, '2', '3']
-# SHS_TO_SHOW = ['6']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['0', '3']  # , '6', '7']#, '1'] #, '2', '3']
+# SHS_TO_SHOW = ['7']  # , '6', '7']#, '1'] #, '2', '3']
 
 

@@ -13,7 +13,7 @@ class Sh_7_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, top_point):  # EXTRAS1: srs tied to ls, sps dots
+    def __init__(_s, pulse, pulse_dots, top_point):  # EXTRAS1: srs tied to ls, sps dots
         super().__init__()
         _s.id = '7'
         _s.extent = "static"
@@ -36,15 +36,16 @@ class Sh_7_info(ShInfoAbstract):
         # pulse_7_sps_dots1 = [EXPL_F + 101, EXPL_F + 151, EXPL_F + 101, EXPL_F + 351]  # other locs
         # pulse_7_sps_dots2 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
 
-        pulse_dots = _s.gen_pulse_dots(pulse)
-        _s.sps_gi0 = _s.gen_sps_gi0(pulse_dots[0])
-        _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[1])
-        _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[2])
-        _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[3])
-        _s.sps_gi4 = _s.gen_sps_gi4(pulse_dots[4])  # SPECIAL sky
-        _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  # FLATTENING + init_frames_sp1 + init_frames_sp2
+        pulse_dots = _s.gen_pulse_dots(pulse_dots)
+        _s.sps_gi0 = _s.gen_sps_gi0([pulse_dots[0]])
+        _s.sps_gi1 = _s.gen_sps_gi1([pulse_dots[1]])
+        _s.sps_gi2 = _s.gen_sps_gi2([pulse_dots[2]])
+        _s.sps_gi3 = _s.gen_sps_gi3([pulse_dots[3]])
+        _s.sps_gi4 = _s.gen_sps_gi4([pulse_dots[4]])  # SPECIAL sky
+        # _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  # FLATTENING + init_frames_sp1 + init_frames_sp2
+        _s.sps_gi_init_frames = pulse_dots  # FLATTENING + init_frames_sp1 + init_frames_sp2
 
-        _s.sps_gi = {
+        _s.sps_gi = {  # NOT LINKED TO LS
             '0': _s.sps_gi0,
             '1': _s.sps_gi1,
             # '2': _s.sps_gi2
@@ -79,11 +80,6 @@ class Sh_7_info(ShInfoAbstract):
                                   pulse[2] + 101 * i,
                                   pulse[3] + 101 * i])
 
-        # lif0 = [pulse[0], pulse[0] + 101 * 2, pulse[0] + 101 * 3, pulse[0] + 101 * 4, pulse[0] + 101 * 5]
-        # lif1 = [pulse[1], pulse[1] + 101 * 2, pulse[1] + 101 * 3, pulse[1] + 101 * 4, pulse[1] + 101 * 5]  # OBS REMEMBER l_init_frames below
-        # lif2 = [pulse[2], pulse[2] + 101 * 2, pulse[2] + 101 * 3, pulse[2] + 101 * 4, pulse[2] + 101 * 5]  # OBS REMEMBER l_init_frames below
-        # lif2 = [pulse[2]]
-        # lif3 = [pulse[3]]
         l_init_frames = lif0 + lif1 + lif2 + lif3
 
         ls_gi = {
@@ -99,7 +95,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': _s.ld,
             'ld0': [_s.ld[0] + 12, _s.ld[1] + 152],
             'ld1': [_s.ld[0] + 82, _s.ld[1] + 148],
-            'ld2': [_s.ld[0] - 74, _s.ld[1] + 112],
+            'ld2': [_s.ld[0] - 85, _s.ld[1] + 112],
             'ld3': [_s.ld[0] + 135, _s.ld[1] + 235],  # 108 235
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
@@ -147,27 +143,27 @@ class Sh_7_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_pulse_dots(_s, pulse):
+    def gen_pulse_dots(_s, pulse_dots):
         """Distances are same for all pulses
         frames_tot: 120 (from below)
         """
 
-        pulse_dots = []
+        # pulse_dots = []
 
         '''OBS SAME FRAME CANT BE USED. BUT AS LONG AS NOT, MANY ARE LAUNCHED'''
-        offset0 = -90  # test it
-        offset1 = 400
-        offset2 = 10
-        offset3 = 500
-        offset4 = 450
-
-        pulse_dots = [
-            [x + offset0 for x in pulse],  # NEED MORE HERE
-            [x + offset1 for x in pulse],
-            [x + offset2 for x in pulse],
-            [x + offset3 for x in pulse],
-            [x + offset4 for x in pulse]
-        ]
+        # offset0 = 160  # test it
+        # offset1 = 440
+        # offset2 = 10  # NOT USED
+        # offset3 = 500
+        # offset4 = 450  # 450
+        #
+        # pulse_dots = [
+        #     [x + offset0 for x in pulse_dots],  # NEED MORE HERE
+        #     [x + offset1 for x in pulse_dots],
+        #     [x + offset2 for x in pulse_dots],
+        #     [x + offset3 for x in pulse_dots],
+        #     [x + offset4 for x in pulse_dots]
+        # ]
 
         return pulse_dots
 
@@ -319,10 +315,6 @@ class Sh_7_info(ShInfoAbstract):
     def gen_sps_gi4(_s, init_frames_sp):
 
         """
-        lower left one
-        THESE ARE AVERAGES
-        r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
-        climb up the projectile (before shifting)
         """
 
         sps_gi = {
@@ -332,14 +324,14 @@ class Sh_7_info(ShInfoAbstract):
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
             'v_loc': 160, 'v_scale': 20,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
-            'theta_loc': -1.2, 'theta_scale': 0.1,  # neg is left with straight down= -1.6, 0=
+            'theta_loc': -1.5, 'theta_scale': 0.01,  # neg is left with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 2, 'sp_len_scale': 80,
             'rgb_start': [0.3, 0.6],  #
             'rgb_theta_diff_c': 0.1,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 30, _s.ld[1] - 0],
+            'ld': [_s.ld[0] - 30, _s.ld[1] - 10],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [90, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
             'alpha_y_range': [0.01, 0.1],

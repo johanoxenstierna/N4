@@ -122,7 +122,7 @@ class Sh_2_info(ShInfoAbstract):
             'lif3': lif3,
             'lif4': lif4,
             'frames_tot0': 300,  # THESE ARE GONA BECOME REALLY LONG
-            'frames_tot1': 1000,
+            'frames_tot1': P.FRAMES_STOP - lif1[-1],
             'frames_tot2': 1000,
             'frames_tot3': 1000,
             'frames_tot4': 1000,

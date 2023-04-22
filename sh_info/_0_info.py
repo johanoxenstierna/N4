@@ -57,7 +57,7 @@ class Sh_0_info(ShInfoAbstract):
         fs_gi = {
             'rad_rot': -0.2,
             'init_frames': pulse,
-            'frames_tot': 151,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
+            'frames_tot': 201,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
             'scale_ss': [0.1, 2.5],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 2, _s.ld[1]],
@@ -134,8 +134,8 @@ class Sh_0_info(ShInfoAbstract):
 
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
-            'frames_tot': 150,  # MUST BE LOWER THAN SP.FRAMES_TOT. IT CRASHES AT THE LAST FRAME OF THE SP OTHERWISE
-            'v_loc': 28, 'v_scale': 8,
+            'frames_tot': 200,  # MUST BE LOWER THAN SP.FRAMES_TOT. IT CRASHES AT THE LAST FRAME OF THE SP OTHERWISE
+            'v_loc': 25, 'v_scale': 8,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.05,
             'r_f_d_loc': 0.2, 'r_f_d_scale': 0.1,

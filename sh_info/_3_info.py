@@ -986,13 +986,13 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 30,
+            'v': 50,
             'theta': 1.6,
             'r_f_d': 0.7,
             'extra_offset_x': 0,
-            'extra_offset_y': 5,
+            'extra_offset_y': 0,
             'up_down': 'up',
-            'rad_rot': -2.5,
+            'rad_rot': 2.5,
             'zorder': _s.zorder + z_d
         }
 

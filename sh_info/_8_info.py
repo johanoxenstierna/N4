@@ -162,7 +162,7 @@ class Sh_8_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.02, 0.01],
-            'ld': [_s.ld[0] + 40, _s.ld[1] + 50],  # finish_info
+            'ld': [_s.ld[0] - 60, _s.ld[1] + 50],  # finish_info
             'ld_offset_loc': [0, 0],  # NOT USED
             'ld_offset_scale': [5, 2],
             'scale_ss': [1, 1],  # assumed big pics
