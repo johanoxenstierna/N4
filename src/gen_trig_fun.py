@@ -24,8 +24,12 @@ def gen_alpha(g_obj, frames_tot=None, y_range=None, plot=False):
 		adf = 5
 	elif g_obj.__class__.__name__ == 'Sr' and g_obj.gi['up_down'] == 'down':
 		alpha = _normal(X, mean=100, var=50, y_range=[0.01, 0.3])
-	elif g_obj.__class__.__name__ == 'Sr':  # 8
-		alpha = _normal(X, mean=len(X) // 2, var=len(X) // 2, y_range=y_range)
+	if g_obj.__class__.__name__ == 'Sr':  # 8
+		if g_obj.sh.id == '8':
+			alpha = _normal(X, mean=len(X) // 2, var=len(X) // 2, y_range=y_range)
+		elif g_obj.sh.id == '5':
+			alpha = _normal(X, mean=len(X) // 2, var=len(X) // 2, y_range=y_range)
+			fdd = 5
 	elif g_obj.__class__.__name__ == 'R':  #   r_down':
 		'''Has to end at 0 alpha because these include fire smokhs'''
 		# alpha = np.full(X.shape, fill_value=0.99)
@@ -70,7 +74,7 @@ def gen_alpha(g_obj, frames_tot=None, y_range=None, plot=False):
 			jj = 7
 		elif g_obj.sh.id == '5':
 			alpha = np.asarray(
-				([_sigmoid(x, grad_magn_inv=- len(X) / 5, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
+				([_sigmoid(x, grad_magn_inv=- len(X) / 8, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 			alpha = min_max_normalization(alpha, y_range=y_range)
 		elif g_obj.sh.id == '7':
 			# alpha = _normal(X, mean=len(X) * 0.5, var=len(X) * 0.2, y_range=y_range)  # THIS IS WAVE ALPHA

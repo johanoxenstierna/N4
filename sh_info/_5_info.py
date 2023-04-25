@@ -27,7 +27,7 @@ class Sh_5_info(ShInfoAbstract):
         _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
         if P.A_SRS == 1:
-            pulse_srs = random.sample(range(pulse[0], pulse[-1]), P.NUM_SRS_5)
+            pulse_srs = random.sample(range(pulse[0], pulse[-1]), P.NUM_SRS_5)  # SO LAST FS IS THE END POINT HERE
             pulse_srs = [max(5, x - 30) for x in pulse_srs]
             _s.srs_gi = _s.gen_srs_gi(pulse_srs)  # OBS: sp_gi generated in f class. There is no info class for f.
             _s.srs_gi_init_frames = pulse_srs
@@ -42,7 +42,7 @@ class Sh_5_info(ShInfoAbstract):
             # pulse_sps = [max(5, x - 80) for x in pulse]  # OBS NO. SPS are tied to f
             _s.sps_gi = _s.gen_sps_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
-        _s.zorder = 87
+        _s.zorder = 120
 
     def gen_fs_gi(_s, pulse):
         """
@@ -73,19 +73,19 @@ class Sh_5_info(ShInfoAbstract):
 
         srs_gi = {
             'init_frames': copy.deepcopy(pulse_srs),
-            'frames_tot': 300,
+            'frames_tot': 500,
             'ld': [_s.ld[0] - 0, _s.ld[1]],
             'ld_offset_loc': [5, 8],
             'ld_offset_scale': [1, 1],
-            'scale_ss': [0.01, 5],
+            'scale_ss': [0.2, 5],
             'frame_ss': _s.frame_ss,
-            'v_loc': 40,
-            'v_scale': 10,
-            'theta_loc': -1.15,  # -1.6 is straight up
+            'v_loc': 45,
+            'v_scale': 12,
+            'theta_loc': -1.2,  # -1.6 is straight up
             'theta_scale': 0.2,
             'rad_rot': random.uniform(-0.2, 0.2),
-            'r_f_d_loc': 0.001,
-            'r_f_d_scale': 0.1,
+            'r_f_d_loc': 0.01,
+            'r_f_d_scale': 0.3,
             'up_down': 'up',
             'alpha_y_range': [0, 0.15],
             'zorder': None  # Set in finish_info
@@ -133,7 +133,7 @@ class Sh_5_info(ShInfoAbstract):
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'sp_len_loc': 3, 'sp_len_scale': 5,
             'theta_loc': 1.5, 'theta_scale': 0.1,
-            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.3,
+            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.15,
             'ld': _s.ld,  # in
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 1],
@@ -143,8 +143,9 @@ class Sh_5_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0.1,  # first one is loc
             'G_ss': [0.2, 0.01], 'G_scale': 0.3,
             'B_ss': [0.1, 0.01], 'B_scale': 0.1,  # good to prevent neg numbers here
-            'alpha_y_range': [0.1, 0.6],
-            'up_down': 'up'
+            'alpha_y_range': [0.01, 0.6],
+            'up_down': 'up',
+            'zorder': None  # Set in finish_info
         }
 
         return sps_gi

@@ -34,18 +34,20 @@ class Li(AbstractLayer, AbstractSSS):
         _s.gi['frames_tot'] = random.randint(2, 5)
         # TODO: pick a random sublist from _s.alpha
         _s.gi['rad_rot'] = random.uniform(-1.0, 1.01)
-        _s.gi['scale'] = random.uniform(0.2, 0.5)
-        _s.gi['ld'][0] += random.uniform(-20, -5)
-        _s.gi['ld'][1] += random.uniform(-10, 10)
+        _s.gi['scale'] = random.uniform(0.2, 0.7)
+        _s.gi['ld'][0] += random.uniform(-15, 0)
+        _s.gi['ld'][1] += random.uniform(-12, 5)
+        _s.gi['zorder'] += random.randint(-5, 5)
         # _s.gi['init_frames']
 
-        # SPECIAL
+        # SPECIAL: THESE ARE THE CLOUD LIS
         if _s.id.split('_')[2] in ['4', '5', '6']:
             _s.gi['ld'][0] += random.uniform(-50, -15)
-            _s.gi['ld'][1] += random.uniform(-30, -20)
+            _s.gi['ld'][1] += random.uniform(-25, -20)
             _s.gi['rad_rot'] = 0
-            _s.gi['scale'] = random.uniform(0.7, 0.9)
+            _s.gi['scale'] = random.uniform(0.4, 0.9)
             _s.zorder = 20
+            _s.gi['zorder'] = 20
             if _s.id.split('_')[2] in ['6']:
-               _s.gi['scale'] = 0.3
+               _s.gi['scale'] = random.uniform(0.1, 0.3)
 

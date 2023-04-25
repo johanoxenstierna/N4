@@ -28,7 +28,7 @@ class Sh_2_info(ShInfoAbstract):
         NEW: Only plotted once and sps controlled with init_frame_max_dist and num_scale
         '''
         _s.zorder = 200
-        _s.ls_gi = _s.gen_ls_gi(START_F)  # NO DYN_GEN
+        _s.ls_gi = _s.gen_ls_gi(START_F, EXPL_F)  # NO DYN_GEN
 
 
         if P.A_SPS:
@@ -44,10 +44,10 @@ class Sh_2_info(ShInfoAbstract):
             # _s.sps_gi1, sps_init_frames = _s.gen_sps_gi1(sps_init_frames)\
 
             _s.sps_gi0 = _s.gen_sps_gi0(frames_tot=200)
-            _s.sps_gi1 = _s.gen_sps_gi1(frames_tot=150)
-            _s.sps_gi2 = _s.gen_sps_gi2(frames_tot=250)
-            _s.sps_gi3 = _s.gen_sps_gi3(frames_tot=250)
-            _s.sps_gi4 = _s.gen_sps_gi4(frames_tot=250)
+            _s.sps_gi1 = _s.gen_sps_gi1(frames_tot=350)
+            _s.sps_gi2 = _s.gen_sps_gi2(frames_tot=350)
+            _s.sps_gi3 = _s.gen_sps_gi3(frames_tot=350)
+            _s.sps_gi4 = _s.gen_sps_gi4(frames_tot=350)
 
             _s.sps_gi = {
                 '0': _s.sps_gi0,
@@ -100,7 +100,7 @@ class Sh_2_info(ShInfoAbstract):
             rs_init_frames.sort(reverse=False)
             _s.rs_gi = _s.gen_rs_gi(rs_init_frames)
 
-    def gen_ls_gi(_s, START_F):
+    def gen_ls_gi(_s, START_F, EXPL_F):
 
         """
         SHARED FOR THE SAME SH. Kind of... makes sense. ld is used for extent, but they are modified
@@ -121,11 +121,11 @@ class Sh_2_info(ShInfoAbstract):
             'lif2': lif2,
             'lif3': lif3,
             'lif4': lif4,
-            'frames_tot0': 300,  # THESE ARE GONA BECOME REALLY LONG
+            'frames_tot0': EXPL_F - 100,  # THESE ARE GONA BECOME REALLY LONG
             'frames_tot1': P.FRAMES_STOP - lif1[-1],
-            'frames_tot2': 1000,
-            'frames_tot3': 1000,
-            'frames_tot4': 1000,
+            'frames_tot2': 2000,
+            'frames_tot3': 2000,
+            'frames_tot4': 2000,
             'ld': _s.ld,  # USED BY SR?
             'ld0': [_s.ld[0] - 11, _s.ld[1] + 23],
             'ld1': [_s.ld[0] - 27, _s.ld[1] + 45],
@@ -190,10 +190,10 @@ class Sh_2_info(ShInfoAbstract):
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.02,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 5, 'sp_len_scale': 5,
-            'rgb_start': [0.4, 0.9],  #
+            'rgb_start': [0.4, 0.6],  #
             'rgb_theta_diff_c': 1,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] + 3, _s.ld[1] - 3],  # NOT TIED TO L BCS TUNING NEEDED ANYWAY
+            'ld': [_s.ld[0] + 3, _s.ld[1] - 6],  # NOT TIED TO L BCS TUNING NEEDED ANYWAY
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [0, 0.01],
             'R_ss': [0.9, 1], 'R_scale': 0.2,
@@ -267,7 +267,7 @@ class Sh_2_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '1',
             'init_frames': _s.ls_gi['lif1'],
-            'frames_tot': 150,
+            'frames_tot': frames_tot,
             'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,

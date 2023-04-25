@@ -21,18 +21,19 @@ class Sh_1_info(ShInfoAbstract):
         _s.init_frames = pulse
         _s.ld = [top_point[0] - 3, top_point[1] - 5]
 
-        _s.zorder = 87  # in fron t of c WHY??? NEW: same as 5
+        _s.zorder = 120  # in fron t of c WHY??? NEW: same as 5
 
         # pulse_srs = [x + 30 for x in _s.init_frames]  # WHY + 30???
         pulse_srs = [x for x in _s.init_frames]
         _s.srs_gi = {'0': _s.gen_srs_gi(pulse_srs)}  # OBS: sp_gi generated in f class. There is no info class for f.
         _s.srs_gi_init_frames = _s.srs_gi['0']['init_frames']
 
-
         # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
-        pulse_lis = list(range(5, P.FRAMES_STOP - 100, 20))
+        # pulse_lis = list(range(5, P.FRAMES_STOP - 100, 20))
+        pulse_lis = random.sample(range(50, P.FRAMES_STOP), int(P.FRAMES_TOT / 20))
+
         # TODO: Add extra lis for expl and mess with the uniform random
-        expl_lis = random.sample(range(EXPL_F - 100, EXPL_F + 500), 150)
+        expl_lis = random.sample(range(EXPL_F, EXPL_F + 500), 30)
         pulse_lis.extend(expl_lis)
         pulse_lis.sort(reverse=False)
         _s.lis_gi = _s.gen_lis_gi(pulse_lis)
@@ -61,7 +62,7 @@ class Sh_1_info(ShInfoAbstract):
             'v_loc': 50,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
             'theta_loc': -0.9,  # -1.6 is straight up
-            'theta_scale': 0.3,
+            'theta_scale': 0.4,
             'rad_rot': random.uniform(-0.3, -1.9),
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.03,

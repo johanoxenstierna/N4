@@ -119,6 +119,8 @@ class Sr(AbstractLayer, AbstractSSS):
 
         _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_y_range'])
 
+        # zorder set from gi in abstract class
+
     def set_init_frame(_s, i):
 
         index_init_frames = _s.gi['init_frames'].index(i)
@@ -165,8 +167,10 @@ class Sr(AbstractLayer, AbstractSSS):
             _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                                np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
-        if _s.id[0] in ['0', '1', '4', '5']:
+        if _s.id[0] in ['0', '1', '4']:
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
+        elif _s.id[0] in ['5']:  # 5 sp is -5, +5
+            _s.gi['zorder'] = random.randint(_s.sh.gi.zorder + 0, _s.sh.gi.zorder + 10)
         elif _s.id[0] in ['6']:
             pass
             # _s.gi[]

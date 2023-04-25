@@ -105,6 +105,8 @@ class Sp(AbstractLayer, AbstractSSS):
         assert (len(_s.alphas) == len(_s.xy))
         assert (_s.gi['frames_tot'] == len(_s.alphas))
 
+        # zorder set from gi in abstract class
+
     def set_init_frame(_s, i):
 
         # gi = None

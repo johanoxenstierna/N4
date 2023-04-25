@@ -267,7 +267,7 @@ def animate(i):
                         if P.A_LIS and '1' in shs.keys():  # 1 here is the holder of the lis!
                             if i in shs['1'].gi.lis_gi['init_frames']:
                                 if random.random() < 0.1:
-                                    alpha = sr.alpha[sr.clock] + random.uniform(0.05, 0.15)
+                                    alpha = sr.alpha[sr.clock] + random.uniform(0.05, 0.06)
                                     alpha = min(1, alpha)
                                     im_ax[sr.index_im_ax].set_alpha(alpha)
 
