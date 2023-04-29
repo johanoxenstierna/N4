@@ -20,6 +20,7 @@ def init_infos():
     top_point1 = [550, 350]  # aft expl????
     top_point_c = [550, 340]  # for 3 rocks
     top_point2 = [550, 330]
+    top_point5 = [550, 332]
     top_point6 = [550, 340]
     top_point7 = [560, 330]
     EXPL_F = 400
@@ -37,14 +38,14 @@ def init_infos():
     # pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     pulse_4 = random.sample(range(110, EXPL_F + 50), 10 * 3)
     # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
-    pulse_5 = random.sample(range(EXPL_F + 60, P.FRAMES_STOP - 610), 30 * 3)  # this is num fs post expl ONLY fs
-    pulse_5.append(EXPL_F + 60)  # needs to include exact one
+    pulse_5 = random.sample(range(EXPL_F - 20, P.FRAMES_STOP - 610), 30 * 3)  # ONLY FS this is num fs post expl ONLY fs
+    pulse_5.append(EXPL_F - 20)  # needs to include exact one
     pulse_5.sort(reverse=False)
     # pulse_5 = [10, 250]  # expl
 
     # pulse_6 = [5, 10, 50, 100]
     # pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 150, EXPL_F + 180]   # WWWTTTFFF???
-    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 130, EXPL_F + 200, EXPL_F + 205]  # TOT SP: 600
+    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 130, EXPL_F + 200, EXPL_F + 205, EXPL_F + 600]  # TOT SP: 600
     # pulse_6 = [EXPL_F, EXPL_F + 6, EXPL_F + 8]
 
     # pulse_7 = [10, 40, 80]
@@ -86,7 +87,7 @@ def init_infos():
 
     # 5: 0 but after expl
     if '5' in P.SHS_TO_SHOW:  # POST EXPL
-        _5 = _5_info.Sh_5_info(pulse_5, top_point1)
+        _5 = _5_info.Sh_5_info(pulse_5, top_point5)
         infos[_5.id] = _5
 
     if '6' in P.SHS_TO_SHOW:  # EXPL

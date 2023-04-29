@@ -1,3 +1,5 @@
+import P
+
 DEBUG = 0  # if 1 then faster speed on objectsh
 # MAP_SIZE = 's0'  # 214, 181
 # MAP_DIMS = (465, 270)  #(233, 141)small  # NEEDED FOR ASSERTIONS
@@ -30,8 +32,8 @@ NUM_SPS_7_TOT = 800
 NUM_SPS_PER_7 = 150  # 50
 
 NUM_SRS_1 = 600 * 3  # init frames for 1
-NUM_SRS_5 = 400 * 3  # 400 * 3 #   # init frames for 5. ONLY FS is done in genesis. THIS IS TOTAL NUMBER OF INIT FRAMES FOR 5. The more, the more often a single sr gets launched.
-NUM_SRS_SH = 100 * 3  # Used by 0, 1, 2, 4, 5, 6. THIS IS ONLY USED TO GENERATE COPIES OF PICTURES (HOW MANY SHOULD BE AVAILABLE FOR GIVEN INIT_FRAMES)
+NUM_SRS_5 = 400 * 4  # 400 * 3 #   # init frames for 5. ONLY FS is done in genesis. THIS IS TOTAL NUMBER OF INIT FRAMES FOR 5. The more, the more often a single sr gets launched.
+NUM_SRS_SH = 200 * 4  # Used by 0, 1, 2, 4, 5, 6. THIS IS ONLY USED TO GENERATE COPIES OF PICTURES (HOW MANY SHOULD BE AVAILABLE FOR GIVEN INIT_FRAMES)
 # NUM_SRS_7 = 5  # NUMBER OF REPEATS PER PIC.
 NUM_SRS_8 = 5  # NUMBER OF REPEATS PER PIC.  HARDCODED
 NUM_SRS_C = 100  # used by 3. OBS OBS PER PIC, NOT PER C. SRS pics are used by all c

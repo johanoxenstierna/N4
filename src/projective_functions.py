@@ -91,3 +91,7 @@ def shift_projectile(xy_t, origin=None, frames_tot_d=None, up_down=None, r_f_d_t
 
     return xy
 
+
+def falling_projectile(v, height, frames_tot):
+    pass
+

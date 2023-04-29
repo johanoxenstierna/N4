@@ -289,10 +289,10 @@ class Sh_8_info(ShInfoAbstract):
             'init_frames': [60, 70, 80, 90, 100],
             'frames_tot': frames_tot,
             'v_linear_loc': [-0.3, 0],
-            'v_linear_scale': [0.1, 0.02],
-            'ld': [_s.ld[0] - 180, _s.ld[1] - 30],  # finish_info
+            'v_linear_scale': [0.03, 0.02],
+            'ld': [_s.ld[0] - 150, _s.ld[1] - 30],  # finish_info
             'ld_offset_loc': [0, 0],
-            'ld_offset_scale': [100, 60],
+            'ld_offset_scale': [60, 60],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.3],
