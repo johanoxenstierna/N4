@@ -159,7 +159,7 @@ if __name__ == '__main__':
 	'''
 
 	# # # # WAVE alpha NOT EXPL! ALpha 1 in beg cuz it starts real small ============
-	X = np.arange(1, 300)
+	X = np.arange(1, 200)
 	# # # Y = _normal(X, mean=len(X) // 2, var=len(X) // 4, y_range=[0, 0.15])  # alpha
 	# Y = ([_sigmoid(x, grad_magn_inv=-len(X) / 12, x_shift=-4, y_magn=22, y_shift=0) for x in X])  # expl alpha
 	# Y = np.asarray([_sigmoid(x, grad_magn_inv=-len(X) / 10, x_shift=-2, y_magn=40, y_shift=0) for x in X])  # expl alpha
@@ -198,8 +198,8 @@ if __name__ == '__main__':
 	# 	([_sigmoid(x, grad_magn_inv=- len(X) / 5, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 
 	# 5 SR ALPHA ==============
-	Y = np.asarray(
-		([_sigmoid(x, grad_magn_inv=- len(X) / 8, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
+	# Y = np.asarray(
+	# 	([_sigmoid(x, grad_magn_inv=- len(X) / 8, x_shift=-3, y_magn=1., y_shift=0) for x in X]))
 
 	# F ALPHA ============
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv=- len(X) / 15, x_shift=-2, y_magn=1., y_shift=0) for x in X]))
@@ -207,6 +207,12 @@ if __name__ == '__main__':
 	# SP dots: ld_offset. input is ld_offset_scale. output is offset (needs scaling afterwards)
 	# Y = np.asarray(([_sigmoid(x, grad_magn_inv= -15, x_shift=-3, y_magn=1, y_shift=0) for x in X]))
 	# Y = min_max_normalization(Y, y_range=[0, 1])
+
+	# STORAGE ASSIGNMENT NUMBER OF SWAPS
+	Y = np.asarray(
+		([_sigmoid(x, grad_magn_inv=-1, x_shift=-4, y_magn=2, y_shift=0) for x in X]))
+
+	p = np.asarray([x / sum(Y) for x in Y])
 
 	'''EXECUTE'''
 	ax.plot(X, Y, '-')

@@ -9,23 +9,16 @@ import random
 random.seed(7)  # ONLY HERE
 np.random.seed(7)  # ONLY HERE
 import time
-import json
 import matplotlib.pyplot as plt
 import matplotlib.animation as animation
-import cv2
 
 from src import gen_layers
 from src.ani_helpers import *
 import P as P
-from src.chronicler import Chronicler
 
-WRITE = 0  #
+WRITE = 0
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
-
-# Chronicler() # just outputs the json below. MAY BE REMOVED.
-# with open('./src/chronicle.json', 'r') as f:
-#     ch = json.load(f)
 
 Writer = animation.writers['ffmpeg']
 writer = Writer(fps=FPS, metadata=dict(artist='Me'), bitrate=1200)
@@ -59,8 +52,6 @@ if P.A_LIS:
 if P.A_SPS:
     shs = g.gen_sps(ax0, im_ax, shs)  # OBS children of fs NOT GENERATED HERE
 
-# lis_frames = [50, 80, 120, 190, 220, 250]
-
 '''VIEWER ==========================================='''
 brkpoint = 4
 
@@ -78,15 +69,12 @@ def animate(i):
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
 
-        if i == 60:
-            '''Here the all stationary objects are added.'''
-
-            '''ls'''
-            # for l_id, l in sh.ls.items():
+        if i == 108:
             aaa = 5
 
         if P.A_FS and 'fs' in sh.gi.child_names:  # 0, 5, 6!!!
             if i in sh.gi.fs_gi['init_frames']:
+
                 f = sh.find_free_obj(type='f')
                 if f != None:
                     prints += "  adding f"
@@ -99,10 +87,10 @@ def animate(i):
                     sh.f_latest_drawn_id = f.id
                     f.set_frame_ss(i, f.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
 
+                    ''' EVIL BUG HERE. An F cannot be allowed to init new sp children if old children
+                    are still being drawn!!! THIS MEANS F FRAMES_TOT MUST > SP FRAMES TOT'''
                     if P.A_SPS and sh.id not in ['1']:  # ? on second condition
                         for sp_key, sp in f.sps.items():
-                            # if sp.f is not None:
-                            #     if sp.f.id == f.id:
                             assert(sp.f != None)
                             sp.dyn_gen(i)  # YES KEEP THIS: there are thousands of sp and pre-storing xy for all is a bit crazy.
                             sp.drawn = 1
@@ -122,17 +110,11 @@ def animate(i):
                     if drawBool == 0:  # dont draw
                         continue
                     elif drawBool == 1:
-                        # warp_affine_and_color(i, ax0, im_ax, f, ch)  # parent obj required for sail
-                        # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, f, ax0, im_ax)
                         im_ax[f.index_im_ax].set_alpha(f.alpha[f.clock])
-                        # im_ax[f.index_im_ax].set_alpha(0.01)
-
                     elif drawBool == 2:  # remove
                         prints += "  removing f"
                         decrement_all_index_im_ax(index_removed, shs)
-
-                        # continue  # CANT continue because sp also has to be removed
 
                 for sp_id, sp in f.sps.items():  # CHILD OF f
                     assert(sp.f != None)
@@ -142,27 +124,11 @@ def animate(i):
                         if drawBoolSP == 0:
                             continue
                         elif drawBoolSP == 1:
-                            # try:
                             set_sps(sp, im_ax)
-                            # if sp.clock < sp.gi['sp_len'] + 1:  # TODO: CHANGE THIS TO EXTERNAL FUNCTION
-                            #     im_ax[sp.index_im_ax].set_data(sp.xy[:sp.clock, 0], sp.xy[:sp.clock, 1])
-                            # else:
-                            #     try:
-                            #         im_ax[sp.index_im_ax].set_data(sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 0],
-                            #                                        sp.xy[sp.clock - sp.gi['sp_len']:sp.clock, 1])
-                            #         im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
-                            #     except:
-                            #         raise Exception("Adf")
-                            #
-                            # try:
-                            #     im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
-                            # except:
-                            #     raise Exception("Adf")
 
                         elif drawBoolSP == 2:
                             prints += "  removing sp"
                             decrement_all_index_im_ax(index_removed, shs)
-                            # continue
 
         if P.A_SPS and 'sps' in sh.gi.child_names:  # SH sps  # 2, 3, 4, 7
             '''NOT f. OBS MULTIPLE DRAWS AT SAME FRAME ALLOWED HERE
@@ -296,14 +262,8 @@ def animate(i):
                     if drawBool == 0:  # dont draw
                         continue
                     elif drawBool == 1:
-                        # warp_affine_and_color(i, ax0, im_ax, r)  # parent obj required for sail
-                        # im_ax[r.index_im_ax].set_extent(r.extent[r.clock])  # parent obj required for sail
-                        # print(im_ax[f.index_im_ax].get_alpha())
                         mpl_affine(i, r, ax0, im_ax)
-                        # im_ax[r.index_im_ax].set_color((r.R[r.clock], r.G[r.clock], r.B[r.clock]))
-                        # im_ax[r.index_im_ax].set(interpolation_stage='rgba', cmap='jet')
                         im_ax[r.index_im_ax].set_alpha(r.alpha[r.clock])
-                        # im_ax[r.index_im_ax].set_zorder(100)
                     elif drawBool == 2:  # remove
                         decrement_all_index_im_ax(index_removed, shs)
 

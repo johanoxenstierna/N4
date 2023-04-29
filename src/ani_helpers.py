@@ -171,7 +171,11 @@ def set_sps(sp, im_ax):
 		im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock]))
 		im_ax[sp.index_im_ax].set_alpha(sp.alphas[sp.clock])
 	except:
-		raise Exception("im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock])) " + str(sp.id))
+		extra_out = ''
+		if sp.f != None:
+			extra_out = sp.f.id
+		raise Exception("im_ax[sp.index_im_ax].set_color((sp.R[sp.clock], sp.G[sp.clock], sp.B[sp.clock])) " + str(sp.id) + \
+		                ' ' + extra_out)
 
 
 

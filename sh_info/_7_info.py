@@ -36,7 +36,7 @@ class Sh_7_info(ShInfoAbstract):
         # pulse_7_sps_dots1 = [EXPL_F + 101, EXPL_F + 151, EXPL_F + 101, EXPL_F + 351]  # other locs
         # pulse_7_sps_dots2 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
 
-        pulse_dots = _s.gen_pulse_dots(pulse_dots)
+        # pulse_dots = _s.gen_pulse_dots(pulse_dots)
         _s.sps_gi0 = _s.gen_sps_gi0([pulse_dots[0]])
         _s.sps_gi1 = _s.gen_sps_gi1([pulse_dots[1]])
         _s.sps_gi2 = _s.gen_sps_gi2([pulse_dots[2]])
@@ -143,29 +143,29 @@ class Sh_7_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_pulse_dots(_s, pulse_dots):
-        """Distances are same for all pulses
-        frames_tot: 120 (from below)
-        """
-
-        # pulse_dots = []
-
-        '''OBS SAME FRAME CANT BE USED. BUT AS LONG AS NOT, MANY ARE LAUNCHED'''
-        # offset0 = 160  # test it
-        # offset1 = 440
-        # offset2 = 10  # NOT USED
-        # offset3 = 500
-        # offset4 = 450  # 450
-        #
-        # pulse_dots = [
-        #     [x + offset0 for x in pulse_dots],  # NEED MORE HERE
-        #     [x + offset1 for x in pulse_dots],
-        #     [x + offset2 for x in pulse_dots],
-        #     [x + offset3 for x in pulse_dots],
-        #     [x + offset4 for x in pulse_dots]
-        # ]
-
-        return pulse_dots
+    # def gen_pulse_dots(_s, pulse_dots):
+    #     """Distances are same for all pulses
+    #     frames_tot: 120 (from below)
+    #     """
+    #
+    #     # pulse_dots = []
+    #
+    #     '''OBS SAME FRAME CANT BE USED. BUT AS LONG AS NOT, MANY ARE LAUNCHED'''
+    #     # offset0 = 160  # test it
+    #     # offset1 = 440
+    #     # offset2 = 10  # NOT USED
+    #     # offset3 = 500
+    #     # offset4 = 450  # 450
+    #     #
+    #     # pulse_dots = [
+    #     #     [x + offset0 for x in pulse_dots],  # NEED MORE HERE
+    #     #     [x + offset1 for x in pulse_dots],
+    #     #     [x + offset2 for x in pulse_dots],
+    #     #     [x + offset3 for x in pulse_dots],
+    #     #     [x + offset4 for x in pulse_dots]
+    #     # ]
+    #
+    #     return pulse_dots
 
     def gen_sps_gi0(_s, init_frames_sp):
 
@@ -186,7 +186,7 @@ class Sh_7_info(ShInfoAbstract):
             'gi_id': '0',
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'init_frame_max_dist': 200,  # OBS THIS MUST BE SHORTER
             'v_loc': 80, 'v_scale': 30,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, little bit to left = -1.3
@@ -222,7 +222,7 @@ class Sh_7_info(ShInfoAbstract):
             'gi_id': '1',
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 100,  # 100 OBS THIS MUST BE SHORTER
+            'init_frame_max_dist': 200,  # 100 OBS THIS MUST BE SHORTER
             'v_loc': 60, 'v_scale': 30,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
@@ -257,7 +257,7 @@ class Sh_7_info(ShInfoAbstract):
             'gi_id': '2',
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'init_frame_max_dist': 200,  # OBS THIS MUST BE SHORTER
             'v_loc': 40, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
@@ -291,7 +291,7 @@ class Sh_7_info(ShInfoAbstract):
             'gi_id': '3',
             'init_frames': init_frames_sp,
             'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'init_frame_max_dist': 200,  # OBS THIS MUST BE SHORTER
             'v_loc': 30, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=

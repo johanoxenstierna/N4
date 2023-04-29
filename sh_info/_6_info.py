@@ -51,11 +51,11 @@ class Sh_6_info(ShInfoAbstract):
         This has to be provided because the fs are generated w.r.t. sh.
         This is like the constructor input for F class
         """
-        FRAMES_TOT = 100
+        FRAMES_TOT = 601  # MUST BE HIGHTER THAN SP.FRAMES_TOT!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!1
         fs_gi = {
             'rad_rot': -0.2,
             'init_frames': pulse,
-            'frames_tot': 100,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED, NO SEEMS TO WORK ANYWAY
+            'frames_tot': FRAMES_TOT,
             'scale_ss': [0.01, 1.1],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 2, _s.ld[1]],
@@ -78,18 +78,18 @@ class Sh_6_info(ShInfoAbstract):
             'ld': [_s.ld[0] - 0, _s.ld[1]],
             'ld_offset_loc': [-4, 15],
             'ld_offset_scale': [1, 1],
-            'scale_ss': [0.01, 1.5],
+            'scale_ss': [0.01, 1.7],
             'frame_ss': _s.frame_ss,
-            'v_loc': 46,  # OBS SPECIAL, USES BEFORE
+            'v_loc': 50,  # OBS SPECIAL, USES BEFORE
             'v_scale': 0,
             'theta_loc': -0.3,  # -1.6 is straight up
             'theta_scale': 0.02,
             'rad_rot': 0.2,
-            'r_f_d_loc': 0.9,
+            'r_f_d_loc': 0.1,
             'r_f_d_scale': 0.01,
             'up_down': 'up',
             'alpha_y_range': [0, 0.3],
-            'zorder': 50,
+            'zorder': 20  # nuke
         }
 
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
@@ -103,8 +103,8 @@ class Sh_6_info(ShInfoAbstract):
         """
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
-            'frames_tot': 600,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. NOT CONFIRMED
-            'v_loc': 43, 'v_scale': 13,
+            'frames_tot': 600,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. INVOLVED IN BUG
+            'v_loc': 43, 'v_scale': 15,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.2,
             'r_f_d_loc': 0.2, 'r_f_d_scale': 0.3,
@@ -121,6 +121,7 @@ class Sh_6_info(ShInfoAbstract):
             'B_ss': [0.3, 0.1], 'B_scale': 0.1,  # good to prevent neg numbers here
             'alpha_y_range': [0.05, 0.7],
             'up_down': 'up'
+            # NEED ZORDER
         }
 
         return sps_gi

@@ -169,16 +169,12 @@ class Sr(AbstractLayer, AbstractSSS):
 
         if _s.id[0] in ['0', '1', '4']:
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
-        elif _s.id[0] in ['5']:  # 5 sp is -5, +5
-            _s.gi['zorder'] = random.randint(_s.sh.gi.zorder + 0, _s.sh.gi.zorder + 10)
-        elif _s.id[0] in ['6']:
-            pass
-            # _s.gi[]
+        elif _s.id[0] in ['5']:  #
+            # _s.gi['zorder'] = random.randint(_s.sh.gi.zorder + 0, _s.sh.gi.zorder + 10)  # OLD. PERHAPS ONLY SPSHOULD BE DYN
+            _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
+        # elif _s.id[0] in ['6']:  # in gi. must be behind volc
+            # _s.gi['zorder'] = 120  # only nuke cloud, same as 5, i.e. 120
 
-
-        # if _s.id[0] == '3':
-        # if _s.id[0:6] == '3_sr_0':
-        #
 
     # def gen_sps_gi(_s):  # PENDING DEL
     #     """

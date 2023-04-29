@@ -38,7 +38,7 @@ class Sh_1_info(ShInfoAbstract):
         pulse_lis.sort(reverse=False)
         _s.lis_gi = _s.gen_lis_gi(pulse_lis)
 
-        pulse_fs = [EXPL_F + 10]  # shockwave
+        pulse_fs = [EXPL_F + 40]  # shockwave
         _s.fs_gi = _s.gen_fs_gi(pulse_fs)
 
         pulse_sps = []  # sp hits down

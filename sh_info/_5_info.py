@@ -143,7 +143,7 @@ class Sh_5_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0.1,  # first one is loc
             'G_ss': [0.2, 0.01], 'G_scale': 0.3,
             'B_ss': [0.1, 0.01], 'B_scale': 0.1,  # good to prevent neg numbers here
-            'alpha_y_range': [0.01, 0.6],
+            'alpha_y_range': [0.01, 0.9],
             'up_down': 'up',
             'zorder': None  # Set in finish_info
         }
