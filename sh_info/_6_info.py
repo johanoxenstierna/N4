@@ -104,11 +104,11 @@ class Sh_6_info(ShInfoAbstract):
         """
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
-            'frames_tot': 600,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. INVOLVED IN BUG
-            'v_loc': 43, 'v_scale': 15,
+            'frames_tot': 700,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. INVOLVED IN BUG
+            'v_loc': 60, 'v_scale': 20,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.2,
-            'r_f_d_loc': 0.2, 'r_f_d_scale': 0.3,
+            'r_f_d_loc': 0.15, 'r_f_d_scale': 0.13,
             'sp_len_loc': 3, 'sp_len_scale': 100,  # this means that everything will be long, and only slow ones survive
             # 'rad_rot': 0.1,
             'ld': _s.ld,  # in
@@ -120,7 +120,7 @@ class Sh_6_info(ShInfoAbstract):
             'R_ss': [0.7, 1], 'R_scale': 0.3,  # first one is loc
             'G_ss': [0.4, 0.3], 'G_scale': 0.2,
             'B_ss': [0.3, 0.1], 'B_scale': 0.1,  # good to prevent neg numbers here
-            'alpha_y_range': [0.05, 0.7],
+            'alpha_y_range': [0.05, 0.5],
             'up_down': 'up'
             # NEED ZORDER
         }
