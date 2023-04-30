@@ -89,7 +89,8 @@ class Sh_0_info(ShInfoAbstract):
             'theta_scale': 0.3,
             'r_f_d_loc': 0.001,
             'r_f_d_scale': 0.1,
-            'rad_rot': random.uniform(-0.03, 0.5),
+            'rad_rot_loc': 0.2,
+            'rad_rot_scale': 0.1,
             'up_down': 'up',
             'alpha_y_range': [0.0, 0.2],
 

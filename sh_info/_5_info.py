@@ -75,15 +75,16 @@ class Sh_5_info(ShInfoAbstract):
             'init_frames': copy.deepcopy(pulse_srs),
             'frames_tot': 500,
             'ld': [_s.ld[0] - 0, _s.ld[1]],
-            'ld_offset_loc': [5, 8],
+            'ld_offset_loc': [5, 8],  # this IS used
             'ld_offset_scale': [1, 1],
             'scale_ss': [0.2, 5],
             'frame_ss': _s.frame_ss,
             'v_loc': 45,
             'v_scale': 12,
-            'theta_loc': -1.2,  # -1.6 is straight up
-            'theta_scale': 0.2,
-            'rad_rot': random.uniform(-0.2, 0.2),
+            'theta_loc': -1.3,  # -1.6 is straight up
+            'theta_scale': 0.1,
+            'rad_rot_loc': -0.1,
+            'rad_rot_scale': 0.05,
             'r_f_d_loc': 0.01,
             'r_f_d_scale': 0.3,
             'up_down': 'up',
@@ -104,8 +105,8 @@ class Sh_5_info(ShInfoAbstract):
             'ld_offset_loc': [-1, 5],
             'ld_offset_scale': [0.2, 0.05],
             'frame_ss': _s.frame_ss,
-            'v_loc': 30,
-            'v_scale': 5,
+            'v_loc': 40,
+            'v_scale': 10,
             'theta_loc': 1.7,
             'theta_scale': 0.1,
             'r_f_d_loc': 0.7,
@@ -143,7 +144,7 @@ class Sh_5_info(ShInfoAbstract):
             'R_ss': [0.9, 1], 'R_scale': 0.1,  # first one is loc
             'G_ss': [0.2, 0.01], 'G_scale': 0.3,
             'B_ss': [0.1, 0.01], 'B_scale': 0.1,  # good to prevent neg numbers here
-            'alpha_y_range': [0.01, 0.9],
+            'alpha_y_range': [0.01, 0.6],
             'up_down': 'up',
             'zorder': None  # Set in finish_info
         }

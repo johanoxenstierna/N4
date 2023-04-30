@@ -10,7 +10,7 @@ import random
 from src.gen_extent_triangles import *
 from src.layers.abstract import AbstractLayer, AbstractSSS
 from src.gen_trig_fun import gen_alpha  #, gen_scale_lds
-from src.projective_functions import *
+from src.projectile_functions import *
 
 class C(AbstractLayer, AbstractSSS):
     """Only 1 extent, use alpha to make visible at frames of choice"""

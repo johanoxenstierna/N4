@@ -16,7 +16,7 @@ from src import gen_layers
 from src.ani_helpers import *
 import P as P
 
-WRITE = 84
+WRITE = 86
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 
@@ -191,7 +191,7 @@ def animate(i):
 
             if i in sh.gi.srs_gi_init_frames:  # means one of them has it
 
-                sr = sh.find_free_obj(type='sr')
+                sr = sh.find_free_obj(type='sr', i=i)
 
                 if sr != None:
 

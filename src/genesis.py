@@ -6,7 +6,7 @@ import numpy as np
 import P
 
 # from sh_info import shInfoAbstract, _0_info
-from sh_info import _0_info, _1_info, _2_info, _3_info, _4_info, _5_info, _6_info, _7_info, _8_info
+from sh_info import _0_info, _1_info, _2_info, _3_info, _4_info, _5_info, _6_info, _7_info, _8_info, _9_info
 
 def init_infos():
     '''Creates instance of each info and stores in dict'''
@@ -23,7 +23,8 @@ def init_infos():
     top_point5 = [550, 332]
     top_point6 = [550, 340]
     top_point7 = [560, 330]
-    EXPL_F = 400
+    top_point9 = [510, 150]
+    EXPL_F = 110
 
     pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 610), P.NUM_SRS_1)  # 1 (sr)
     pulse_sr1.sort(reverse=False)
@@ -45,7 +46,7 @@ def init_infos():
 
     # pulse_6 = [5, 10, 50, 100]
     # pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 150, EXPL_F + 180]   # WWWTTTFFF???
-    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 130, EXPL_F + 200, EXPL_F + 205, EXPL_F + 600]  # TOT SP: 600
+    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 130, EXPL_F + 200, EXPL_F + 205, EXPL_F + 480, EXPL_F + 500]  # TOT SP: 600
     # pulse_6 = [EXPL_F, EXPL_F + 6, EXPL_F + 8]
 
     # pulse_7 = [10, 40, 80]
@@ -57,6 +58,10 @@ def init_infos():
     # pulse_dots = [160, 440, 10, 500, 450]
 
     pulse_8 = None  # this one is specially set inside 8_info
+
+    pulse_9_tot_inits = (P.FRAMES_STOP - 500) - (EXPL_F + 200)
+    pulse_9 = random.sample(range(EXPL_F + 200, P.FRAMES_STOP - 1000), pulse_9_tot_inits // 3)
+    # pulse_9 = random.sample(range(10, 1000), 500)
 
     pulse_0.sort()
     pulse_sr1.sort()
@@ -101,5 +106,8 @@ def init_infos():
     if '8' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper
         _8 = _8_info.Sh_8_info(top_point0)
         infos[_8.id] = _8
+    if '9' in P.SHS_TO_SHOW:  # EXTRAS2: srs upper
+        _9 = _9_info.Sh_9_info(pulse_9, top_point9)
+        infos[_9.id] = _9
 
     return infos

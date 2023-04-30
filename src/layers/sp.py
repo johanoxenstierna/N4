@@ -6,7 +6,7 @@ import P as P
 import numpy as np
 from copy import deepcopy
 import random
-from src.projective_functions import *
+from src.projectile_functions import *
 from src.gen_trig_fun import gen_alpha, min_max_normalization
 from src.trig_functions import _sigmoid
 import matplotlib as mpl
@@ -209,6 +209,10 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.gi['sp_len'] = 3
         elif _s.gi['up_down'] == 'down' and _s.gi['v'] > 100:
             _s.gi['sp_len'] = 3
+        '''alpha_y_range for 6 needs to be set depending on sp_len'''
+        if _s.id[0] == '6':
+            if _s.gi['sp_len'] > 40:
+                _s.gi['alpha_y_range'] = [0.05, 0.5]
 
         if _s.id[0] == '7' and _s.gi['gi_id'] in ['4']:  # sky ones
             _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
@@ -217,7 +221,7 @@ class Sp(AbstractLayer, AbstractSSS):
             _s.gi['zorder'] = random.randint(120 - 5, 120 + 10)
         elif _s.id[0] == '5':  # sr is 120 - 3 to 120 + 5
             '''Function of v. Slow ones more visible'''
-            diff = -2 * _s.gi['v'] + 60 + random.randint(-5, 5)
+            diff = -0.5 * _s.gi['v'] + 15 + random.randint(-5, 5)
             _s.gi['zorder'] = _s.sh.gi.zorder + diff
         elif _s.id[0] == '7':
             _s.gi['zorder'] = 2000
@@ -226,5 +230,4 @@ class Sp(AbstractLayer, AbstractSSS):
             # raise Exception("FIX IT " + _s.id[0])
 
 
-        adf = 5
 

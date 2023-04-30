@@ -223,9 +223,10 @@ class Sh_2_info(ShInfoAbstract):
             'v_loc': 10,  # rc=2
             'v_scale': 2,
             'scale_ss': [0.01, 3],
-            'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
-            'theta_scale': 0.0,
-            'rad_rot': -0.3,
+            'theta_loc': -0.9,
+            'theta_scale': 0, # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
+            'rad_rot_loc': -1,
+            'rad_rot_scale': 1,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',
@@ -313,9 +314,10 @@ class Sh_2_info(ShInfoAbstract):
             'v_loc': 10,  # rc=2
             'v_scale': 2,
             'scale_ss': [0.01, 4],
-            'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
-            'theta_scale': 0.0,
-            'rad_rot': -0.3,
+            'theta_loc': -0.9,
+            'theta_scale': 0.0, # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
+            'rad_rot_loc': -1,
+            'rad_rot_scale': 1,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',
@@ -386,7 +388,8 @@ class Sh_2_info(ShInfoAbstract):
             'scale_ss': [0.01, 3],
             'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
-            'rad_rot': -0.3,
+            'rad_rot_loc': -1,
+            'rad_rot_scale': 1,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',
@@ -458,7 +461,8 @@ class Sh_2_info(ShInfoAbstract):
             'scale_ss': [0.01, 4],
             'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
-            'rad_rot': -0.3,
+            'rad_rot_loc': -1,
+            'rad_rot_scale': 1,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',
@@ -529,7 +533,8 @@ class Sh_2_info(ShInfoAbstract):
             'scale_ss': [0.01, 4],
             'theta_loc': -0.9,  # 0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
-            'rad_rot': -0.3,
+            'rad_rot_loc': -1,
+            'rad_rot_scale': 1,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.00,
             'up_down': 'up',

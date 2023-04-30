@@ -62,8 +62,10 @@ class Sh_1_info(ShInfoAbstract):
             'v_loc': 50,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
             'theta_loc': -0.9,  # -1.6 is straight up
-            'theta_scale': 0.4,
-            'rad_rot': random.uniform(-0.3, -1.9),
+            'theta_scale': 0.3,
+            # 'rad_rot': random.uniform(-0.3, -1.9),  # BUG
+            'rad_rot_loc': -1,
+            'rad_rot_scale': 0.5,
             'r_f_d_loc': 0.05,
             'r_f_d_scale': 0.03,
             'up_down': 'up',
@@ -100,7 +102,7 @@ class Sh_1_info(ShInfoAbstract):
             'frames_tot': FRAMES_TOT,
             'scale_ss': [0.1, 2.0],
             'frame_ss': None,  # simpler with this
-            'ld': [_s.ld[0] - 10, _s.ld[1] + 30],
+            'ld': [_s.ld[0] - 30, _s.ld[1] + 30],
             'x_mov': list(np.linspace(0, -200, num=FRAMES_TOT)),  # SPECIAL
             'y_mov': list(np.linspace(0, 200, num=FRAMES_TOT)),  # SPECIAL
             'alpha_y_range': [0.01, 0.8],

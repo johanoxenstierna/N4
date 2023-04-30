@@ -8,7 +8,7 @@ import P as P
 from src.gen_extent_triangles import *
 from src.layers.abstract import AbstractLayer, AbstractSSS
 from src.gen_trig_fun import gen_alpha  #, gen_scale_lds
-from src.projective_functions import *
+from src.projectile_functions import *
 
 class R(AbstractLayer, AbstractSSS):
 
@@ -25,6 +25,8 @@ class R(AbstractLayer, AbstractSSS):
 
         _s.finish_info()
         frames_aft_d = int(_s.gi['frames_tot'] - _s.gi['frames_tot'] * _s.gi['r_f_d'])
+        if frames_aft_d < 0:
+            adf = 5
         frames_tot_and_d = _s.gi['frames_tot'] + frames_aft_d
 
         ### HERE: USE pic SHAPE TO CONTROL VELOCITY LOC
@@ -38,7 +40,9 @@ class R(AbstractLayer, AbstractSSS):
 
         origin_ = (_s.gi['ld'][0] + _s.gi['ld_offset'][0], _s.gi['ld'][1] + _s.gi['ld_offset'][1])
         _s.xy = shift_projectile(_s.xy_t, origin=origin_, up_down=_s.gi['up_down'], frames_tot_d=frames_aft_d, r_f_d_type='after')
-        assert(len(_s.xy) == _s.gi['frames_tot'])
+        if len(_s.xy) != _s.gi['frames_tot']:
+            _s.xy = shift_projectile(_s.xy_t, origin=origin_, up_down=_s.gi['up_down'], frames_tot_d=frames_aft_d, r_f_d_type='after')
+        adf = 5
         # _s.extent, _s.extent_t, lds_vec, _s.scale_vector = gen_extent(_s.gi, pic=_s.pic)
         # fun_plot = 'r'  # smokr but fun plot is same
 
@@ -94,6 +98,7 @@ class R(AbstractLayer, AbstractSSS):
         # _s.gi['scale_loc_ss'] = [scale_loc_start, scale_loc_stop]
         _s.gi['theta'] = theta
         _s.gi['r_f_d'] = max(0.01, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
+        _s.gi['r_f_d'] = min(0.99999, _s.gi['r_f_d'])
         # _s.gi['ld_offset'] = _s.gi['ld_offset_loc']
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]

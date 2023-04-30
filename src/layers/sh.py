@@ -135,6 +135,11 @@ class Sh(AbstractLayer):
                         id_split_ship_latest_smoka = _s.f_latest_drawn_id.split('_')
                         if id_split_smoka[2] == id_split_ship_latest_smoka[2]:
                             continue
+
+                    if type == 'sr' and obj.id[0] == '9':
+                        if i not in obj.gi['init_frames']:
+                            continue
+
                     return obj
         elif type in ['l']:  # REPLACE WITH LOOPING MECHANISM. NO, NOT NEEDED
             for obj in _list:
@@ -146,7 +151,7 @@ class Sh(AbstractLayer):
                 if obj.drawn == 0 and i in obj.gi['init_frames']:  # YES 2nd ONE WORKS! init_frames done in finish_info
                     return obj
 
-        if type == 'f':  # if return above has not happened it means that none has been found (e.g. if only 1 type available)
+        if type == 'f':  # ??? if return above has not happened it means that none has been found (e.g. if only 1 type available)
             for key in li_ids:
                 obj = _di[key]
                 if obj.drawn == 0:  # object is not drawn
@@ -173,9 +178,14 @@ class Sh(AbstractLayer):
         #     raise Exception("Only done it for 3 so far.")
 
         '''OBS SRS_GI NUMBERS CORRESPOND TO CS, BUT SRS PIC NUMBER DONT CORRESPOND TO ANYTHING'''
+
         fl_found = False
         for sr_gi_id, sr_gi in _s.gi.srs_gi.items():
             if i in sr_gi['init_frames']:
+                # if sr.id[0] == '3':
+                '''quick fix'''
+                sr_gi['rad_rot_loc'] = -1
+                sr_gi['rad_rot_scale'] = 0.2
                 sr.dyn_gen(i, gi=sr_gi)  # GENERATES GI AND EVERYTHING
                 fl_found = True
 

@@ -92,6 +92,43 @@ def shift_projectile(xy_t, origin=None, frames_tot_d=None, up_down=None, r_f_d_t
     return xy
 
 
-def falling_projectile(v, height, frames_tot):
-    pass
+def falling_projectile(gi):
+    """v is downward """
+    G = 9.8
+    t_flight = np.sqrt((2 * gi['height']) / G)
+    t = np.linspace(0, t_flight, gi['frames_tot'])
+    v_y = 0  # starts at 0
+
+    xy = np.zeros((gi['frames_tot'], 2))
+
+    '''y motion'''
+    for i in range(len(xy)):
+        # x_dist = v_x * time
+        # y_dist = (v_y * time) - (0.5 * gravity * time * time)
+        y_dist = (v_y * t[i]) - (0.5 * G * t[i]**2)
+        xy[i, 1] = y_dist
+
+    '''x motion'''
+
+    # input = np.linspace(1, 30, num=len(xy))
+
+    if gi['9_id'] == '0':  # pillar
+
+        left_right = np.random.choice(['left', 'right'], p=[0.4, 0.6])
+        c = gi['c']
+        if left_right == 'left':
+            c = -gi['c']
+        input = np.linspace(1, 3, num=len(xy))  # more=more speed
+        xy[:, 0] = c * np.exp(input**2)
+    elif gi['9_id'] == '1':  # flat
+        left_right = 'right'  # np.random.choice(['left', 'right'], p=[0.2, 0.8])
+        c = gi['c']
+        # if left_right == 'left':
+        #     c = -gi['c']
+        input = np.linspace(0, 5, num=len(xy))  # more=more speed
+        xy[:, 0] = c * np.exp(input)
+
+        dfdf = 5
+
+    return xy
 

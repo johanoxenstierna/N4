@@ -10,7 +10,7 @@ from src.gen_extent_triangles import *
 from src.layers.abstract import AbstractLayer, AbstractSSS
 from src.gen_trig_fun import gen_alpha #gen_scale_lds
 from src.trig_functions import _normal, min_max_normalization
-from src.projective_functions import *
+from src.projectile_functions import *
 
 class Sr(AbstractLayer, AbstractSSS):
 
@@ -46,16 +46,10 @@ class Sr(AbstractLayer, AbstractSSS):
 
             _s.dyn_gen(gi=gi)
 
-            # gi = deepcopy(sh.gi.srs_gi['0'])
-            # l = random.choice(sh.ls)
-            # gi['ld'] = l.gi['ld']
-            # gi['ld_offset'] = [np.random.normal(loc=gi['ld_offset_loc'][0], scale=gi['ld_offset_scale'][0]),
-            #              np.random.normal(loc=gi['ld_offset_loc'][1], scale=gi['ld_offset_scale'][1])]
-            # _s.dyn_gen(gi=gi)  # creates REPEATED srs. C-tied sr are dyn_gened in main
         elif sh.id in ['8']:
             '''NO DYN GEN. Special case. xy done in gi. Its linear motion. '''
             # if id_s[2] == '4':
-            _s.gi = deepcopy(sh.gi.srs_gi[id_s[2]])
+            _s.gi = deepcopy(sh.gi.srs_gi[id_s[2]])  # tied to pic
 
             '''This should be generic though:'''
             ld_offset = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
@@ -77,6 +71,34 @@ class Sr(AbstractLayer, AbstractSSS):
 
             _s.rotation_v = np.zeros(shape=(_s.gi['frames_tot'],))
             _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_y_range'])
+
+
+        elif sh.id in ['9']:
+
+            gi = deepcopy(random.choice(list(sh.gi.srs_gi.values())))
+            # gi = deepcopy(sh.gi.srs_gi['0'])
+
+            '''Special falling motion. '''
+            ld_offset = [np.random.normal(loc=gi['ld_offset_loc'][0], scale=gi['ld_offset_scale'][0]),
+                         np.random.normal(loc=gi['ld_offset_loc'][1], scale=gi['ld_offset_scale'][1])]
+
+            gi['ld'] = [gi['ld'][0] + ld_offset[0], gi['ld'][1] + ld_offset[1]]
+            _s.xy_t = falling_projectile(gi=gi)
+            origin_ = (gi['ld'][0], gi['ld'][1])
+            _s.xy = shift_projectile(_s.xy_t, origin=origin_, up_down=gi['up_down'], frames_tot_d=0,
+                                     r_f_d_type='after')
+
+            # X = np.arange(0, len(_s.xy))
+            # sv0 = _normal(X=X, mean=len(X) // 2, var=len(X) // 4, y_range=[0.01, 1])
+            # _s.scale_vector = min_max_normalization(sv0, y_range=[0.5, 0.6])
+
+            _s.scale_vector = np.linspace(gi['scale_ss'][0], gi['scale_ss'][1], num=len(_s.xy))
+            gi['rad_rot'] = np.random.normal(loc=gi['rad_rot_loc'], scale=gi['rad_rot_scale'])
+            _s.rotation_v = np.linspace(0.00, gi['rad_rot'], num=gi['frames_tot'])
+            _s.gi = gi  # Uhhh. depcopy needed
+            _s.alpha = gen_alpha(_s, frames_tot=gi['frames_tot'], y_range=gi['alpha_y_range'])
+
+            _s.gi['zorder'] = np.random.uniform(_s.sh.gi.zorder - 10, _s.sh.gi.zorder + 10)
 
     def dyn_gen(_s, i=None, gi=None):
 
@@ -137,13 +159,14 @@ class Sr(AbstractLayer, AbstractSSS):
         assert(_s.id != 8)
 
         _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
-        theta = _s.gi['theta_loc']  # np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
-        _s.gi['theta'] = theta
+        # theta = _s.gi['theta_loc']  # np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
+        _s.gi['theta'] = np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
         _s.gi['r_f_d'] = max(0.01, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
-        # OBS SUPER IMPORTANT: TODO: MOVE THIS TO GI
+        _s.gi['rad_rot'] = np.random.normal(loc=_s.gi['rad_rot_loc'], scale=_s.gi['rad_rot_scale'])
+
         if _s.id[0] == '3':
             c_id = _s.gi['c_id']  # DIRECT MATCHING!
             if c_id not in _s.sh.cs.keys():
@@ -152,14 +175,7 @@ class Sr(AbstractLayer, AbstractSSS):
 
             '''This could be written to gi of sr, but that would require that xy is gened for c first'''
             _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
-        # elif _s.id[0] in ['2', '4']:
-        #
-        #     '''THIS IS MOVED TO GI'''
-        #     l_id = _s.gi['l_id']  # DIRECT MATCHING!
-        #     if l_id >= len(_s.sh.ls):
-        #         raise Exception("trying to dyn_gen an sr which is tied to a l that does not exist. "
-        #                         "l_id: " + l_id + " sr_id: " + _s.id + ". Check that pic is in there.")
-        #     _s.gi['ld'] = [_s.sh.ls[l_id].gi['ld'][0], _s.sh.ls[l_id].gi['ld'][1]]
+
         elif _s.id[0] in ['7']: #same as for 1 instead
             # gi = deepcopy(sh.gi.srs_gi['0'])
             l = random.choice(_s.sh.ls)
@@ -172,20 +188,5 @@ class Sr(AbstractLayer, AbstractSSS):
         elif _s.id[0] in ['5']:  #
             # _s.gi['zorder'] = random.randint(_s.sh.gi.zorder + 0, _s.sh.gi.zorder + 10)  # OLD. PERHAPS ONLY SPSHOULD BE DYN
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
-        # elif _s.id[0] in ['6']:  # in gi. must be behind volc
-            # _s.gi['zorder'] = 120  # only nuke cloud, same as 5, i.e. 120
 
 
-    # def gen_sps_gi(_s):  # PENDING DEL
-    #     """
-    #     THESE ARE AVERAGES
-    #     r_f_s gives ratio of frames that should be discarded, i.e. the ratio that the sp should
-    #     climb up the projectile (before shifting)
-    #     """
-    #     sps_gi = {'v_loc': 12, 'v_scale': 10,
-    #               'theta_loc': -0.2, 'theta_scale': 0.08,
-    #               'r_f_d_loc': 0.4, 'r_f_d_scale': 0.05,
-    #               'origin': (120, 50),
-    #               'offset_x_loc': 0, 'offset_x_scale': 0.03,
-    #               'offset_y_loc': 0, 'offset_y_scale': 0.02}
-    #     return sps_gi
