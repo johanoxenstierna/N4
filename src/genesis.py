@@ -20,7 +20,7 @@ def init_infos():
     top_point1 = [550, 350]  # aft expl????
     top_point_c = [550, 340]  # for 3 rocks
     top_point2 = [550, 330]
-    top_point5 = [550, 332]
+    top_point5 = [553, 336]
     top_point6 = [550, 340]
     top_point7 = [560, 330]
     top_point9 = [520, 150]
@@ -46,7 +46,7 @@ def init_infos():
 
     # pulse_6 = [5, 10, 50, 100]
     # pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 150, EXPL_F + 180]   # WWWTTTFFF???
-    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 20, EXPL_F + 130, EXPL_F + 200, EXPL_F + 205, EXPL_F + 480, EXPL_F + 500]  # TOT SP: 600
+    pulse_6 = [EXPL_F, EXPL_F + 5, EXPL_F + 25, EXPL_F + 50, EXPL_F + 75, EXPL_F + 200, EXPL_F + 225, EXPL_F + 250]  # TOT SP: 600
     # pulse_6 = [EXPL_F, EXPL_F + 6, EXPL_F + 8]
 
     # pulse_7 = [10, 40, 80]
@@ -54,7 +54,10 @@ def init_infos():
 
     # pulse_7 = list(range(P.FRAMES_START + 50, P.FRAMES_STOP - 300, 30 * 3))  # THIS DOESNT MAKE SENSE. NEED TO JUST GIVE FIRST FRMAES FOR LS
     pulse_7 = [50, 150, 1200, 180]  # THESE ARE FOR THE 4 LS. REPEATED LATER.
-    pulse_dots = [EXPL_F + 160, EXPL_F + 440, EXPL_F + 10, EXPL_F + 500, EXPL_F + 450]
+    pulse_dots = [EXPL_F + 200, EXPL_F + 300, EXPL_F + 400, EXPL_F + 500,
+                  EXPL_F + 401, EXPL_F + 451, EXPL_F + 501, EXPL_F + 601,
+                  EXPL_F + 0, EXPL_F + 0, EXPL_F + 0, EXPL_F + 0,
+                  EXPL_F + 503, EXPL_F + 603, EXPL_F + 703, EXPL_F + 803]
     # pulse_dots = [160, 440, 10, 500, 450]
 
     pulse_8 = None  # this one is specially set inside 8_info

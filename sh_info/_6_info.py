@@ -105,7 +105,7 @@ class Sh_6_info(ShInfoAbstract):
         sps_gi = {
             'init_frames': init_frames,  # ONLY FOR THIS TYPE
             'frames_tot': 700,  # MUST BE LOWER THAN SP.FRAMES_TOT. MAYBE NOT. INVOLVED IN BUG
-            'v_loc': 60, 'v_scale': 20,
+            'v_loc': 50, 'v_scale': 20,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': 1.52, 'theta_scale': 0.2,
             'r_f_d_loc': 0.15, 'r_f_d_scale': 0.13,

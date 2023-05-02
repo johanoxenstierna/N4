@@ -215,8 +215,8 @@ if __name__ == '__main__':
 
 	# FALLING OBJECT X motion
 	# Y = 2 * np.log(X)
-	# input = np.linspace(1, 3, num=len(X))
-	# Y = 0.1 * np.exp(input**2)  # X motion
+	input = np.linspace(0, 4, num=len(X))
+	Y = np.exp(input)  # X motion
 
 	# distribute frames
 

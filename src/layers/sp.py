@@ -217,14 +217,14 @@ class Sp(AbstractLayer, AbstractSSS):
         if _s.id[0] == '7' and _s.gi['gi_id'] in ['4']:  # sky ones
             _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))
 
-        if _s.id[0] == '6':  # most in front of 5 which is 120
-            _s.gi['zorder'] = random.randint(120 - 5, 120 + 10)
+        if _s.id[0] == '6':  # some in front of 5 which is 120
+            _s.gi['zorder'] = random.randint(120 - 20, 120 + 10)
         elif _s.id[0] == '5':  # sr is 120 - 3 to 120 + 5
             '''Function of v. Slow ones more visible'''
-            diff = -0.5 * _s.gi['v'] + 15 + random.randint(-5, 5)
+            diff = -0.5 * _s.gi['v'] + 15 + random.randint(-15, 0)
             _s.gi['zorder'] = _s.sh.gi.zorder + diff
         elif _s.id[0] == '7':
-            _s.gi['zorder'] = 2000
+            _s.gi['zorder'] = 120
         elif _s.id[0] != '3':  # 3 zorders hardcoded
             _s.gi['zorder'] = _s.sh.gi.zorder
             # raise Exception("FIX IT " + _s.id[0])

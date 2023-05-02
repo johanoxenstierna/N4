@@ -26,6 +26,8 @@ class Sh_9_info(ShInfoAbstract):
         _s.ld = top_point
         _s.child_names = ['srs']
         pulses = _s.distribute_pulse(pulse)
+
+        _s.zorder = 120
         if P.A_SRS == 1:
             _s.srs_gi0 = _s.gen_srs_gi0(pulses[0])  # OBS: sp_gi generated in f class. There is no info class for f.
             _s.srs_gi1 = _s.gen_srs_gi1(pulses[1])  # OBS: sp_gi generated in f class. There is no info class for f.
@@ -35,7 +37,6 @@ class Sh_9_info(ShInfoAbstract):
                 '1': _s.srs_gi1,
             }
 
-        _s.zorder = 120
 
     def distribute_pulse(_s, pulse):
         """They dont have to be equal in length!"""
@@ -68,19 +69,20 @@ class Sh_9_info(ShInfoAbstract):
             'init_frames': copy.deepcopy(pulse),
             'frames_tot': 900,
             'ld': [_s.ld[0] - 0, _s.ld[1]],
-            'ld_offset_loc': [10, 15],
-            'ld_offset_scale': [15, 10],
+            'ld_offset_loc': [7, 15],
+            'ld_offset_scale': [10, 10],
             'scale_ss': [0.2, 2],
             'frame_ss': _s.frame_ss,
             # 'v_loc': 45,
             # 'v_scale': 12,
-            'height': 500,
-            'c': 0.05,
-            'rad_rot_loc': 0,
+            'height': 300,
+            'c': 0.02,
+            'rad_rot_loc': -0.1,
             'rad_rot_scale': 0.1,
-            'alpha_y_range': [0, 0.2],
+            'alpha_y_range': [0, 0.3],
             'up_down': 'up',  # only used bcs required in shift_projectile
-            'zorder': None  # Set in finish_info
+            'zorder_loc': _s.zorder + 1,  # Set in finish_info
+            'zorder_scale': 5
         }
 
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)
@@ -96,21 +98,22 @@ class Sh_9_info(ShInfoAbstract):
         srs_gi = {
             '9_id': '1',
             'init_frames': copy.deepcopy(pulse),
-            'frames_tot': 700,
-            'ld': [_s.ld[0] + 50, _s.ld[1] + 300],
-            'ld_offset_loc': [20, 15],
-            'ld_offset_scale': [20, 10],
-            'scale_ss': [0.2, 3],
+            'frames_tot': 900,
+            'ld': [_s.ld[0] + 40, _s.ld[1] + 260],
+            'ld_offset_loc': [15, 15],
+            'ld_offset_scale': [10, 10],
+            'scale_ss': [0.2, 2],
             'frame_ss': _s.frame_ss,
             # 'v_loc': 45,
             # 'v_scale': 12,
             'height': 100,
-            'c': 3,
+            'c': 2,
             'rad_rot_loc': -1,
             'rad_rot_scale': 0.1,
             'alpha_y_range': [0, 0.2],
             'up_down': 'up',  # only used bcs required in shift_projectile
-            'zorder': None  # Set in finish_info
+            'zorder_loc': _s.zorder + 30,  # Set in finish_info
+            'zorder_scale': 5
         }
 
         assert (srs_gi['init_frames'][-1] + srs_gi['frames_tot'] < P.FRAMES_STOP)

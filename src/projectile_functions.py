@@ -114,18 +114,21 @@ def falling_projectile(gi):
 
     if gi['9_id'] == '0':  # pillar
 
-        left_right = np.random.choice(['left', 'right'], p=[0.4, 0.6])
+        # left_right = np.random.choice(['left', 'right'], p=[0.4, 0.6])
+        left_right = 'right'
         c = gi['c']
-        if left_right == 'left':
-            c = -gi['c']
+        # if left_right == 'left':
+        #     c = -gi['c']
         input = np.linspace(1, 3, num=len(xy))  # more=more speed
         xy[:, 0] = c * np.exp(input**2)
+
+        ss = 6
     elif gi['9_id'] == '1':  # flat
         left_right = 'right'  # np.random.choice(['left', 'right'], p=[0.2, 0.8])
         c = gi['c']
         # if left_right == 'left':
         #     c = -gi['c']
-        input = np.linspace(0, 5, num=len(xy))  # more=more speed
+        input = np.linspace(0, 4, num=len(xy))  # more=more speed
         xy[:, 0] = c * np.exp(input)
 
         dfdf = 5

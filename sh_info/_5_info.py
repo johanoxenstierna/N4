@@ -77,16 +77,16 @@ class Sh_5_info(ShInfoAbstract):
             'ld': [_s.ld[0] - 0, _s.ld[1]],
             'ld_offset_loc': [5, 8],  # this IS used
             'ld_offset_scale': [1, 1],
-            'scale_ss': [0.2, 5],
+            'scale_ss': [0.2, 4],
             'frame_ss': _s.frame_ss,
             'v_loc': 45,
-            'v_scale': 12,
-            'theta_loc': -1.3,  # -1.6 is straight up
+            'v_scale': 5,
+            'theta_loc': -1.25,  # -1.6 is straight up
             'theta_scale': 0.1,
             'rad_rot_loc': -0.1,
             'rad_rot_scale': 0.05,
             'r_f_d_loc': 0.01,
-            'r_f_d_scale': 0.3,
+            'r_f_d_scale': 0.1,
             'up_down': 'up',
             'alpha_y_range': [0, 0.15],
             'zorder': None  # Set in finish_info

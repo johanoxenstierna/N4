@@ -37,11 +37,11 @@ class Sh_7_info(ShInfoAbstract):
         # pulse_7_sps_dots2 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
 
         # pulse_dots = _s.gen_pulse_dots(pulse_dots)
-        _s.sps_gi0 = _s.gen_sps_gi0([pulse_dots[0]])
-        _s.sps_gi1 = _s.gen_sps_gi1([pulse_dots[1]])
-        _s.sps_gi2 = _s.gen_sps_gi2([pulse_dots[2]])
-        _s.sps_gi3 = _s.gen_sps_gi3([pulse_dots[3]])
-        _s.sps_gi4 = _s.gen_sps_gi4([pulse_dots[4]])  # SPECIAL sky
+        _s.sps_gi0 = _s.gen_sps_gi0(pulse_dots[0:4])
+        _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[4:8])
+        _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[9:13])
+        _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[14:18])
+        _s.sps_gi4 = _s.gen_sps_gi4(pulse_dots[18:24])  # SPECIAL sky
         # _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  # FLATTENING + init_frames_sp1 + init_frames_sp2
         _s.sps_gi_init_frames = pulse_dots  # FLATTENING + init_frames_sp1 + init_frames_sp2
 
@@ -95,7 +95,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': _s.ld,
             'ld0': [_s.ld[0] + 12, _s.ld[1] + 152],
             'ld1': [_s.ld[0] + 82, _s.ld[1] + 148],
-            'ld2': [_s.ld[0] - 85, _s.ld[1] + 112],
+            'ld2': [_s.ld[0] - 75, _s.ld[1] + 116],
             'ld3': [_s.ld[0] + 135, _s.ld[1] + 235],  # 108 235
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
@@ -186,7 +186,7 @@ class Sh_7_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '0',
             'init_frames': init_frames_sp,
-            'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
+            'frames_tot': 300,  # NEEDS TO MATCH WITH EXPL
             'init_frame_max_dist': 200,  # OBS THIS MUST BE SHORTER
             'v_loc': 80, 'v_scale': 30,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
@@ -222,8 +222,8 @@ class Sh_7_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '1',
             'init_frames': init_frames_sp,
-            'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 200,  # 100 OBS THIS MUST BE SHORTER
+            'frames_tot': 700,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 500,  # 100 OBS THIS MUST BE SHORTER
             'v_loc': 60, 'v_scale': 30,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
@@ -236,7 +236,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': [_s.ld[0] - 5, _s.ld[1] + 90],  #60
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [40, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
-            'alpha_y_range': [0.01, 0.4],
+            'alpha_y_range': [0.01, 0.3],
             'up_down': 'down'
         }
 
@@ -257,8 +257,8 @@ class Sh_7_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '2',
             'init_frames': init_frames_sp,
-            'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 200,  # OBS THIS MUST BE SHORTER
+            'frames_tot': 600,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 300,  # OBS THIS MUST BE SHORTER
             'v_loc': 40, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
@@ -291,7 +291,7 @@ class Sh_7_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '3',
             'init_frames': init_frames_sp,
-            'frames_tot': 120,  # NEEDS TO MATCH WITH EXPL
+            'frames_tot': 300,  # NEEDS TO MATCH WITH EXPL
             'init_frame_max_dist': 200,  # OBS THIS MUST BE SHORTER
             'v_loc': 30, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
@@ -321,8 +321,8 @@ class Sh_7_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '4',
             'init_frames': init_frames_sp,
-            'frames_tot': 200,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
+            'frames_tot': 300,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 150,  # OBS THIS MUST BE SHORTER
             'v_loc': 160, 'v_scale': 20,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.5, 'theta_scale': 0.01,  # neg is left with straight down= -1.6, 0=
@@ -332,10 +332,10 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_start': [0.3, 0.6],  #
             'rgb_theta_diff_c': 0.1,
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 30, _s.ld[1] - 10],
+            'ld': [_s.ld[0] - 20, _s.ld[1] - 10],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [90, 15],  # SCALE HERE IS USED AS INPUT TO NORMAL
-            'alpha_y_range': [0.01, 0.1],
+            'alpha_y_range': [0.01, 0.07],
             'up_down': 'down'
         }
 

@@ -59,15 +59,15 @@ class Sh_1_info(ShInfoAbstract):
             'ld_offset_scale': [15, 10],
             'scale_ss': [0.5, 3],
             # 'frame_ss': _s.frame_ss,
-            'v_loc': 50,  # OBS SPECIAL, USES BEFORE
+            'v_loc': 45,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
             'theta_loc': -0.9,  # -1.6 is straight up
-            'theta_scale': 0.3,
+            'theta_scale': 0.2,
             # 'rad_rot': random.uniform(-0.3, -1.9),  # BUG
-            'rad_rot_loc': -1,
-            'rad_rot_scale': 0.5,
+            'rad_rot_loc': -0.1,
+            'rad_rot_scale': 0.05,
             'r_f_d_loc': 0.05,
-            'r_f_d_scale': 0.03,
+            'r_f_d_scale': 0.02,
             'up_down': 'up',
             'alpha_y_range': [0, 0.15]
             # 'zorder': 50,

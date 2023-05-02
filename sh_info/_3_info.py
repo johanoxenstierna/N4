@@ -33,7 +33,7 @@ class Sh_3_info(ShInfoAbstract):
             _s.cs_gi4 = _s.gen_cs_gi4(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=10)
             _s.cs_gi5 = _s.gen_cs_gi5(frames_tot=pulse[0] + 20, frames_tot1=200, z_d=70)
             _s.cs_gi6 = _s.gen_cs_gi6(frames_tot=pulse[0] + 30, frames_tot1=300, z_d=50)
-            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 30, frames_tot1=500, z_d=70)
+            _s.cs_gi7 = _s.gen_cs_gi7(frames_tot=pulse[0] + 0, frames_tot1=500, z_d=70)
             _s.cs_gi8 = _s.gen_cs_gi8(frames_tot=pulse[0] + 90, frames_tot1=200, z_d=80)
             _s.cs_gi9 = _s.gen_cs_gi9(frames_tot=pulse[0] + 80, frames_tot1=200, z_d=70)
             _s.cs_gi10 = _s.gen_cs_gi10(frames_tot=pulse[0] + 100, frames_tot1=200, z_d=80)  # OBS 100 is volc_d

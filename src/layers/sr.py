@@ -94,11 +94,16 @@ class Sr(AbstractLayer, AbstractSSS):
 
             _s.scale_vector = np.linspace(gi['scale_ss'][0], gi['scale_ss'][1], num=len(_s.xy))
             gi['rad_rot'] = np.random.normal(loc=gi['rad_rot_loc'], scale=gi['rad_rot_scale'])
+            if gi['rad_rot'] > 0 and gi['rad_rot_loc'] < 0:
+                gi['rad_rot'] = -gi['rad_rot']
+            if gi['rad_rot'] < 0 and gi['rad_rot_loc'] > 0:
+                gi['rad_rot'] = -gi['rad_rot']
+
             _s.rotation_v = np.linspace(0.00, gi['rad_rot'], num=gi['frames_tot'])
             _s.gi = gi  # Uhhh. depcopy needed
             _s.alpha = gen_alpha(_s, frames_tot=gi['frames_tot'], y_range=gi['alpha_y_range'])
 
-            _s.gi['zorder'] = np.random.uniform(_s.sh.gi.zorder - 10, _s.sh.gi.zorder + 10)
+            _s.gi['zorder'] = int(np.random.normal(loc=_s.gi['zorder_loc'], scale=_s.gi['zorder_scale']))
 
     def dyn_gen(_s, i=None, gi=None):
 
@@ -137,7 +142,7 @@ class Sr(AbstractLayer, AbstractSSS):
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
             _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
 
-        _s.rotation_v = np.linspace(0.01, _s.gi['rad_rot'], num=len(_s.scale_vector))
+        _s.rotation_v = np.linspace(0.01, abs(_s.gi['rad_rot']), num=len(_s.scale_vector))
 
         _s.alpha = gen_alpha(_s, frames_tot=_s.gi['frames_tot'], y_range=_s.gi['alpha_y_range'])
 
@@ -166,6 +171,10 @@ class Sr(AbstractLayer, AbstractSSS):
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]
 
         _s.gi['rad_rot'] = np.random.normal(loc=_s.gi['rad_rot_loc'], scale=_s.gi['rad_rot_scale'])
+        if _s.gi['rad_rot'] > 0 and _s.gi['rad_rot_loc'] < 0:
+            _s.gi['rad_rot'] = -_s.gi['rad_rot']
+        if _s.gi['rad_rot'] < 0 and _s.gi['rad_rot_loc'] > 0:
+            _s.gi['rad_rot'] = -_s.gi['rad_rot']
 
         if _s.id[0] == '3':
             c_id = _s.gi['c_id']  # DIRECT MATCHING!
@@ -187,6 +196,6 @@ class Sr(AbstractLayer, AbstractSSS):
             _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
         elif _s.id[0] in ['5']:  #
             # _s.gi['zorder'] = random.randint(_s.sh.gi.zorder + 0, _s.sh.gi.zorder + 10)  # OLD. PERHAPS ONLY SPSHOULD BE DYN
-            _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 3, _s.sh.gi.zorder + 5)
+            _s.gi['zorder'] = random.randint(_s.sh.gi.zorder - 0, _s.sh.gi.zorder + 8)
 
 
