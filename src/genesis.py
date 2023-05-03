@@ -23,8 +23,8 @@ def init_infos():
     top_point5 = [553, 336]
     top_point6 = [550, 340]
     top_point7 = [560, 330]
-    top_point9 = [520, 150]
-    EXPL_F = 110
+    top_point9 = [550, 330]  # change inside
+    EXPL_F = 500
 
     pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 610), P.NUM_SRS_1)  # 1 (sr)
     pulse_sr1.sort(reverse=False)
@@ -57,7 +57,8 @@ def init_infos():
     pulse_dots = [EXPL_F + 200, EXPL_F + 300, EXPL_F + 400, EXPL_F + 500,
                   EXPL_F + 401, EXPL_F + 451, EXPL_F + 501, EXPL_F + 601,
                   EXPL_F + 0, EXPL_F + 0, EXPL_F + 0, EXPL_F + 0,
-                  EXPL_F + 503, EXPL_F + 603, EXPL_F + 703, EXPL_F + 803]
+                  EXPL_F + 503, EXPL_F + 603, EXPL_F + 703, EXPL_F + 803,
+                  EXPL_F + 504, EXPL_F + 604, EXPL_F + 704, EXPL_F + 804]
     # pulse_dots = [160, 440, 10, 500, 450]
 
     pulse_8 = None  # this one is specially set inside 8_info

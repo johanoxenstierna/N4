@@ -39,9 +39,9 @@ class Sh_7_info(ShInfoAbstract):
         # pulse_dots = _s.gen_pulse_dots(pulse_dots)
         _s.sps_gi0 = _s.gen_sps_gi0(pulse_dots[0:4])
         _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[4:8])
-        _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[9:13])
-        _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[14:18])
-        _s.sps_gi4 = _s.gen_sps_gi4(pulse_dots[18:24])  # SPECIAL sky
+        _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[8:12])
+        _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[12:16])
+        _s.sps_gi4 = _s.gen_sps_gi4(pulse_dots[16:20])  # SPECIAL sky
         # _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  # FLATTENING + init_frames_sp1 + init_frames_sp2
         _s.sps_gi_init_frames = pulse_dots  # FLATTENING + init_frames_sp1 + init_frames_sp2
 

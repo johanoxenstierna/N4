@@ -1,5 +1,5 @@
 import copy
-
+import random
 import numpy as np
 
 
@@ -101,12 +101,13 @@ def falling_projectile(gi):
 
     xy = np.zeros((gi['frames_tot'], 2))
 
-    '''y motion'''
-    for i in range(len(xy)):
-        # x_dist = v_x * time
-        # y_dist = (v_y * time) - (0.5 * gravity * time * time)
-        y_dist = (v_y * t[i]) - (0.5 * G * t[i]**2)
-        xy[i, 1] = y_dist
+    y_ = np.linspace(0, gi['height'], gi['frames_tot'])
+    xy[:, 1] = y_
+
+    # '''y motion'''
+    # for i in range(len(xy)):
+    #     y_dist = (v_y * t[i]) - (0.5 * G * t[i]**2)
+    #     xy[i, 1] = y_dist
 
     '''x motion'''
 
@@ -115,21 +116,35 @@ def falling_projectile(gi):
     if gi['9_id'] == '0':  # pillar
 
         # left_right = np.random.choice(['left', 'right'], p=[0.4, 0.6])
-        left_right = 'right'
-        c = gi['c']
+        # left_right = 'left'
+        # c = gi['c']
         # if left_right == 'left':
         #     c = -gi['c']
-        input = np.linspace(1, 3, num=len(xy))  # more=more speed
-        xy[:, 0] = c * np.exp(input**2)
+        # input = np.linspace(1, 3, num=len(xy))  # more=more speed
+        # xy[:, 0] = c * np.exp(input**2)
+
+        height = random.randint(gi['height'] - 50, gi['height'] + 50)
+        y_ = np.linspace(0, height, gi['frames_tot'])
+        xy[:, 1] = y_
+
+
+        input = np.linspace(0, 4, num=len(xy))  # more=more speed
+        aa = -5 * np.exp(input)
+        # xy[:, 0] = np.linspace(0, -50, num=gi['frames_tot'])
+        xy[:, 0] = aa
 
         ss = 6
     elif gi['9_id'] == '1':  # flat
         left_right = 'right'  # np.random.choice(['left', 'right'], p=[0.2, 0.8])
+        left_right = np.random.choice(['left', 'right'], p=[0.5, 0.5])
         c = gi['c']
-        # if left_right == 'left':
-        #     c = -gi['c']
+        if left_right == 'left':
+            c = -gi['c']
         input = np.linspace(0, 4, num=len(xy))  # more=more speed
-        xy[:, 0] = c * np.exp(input)
+        aa = c * np.exp(input)
+        xy[:, 0] = aa
+
+        xy[:, 1] = -xy[:, 1]
 
         dfdf = 5
 
