@@ -24,14 +24,15 @@ def init_infos():
     top_point6 = [550, 340]
     top_point7 = [560, 330]
     top_point9 = [550, 330]  # change inside
-    EXPL_F = 500
+    EXPL_F = 1000
 
-    pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 610), P.NUM_SRS_1)  # 1 (sr)
+    pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 800), P.NUM_SRS_1)  # 1 (sr)
     pulse_sr1.sort(reverse=False)
     # pulse_sr1 = [110, 150]  # 1 (sr)
 
-    pulse_0 = random.sample(range(50, EXPL_F + 100), 25 * 3)  # 0 after initial srs
-    # pulse_0 = [50, 250]
+    # pulse_0_fs = random.sample(range(50, EXPL_F + 20), 25 * 3)  # 0 after initial srs
+    pulse_0_fs = random.sample(range(50, EXPL_F + 20), 3)  # 0 after initial srs
+    pulse_0_srs = random.sample(range(20, P.FRAMES_STOP - 600), P.NUM_SRS_0)  # OBS ONLY CLOSE TO 0 fs
 
     # pulse_3 = [10, 30, 100]  # expl
     pulse_3 = random.sample(range(EXPL_F - 50, EXPL_F + 50), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
@@ -39,7 +40,7 @@ def init_infos():
     # pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     pulse_4 = random.sample(range(110, EXPL_F + 50), 10 * 3)
     # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
-    pulse_5 = random.sample(range(EXPL_F - 20, P.FRAMES_STOP - 610), 30 * 3)  # ONLY FS this is num fs post expl ONLY fs
+    pulse_5 = random.sample(range(EXPL_F - 20, P.FRAMES_STOP - 800), 30 * 3)  # ONLY FS this is num fs post expl ONLY fs
     pulse_5.append(EXPL_F - 20)  # needs to include exact one
     pulse_5.sort(reverse=False)
     # pulse_5 = [10, 250]  # expl
@@ -54,11 +55,11 @@ def init_infos():
 
     # pulse_7 = list(range(P.FRAMES_START + 50, P.FRAMES_STOP - 300, 30 * 3))  # THIS DOESNT MAKE SENSE. NEED TO JUST GIVE FIRST FRMAES FOR LS
     pulse_7 = [50, 150, 1200, 180]  # THESE ARE FOR THE 4 LS. REPEATED LATER.
-    pulse_dots = [EXPL_F + 200, EXPL_F + 300, EXPL_F + 400, EXPL_F + 500,
-                  EXPL_F + 401, EXPL_F + 451, EXPL_F + 501, EXPL_F + 601,
-                  EXPL_F + 0, EXPL_F + 0, EXPL_F + 0, EXPL_F + 0,
-                  EXPL_F + 503, EXPL_F + 603, EXPL_F + 703, EXPL_F + 803,
-                  EXPL_F + 504, EXPL_F + 604, EXPL_F + 704, EXPL_F + 804]
+    pulse_dots = [EXPL_F + 200, EXPL_F + 300, EXPL_F + 400, EXPL_F + 500, EXPL_F + 600, EXPL_F + 700,
+                  EXPL_F + 401, EXPL_F + 426, EXPL_F + 451, EXPL_F + 476, EXPL_F + 501, EXPL_F + 551,
+                  EXPL_F + 0, EXPL_F + 0, EXPL_F + 0, EXPL_F + 0, EXPL_F + 0, EXPL_F + 0,
+                  EXPL_F + 503, EXPL_F + 553, EXPL_F + 603, EXPL_F + 653, EXPL_F + 703, EXPL_F + 753,
+                  EXPL_F + 504, EXPL_F + 604, EXPL_F + 704, EXPL_F + 804, EXPL_F + 904, EXPL_F + 1004]
     # pulse_dots = [160, 440, 10, 500, 450]
 
     pulse_8 = None  # this one is specially set inside 8_info
@@ -67,7 +68,8 @@ def init_infos():
     pulse_9 = random.sample(range(EXPL_F + 200, P.FRAMES_STOP - 1000), pulse_9_tot_inits // 2)
     # pulse_9 = random.sample(range(10, 1000), 500)
 
-    pulse_0.sort()
+    pulse_0_fs.sort()
+    pulse_0_srs.sort()
     pulse_sr1.sort()
     pulse_3.sort()
     pulse_5.sort()
@@ -75,7 +77,7 @@ def init_infos():
     # pulse_7.sort()  # NOOOO
 
     if '0' in P.SHS_TO_SHOW:  # BEF EXPL
-        _0 = _0_info.Sh_0_info(pulse_0, top_point0)
+        _0 = _0_info.Sh_0_info(pulse_0_fs, pulse_0_srs, top_point0)
         infos[_0.id] = _0
 
     if '1' in P.SHS_TO_SHOW:  # +shockwave ALL OF THEM. LD NEEDS TO WORK FOR BOTH

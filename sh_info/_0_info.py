@@ -12,7 +12,7 @@ class Sh_0_info(ShInfoAbstract):
     Just very basic stuff
     """
 
-    def __init__(_s, pulse, top_point):
+    def __init__(_s, pulse_fs, pulse_srs, top_point):
         super().__init__()
         _s.id = '0'
 
@@ -25,28 +25,28 @@ class Sh_0_info(ShInfoAbstract):
         _s.child_names = ['fs', 'srs', 'rs']
 
         if P.A_FS:
-            _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
+            _s.fs_gi = _s.gen_fs_gi(pulse_fs)  # OBS: sp_gi generated in f class. There is no info class for f.
 
         if P.A_SRS == 1:
-            srs_init_frames = []
-            for init_frame in pulse:
-                init_frame_1 = max(30, init_frame)
-                if init_frame_1 not in srs_init_frames:
-                    srs_init_frames.append(init_frame_1)
+            # srs_init_frames = []
+            # for init_frame in pulse:
+            #     init_frame_1 = max(30, init_frame)
+            #     if init_frame_1 not in srs_init_frames:
+            #         srs_init_frames.append(init_frame_1)
 
-            pulse_srs = random.sample(range(pulse[0], pulse[-1]), 50)
-            pulse_srs = [max(30, x - 50) for x in pulse_srs]
+            # pulse_srs = random.sample(range(pulse[0], pulse[-1]), 50)
+            # pulse_srs = [max(30, x - 50) for x in pulse_srs]
             _s.srs_gi = _s.gen_srs_gi(pulse_srs)  # OBS: sp_gi generated in f class. There is no info class for f.
             _s.srs_gi_init_frames = _s.srs_gi['init_frames']
             _s.srs_gi = {
                 '0': _s.srs_gi,
             }
         if P.A_RS == 1:
-            pulse_rs = random.sample(range(pulse[0], pulse[-1]), P.NUM_RS_0)
+            pulse_rs = random.sample(range(pulse_fs[0], pulse_fs[-1]), P.NUM_RS_0)
             pulse_rs.sort()
             _s.rs_gi = _s.gen_rs_gi(pulse_rs)
         if P.A_SPS == 1:
-            _s.sps_gi = _s.gen_sps_gi(pulse)
+            _s.sps_gi = _s.gen_sps_gi(pulse_fs)
 
     def gen_fs_gi(_s, pulse):
         """
@@ -58,7 +58,7 @@ class Sh_0_info(ShInfoAbstract):
             'rad_rot': -0.2,
             'init_frames': pulse,
             'frames_tot': 201,  # MUST BE HIGHTER THAN SP.FRAMES_TOT. BECAUSE WHEN F DELETED,
-            'scale_ss': [0.1, 2.5],
+            'scale_ss': [0.1, 2.2],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 2, _s.ld[1]],
             'zorder': 5
@@ -77,20 +77,20 @@ class Sh_0_info(ShInfoAbstract):
 
         srs_gi = {
             'init_frames': copy.deepcopy(pulse_srs),
-            'frames_tot': 250,
-            'ld': [_s.ld[0] - 0, _s.ld[1]],
-            'ld_offset_loc': [-4, 10],
-            'ld_offset_scale': [1, 1],
-            'scale_ss': [0.01, 3],
+            'frames_tot': 300,  # NOT CHILD OF F
+            'ld': [_s.ld[0], _s.ld[1]],
+            'ld_offset_loc': [-3, 10],
+            'ld_offset_scale': [3, 2],
+            'scale_ss': [0.2, 4],
             'frame_ss': _s.frame_ss,
-            'v_loc': 25,
-            'v_scale': 5,
-            'theta_loc': -1.3,  # -1.6 is straight up
+            'v_loc': 34,
+            'v_scale': 6,
+            'theta_loc': -1.2,  # -1.6 is straight up
             'theta_scale': 0.3,
             'r_f_d_loc': 0.001,
             'r_f_d_scale': 0.1,
-            'rad_rot_loc': 0.2,
-            'rad_rot_scale': 0.1,
+            'rad_rot_loc': 0.5,
+            'rad_rot_scale': 0.5,
             'up_down': 'up',
             'alpha_y_range': [0.0, 0.2],
 

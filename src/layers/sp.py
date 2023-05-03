@@ -146,8 +146,9 @@ class Sp(AbstractLayer, AbstractSSS):
         if _s.id[0] == '7' and _s.gi['gi_id'] in ['0']:  # sps_dots only down from ld OBS has nothing to do with movement, only where they start
             # aaa =  _s.gi['ld_offset_loc'][1] + np.random.poisson(lam=_s.gi['ld_offset_scale'][1])
 
+            '''Needed bcs it looks too much like a pillar otherwise. 0 doesnt use cone thingy'''
             offset_y_normal = abs(np.random.normal(loc=0, scale=_s.gi['ld_offset_scale'][1]))  # this is input to next
-            offset_y_factor = _sigmoid(offset_y_normal, grad_magn_inv=-15, x_shift=-3, y_magn=1, y_shift=0)
+            offset_y_factor = _sigmoid(offset_y_normal, grad_magn_inv=-23, x_shift=-3, y_magn=1, y_shift=0)
             offset_y = offset_y_normal * offset_y_factor
 
             _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
@@ -212,7 +213,7 @@ class Sp(AbstractLayer, AbstractSSS):
         '''alpha_y_range for 6 needs to be set depending on sp_len'''
         if _s.id[0] == '6':
             if _s.gi['sp_len'] > 40:
-                _s.gi['alpha_y_range'] = [0.05, 0.5]
+                _s.gi['alpha_y_range'] = [0.05, 0.3]
 
         if _s.id[0] == '7' and _s.gi['gi_id'] in ['4']:  # sky ones
             _s.gi['sp_len'] = abs(int(np.random.normal(loc=_s.gi['sp_len_loc'], scale=_s.gi['sp_len_scale'])))

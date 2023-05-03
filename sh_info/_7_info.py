@@ -37,11 +37,11 @@ class Sh_7_info(ShInfoAbstract):
         # pulse_7_sps_dots2 = [EXPL_F + 201, EXPL_F + 251, EXPL_F + 301, EXPL_F + 351]  # other locs
 
         # pulse_dots = _s.gen_pulse_dots(pulse_dots)
-        _s.sps_gi0 = _s.gen_sps_gi0(pulse_dots[0:4])
-        _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[4:8])
-        _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[8:12])
-        _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[12:16])
-        _s.sps_gi4 = _s.gen_sps_gi4(pulse_dots[16:20])  # SPECIAL sky
+        _s.sps_gi0 = _s.gen_sps_gi0(pulse_dots[0:6])
+        _s.sps_gi1 = _s.gen_sps_gi1(pulse_dots[6:12])
+        _s.sps_gi2 = _s.gen_sps_gi2(pulse_dots[12:18])
+        _s.sps_gi3 = _s.gen_sps_gi3(pulse_dots[18:24])
+        _s.sps_gi4 = _s.gen_sps_gi4(pulse_dots[24:])  # SPECIAL sky
         # _s.sps_gi_init_frames = [y for x in pulse_dots for y in x]  # FLATTENING + init_frames_sp1 + init_frames_sp2
         _s.sps_gi_init_frames = pulse_dots  # FLATTENING + init_frames_sp1 + init_frames_sp2
 
@@ -95,7 +95,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': _s.ld,
             'ld0': [_s.ld[0] + 12, _s.ld[1] + 152],
             'ld1': [_s.ld[0] + 82, _s.ld[1] + 148],
-            'ld2': [_s.ld[0] - 75, _s.ld[1] + 116],
+            'ld2': [_s.ld[0] - 85, _s.ld[1] + 114],
             'ld3': [_s.ld[0] + 135, _s.ld[1] + 235],  # 108 235
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110
@@ -197,7 +197,7 @@ class Sh_7_info(ShInfoAbstract):
             'rgb_start': [0.4, 0.7],  # ONLY START (between these 2)
             'rgb_theta_diff_c': 0.1,  # prob not used due to minimum broken
             'rgb_v_diff_c': 0.01,
-            'ld': [_s.ld[0] - 5, _s.ld[1] + 17],
+            'ld': [_s.ld[0] - 5, _s.ld[1] + 14],
             'ld_offset_loc': [-0, 0],  # NOT USED, CENTERED ON ZERO AND USES ld ABOVE
             'ld_offset_scale': [5, 130],  # SCALE HERE IS USED AS INPUT TO NORMAL
             # 'R_ss': [0.9, 1], 'R_scale': 0.2,
@@ -222,9 +222,9 @@ class Sh_7_info(ShInfoAbstract):
         sps_gi = {
             'gi_id': '1',
             'init_frames': init_frames_sp,
-            'frames_tot': 700,  # NEEDS TO MATCH WITH EXPL
-            'init_frame_max_dist': 500,  # 100 OBS THIS MUST BE SHORTER
-            'v_loc': 60, 'v_scale': 30,
+            'frames_tot': 800,  # NEEDS TO MATCH WITH EXPL
+            'init_frame_max_dist': 600,  # 100 OBS THIS MUST BE SHORTER
+            'v_loc': 60, 'v_scale': 50,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
             'theta_loc': -1.6, 'theta_scale': 1,  # neg is left  with straight down= -1.6, 0=
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.3,

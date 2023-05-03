@@ -25,16 +25,13 @@ class Sh_6_info(ShInfoAbstract):
         _s.fs_gi = _s.gen_fs_gi(pulse)  # OBS: sp_gi generated in f class. There is no info class for f.
 
         if P.A_SRS == 1:
-            srs_init_frames = []
-            # for init_frame in pulse:
-            #     init_frame_1 = max(30, init_frame)
-            #     if init_frame_1 not in srs_init_frames:
-            #         srs_init_frames.append(init_frame_1)
+            _s.srs_gi = _s.gen_srs_gi([pulse[0] + 5, pulse[0] + 20, pulse[0] + 35, pulse[0] + 50,
+                                       pulse[0] + 75, pulse[0] + 125, pulse[0] + 150,
+                                       pulse[0] + 200, pulse[0] + 225, pulse[0] + 250])
 
-            # pulse_srs = random.sample(range(pulse[0], pulse[-1]), 50)
-            # pulse_srs = [max(30, x - 50) for x in pulse_srs]
-            _s.srs_gi = _s.gen_srs_gi([pulse[0] + 5, pulse[0] + 20, pulse[0] + 35, pulse[0] + 50])  # OBS: sp_gi generated in f class. There is no info class for f.
-            _s.srs_gi_init_frames = [pulse[0] + 5, pulse[0] + 20, pulse[0] + 35, pulse[0] + 50]
+            _s.srs_gi_init_frames = [pulse[0] + 5, pulse[0] + 20, pulse[0] + 35, pulse[0] + 50,
+                                       pulse[0] + 75, pulse[0] + 125, pulse[0] + 150,
+                                       pulse[0] + 200, pulse[0] + 225, pulse[0] + 250]
             _s.srs_gi = {  # these numbers correspond to c!
                 '0': _s.srs_gi,
             }
@@ -120,7 +117,7 @@ class Sh_6_info(ShInfoAbstract):
             'R_ss': [0.7, 1], 'R_scale': 0.3,  # first one is loc
             'G_ss': [0.4, 0.3], 'G_scale': 0.2,
             'B_ss': [0.3, 0.1], 'B_scale': 0.1,  # good to prevent neg numbers here
-            'alpha_y_range': [0.05, 0.5],
+            'alpha_y_range': [0.05, 0.4],
             'up_down': 'up'
             # NEED ZORDER
         }

@@ -73,13 +73,13 @@ class Sh_5_info(ShInfoAbstract):
 
         srs_gi = {
             'init_frames': copy.deepcopy(pulse_srs),
-            'frames_tot': 500,
-            'ld': [_s.ld[0] - 0, _s.ld[1]],
+            'frames_tot': 700,
+            'ld': [_s.ld[0] + 5, _s.ld[1] + 5],  # tune against v
             'ld_offset_loc': [5, 8],  # this IS used
             'ld_offset_scale': [1, 1],
             'scale_ss': [0.2, 4],
             'frame_ss': _s.frame_ss,
-            'v_loc': 45,
+            'v_loc': 60,
             'v_scale': 5,
             'theta_loc': -1.25,  # -1.6 is straight up
             'theta_scale': 0.1,
@@ -88,7 +88,7 @@ class Sh_5_info(ShInfoAbstract):
             'r_f_d_loc': 0.01,
             'r_f_d_scale': 0.1,
             'up_down': 'up',
-            'alpha_y_range': [0, 0.15],
+            'alpha_y_range': [0, 0.2],  # 92: 0.15
             'zorder': None  # Set in finish_info
         }
 

@@ -37,7 +37,6 @@ class Sh_9_info(ShInfoAbstract):
                 '1': _s.srs_gi1,
             }
 
-
     def distribute_pulse(_s, pulse):
         """They dont have to be equal in length!"""
 
@@ -57,7 +56,6 @@ class Sh_9_info(ShInfoAbstract):
 
         return pulses
 
-
     def gen_srs_gi0(_s, pulse):
         """
         This has to be provided because the fs are generated w.r.t. sh.
@@ -75,7 +73,7 @@ class Sh_9_info(ShInfoAbstract):
             'frame_ss': _s.frame_ss,
             # 'v_loc': 45,
             # 'v_scale': 12,
-            'height': 150,
+            'height': 120,  # 92: 150
             'c': 0.02,
             'rad_rot_loc': -0.1,
             'rad_rot_scale': 0.1,
@@ -99,7 +97,7 @@ class Sh_9_info(ShInfoAbstract):
             '9_id': '1',
             'init_frames': copy.deepcopy(pulse),
             'frames_tot': 900,
-            'ld': [_s.ld[0] - 10, _s.ld[1] - 30],
+            'ld': [_s.ld[0] - 13, _s.ld[1] - 37],  # 92: -10, -30
             'ld_offset_loc': [15, 15],
             'ld_offset_scale': [10, 10],
             'scale_ss': [0.2, 2],
@@ -107,7 +105,7 @@ class Sh_9_info(ShInfoAbstract):
             # 'v_loc': 45,
             # 'v_scale': 12,
             'height': 100,
-            'c': 2,
+            'c': 1.5,
             'rad_rot_loc': -1,
             'rad_rot_scale': 0.1,
             'alpha_y_range': [0, 0.2],

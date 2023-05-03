@@ -140,7 +140,7 @@ class Sr(AbstractLayer, AbstractSSS):
         # _s.scale_vector = gen_scale_lds(_s.gi['frames_tot'], fun_plot='sr')
         _s.scale_vector = np.linspace(_s.gi['scale_ss'][0], _s.gi['scale_ss'][1], num=_s.gi['frames_tot'])
         if _s.id[0] == '3':  # OBS CAN MAKE IT APPEAR AS IF THETA IS WRONG
-            _s.scale_vector = np.linspace(0.2, 1, num=_s.gi['frames_tot'])
+            _s.scale_vector = np.linspace(0.2, _s.gi['scale_ss'][1], num=_s.gi['frames_tot'])
 
         _s.rotation_v = np.linspace(0.01, abs(_s.gi['rad_rot']), num=len(_s.scale_vector))
 
@@ -161,11 +161,14 @@ class Sr(AbstractLayer, AbstractSSS):
         a parent layer at a certain frame. But not always.
         """
 
-        assert(_s.id != 8)
+        # assert(_s.id != 8)
 
         _s.gi['v'] = np.random.normal(loc=_s.gi['v_loc'], scale=_s.gi['v_scale'])
         # theta = _s.gi['theta_loc']  # np.pi / 2 + np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
         _s.gi['theta'] = np.random.normal(loc=_s.gi['theta_loc'], scale=_s.gi['theta_scale'])
+        if _s.id[0] == '0':
+            if _s.gi['theta'] < -1.6:
+                _s.gi['theta'] = np.random.uniform(-1.6, -1.0)
         _s.gi['r_f_d'] = max(0.01, np.random.normal(loc=_s.gi['r_f_d_loc'], scale=_s.gi['r_f_d_scale']))
         _s.gi['ld_offset'] = [np.random.normal(loc=_s.gi['ld_offset_loc'][0], scale=_s.gi['ld_offset_scale'][0]),
                               np.random.normal(loc=_s.gi['ld_offset_loc'][1], scale=_s.gi['ld_offset_scale'][1])]

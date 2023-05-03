@@ -53,13 +53,13 @@ class Sh_1_info(ShInfoAbstract):
 
         srs_gi = {
             'init_frames': copy.deepcopy(pulse_srs),
-            'frames_tot': 600,
+            'frames_tot': 700,
             'ld': [_s.ld[0] + 5, _s.ld[1]],
             'ld_offset_loc': [0, 1],
             'ld_offset_scale': [15, 10],
             'scale_ss': [0.5, 3],
             # 'frame_ss': _s.frame_ss,
-            'v_loc': 45,  # OBS SPECIAL, USES BEFORE
+            'v_loc': 50,  # OBS SPECIAL, USES BEFORE
             'v_scale': 5,
             'theta_loc': -0.9,  # -1.6 is straight up
             'theta_scale': 0.2,
@@ -103,8 +103,8 @@ class Sh_1_info(ShInfoAbstract):
             'scale_ss': [0.1, 2.0],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 30, _s.ld[1] + 30],
-            'x_mov': list(np.linspace(0, -200, num=FRAMES_TOT)),  # SPECIAL
-            'y_mov': list(np.linspace(0, 200, num=FRAMES_TOT)),  # SPECIAL
+            'x_mov': list(np.linspace(0, -250, num=FRAMES_TOT)),  # SPECIAL
+            'y_mov': list(np.linspace(0, 250, num=FRAMES_TOT)),  # SPECIAL
             'alpha_y_range': [0.01, 0.8],
             'zorder': _s.zorder
         }

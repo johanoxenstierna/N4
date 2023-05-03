@@ -120,7 +120,7 @@ class Sh_8_info(ShInfoAbstract):
             'v_linear_scale': [0.1, 0.02],
             'ld': [_s.ld[0] - 100, _s.ld[1] - 35],  # finish_info
             'ld_offset_loc': [0, 0],
-            'ld_offset_scale': [100, 50],
+            'ld_offset_scale': [50, 20],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
             'alpha_y_range': [0.1, 0.5],
@@ -226,12 +226,12 @@ class Sh_8_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_linear_loc': [-0.3, 0],
             'v_linear_scale': [0.05, 0.02],
-            'ld': [_s.ld[0] + 200, _s.ld[1] + 60],  # finish_info
+            'ld': [_s.ld[0] + 200, _s.ld[1] + 50],  # finish_info
             'ld_offset_loc': [0, 0],
             'ld_offset_scale': [100, 10],
             'scale_ss': [1, 1],  # assumed big pics
             'rad_rot': random.uniform(-0.1, -0.3),
-            'alpha_y_range': [0.1, 0.3],
+            'alpha_y_range': [0.1, 0.2],
             'up_down': None,  # key checked for alpha
             'zorder': 80,
         }
