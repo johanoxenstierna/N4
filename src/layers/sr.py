@@ -186,7 +186,7 @@ class Sr(AbstractLayer, AbstractSSS):
                                 "c_id: " + c_id + " sr_id: " + _s.id + ". Check that pic is in there.")
 
             '''This could be written to gi of sr, but that would require that xy is gened for c first'''
-            _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0], _s.sh.cs[c_id].extent[-3, 2]]
+            _s.gi['ld'] = [_s.sh.cs[c_id].extent[-3, 0] - 10, _s.sh.cs[c_id].extent[-3, 2]]
 
         elif _s.id[0] in ['7']: #same as for 1 instead
             # gi = deepcopy(sh.gi.srs_gi['0'])

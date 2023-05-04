@@ -16,7 +16,7 @@ from src import gen_layers
 from src.ani_helpers import *
 import P as P
 
-WRITE = 0
+WRITE = 96  #
 #FIX: smoka frames, waves  # change IMMEDIATELY back to zero (it immediately kills old file when re-run)
 FPS = 20
 
@@ -52,6 +52,7 @@ if P.A_LIS:
 if P.A_SPS:
     shs = g.gen_sps(ax0, im_ax, shs)  # OBS children of fs NOT GENERATED HERE
 
+# li_pointer = None
 '''VIEWER ==========================================='''
 brkpoint = 4
 
@@ -61,10 +62,11 @@ def init():
 
 def animate(i):
 
-    if P.A_LIS and '1' in shs.keys():
-        if i in shs['1'].gi.lis_gi['init_frames']:
-            pass
-            # im_ax[2].set_alpha(0.1)
+    li_pointer = None
+    # if P.A_LIS and '1' in shs.keys():
+    #     if i in shs['1'].gi.lis_gi['init_frames']:
+    #         pass
+    #         # im_ax[2].set_alpha(0.1)
 
     prints = "i: " + str(i) + "  len_im_ax: " + str(len(im_ax))
     for sh_id, sh in shs.items():
@@ -184,6 +186,32 @@ def animate(i):
                         decrement_all_index_im_ax(index_removed, shs)
                         continue
 
+        if P.A_LIS and 'lis' in sh.gi.child_names:
+            if i in sh.gi.lis_gi['init_frames']:
+                li = sh.find_free_obj(type='li', i=i)
+                if li != None:
+                    prints += "  adding li"
+                    li.finish_info()
+                    li.drawn = 1
+                    li.set_frame_ss(i - 1, li.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
+                    _, _ = li.ani_update_step(ax0, im_ax)
+
+                    print(li.alpha[li.clock])
+
+            for li_id, li in enumerate(sh.lis):
+                if li.drawn != 0:
+                    li_pointer = li  # READONLY
+                    li.set_clock(i)
+                    drawBool, index_removed = li.ani_update_step(ax0, im_ax)
+                    if drawBool == 0:  # dont draw
+                        continue
+                    elif drawBool == 1:
+                        mpl_affine(i, li, ax0, im_ax)
+                        im_ax[li.index_im_ax].set_alpha(li.alpha[li.clock])
+                        # im_ax[li.index_im_ax].set_alpha(1)
+                    elif drawBool == 2:  # remove
+                        decrement_all_index_im_ax(index_removed, shs)
+
         if P.A_SRS and 'srs' in sh.gi.child_names:
 
             if i == 174:
@@ -231,9 +259,12 @@ def animate(i):
                         im_ax[sr.index_im_ax].set_alpha(sr.alpha[sr.clock])
                         # im_ax[sr.index_im_ax].set_alpha(1)
                         if P.A_LIS and '1' in shs.keys():  # 1 here is the holder of the lis!
-                            if i in shs['1'].gi.lis_gi['init_frames']:
-                                if random.random() < 0.1:
-                                    alpha = sr.alpha[sr.clock] + random.uniform(0.05, 0.06)
+                            # if i in shs['1'].gi.lis_gi['init_frames']:
+                            if li_pointer != None:
+                                if random.random() < 0.2:
+                                    alpha_diff = li_pointer.compute_impact(sr)
+                                    # alpha = sr.alpha[sr.clock] + random.uniform(0.05, 0.06)
+                                    alpha = sr.alpha[sr.clock] + alpha_diff
                                     alpha = min(1, alpha)
                                     im_ax[sr.index_im_ax].set_alpha(alpha)
 
@@ -352,31 +383,6 @@ def animate(i):
                             im_ax[c.index_im_ax].set_alpha(0)
                         else:
                             decrement_all_index_im_ax(index_removed, shs)
-
-        if P.A_LIS and 'lis' in sh.gi.child_names:
-            if i in sh.gi.lis_gi['init_frames']:
-                li = sh.find_free_obj(type='li', i=i)
-                if li != None:
-                    prints += "  adding li"
-                    li.finish_info()
-                    li.drawn = 1
-                    li.set_frame_ss(i - 1, li.gi['frames_tot'], dynamic=False)  # uses AbstractSSS
-                    _, _ = li.ani_update_step(ax0, im_ax)
-
-                    print(li.alpha[li.clock])
-
-            for li_id, li in enumerate(sh.lis):
-                if li.drawn != 0:
-                    li.set_clock(i)
-                    drawBool, index_removed = li.ani_update_step(ax0, im_ax)
-                    if drawBool == 0:  # dont draw
-                        continue
-                    elif drawBool == 1:
-                        mpl_affine(i, li, ax0, im_ax)
-                        im_ax[li.index_im_ax].set_alpha(li.alpha[li.clock])
-                        # im_ax[li.index_im_ax].set_alpha(1)
-                    elif drawBool == 2:  # remove
-                        decrement_all_index_im_ax(index_removed, shs)
 
         print(prints)
 

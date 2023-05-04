@@ -12,7 +12,7 @@ class Sh_4_info(ShInfoAbstract):
 
     """
 
-    def __init__(_s, pulse, top_point):
+    def __init__(_s, START_F, EXPL_F, top_point):
         super().__init__()
         _s.id = '4'
         _s.extent = "static"
@@ -27,18 +27,18 @@ class Sh_4_info(ShInfoAbstract):
         # l_init_frames = [130, 220, 250, 300]
         # l_init_frames = [10, 50, 200, 300]
         # l_init_frames = [10, 30, 60, 300]
-        _s.ls_gi = _s.gen_ls_gi(pulse)
+        _s.ls_gi = _s.gen_ls_gi(START_F, EXPL_F)
 
         _s.num_sp_at_init_frame = 50  # OBS this is a special parameter.
 
         if P.A_SPS:
-            init_frames_sp0 = [pulse[0] - 100, pulse[0], pulse[1] + 100]
-            init_frames_sp1 = [pulse[1] - 100, pulse[1], pulse[1] + 100]  # 150 is init_frame_max_dist
-            init_frames_sp2 = [pulse[2] - 100, pulse[2], pulse[2] + 100]  # 150 is init_frame_max_dist
-            init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
+            # init_frames_sp0 = [pulse[0] - 100, pulse[0], pulse[1] + 100]
+            # init_frames_sp1 = [pulse[1] - 100, pulse[1], pulse[1] + 100]  # 150 is init_frame_max_dist
+            # init_frames_sp2 = [pulse[2] - 100, pulse[2], pulse[2] + 100]  # 150 is init_frame_max_dist
+            # init_frames_sp3 = [pulse[3] - 100, pulse[3], pulse[3] + 100]  # 150 is init_frame_max_dist
 
-            _s.sps_gi0 = _s.gen_sps_gi0(init_frames_sp0)
-            _s.sps_gi1 = _s.gen_sps_gi1(init_frames_sp1)
+            _s.sps_gi0 = _s.gen_sps_gi0(frames_tot=350)
+            _s.sps_gi1 = _s.gen_sps_gi1(frames_tot=350)
             # _s.sps_gi2 = _s.gen_sps_gi2(init_frames_sp2)
             # _s.sps_gi3 = _s.gen_sps_gi3(init_frames_sp3)
 
@@ -48,8 +48,8 @@ class Sh_4_info(ShInfoAbstract):
                 # '2': _s.sps_gi2,
                 # '3': _s.sps_gi3
             }
-            # sps_init_frames.sort()
-            # _s.sps_gi_init_frames = init_frames_sp0 + init_frames_sp1 + init_frames_sp2 + init_frames_sp3
+
+            _s.extend_sps_init_frames(EXTEND_PARAM=50)
 
             lol = [val['init_frames'] for key, val in _s.sps_gi.items()]
             lol = [x for sublist in lol for x in sublist]
@@ -79,7 +79,7 @@ class Sh_4_info(ShInfoAbstract):
             rs_init_frames = random.sample(range(1, 300), 50)
             _s.rs_gi = _s.gen_rs_gi(rs_init_frames)
 
-    def gen_ls_gi(_s, pulse):
+    def gen_ls_gi(_s, START_F, EXPL_F):
 
         """
         SHARED FOR THE SAME SH. Kind of... makes sense. ld is used for extent, but they are modified
@@ -87,8 +87,8 @@ class Sh_4_info(ShInfoAbstract):
         """
 
         # lif0, lif1 = _s.distribute_pulse_for_ls(pulse)  # l_init_frame
-        lif0 = [pulse[0]]
-        lif1 = [pulse[1]]
+        lif0 = [START_F + 100]
+        lif1 = [START_F + 150]
         # lif2 = [pulse[2]]
         # lif3 = [pulse[3]]
         l_init_frames = lif0 + lif1 #+ lif2 + lif3
@@ -99,8 +99,8 @@ class Sh_4_info(ShInfoAbstract):
             'lif1': lif1,
             # 'lif2': lif2,
             # 'lif3': lif3,
-            'frames_tot0': 300,
-            'frames_tot1': 200,
+            'frames_tot0': P.FRAMES_STOP - lif0[-1],
+            'frames_tot1': P.FRAMES_STOP - lif1[-1],
             # 'frames_tot2': 500,
             # 'frames_tot3': 500,
             'ld': _s.ld,  # USED BY SR?
@@ -115,7 +115,27 @@ class Sh_4_info(ShInfoAbstract):
 
         return l_gi
 
-    def gen_sps_gi0(_s, init_frames_sp):
+    def extend_sps_init_frames(_s, EXTEND_PARAM):
+
+        for key, val in _s.sps_gi.items():
+            init_frames_out = val['init_frames']
+            for i in range(1, EXTEND_PARAM):
+                frames_tot = val['frames_tot']
+                init_frame_new = val['init_frames'][-1] + frames_tot + 10
+                # init_frames1 = [x + (i * (frames_tot + 10)) for x in val['init_frames']]
+
+                # if init_frames1[-1] + frames_tot < P.FRAMES_STOP * 0.95:
+                if init_frame_new + frames_tot + val['init_frame_max_dist'] < P.FRAMES_STOP * 0.95:
+                    # init_frames_out.extend(init_frames1)
+                    init_frames_out.append(init_frame_new)
+                else:
+                    pass
+                    # print("2 sps init_frames1[-1] + frames_tot > P.FRAMES_STOP * 0.9")
+                adf = 6
+
+            val['init_frames'] = init_frames_out
+
+    def gen_sps_gi0(_s, frames_tot):
 
         """
         MATCHED WITH ls gi, BUT THEYRE NOT CHILDREN AS FOR F -> SP (bcs problem there is that when F dies, then
@@ -132,8 +152,8 @@ class Sh_4_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '0',
-            'init_frames': init_frames_sp,
-            'frames_tot': 300,  # NEEDS TO MATCH WITH EXPL
+            'init_frames': copy.deepcopy(_s.ls_gi['lif0']),
+            'frames_tot': frames_tot,  # NEEDS TO MATCH WITH EXPL
             'init_frame_max_dist': 100,  # OBS THIS MUST BE SHORTER
             'v_loc': 80, 'v_scale': 12,
             # 'num_loc': P.NUM_SPS_L, 'num_scale': P.NUM_SPS_L / 2,
@@ -190,15 +210,15 @@ class Sh_4_info(ShInfoAbstract):
 
         return srs_gi
 
-    def gen_sps_gi1(_s, init_frames_sp):
+    def gen_sps_gi1(_s, frames_tot):
 
         """
         """
 
         sps_gi = {
             'gi_id': '1',
-            'init_frames': init_frames_sp,
-            'frames_tot': 250,
+            'init_frames': copy.deepcopy(_s.ls_gi['lif1']),
+            'frames_tot': frames_tot,
             'init_frame_max_dist': 100,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
             # 'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,

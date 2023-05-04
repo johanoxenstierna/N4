@@ -129,7 +129,9 @@ class AbstractSSS:
         _s.gi['frame_ss'] = [ii, ii + NUM_FRAMES]    # OVERWRITES
         _s.frame_ss = _s.gi['frame_ss']  # THIS IS GLOBAL i (hence useless for e.g. ship.extent)
         # frame_num = _s.gi['frame_ss'][1] - _s.gi['frame_ss'][0]  # same as in gen_extent
-        assert(_s.gi['frame_ss'][1] < P.FRAMES_STOP)
+        # assert(_s.gi['frame_ss'][1] < P.FRAMES_STOP)
+        if _s.gi['frame_ss'][1] > P.FRAMES_STOP:
+            raise Exception("_s.gi[frame_ss][1] < P.FRAMES_STOP " + str(_s.id))
 
         # if _s.sh.gi.extent != 'static':
         #     ssas = _s.sh.scale_vector[_s.sh.clock]  # scale_sh_at_start

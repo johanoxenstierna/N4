@@ -40,6 +40,8 @@ class Sh_3_info(ShInfoAbstract):
             _s.cs_gi11 = _s.gen_cs_gi11(frames_tot=pulse[0] + 90, frames_tot1=300, z_d=-30)  # OBS 100 is volc_d
             _s.cs_gi12 = _s.gen_cs_gi12(frames_tot=pulse[0] + 110, frames_tot1=450, z_d=-40)  # OBS 100 is volc_d
 
+            aa = 5
+
         if P.A_SRS:  # different gis here have nothing to do with pic, but rather with init frames
 
             '''
@@ -77,6 +79,8 @@ class Sh_3_info(ShInfoAbstract):
                 '9': _s.srs_gi9,
                 '10': _s.srs_gi10
             }
+
+            init_frames.sort()
             _s.srs_gi_init_frames = init_frames
             _s.srs_gi_init_frames.sort()
             adf = 5
@@ -136,7 +140,7 @@ class Sh_3_info(ShInfoAbstract):
 
         frames_tot = 600
         clf = _cs_gi['init_frame'] + _cs_gi['frames_tot'] + _cs_gi['frames_tot1']  # c_last_frame
-        start = _cs_gi['init_frame'] + int(0.7 * (_cs_gi['frames_tot'] + _cs_gi['frames_tot1']))
+        start = _cs_gi['init_frame'] + int(0.9 * (_cs_gi['frames_tot'] + _cs_gi['frames_tot1']))
         stop = clf + 5
         in_f_cand = list(range(start, stop, 6))
         in_f2 = []
@@ -238,16 +242,16 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [5, 0],  # OBS there is no ss, only start!
             'ld_offset_scale': [1, 3],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 50,  # rc=2
+            'v_loc': 150,  # rc=2
             'v_scale': 4,
-            'scale_ss': [0.01, 6],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.0,
             'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.00,
             'up_down': 'down',
-            'alpha_y_range': [0, 0.99],
+            'alpha_y_range': [0.1, 0.5],
             'zorder': _s.cs_gi0['zorder']
         }
 
@@ -362,16 +366,16 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [23, -20],  # OBS there is no ss, only start!
             'ld_offset_scale': [6, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
+            'v_loc': 150,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 6],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.6, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
-            'alpha_y_range': [0, 0.5],
+            'alpha_y_range': [0, 0.2],
             'zorder': _s.cs_gi1['zorder']
         }
 
@@ -479,16 +483,16 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [23, -10],  # OBS there is no ss, only start!
             'ld_offset_scale': [6, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
+            'v_loc': 150,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 6],
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.7, #0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
-            'alpha_y_range': [0, 0.3],
+            'alpha_y_range': [0, 0.2],
             'zorder': _s.cs_gi2['zorder']
         }
 
@@ -567,14 +571,14 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 140,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 6],
+            'scale_ss': [0.01, 4],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.05,
             'up_down': 'down',
-            'alpha_y_range': [0, 0.5],
+            'alpha_y_range': [0, 0.3],
             'zorder': _s.cs_gi3['zorder']
         }
 
@@ -653,7 +657,7 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot': frames_tot,
             'v_loc': 200,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 10],
+            'scale_ss': [0.01, 4],
             'theta_loc': -0.3,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
             'rad_rot': -2,
@@ -683,7 +687,7 @@ class Sh_3_info(ShInfoAbstract):
             'init_frame_max_dist': 10,  #
             'v_loc': 5, 'v_scale': 10,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
-            'theta_loc': -0.3, 'theta_scale': 0.3,
+            'theta_loc': -1.6, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 3, 'sp_len_scale': 8,
@@ -741,19 +745,19 @@ class Sh_3_info(ShInfoAbstract):
         srs_gi = {
             'c_id': '3_c_5',
             'init_frames': in_f,
-            'ld_offset_loc': [0, -30],  # OBS there is no ss, only start!
+            'ld_offset_loc': [-10, -10],  # OBS there is no ss, only start!
             'ld_offset_scale': [3, 1],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
-            'v_scale': 4,
-            'scale_ss': [0.01, 6],
-            'theta_loc': 1.2,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
+            'v_loc': 150,  # rc=2
+            'v_scale': 10,
+            'scale_ss': [0.01, 4],
+            'theta_loc': -1.2,  #0.6 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.1,
             'rad_rot': -2,
             'r_f_d_loc': 0.5,
             'r_f_d_scale': 0.00,
             'up_down': 'down',
-            'alpha_y_range': [0, 0.5],
+            'alpha_y_range': [0, 0.2],
             'zorder': _s.cs_gi5['zorder']
         }
 
@@ -774,7 +778,7 @@ class Sh_3_info(ShInfoAbstract):
             'init_frames': [init_frame],
             'gi_id': '5',
             'c_id': '3_c_5',
-            'frames_tot': 400,
+            'frames_tot': 600,
             'init_frame_max_dist': 10,  #
             'v_loc': 5, 'v_scale': 4,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
@@ -810,9 +814,9 @@ class Sh_3_info(ShInfoAbstract):
             'frames_tot1': frames_tot1,
             'frame_ss': frame_ss,
             'scale_ss': [1, 1],
-            'v': 25,
-            'theta': -1.2,
-            'r_f_d': 0.1,
+            'v': 40,
+            'theta': -1.4,
+            'r_f_d': 0.01,
             'extra_offset_x': 0,
             'extra_offset_y': 2,
             'up_down': 'up',
@@ -832,9 +836,9 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
             'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
+            'v_loc': 160,  # rc=2
             'v_scale': 6,
-            'scale_ss': [0.01, 6],
+            'scale_ss': [0.01, 2],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -860,9 +864,9 @@ class Sh_3_info(ShInfoAbstract):
             'init_frames': [init_frame],
             'gi_id': '6',
             'c_id': '3_c_6',
-            'frames_tot': 400,
-            'init_frame_max_dist': 10,  #
-            'v_loc': 5, 'v_scale': 10,
+            'frames_tot': 600,
+            'init_frame_max_dist': 30,  #
+            'v_loc': 10, 'v_scale': 10,
             'num_loc': P.NUM_SPS_F, 'num_scale': P.NUM_SPS_F / 2,
             'theta_loc': -0.3, 'theta_scale': 0.3,
             'r_f_d_loc': 0.1, 'r_f_d_scale': 0.05,
@@ -918,9 +922,9 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
             'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
-            'v_scale': 6,
-            'scale_ss': [0.01, 6],
+            'v_loc': 140,  # rc=2
+            'v_scale': 10,
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -1003,10 +1007,10 @@ class Sh_3_info(ShInfoAbstract):
         srs_gi = {
             'c_id': '3_c_8',
             'init_frames': in_f,
-            'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
+            'ld_offset_loc': [0, -10],  # OBS there is no ss, only start!
             'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
+            'v_loc': 160,  # rc=2
             'v_scale': 6,
             'scale_ss': [0.01, 6],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
@@ -1037,9 +1041,9 @@ class Sh_3_info(ShInfoAbstract):
             'init_frames': [init_frame],
             'gi_id': '8',
             'c_id': '3_c_8',
-            'frames_tot': 400,
+            'frames_tot': 800,
             'init_frame_max_dist': 10,  # it is called but 0 so no diff
-            'v_loc': 5, 'v_scale': 10,
+            'v_loc': 5, 'v_scale': 12,
             'theta_loc': -0.7, 'theta_scale': 0.3,
             'r_f_d_loc': 0.9, 'r_f_d_scale': 0.1,
             'r_f_d_type': 'after',  # which part of r_f_d to use
@@ -1091,12 +1095,12 @@ class Sh_3_info(ShInfoAbstract):
         srs_gi = {
             'c_id': '3_c_9',
             'init_frames': in_f,
-            'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
+            'ld_offset_loc': [0, 0],  # OBS there is no ss, only start!
             'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
-            'v_scale': 6,
-            'scale_ss': [0.01, 6],
+            'v_loc': 170,  # rc=2
+            'v_scale': 15,
+            'scale_ss': [0.01, 3],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -1181,9 +1185,9 @@ class Sh_3_info(ShInfoAbstract):
             'ld_offset_loc': [10, -10],  # OBS there is no ss, only start!
             'ld_offset_scale': [2, 2],  # OBS there is no ss, only start!
             'frames_tot': frames_tot,
-            'v_loc': 120,  # rc=2
-            'v_scale': 6,
-            'scale_ss': [0.01, 6],
+            'v_loc': 170,  # rc=2
+            'v_scale': 10,
+            'scale_ss': [0.01, 4],
             'theta_loc': -0.5,  # 0.9 * 2 * np.pi,  # 2pi and pi are both straight up
             'theta_scale': 0.000,
             'rad_rot': -2,
@@ -1212,10 +1216,10 @@ class Sh_3_info(ShInfoAbstract):
             'init_frames': [init_frame],
             'gi_id': '10',
             'c_id': '3_c_10',
-            'frames_tot': 400,
+            'frames_tot': 800,
             'init_frame_max_dist': 10,  # it is called but 0 so no diff
             'v_loc': 5, 'v_scale': 10,
-            'theta_loc': -0.7, 'theta_scale': 0.3,
+            'theta_loc': 0.7, 'theta_scale': 0.3,
             'r_f_d_loc': 0.9, 'r_f_d_scale': 0.1,
             'r_f_d_type': 'after',  # which part of r_f_d to use
             'sp_len_loc': 3, 'sp_len_scale': 8,

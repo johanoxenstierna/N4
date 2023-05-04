@@ -19,7 +19,7 @@ class Sh_0_info(ShInfoAbstract):
         _s.extent = "static"
         _s.frame_ss = [0, P.FRAMES_STOP - 50]
         _s.frames_tot = _s.frame_ss[1] - _s.frame_ss[0]  # ONLY ONE WHO USES .
-        _s.zorder = 170
+        _s.zorder = 124
 
         _s.ld = top_point
         _s.child_names = ['fs', 'srs', 'rs']
@@ -61,7 +61,7 @@ class Sh_0_info(ShInfoAbstract):
             'scale_ss': [0.1, 2.2],
             'frame_ss': None,  # simpler with this
             'ld': [_s.ld[0] - 2, _s.ld[1]],
-            'zorder': 5
+            'zorder': _s.zorder
         }
 
         if fs_gi['init_frames'][-1] + fs_gi['frames_tot'] > 0.9 * P.FRAMES_STOP:
@@ -92,7 +92,7 @@ class Sh_0_info(ShInfoAbstract):
             'rad_rot_loc': 0.5,
             'rad_rot_scale': 0.5,
             'up_down': 'up',
-            'alpha_y_range': [0.0, 0.2],
+            'alpha_y_range': [0.0, 0.15],
 
             'zorder': None  # Set in finish_info
         }

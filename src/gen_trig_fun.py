@@ -23,7 +23,10 @@ def gen_alpha(g_obj, frames_tot=None, y_range=None, plot=False):
 		alpha = _normal(X, mean=len(X) // 2, var=len(X) // 2, y_range=y_range)
 		adf = 5
 	elif g_obj.__class__.__name__ == 'Sr' and g_obj.gi['up_down'] == 'down':
-		alpha = _normal(X, mean=100, var=50, y_range=[0.01, 0.3])
+		if g_obj.sh.id == '3':
+			alpha = _normal(X, mean=len(X) // 2, var=len(X) // 2, y_range=y_range)
+		else:
+			alpha = _normal(X, mean=100, var=50, y_range=[0.01, 0.3])
 	if g_obj.__class__.__name__ == 'Sr':  # 8
 		if g_obj.sh.id == '8':
 			alpha = _normal(X, mean=len(X) // 2, var=len(X) // 2, y_range=y_range)

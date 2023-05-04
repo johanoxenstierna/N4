@@ -30,7 +30,7 @@ class Sh_1_info(ShInfoAbstract):
 
         # pulse_lis = [100, 190, 200, 210, 220, 250, 300]
         # pulse_lis = list(range(5, P.FRAMES_STOP - 100, 20))
-        pulse_lis = random.sample(range(50, P.FRAMES_STOP), int(P.FRAMES_TOT / 20))
+        pulse_lis = random.sample(range(50, P.FRAMES_STOP - 500), int(P.FRAMES_TOT / 20))
 
         # TODO: Add extra lis for expl and mess with the uniform random
         expl_lis = random.sample(range(EXPL_F, EXPL_F + 500), 30)
@@ -85,7 +85,7 @@ class Sh_1_info(ShInfoAbstract):
             'ld': [_s.ld[0] - 0, _s.ld[1] + 0],
             'ld_offset_loc': [0, 1],
             'ld_offset_scale': [5, 5],
-            'zorder': _s.zorder
+            'zorder': _s.zorder + 10
         }
 
         return lis_gi

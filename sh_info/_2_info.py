@@ -57,8 +57,9 @@ class Sh_2_info(ShInfoAbstract):
                 '4': _s.sps_gi4
             }
 
-            _s.extend_sps_init_frames(EXTEND_PARAM=3)
+            _s.extend_sps_init_frames(EXTEND_PARAM=50)
 
+            _s.sps_gi0['init_frames'] = [x for x in _s.sps_gi0['init_frames'] if x < EXPL_F - 50]
             lol = [val['init_frames'] for key, val in _s.sps_gi.items()]
             lol = [x for sublist in lol for x in sublist]  # flattening
             lol.sort(reverse=False)
@@ -123,9 +124,9 @@ class Sh_2_info(ShInfoAbstract):
             'lif4': lif4,
             'frames_tot0': EXPL_F - 100,  # THESE ARE GONA BECOME REALLY LONG
             'frames_tot1': P.FRAMES_STOP - lif1[-1],
-            'frames_tot2': 2000,
-            'frames_tot3': 2000,
-            'frames_tot4': 2000,
+            'frames_tot2': P.FRAMES_STOP - lif2[-1],
+            'frames_tot3': P.FRAMES_STOP - lif3[-1],
+            'frames_tot4': P.FRAMES_STOP - lif4[-1],
             'ld': _s.ld,  # USED BY SR?
             'ld0': [_s.ld[0] - 11, _s.ld[1] + 23],
             'ld1': [_s.ld[0] - 27, _s.ld[1] + 45],
@@ -145,12 +146,16 @@ class Sh_2_info(ShInfoAbstract):
             init_frames_out = val['init_frames']
             for i in range(1, EXTEND_PARAM):
                 frames_tot = val['frames_tot']
-                init_frames1 = [x + (i * (frames_tot + 10)) for x in val['init_frames']]
+                init_frame_new = val['init_frames'][-1] + frames_tot + 10
+                # init_frames1 = [x + (i * (frames_tot + 10)) for x in val['init_frames']]
 
-                if init_frames1[-1] + frames_tot < P.FRAMES_STOP * 0.95:
-                    init_frames_out.extend(init_frames1)
+                # if init_frames1[-1] + frames_tot < P.FRAMES_STOP * 0.95:
+                if init_frame_new + frames_tot + val['init_frame_max_dist'] < P.FRAMES_STOP * 0.95:
+                    # init_frames_out.extend(init_frames1)
+                    init_frames_out.append(init_frame_new)
                 else:
-                    print("8 clouds init_frames1[-1] + frames_tot > P.FRAMES_STOP * 0.9")
+                    pass
+                    # print("2 sps init_frames1[-1] + frames_tot > P.FRAMES_STOP * 0.9")
                 adf = 6
 
             val['init_frames'] = init_frames_out
@@ -169,19 +174,9 @@ class Sh_2_info(ShInfoAbstract):
 
         """
 
-
-        # BELOW IS TOO BRITTLE
-        # for i in range(len(_s.ls_gi['lif0'])):
-        #     init_frame_sp = max(10,  _s.ls_gi['lif0'][i] - 100)  # OBS first number needs to be different for each sp
-        #     if init_frame_sp in init_frames:
-        #         raise Exception("cs sp init_frame already exists. COULD BE THAT INIT_FRAMES NEED TO BE DELAYED")
-        #     else:
-        #         init_frames_sp.append(init_frame_sp)
-        #         init_frames.append(init_frame_sp)
-
         sps_gi = {
             'gi_id': '0',
-            'init_frames': _s.ls_gi['lif0'],
+            'init_frames': copy.deepcopy(_s.ls_gi['lif0']),
             'frames_tot': frames_tot,  # NEEDS TO MATCH WITH EXPL ???
             'init_frame_max_dist': frames_tot - 50,  # OBS THIS MUST BE SHORTER
             'v_loc': 80, 'v_scale': 12,
@@ -247,27 +242,10 @@ class Sh_2_info(ShInfoAbstract):
         climb up the projectile (before shifting)
         """
 
-        # init_frames_sp = []
-
-        # BELOW IS TOO BRITTLE.
-        # init_frames_to_rem = []  # these are removed afterwards
-        # for i in range(len(_s.ls_gi['lif1'])):
-        #     init_frame_sp = max(10, _s.ls_gi['lif1'][i] - 150)  # OBS first number needs to be different for each sp
-        #     if init_frame_sp in init_frames:
-        #         init_frames_to_rem.append(init_frame_sp)
-        #         # raise Exception("cs sp init_frame already exists. Change frames_tot1 of c0")
-        #     else:
-        #         init_frames_sp.append(init_frame_sp)
-        #         init_frames.append(init_frame_sp)
-        #
-        # '''remove duplicates'''
-        # init_frames = [x for x in init_frames if x not in init_frames_to_rem]
-        # _s.ls_gi['lif1'] = [x for x in _s.ls_gi['lif1'] if x not in init_frames_to_rem]
-
 
         sps_gi = {
             'gi_id': '1',
-            'init_frames': _s.ls_gi['lif1'],
+            'init_frames': copy.deepcopy(_s.ls_gi['lif1']),
             'frames_tot': frames_tot,
             'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
@@ -340,7 +318,7 @@ class Sh_2_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '2',
-            'init_frames': _s.ls_gi['lif2'],
+            'init_frames': copy.deepcopy(_s.ls_gi['lif2']),
             'frames_tot': frames_tot,
             'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
@@ -412,7 +390,7 @@ class Sh_2_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '3',
-            'init_frames': _s.ls_gi['lif3'],
+            'init_frames': copy.deepcopy(_s.ls_gi['lif3']),
             'frames_tot': frames_tot,
             'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,
@@ -485,7 +463,7 @@ class Sh_2_info(ShInfoAbstract):
 
         sps_gi = {
             'gi_id': '4',
-            'init_frames': _s.ls_gi['lif4'],
+            'init_frames': copy.deepcopy(_s.ls_gi['lif4']),
             'frames_tot': frames_tot,
             'init_frame_max_dist': frames_tot - 50,  # random num of frames in future from init frame
             'v_loc': 100, 'v_scale': 10,

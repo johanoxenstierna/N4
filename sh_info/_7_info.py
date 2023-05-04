@@ -69,7 +69,7 @@ class Sh_7_info(ShInfoAbstract):
 
         pulse_for_srs = copy.deepcopy(pulse)
 
-        for i in range(1, 5):
+        for i in range(1, 26):
             lif0.append(pulse[0] + 101 * i)
             lif1.append(pulse[1] + 101 * i)
             lif2.append(pulse[2] + 101 * i)
@@ -81,7 +81,7 @@ class Sh_7_info(ShInfoAbstract):
                                   pulse[3] + 101 * i])
 
         l_init_frames = lif0 + lif1 + lif2 + lif3
-
+        l_init_frames.sort()
         ls_gi = {
             'init_frames_all': l_init_frames,
             'lif0': lif0,
@@ -95,7 +95,7 @@ class Sh_7_info(ShInfoAbstract):
             'ld': _s.ld,
             'ld0': [_s.ld[0] + 12, _s.ld[1] + 152],
             'ld1': [_s.ld[0] + 82, _s.ld[1] + 148],
-            'ld2': [_s.ld[0] - 85, _s.ld[1] + 114],
+            'ld2': [_s.ld[0] - 95, _s.ld[1] + 110],
             'ld3': [_s.ld[0] + 135, _s.ld[1] + 235],  # 108 235
             'frame_ss': _s.frame_ss,
             'zorder': 120  # 3 is 110

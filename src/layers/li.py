@@ -51,3 +51,18 @@ class Li(AbstractLayer, AbstractSSS):
             if _s.id.split('_')[2] in ['6']:
                _s.gi['scale'] = random.uniform(0.1, 0.3)
 
+    def compute_impact(_s, sr):
+        d = None
+
+        ld_li = _s.gi['ld']
+        ld_sr = sr.gi['ld']
+
+        dist = np.linalg.norm(np.array(ld_li) - np.array(ld_sr))
+
+        if dist > 200:
+            d = 0
+        else:
+            d = -0.00025 * dist + 0.05
+
+        return d
+

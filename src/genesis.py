@@ -24,21 +24,21 @@ def init_infos():
     top_point6 = [550, 340]
     top_point7 = [560, 330]
     top_point9 = [550, 330]  # change inside
-    EXPL_F = 1000
+    EXPL_F = 1300  # 1300
 
     pulse_sr1 = random.sample(range(5, P.FRAMES_STOP - 800), P.NUM_SRS_1)  # 1 (sr)
     pulse_sr1.sort(reverse=False)
     # pulse_sr1 = [110, 150]  # 1 (sr)
 
     # pulse_0_fs = random.sample(range(50, EXPL_F + 20), 25 * 3)  # 0 after initial srs
-    pulse_0_fs = random.sample(range(50, EXPL_F + 20), 3)  # 0 after initial srs
+    pulse_0_fs = random.sample(range(50, EXPL_F + 20), 12)  # 0 after initial srs
     pulse_0_srs = random.sample(range(20, P.FRAMES_STOP - 600), P.NUM_SRS_0)  # OBS ONLY CLOSE TO 0 fs
 
     # pulse_3 = [10, 30, 100]  # expl
     pulse_3 = random.sample(range(EXPL_F - 50, EXPL_F + 50), 10)  # post expl FIRST FRAME USED AS REFERENCE FOR C
 
     # pulse_4 = [110, 180, 200, 231, 300, 350]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
-    pulse_4 = random.sample(range(110, EXPL_F + 50), 10 * 3)
+    # pulse_4 = random.sample(range(110, EXPL_F + 50), 10 * 3)
     # pulse_4 = [210, 280, 300, 331]  # THIS IS FOR LS, 1 PER L SEQUENTIAL
     pulse_5 = random.sample(range(EXPL_F - 20, P.FRAMES_STOP - 800), 30 * 3)  # ONLY FS this is num fs post expl ONLY fs
     pulse_5.append(EXPL_F - 20)  # needs to include exact one
@@ -93,7 +93,7 @@ def init_infos():
         infos[_3.id] = _3
 
     if '4' in P.SHS_TO_SHOW:  # DOWN LEFT
-        _4 = _4_info.Sh_4_info(pulse_4, top_point0)
+        _4 = _4_info.Sh_4_info(10, EXPL_F, top_point0)
         infos[_4.id] = _4  # DOWN RIGHT
 
     # 5: 0 but after expl
